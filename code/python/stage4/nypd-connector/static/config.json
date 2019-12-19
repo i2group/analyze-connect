@@ -1,0 +1,36 @@
+{
+	"defaultValues": {
+		"timeZoneId": "Europe/London",
+		"resultIdsPersistent": true
+	},
+	"services": [{
+			"id": "test-service",
+			"name": "Test",
+			"description": "A test",
+			"clientConfigType": "NONE",
+			"acquireUrl": "/test-service"
+		},
+		{
+			"id": "test-search-service",
+			"name": "Test search",
+			"description": "A service with a search form",
+			"clientConfigType": "FORM",
+			"clientConfigId": "searchForm",
+			"acquireUrl": "/test-search-service",
+			"resultItemTypeIds": ["made-up-schema-type-id"]
+		}
+	],
+	"clientConfigs": [{
+		"id": "searchForm",
+		"config": {
+			"sections": [{
+				"conditions": [{
+					"id": "searchTerm",
+					"label": "Offence",
+					"mandatory": true,
+					"logicalType": "SINGLE_LINE_STRING"
+				}]
+			}]
+		}
+	}]
+}

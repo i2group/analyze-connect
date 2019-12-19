@@ -1,0 +1,36 @@
+{
+	"defaultValues": {
+		"timeZoneId": "Europe/London",
+		"resultIdsPersistent": true
+	},
+	"services": [{
+			"id": "nypd-service",
+			"name": "NYPD Connector: Get All",
+			"description": "A service which retrieves all data",
+			"clientConfigType": "NONE",
+			"acquireUrl": "/all"
+		},
+		{
+			"id": "nypd-search-service",
+			"name": "NYPD Connector: Search",
+			"description": "A service with for conditional searches",
+			"clientConfigType": "FORM",
+			"clientConfigId": "searchForm",
+			"acquireUrl": "/search",
+			"resultItemTypeIds": ["made-up-schema-type-id"]
+		}
+	],
+	"clientConfigs": [{
+		"id": "searchForm",
+		"config": {
+			"sections": [{
+				"conditions": [{
+					"id": "searchTerm",
+					"label": "made-up-condition(EG: Complaint Number)",
+					"mandatory": false,
+					"logicalType": "SINGLE_LINE_STRING"
+				}]
+			}]
+		}
+	}]
+}

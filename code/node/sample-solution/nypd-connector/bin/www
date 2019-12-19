@@ -1,0 +1,21 @@
+#!/usr/bin/env node
+
+/********************************************************************************
+# * Licensed Materials - Property of IBM
+# * (C) Copyright IBM Corporation 2019. All Rights Reserved
+# *
+# * This program and the accompanying materials are made available under the
+# * terms of the Eclipse Public License 2.0 which is available at
+# * http://www.eclipse.org/legal/epl-2.0.
+# *
+# * US Government Users Restricted Rights - Use, duplication or
+# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+# *
+# ********************************************************************************/
+
+var app = require('../app');
+app.set('port', process.env.PORT || 9081);
+
+var server = app.listen(app.get('port'), function() {
+  console.log('Express server listening on port ' + server.address().port);
+});

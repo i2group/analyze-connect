@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "c9e2aac5-7d4a-4fd1-91ba-99114c35f202",
+		"name": "NYPD Connector",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Acquire",
+			"item": [
+				{
+					"name": "All",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d62b5cc8-e49b-4df5-9bde-012c26860d8c",
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response has correct structure\", function () {",
+									"    let jsonResp = pm.response.json();",
+									"    pm.expect(jsonResp.entities).to.be.an('array');",
+									"    pm.expect(jsonResp.links).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "{{url}}/all",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c23e497b-9b08-42dc-a1cc-638c34e1a256",
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response has correct structure\", function () {",
+									"    let jsonResp = pm.response.json();",
+									"    pm.expect(jsonResp.entities).to.be.an('array');",
+									"    pm.expect(jsonResp.links).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"payload\": {\r\n\t\t\"conditions\": [\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"boro_nm\",\r\n\t\t\t\t\"value\": \"QUEENS\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"law_cat_cd\",\r\n\t\t\t\t\"value\": \"FELONY\"\r\n\t\t\t\t\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/search",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Like This",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7cf628ca-6e27-4d4b-817d-d3decfcf6540",
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response has correct structure\", function () {",
+									"    let jsonResp = pm.response.json();",
+									"    pm.expect(jsonResp.entities).to.be.an('array');",
+									"    pm.expect(jsonResp.links).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"payload\": {\r\n\t\t\"seeds\": {\r\n\t\t\t\"entities\": [\r\n\t\t\t\t{\r\n\t\t\t\t\t\"properties\": {\r\n\t\t\t\t\t\t\"PT10\": \"FELONY\"\r\n\t\t\t\t\t}\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/find-like-this-complaint",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"find-like-this-complaint"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Expand",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bd820af9-372e-4a61-aa87-03710b76e746",
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response has correct structure\", function () {",
+									"    let jsonResp = pm.response.json();",
+									"    pm.expect(jsonResp.entities).to.be.an('array');",
+									"    pm.expect(jsonResp.links).to.be.an('array');",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"payload\": {\r\n\t\t\"seeds\": {\r\n\t\t\t\"entities\": [\r\n\t\t\t\t{\r\n\t\t\t\t  \"sourceIds\": [ { \"type\": \"OI.DAOD\", \"key\": [\"\", \"Complaint: 346124117\", \"\"], \"itemTypeId\": \"ET1\" } ],\r\n\t\t\t\t  \"seedId\": \"52cf42d1-9661-4b83-8e7a-afaa2b3c6109\",\r\n\t\t\t\t  \"typeId\": \"ET1\",\r\n\t\t\t\t  \"properties\": {\r\n\t\t\t\t    \"PT1\": 346124117,\r\n\t\t\t\t    \"PT6\": \"COMPLETED\",\r\n\t\t\t\t    \"PT7\": 0,\r\n\t\t\t\t    \"PT9\": 341,\r\n\t\t\t\t    \"PT10\": \"MISDEMEANOR\",\r\n\t\t\t\t    \"PT11\": \"PETIT LARCENY\"\r\n\t\t\t\t  }\r\n\t\t\t\t}\r\n\t\t\t]\r\n\t\t}\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/expand",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"expand"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Validate",
+			"item": [
+				{
+					"name": "Search Service",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da220345-aadf-46a7-b010-8410cba9f9ef",
+								"exec": [
+									"pm.test(\"response is ok\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"response has correct structure\", function () {",
+									"    let jsonResp = pm.response.json();",
+									"    pm.expect(jsonResp.errorMessage).to.eql(null);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"payload\": {\r\n\t\t\"conditions\": [\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"boro_nm\",\r\n\t\t\t\t\"value\": \"QUEENS\"\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"law_cat_cd\",\r\n\t\t\t\t\"value\": \"FELONY\"\r\n\t\t\t\t\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/search/validate",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"search",
+								"validate"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Config",
+			"item": [
+				{
+					"name": "Config",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/config",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"config"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

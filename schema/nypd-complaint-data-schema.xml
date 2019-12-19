@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns2:Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://www.i2group.com/Schemas/2011-03-03/ModelSchemaExtension" DefaultLabelingSchemeId="LS1" xmlns:ns2="http://www.i2group.com/Schemas/2011-03-03/ModelSchema">
+  <GradeTypes>
+    <GradeType Id="G1" Name="Reliability" Description="Source Evaluation" Mandatory="false">
+      <Values>
+        <Value>A</Value>
+        <Value>B</Value>
+        <Value>C</Value>
+        <Value>D</Value>
+        <Value>E</Value>
+      </Values>
+    </GradeType>
+    <GradeType Id="G2" Name="Confidence" Description="Information Intelligence Evaluation" Mandatory="false">
+      <Values>
+        <Value>1</Value>
+        <Value>2</Value>
+        <Value>3</Value>
+        <Value>4</Value>
+        <Value>5</Value>
+      </Values>
+    </GradeType>
+    <GradeType Id="G3" Name="Privacy" Description="Handling Code" Mandatory="false">
+      <Values>
+        <Value>1</Value>
+        <Value>2</Value>
+        <Value>3</Value>
+        <Value>4</Value>
+        <Value>5</Value>
+      </Values>
+    </GradeType>
+  </GradeTypes>
+  <ItemTypes>
+    <EntityTypes>
+      <EntityType Description="Set" DisplayName="Set" Id="372a12af-f684-41c5-9ce9-759b3beef826" Icon="General group">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="Name" DisplayName="Name" Id="07e81445-0f5e-4340-b355-c82809e895da" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="255">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="User" DisplayName="User" Id="642330a9-1eca-43d0-9f45-a3ca2fd8a1bb" Icon="Profmale">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="Name" DisplayName="Name" Id="ce3d12ac-2632-4a0f-b2b6-6a7fdda887a6" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="0" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Picture" DisplayName="Picture" Id="becf8151-c6ac-4b9e-bff5-bb56e02fb2ed" LogicalType="PICTURE" Mandatory="false" Position="1" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Availability" DisplayName="Available" Id="e31bc44e-39f2-4221-a237-a69766d4685e" LogicalType="BOOLEAN" Mandatory="false" Position="2" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="Analyst's Notebook chart" DisplayName="Analyst's Notebook Chart" Id="cf17d636-44c9-4897-b19d-7d2eda002e57" Icon="Anbchart">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="The file name of the chart" DisplayName="Name" Id="d6d03ce2-3cd6-49c1-8a66-366d0e434fd4" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="255">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The binary file that stores the contents of the chart" DisplayName="Chart Binary Data" Id="a20fef80-5c5f-4cf6-a597-c869193792e7" LogicalType="DOCUMENT" Mandatory="false" Position="1" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="A thumbnail image of the chart" DisplayName="Chart Preview Image" Id="8690b4d1-421d-4df1-8a9b-b1d25a1676e3" LogicalType="PICTURE" Mandatory="false" Position="2" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Data used to index the chart" DisplayName="Chart Index Data" Id="c84133b6-7c02-466f-ba14-c1bf28787f2c" LogicalType="DOCUMENT" Mandatory="false" Position="3" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="Alert Feed" DisplayName="Alert Feed" Id="1274e2e7-7751-4dae-a994-648718e19f04" Icon="Search">
+        <PropertyGroupTypes>
+          <PropertyGroupType Description="Events that will trigger alerts from this feed" DisplayName="Alert Trigger Events" Id="566eaa37-01d2-4628-9231-a0448ef4a44c" Mandatory="true" Position="3">
+            <PropertyTypes>
+              <PropertyType Description="Alert on changes to this item" DisplayName="Item has been changed" Id="03487793-7975-4332-903b-e670a66c9451" LogicalType="BOOLEAN" Mandatory="false" Position="0" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on deletion of this item" DisplayName="Item has been deleted" Id="f8471cf2-0b19-4bd2-9187-d3ac6f474026" LogicalType="BOOLEAN" Mandatory="false" Position="1" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on links made to this item" DisplayName="Link has been made to item" Id="0b99c403-49f7-4757-9876-3606ec5befa0" LogicalType="BOOLEAN" Mandatory="false" Position="2" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on changes to the primary properties of this item" DisplayName="Item primary properties have changed" Id="4b873852-76e4-48e1-884a-9f95b87210f9" LogicalType="BOOLEAN" Mandatory="false" Position="9" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on additions to this set" DisplayName="Content added to this set" Id="afa7f3fb-23b0-4869-8b7d-0306ef158b5b" LogicalType="BOOLEAN" Mandatory="false" Position="3" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on changes to the version of an item in this set" DisplayName="Version change for existing set content" Id="051e91c1-e925-4dd4-97f1-75ffe37f9c48" LogicalType="BOOLEAN" Mandatory="false" Position="8" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on removals from this set" DisplayName="Content removed from this set" Id="8146df80-3a08-4106-900f-214faf9ec571" LogicalType="BOOLEAN" Mandatory="false" Position="4" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on changes to any item in this set" DisplayName="Item in this set has been changed" Id="db8c60d1-1ff9-4896-bbd0-5e33351815e2" LogicalType="BOOLEAN" Mandatory="false" Position="5" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on deletion of any item in this set" DisplayName="Item in this set has been deleted" Id="514b213e-b677-428a-a5c9-b8690d564032" LogicalType="BOOLEAN" Mandatory="false" Position="6" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on links made to any item in this set" DisplayName="Item in this set has been linked to" Id="2d9ed2a2-5f33-432b-b99b-f08349f8366d" LogicalType="BOOLEAN" Mandatory="false" Position="7" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Alert on changes to the primary properties of an item in this set" DisplayName="Item in this set has had primary properties changed" Id="e2127bbb-9ad8-417d-840f-74ec9849ec5e" LogicalType="BOOLEAN" Mandatory="false" Position="10" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+            </PropertyTypes>
+          </PropertyGroupType>
+        </PropertyGroupTypes>
+        <PropertyTypes>
+          <PropertyType Description="The name of this alert feed" DisplayName="Name" Id="b7b059a0-1079-45ac-8ae0-ee026f70dd69" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Descriptive text to be included in any generated alerts" DisplayName="Description" Id="d1949ec2-9a77-461e-a16f-81026ccd1e89" LogicalType="MULTIPLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Unique identifier of the item being monitored for alerts" DisplayName="Alert Reference ID" Id="814a72ed-5c68-4763-8d47-b4866de2344b" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="2" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="Stored Query" DisplayName="Query" Id="43cd717c-0204-4c81-93ea-f9f0458bc5ea" Icon="StoredQuery">
+        <PropertyGroupTypes>
+          <PropertyGroupType Description="Presentation Metadata. This data is private to the stored query and is not directly editable." DisplayName="Query Presentation" Id="2c818fa6-68c4-42a4-9bc3-c34bcdc4379a" Mandatory="false" Position="5">
+            <PropertyTypes>
+              <PropertyType Description="Presentation Format Type. This data is private to the stored query and is not directly editable." DisplayName="Format" Id="97f76ffe-1ece-4d5b-9e20-ea66b572b2c5" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="250">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Presentation String Data. This data is private to the stored query and is not directly editable." DisplayName="String Data" Id="b58f34b6-60fb-4730-a4aa-156bf4e817e0" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="" MaximumLengthChars="250">
+                <PossibleValues />
+              </PropertyType>
+              <PropertyType Description="Presentation XML Data. This data is private to the stored query and is not directly editable." DisplayName="XML Data" Id="ab2fdf78-ddd8-49b2-872a-f5c8ac2106d5" LogicalType="XML" Mandatory="false" Position="2" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+            </PropertyTypes>
+          </PropertyGroupType>
+        </PropertyGroupTypes>
+        <PropertyTypes>
+          <PropertyType Description="User-specified name of this stored query" DisplayName="Name" Id="98ce27bc-50d7-4fa0-89b0-d6440cdb12fd" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Description of this stored query" DisplayName="Description" Id="a30ddbca-6c14-4454-bdb0-811a5b5beb16" LogicalType="MULTIPLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Stored Query Type. This data is private to the stored query and is not directly editable." DisplayName="Query Type" Id="5ae10920-6d60-419f-80db-ba5b9935d93b" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="2" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Stored Query String Definition. This data is private to the stored query and is not directly editable." DisplayName="Query Definition (String)" Id="17903032-1cd1-4524-94ef-a35aab212e6a" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="3" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Stored Query XML Definition. This data is private to the stored query and is not directly editable." DisplayName="Query Definition (XML)" Id="f5916739-a962-4c01-95d3-2598bfabc1b5" LogicalType="XML" Mandatory="false" Position="4" SemanticTypeId="">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="A complaint regarding an incident that's occured between some individuals" DisplayName="Complaint" Id="ET1" SemanticTypeId="guid6C7D9311-D676-47cb-9546-68A34BADB498" Icon="Notebook">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="Randomly generated persistent ID for each complaint - &quot;CMPLNT_NUM&quot; field in database" DisplayName="Complaint Number" Id="PT1" LogicalType="INTEGER" Mandatory="true" Position="0" SemanticTypeId="guiddac50322-b7d0-4e2c-a96a-6494a6621c12">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The exact start date of the reported incident - &quot;CMPLNT_FR_DT&quot; field in database" DisplayName="Complaint Start Date" Id="PT2" LogicalType="DATE" Mandatory="false" Position="1" SemanticTypeId="guidE17D5FB3-4FF6-4177-AC26-73D8FE2911EE">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The exact end date of the reported incident - &quot;CMPLNT_TO_DT&quot; field in database" DisplayName="Complaint End Date" Id="PT3" LogicalType="DATE" Mandatory="false" Position="2" SemanticTypeId="guid994DA53C-CBE3-4273-8734-A398646C7995" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The exact start time of the reported incident - &quot;CMPLNT_FR_TM&quot; field in database" DisplayName="Complaint Start Time" Id="PT4" LogicalType="TIME" Mandatory="false" Position="3" SemanticTypeId="guidD0C8B6DF-9963-4903-96E8-EA9E428E6DBF">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The exact end time of the reported incident - &quot;CMPLNT_TO_TM&quot; field in database" DisplayName="Complaint End Time" Id="PT5" LogicalType="TIME" Mandatory="false" Position="4" SemanticTypeId="guidFC3B0BA7-7871-4F1B-B95B-43984D51ECDF">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Indicator of whether the crime was successfully completed or attempted (but failed or was interrupted prematurely) - &quot;CRM_ATPT_CPTD_CD&quot; field in database" DisplayName="Crime Status" Id="PT6" LogicalType="SUGGESTED_FROM" Mandatory="false" Position="5" SemanticTypeId="guidaebff1fd-ca41-4399-89c1-68f022b68870" MaximumLengthChars="250">
+            <PossibleValues>
+              <PossibleValue Description="Crime was completed successfully" Value="Completed" />
+              <PossibleValue Description="Crime was attempted (but failed or was interrupted prematurely)" Value="Attempted" />
+            </PossibleValues>
+          </PropertyType>
+          <PropertyType Description="Jurisdiction code associated with the incident - &quot;JURISDICTION_CODE&quot; field in database" DisplayName="Jurisdiction Code" Id="PT7" LogicalType="INTEGER" Mandatory="false" Position="6" SemanticTypeId="guid7d4b0e0e-80d4-44de-b84f-d5541a2454e0">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Description of the jurisdiction code associated with the incident - &quot;JURIS_DESC&quot; field in database" DisplayName="Jurisdiction Description" Id="PT8" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="7" SemanticTypeId="guid0AC601B9-DE01-4534-94B3-F75FBF4D109D" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The three digit offence classification code associated with the complaint - &quot;KY_CD&quot; field in the database" DisplayName="Offence Classification Code" Id="PT9" LogicalType="INTEGER" Mandatory="false" Position="8" SemanticTypeId="guiddccfa76f-0f2d-4494-8934-d075e4f48271">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The level of the offence, can either be a Felony, Misdemeanor, or Violation - &quot;LAW_CAT_CD&quot; field in database" DisplayName="Level Of Offence" Id="PT10" LogicalType="SUGGESTED_FROM" Mandatory="false" Position="9" SemanticTypeId="guid59140BB1-EC0D-4aa1-B521-C3A343ACCCDB" MaximumLengthChars="250">
+            <PossibleValues>
+              <PossibleValue Description="A non-indictable offence, regarded in the US (and formerly in the UK) as less serious than a felony" Value="Misdemeanor" />
+              <PossibleValue Description="A breach, infringement, or transgression as of a law or rule" Value="Violation" />
+              <PossibleValue Description="A crime regarded in the US and many other judicial systems as more serious than a misdemeanour" Value="Felony" />
+            </PossibleValues>
+          </PropertyType>
+          <PropertyType Description="Description of the offence corresponding with a key code - &quot;OFNS_DESC&quot; field in database" DisplayName="Offence Description" Id="PT11" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="10" SemanticTypeId="guid7861226D-5D80-4ef8-9ED9-029D54C228EF" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Thre three digit internal classification code associated with the incident (more granular than the key code) - &quot;PD_CD&quot; field in database" DisplayName="Internal Classification Code" Id="PT12" LogicalType="INTEGER" Mandatory="false" Position="11" SemanticTypeId="guid5c06ef4b-1a64-435c-99a1-14394ad7359a">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Description of the classification corresponding with a key code - &quot;PD_DESC&quot; field in database" DisplayName="Classification Description" Id="PT13" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="12" SemanticTypeId="guidf611d63e-73d9-4136-af7b-1a8093945578" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The date in which the incident was reported to police - &quot;RPT_DT&quot; field in database" DisplayName="Date Reported" Id="PT14" LogicalType="DATE" Mandatory="false" Position="13" SemanticTypeId="guid75CA7E8F-D2EF-4CF4-BB81-6C244ADA5286">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Specific location of occurrence in or around the premises, can be either Inside, Opposite Of, Front Of, or Rear Of - &quot;LOC_OF_OCCUR_DESC&quot; field in database" DisplayName="Location Of Occurrence" Id="PT29" LogicalType="SUGGESTED_FROM" Mandatory="false" Position="14" SemanticTypeId="guid4643D715-F85C-4339-B2D7-07C9E91B807B" MaximumLengthChars="250">
+            <PossibleValues>
+              <PossibleValue Description="Inside a building" Value="Inside" />
+              <PossibleValue Description="Opposite of a building" Value="Opposite Of" />
+              <PossibleValue Description="Front of a building" Value="Front Of" />
+              <PossibleValue Description="Rear of a building" Value="Rear Of" />
+            </PossibleValues>
+          </PropertyType>
+          <PropertyType Description="The latitude value of where the incident occurred" DisplayName="Latitude" Id="PT18" LogicalType="DOUBLE" Mandatory="false" Position="15" SemanticTypeId="guid5304A03B-FE47-4406-91E7-0D49EC8409A6">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The longitude value of where the incident occurred" DisplayName="Longitude" Id="PT30" LogicalType="DOUBLE" Mandatory="false" Position="16" SemanticTypeId="guid14BCA0EC-D67A-4A67-BC36-CFF650FD77A9">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="Location in New York where the incident occured" DisplayName="Location" Id="ET2" SemanticTypeId="guidCD3DB3DB-55F6-440A-9BB8-3F3EE4DB4D52" Icon="Town">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="The code associated with the precinct in which the incident occurred - &quot;ADDR_PCT_CD&quot; field in database" DisplayName="Precinct Code" Id="PT15" LogicalType="INTEGER" Mandatory="false" Position="0" SemanticTypeId="guid144e2dcd-977e-441a-a793-b007e098f0f8">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The name of the borough in which the incident occurred - &quot;BORO_NM&quot; field in database" DisplayName="Borough Name" Id="PT16" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The name of the NYCHA housing development in which the incident occurred (if applicable) - &quot;HADEVELOPT&quot; field in database" DisplayName="Housing Development" Id="PT17" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="2" SemanticTypeId="guidF56E1A86-9C0E-4248-96C0-D77D4D16704E" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="Name of a NYC park, playground, or greenspace in which the incident occurred (if applicable) - &quot;PARKS_NM&quot; field in database" DisplayName="Park Name" Id="PT19" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="3" SemanticTypeId="guid01d80371-1d48-4bc0-9727-91112ef79708" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The name of the patrol borough in which the incident occurred - &quot;PATROL_BORO&quot; field in database" DisplayName="Patrol Borough" Id="PT20" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="4" SemanticTypeId="guid0b166672-2054-4023-82e7-d9ffb51720bf" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The specific description of the premises in which the incident occurred - &quot;PREM_TYP_DESC&quot; field in database" DisplayName="Premises Description" Id="PT21" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="5" SemanticTypeId="guid7a1fb141-a787-4a74-89e2-42eb5e8d1d22" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The name of the transit station in which the incident occurred (if applicable)" DisplayName="Station Name" Id="PT22" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="6" SemanticTypeId="guid35d43af7-b2d9-4c37-b724-f2a2478b7d49" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The transit district code in which the indicent occurred (if applicable) - &quot;TRANSIT_DISTRICT&quot; field in database" DisplayName="Transit District" Id="PT23" LogicalType="INTEGER" Mandatory="false" Position="7" SemanticTypeId="guid3688f878-a6d8-4a7f-b802-0eb102c795e5">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="An individual involved in the incident" DisplayName="Person" Id="ET3" SemanticTypeId="guid8A586959-9837-47DE-8DBF-BC7031F01545" Icon="Person">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="The age of an individual" DisplayName="Age Group" Id="PT26" LogicalType="SUGGESTED_FROM" Mandatory="false" Position="0" SemanticTypeId="guid092fbb97-f213-4459-9249-d697a567ce6c" MaximumLengthChars="250">
+            <PossibleValues>
+              <PossibleValue Description="" Value="&lt;18" />
+              <PossibleValue Description="" Value="18-24" />
+              <PossibleValue Description="" Value="25-44" />
+              <PossibleValue Description="" Value="45-64" />
+              <PossibleValue Description="" Value="65+" />
+            </PossibleValues>
+          </PropertyType>
+          <PropertyType Description="The race of an individual" DisplayName="Race" Id="PT27" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="guid253549F6-0C43-494B-B6A8-BD235B9718C7" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="The sex of an individual" DisplayName="Sex" Id="PT28" LogicalType="SUGGESTED_FROM" Mandatory="false" Position="2" SemanticTypeId="guid7548369B-BA9A-4C4B-AEAD-0CB442EAFA27" MaximumLengthChars="250">
+            <PossibleValues>
+              <PossibleValue Description="Male" Value="M" />
+              <PossibleValue Description="Female" Value="F" />
+              <PossibleValue Description="Unknown" Value="U" />
+            </PossibleValues>
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+    </EntityTypes>
+    <LinkTypes>
+      <LinkType Description="Alert Feed Subscription" DisplayName="Alert Feed Subscription" Id="dab2f6f2-813c-4a47-b630-b91f52a1e0e1" FromTypeIds="642330a9-1eca-43d0-9f45-a3ca2fd8a1bb" ToTypeIds="1274e2e7-7751-4dae-a994-648718e19f04">
+        <PropertyGroupTypes>
+          <PropertyGroupType Description="The ways in which alerts are delivered" DisplayName="Alert delivery methods" Id="84aa56e3-84a1-4c05-9a77-4f9185202a55" Mandatory="false" Position="0">
+            <PropertyTypes>
+              <PropertyType Description="Through the alert retrieval web service" DisplayName="By alert retrieval" Id="72367e78-b265-46e1-8fc8-81f42d307e40" LogicalType="BOOLEAN" Mandatory="false" Position="0" SemanticTypeId="">
+                <PossibleValues />
+              </PropertyType>
+            </PropertyTypes>
+          </PropertyGroupType>
+        </PropertyGroupTypes>
+        <PropertyTypes />
+      </LinkType>
+      <LinkType Description="Where the incident was located" DisplayName="Located at" Id="LT1" SemanticTypeId="guid18E7D3EF-0694-4DB7-8AA7-4BCEF634391E" FromTypeIds="ET1" ToTypeIds="ET2">
+        <PropertyGroupTypes />
+        <PropertyTypes />
+      </LinkType>
+      <LinkType Description="This individual is a suspect of a certain complaint/incident" DisplayName="Suspect of" Id="LT2" SemanticTypeId="guidE6445EB2-F5E0-426f-8679-90388EC026C0" FromTypeIds="ET3" ToTypeIds="ET1">
+        <PropertyGroupTypes />
+        <PropertyTypes />
+      </LinkType>
+      <LinkType Description="This individual is a victim of a certain complaint/incident" DisplayName="Victim of" Id="LT3" SemanticTypeId="guidE6445EB2-F5E0-426f-8679-90388EC026C0" FromTypeIds="ET3" ToTypeIds="ET1">
+        <PropertyGroupTypes />
+        <PropertyTypes />
+      </LinkType>
+    </LinkTypes>
+  </ItemTypes>
+  <Id>7e3e7fb4-6678-4f91-b545-1ca78be64d85</Id>
+  <Version>28</Version>
+  <SourceInfoMandatoryFields IsDateMandatory="false" IsDescriptionMandatory="false" IsReferenceMandatory="false" IsTypeMandatory="false" />
+  <LinkStrengthInfo DefaultLinkStrengthId="f232caa8-cf55-4d9a-8c21-19a55b0447da">
+    <LinkStrengths>
+      <LinkStrength Id="f232caa8-cf55-4d9a-8c21-19a55b0447da" Name="Confirmed" LineStyle="SOLID" />
+      <LinkStrength Id="59f66ee2-0abe-4036-a11d-07ed4175720e" Name="Unconfirmed" LineStyle="DASHED" />
+      <LinkStrength Id="f0d2ff1c-28cb-4afe-8cbb-89e198c910a3" Name="Tentative" LineStyle="DOTTED" />
+    </LinkStrengths>
+  </LinkStrengthInfo>
+  <LabelingSchemes>
+    <LabelingScheme Id="LS1" Name="Labeling Scheme 1">
+      <LabelDefinitions>
+        <LabelDefinition ItemTypeId="372a12af-f684-41c5-9ce9-759b3beef826">
+          <LabelParts>
+            <LabelPart Value="07e81445-0f5e-4340-b355-c82809e895da" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="642330a9-1eca-43d0-9f45-a3ca2fd8a1bb">
+          <LabelParts>
+            <LabelPart Value="ce3d12ac-2632-4a0f-b2b6-6a7fdda887a6" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="43cd717c-0204-4c81-93ea-f9f0458bc5ea">
+          <LabelParts>
+            <LabelPart Value="98ce27bc-50d7-4fa0-89b0-d6440cdb12fd" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="1274e2e7-7751-4dae-a994-648718e19f04">
+          <LabelParts>
+            <LabelPart Value="b7b059a0-1079-45ac-8ae0-ee026f70dd69" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="dab2f6f2-813c-4a47-b630-b91f52a1e0e1">
+          <LabelParts>
+            <LabelPart Value="Subscribed to" LabelPartType="LITERAL" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="cf17d636-44c9-4897-b19d-7d2eda002e57">
+          <LabelParts>
+            <LabelPart Value="d6d03ce2-3cd6-49c1-8a66-366d0e434fd4" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="ET1">
+          <LabelParts />
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="ET2">
+          <LabelParts />
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="ET3">
+          <LabelParts />
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="LT1">
+          <LabelParts />
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="LT2">
+          <LabelParts />
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="LT3">
+          <LabelParts />
+        </LabelDefinition>
+      </LabelDefinitions>
+    </LabelingScheme>
+  </LabelingSchemes>
+  <SemanticTypeLibrary>
+    <lcx:LibraryCatalogue VersionMajor="1" VersionMinor="18" VersionRelease="27" VersionBuild="60" xmlns:lcx="http://www.i2group.com/Schemas/2001-12-07/LCXSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LocaleHex="0409">
+      <lcx:Property pGUID="guid9A224CCF-28F7-4c55-9F14-9E820A0B1631" abstract="true">
+        <PropertyName>Abstract Text</PropertyName>
+      </lcx:Property>
+      <lcx:Property pGUID="guid5E4B9174-E288-46c3-989F-B1F895C7DCDE" abstract="true" baseProperty="guid9A224CCF-28F7-4c55-9F14-9E820A0B1631">
+        <PropertyName>Address</PropertyName>
+      </lcx:Property>
+      <lcx:Property pGUID="guid01d80371-1d48-4bc0-9727-91112ef79708" baseProperty="guid5E4B9174-E288-46c3-989F-B1F895C7DCDE">
+        <PropertyName>Park Name</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Green Location Address</lcx:Synonym>
+          <Description>The green location in which the event occurred</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid0b166672-2054-4023-82e7-d9ffb51720bf" baseProperty="guid5E4B9174-E288-46c3-989F-B1F895C7DCDE">
+        <PropertyName>Patrol Borough</PropertyName>
+        <Documentation>
+          <Description>The patrol borough in which the incident occurred</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid7a1fb141-a787-4a74-89e2-42eb5e8d1d22" baseProperty="guid5E4B9174-E288-46c3-989F-B1F895C7DCDE">
+        <PropertyName>Premises Type</PropertyName>
+        <Documentation>
+          <Description>The specific type of premises in which the incident occurred</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid35d43af7-b2d9-4c37-b724-f2a2478b7d49" baseProperty="guid5E4B9174-E288-46c3-989F-B1F895C7DCDE">
+        <PropertyName>Station Name</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Transit Station Name</lcx:Synonym>
+          <Description>The name of the transit station in which the incident occurred</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid092fbb97-f213-4459-9249-d697a567ce6c" baseProperty="guid9A224CCF-28F7-4c55-9F14-9E820A0B1631">
+        <PropertyName>Age Range</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Age Group</lcx:Synonym>
+          <Description>The age group an individual is in</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guida297f137-e0ec-4278-928c-3160110f0b8b" baseProperty="guid9A224CCF-28F7-4c55-9F14-9E820A0B1631">
+        <PropertyName>Crime Status</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Offence Status</lcx:Synonym>
+          <Description>Status of a crime or an offence</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid6D676796-915D-487f-B384-73503C988ABE" abstract="true">
+        <PropertyName>Abstract Number</PropertyName>
+      </lcx:Property>
+      <lcx:Property pGUID="guid5c06ef4b-1a64-435c-99a1-14394ad7359a" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Associated Internal Classification Code</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Numbered Code</lcx:Synonym>
+          <Description>An associated code with a certain property</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid7d4b0e0e-80d4-44de-b84f-d5541a2454e0" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Associated Jurisdiction Code</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Numbered Code</lcx:Synonym>
+          <Description>An associated code with a certain property</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guiddccfa76f-0f2d-4494-8934-d075e4f48271" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Associated Offence Classification Code</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Numbered Code</lcx:Synonym>
+          <Description>An associated code with a certain property</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid144e2dcd-977e-441a-a793-b007e098f0f8" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Associated Precinct Code</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Numbered Code</lcx:Synonym>
+          <Description>An associated code with a certain property</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guid3688f878-a6d8-4a7f-b802-0eb102c795e5" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Associated Transit District Code</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Numbered Code</lcx:Synonym>
+          <Description>An associated code with a certain property</Description>
+        </Documentation>
+      </lcx:Property>
+      <lcx:Property pGUID="guiddac50322-b7d0-4e2c-a96a-6494a6621c12" baseProperty="guid6D676796-915D-487f-B384-73503C988ABE">
+        <PropertyName>Unique ID</PropertyName>
+        <Documentation>
+          <lcx:Synonym>Number</lcx:Synonym>
+          <Description>Unique ID to identify a certain copy of an entity</Description>
+        </Documentation>
+      </lcx:Property>
+    </lcx:LibraryCatalogue>
+  </SemanticTypeLibrary>
+</ns2:Schema>

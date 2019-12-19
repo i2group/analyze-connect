@@ -1,0 +1,199 @@
+{
+	"info": {
+		"_postman_id": "329e397f-6ac4-4ef7-92a3-bd323118bfcd",
+		"name": "NYPD i2 Analyze",
+		"description": "The External Data Services for the Opal experience.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Core Resources",
+			"item": [
+				{
+					"name": "GET TimeZones",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"if (responseCode.code === 200) {",
+									"    var jsonData = JSON.parse(responseBody);",
+									"}",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "{{url}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{context-root}}/api/v1/core/temporal/timezones",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{context-root}}",
+								"api",
+								"v1",
+								"core",
+								"temporal",
+								"timezones"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Daod Resource",
+			"item": [
+				{
+					"name": "Reload",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "{{url}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/{{context-root}}/api/v1/connectors/reload",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{context-root}}",
+								"api",
+								"v1",
+								"connectors",
+								"reload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Connectors",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Origin",
+								"value": "{{url}}"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/{{context-root}}/api/v1/connectors/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{context-root}}",
+								"api",
+								"v1",
+								"connectors",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "Jenny",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "Jenny",
+				"type": "string"
+			},
+			{
+				"key": "saveHelperData",
+				"type": "any"
+			},
+			{
+				"key": "showPassword",
+				"value": false,
+				"type": "boolean"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "88e8b796-c113-46a1-9b24-4cdce5eeebaf",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "2ad12b86-37e6-47c1-b36f-ad16f1bf922b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "bba0b60f-2b5c-4259-8748-4f7719bd9570",
+			"key": "exampleConnector",
+			"value": "example-connector",
+			"type": "string"
+		},
+		{
+			"id": "34272235-c04d-44c9-808f-b31de26ad96f",
+			"key": "contextRoot",
+			"value": "opal",
+			"type": "string"
+		},
+		{
+			"id": "490f86be-e51a-495a-bd70-5be718cc927c",
+			"key": "user",
+			"value": "Jenny",
+			"type": "string"
+		},
+		{
+			"id": "cf15806d-0826-4ece-add7-34102efab10d",
+			"key": "password",
+			"value": "Jenny",
+			"type": "string"
+		},
+		{
+			"id": "5a82c56a-876f-462c-94b8-3579bc7ba2b1",
+			"key": "propertyTimeZone",
+			"value": "UTC",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

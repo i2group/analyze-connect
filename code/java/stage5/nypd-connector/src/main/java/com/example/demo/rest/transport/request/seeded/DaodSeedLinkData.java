@@ -13,12 +13,7 @@
 
 package com.example.demo.rest.transport.request.seeded;
 
-import lombok.ToString;
-
-/**
- * Seed link request data containing the variables needed to define the seed link data
- */
-@ToString(callSuper = true)
+/** An link selected on the Analyst's Notebook Premium chart. */
 public class DaodSeedLinkData extends SeedDataBase {
-    // TODO: Complete this POJO according to the SPI
+  // TODO: Complete this POJO according to the SPI
 }

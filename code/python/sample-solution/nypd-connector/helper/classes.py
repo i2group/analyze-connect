@@ -8,6 +8,8 @@
 # US Government Users Restricted Rights - Use, duplication or
 # disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 
+import yaml
+
 type_ids = {
     'complaint': 'ET1',
     'location': 'ET2',
@@ -18,6 +20,11 @@ type_ids = {
     'suspect_of': 'LT3'
 }
 
+with open('static/application.yml') as yml_file:
+    config = yaml.safe_load(yml_file)
+
+base_url = config['socrata']['url']
+
 class ResponseBaseData:
     """
     A template for all entities and links.
@@ -27,10 +34,11 @@ class ResponseBaseData:
         typeId (str): The type ID of the entity or link corresponding to the schema.
         properties (dict): The properties of the entity or link, keys corresponding to property IDs in schema.
     """
-    def __init__(self, id, typeId, properties):
+    def __init__(self, id, typeId, properties, sourceReference):
         self.id = id
         self.typeId = typeId
         self.properties = properties
+        self.sourceReference = sourceReference
 
 class Entity(ResponseBaseData):
     """
@@ -62,11 +70,11 @@ class Complaint(Entity):
     def __init__(self, entry):
         id = get_id("COMP", entry)
         super().__init__(id, type_ids['complaint'], {
-            'PT1': id,
+            'PT1': int(entry.get('cmplnt_num')),
             'PT2': entry.get('cmplnt_fr_dt')[:10] if entry.get('cmplnt_fr_dt') else None,
             'PT3': entry.get('cmplnt_to_dt')[:10] if entry.get('cmplnt_to_dt') else None,
             'PT4': entry.get('cmplnt_fr_tm'),
-            # 'PT5': entry.get('cmplnt_to_tm') if entry.get('cmplnt_to_tm') else None,
+            'PT5': entry.get('cmplnt_to_tm') if entry.get('cmplnt_to_tm') else None,
             'PT6': entry.get('crm_atpt_cptd_cd'),
             'PT7': int(float(entry.get('jurisdiction_code'))) if entry.get('jurisdiction_code') else None,
             'PT8': entry.get('juris_desc'),
@@ -79,7 +87,7 @@ class Complaint(Entity):
             'PT29': entry.get('loc_of_occur_desc') if entry.get('loc_of_occur_desc') else None,
             'PT18': float(entry.get('latitude')) if entry.get('latitude') else None,
             'PT30': float(entry.get('longitude')) if entry.get('longitude') else None,
-        })
+        }, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class Location(Entity):
     """
@@ -99,7 +107,7 @@ class Location(Entity):
             'PT21': entry.get('prem_typ_desc'),
             'PT22': entry.get('station_name'),
             'PT23': int(float(entry.get('transit_district'))) if entry.get('transit_district') else None,
-        })
+        }, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class Victim(Entity):
     """
@@ -114,7 +122,7 @@ class Victim(Entity):
             'PT26': entry.get('vic_age_group'),
             'PT27': entry.get('vic_race'),
             'PT28': entry.get('vic_sex')
-        })
+        }, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class Suspect(Entity):
     """
@@ -128,7 +136,7 @@ class Suspect(Entity):
             'PT26': entry.get('susp_age_group'),
             'PT27': entry.get('susp_race'),
             'PT28': entry.get('susp_sex')
-        })
+        }, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class LocatedAt(Link):
     """
@@ -136,7 +144,7 @@ class LocatedAt(Link):
     """
     def __init__(self, entry):
         id = get_id("LA", entry)
-        super().__init__("LA" + id, type_ids['located_at'], None)
+        super().__init__("LA" + id, type_ids['located_at'], None, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class VictimOf(Link):
     """
@@ -144,7 +152,7 @@ class VictimOf(Link):
     """
     def __init__(self, entry):
         id = get_id("VO", entry)
-        super().__init__("VO" + id, type_ids['victim_of'], None)
+        super().__init__("VO" + id, type_ids['victim_of'], None, generate_source_ref(id, entry.get('cmplnt_num')))
 
 class SuspectOf(Link):
     """
@@ -152,8 +160,20 @@ class SuspectOf(Link):
     """
     def __init__(self, entry):
         id = get_id("SO", entry)
-        super().__init__("SO" + id, type_ids['suspect_of'], None)
+        super().__init__("SO" + id, type_ids['suspect_of'], None, generate_source_ref(id, entry.get('cmplnt_num')))
 
 def get_id(base, entry):
     id = int(entry.get('cmplnt_num'))
     return base + str(id)
+
+def generate_source_ref(id, complaint_num):
+    return {
+        'id': 'SR_' + str(id),
+        'source': {
+            'name': "NYPD Complaint Dataset",
+            'type': "Open source data",
+            'description': "A source reference to the corresponding record from the NYPD Complaint Dataset.",
+            'location': f"{base_url}?$where=cmplnt_num={complaint_num}",
+            'image': "https://github.ibm.com/ibmi2/Connect-Examples/tree/master/docs/images/nypd-dataset-webpage.png?raw=true"
+        }
+    }

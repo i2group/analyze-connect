@@ -14,7 +14,8 @@
 package com.example.demo.rest.transport;
 
 /**
- * Response containing an error message that can be displayed to the user if there's an issue
+ * Defines a response containing an error message that can be displayed to the user if there is an
+ * issue with validation.
  */
 public class ValidationResponse {
   public String errorMessage;

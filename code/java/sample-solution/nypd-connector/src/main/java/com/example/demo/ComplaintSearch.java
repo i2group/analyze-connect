@@ -13,27 +13,29 @@
 
 package com.example.demo;
 
+import com.example.demo.rest.transport.request.RequestCondition;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.example.demo.rest.transport.request.RequestCondition;
-
 public class ComplaintSearch {
-    public String searchTerm;
+  public String searchTerm;
 
-    /**
-     * Used to conduct a complaint search using conditions provided by the user
-     * @param conditions Contains queries in the form of conditions provided by the user
-     * @return The search conditions as a complaintSearch
-     */
-    public static ComplaintSearch parse(Collection<RequestCondition> conditions) {
-        final Map<String, RequestCondition> asMap = conditions.stream().collect(Collectors.toMap(c -> c.id, c -> c));
-        RequestCondition searchTerm = asMap.get("searchTerm");
-        ComplaintSearch complaintSearch = new ComplaintSearch();
-        if (searchTerm != null) {
-            complaintSearch.searchTerm = searchTerm.value.toString();
-        }
-        return complaintSearch;
+  /**
+   * Used to conduct a complaint search using conditions provided by the user
+   *
+   * @param conditions Contains queries in the form of conditions provided by the user
+   * @return The search conditions as a complaintSearch
+   */
+  public static ComplaintSearch parse(Collection<RequestCondition> conditions) {
+    final Map<String, RequestCondition> asMap =
+        conditions.stream().collect(Collectors.toMap(c -> c.id, c -> c));
+    RequestCondition searchTerm = asMap.get("searchTerm");
+    ComplaintSearch complaintSearch = new ComplaintSearch();
+    if (searchTerm != null) {
+      complaintSearch.searchTerm = searchTerm.value.toString();
     }
+    return complaintSearch;
+  }
 }

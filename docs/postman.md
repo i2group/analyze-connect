@@ -5,12 +5,12 @@ You can use Postman collections to test the endpoint of i2 Analyze and your conn
 ## Prerequisites
 
 - Install the latest version of Postman;
-- Import the Postman environments from [here](../Postman/environments);
-- Import the Postman collections from [here](../Postman/collections);
+- Import the Postman environments from [here](../postman/environments);
+- Import the Postman collections from [here](../postman/collections);
 
 ## Testing i2 Analyze
 
-To make sure that i2 analyze has been configured correctly, use the `i2 Analyze` environment.
+To make sure that i2 Analyze has been configured correctly, use the `i2 Analyze` environment.
   * Select the `i2 Analyze` environment in the top right corner.
 
 ### Login to i2 Analyze

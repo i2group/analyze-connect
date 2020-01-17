@@ -13,9 +13,5 @@
 
 package com.example.demo.rest.transport;
 
-/**
- * Entity response data
- * Contains the variables that define each entity in the system
- */
-public class EntityData extends ResponseDataBase {
-}
+/** Entity response data. Contains the variables that define each entity in the system. */
+public class EntityData extends ResponseDataBase {}

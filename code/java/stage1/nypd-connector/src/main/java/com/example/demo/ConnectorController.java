@@ -13,31 +13,30 @@
 
 package com.example.demo;
 
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Defines endpoints used by i2 Analyze to acquire data
- */
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
+/** Defines endpoints used by i2 Analyze to acquire data */
 @RestController
 public class ConnectorController {
-    @Value("classpath:config.json")
-    private Resource configResource;
 
-    public ConnectorController() {
-    }
+  @Value("classpath:config.json")
+  private Resource configResource;
 
-    /**
-     * Defines the /config endpoint which aquires the config file
-     * @return The config.json file
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
-    public Resource config() {
-        return configResource;
-    }
+  public ConnectorController() {}
+
+  /**
+   * Defines the /config endpoint which acquires the connector configuration data.
+   *
+   * @return The config.json file.
+   */
+  @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
+  public Resource config() {
+    return configResource;
+  }
 }

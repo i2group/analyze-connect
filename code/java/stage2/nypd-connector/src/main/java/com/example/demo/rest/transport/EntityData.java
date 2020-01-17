@@ -13,9 +13,16 @@
 
 package com.example.demo.rest.transport;
 
+import java.util.Map;
+
 /**
- * Entity response data
- * Contains the variables that define each entity in the system
+ * Base POJO (Plain Old Java Object) for response data Defines the base properties (variables) for
+ * entities and links
  */
-public class EntityData extends ResponseDataBase {
+public abstract class ResponseDataBase {
+  public Object id;
+  public String typeId;
+  public Long version;
+  public Map<String, Object> properties;
+  public SourceReference sourceReference;
 }

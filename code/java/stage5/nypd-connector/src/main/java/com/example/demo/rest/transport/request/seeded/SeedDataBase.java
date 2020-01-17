@@ -16,18 +16,13 @@ package com.example.demo.rest.transport.request.seeded;
 import java.util.List;
 import java.util.Map;
 
-import lombok.ToString;
-
-/**
- * Seeded search request data containing variables describing how to define seeded data
- */
-@ToString
+/** Seeded search request data containing variables describing how to define seeded data. */
 public abstract class SeedDataBase {
-    public List<Object> accessDimensionValues;
-    public Object extensions;
-    public String label;
-    public Map<String, ?> properties;
-    public Object seedId;
-    public List<Object> sourceIds;
-    public String typeId;
+  public List<Object> accessDimensionValues;
+  public Object extensions;
+  public String label;
+  public Map<String, ?> properties;
+  public Object seedId;
+  public List<SourceId> sourceIds;
+  public String typeId;
 }

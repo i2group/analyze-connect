@@ -13,11 +13,5 @@
 
 package com.example.demo.rest.transport.request.seeded;
 
-import lombok.ToString;
-
-/**
- * Seed entity request data containing seed variables
- */
-@ToString(callSuper = true)
-public class DaodSeedEntityData extends SeedDataBase {
-}
+/** An entity selected on the Analyst's Notebook Premium chart. */
+public class DaodSeedEntityData extends SeedDataBase {}

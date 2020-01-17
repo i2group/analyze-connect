@@ -26,7 +26,7 @@ Validation can be done on the client for simple checks before sending a request 
 }
 ```
 
-The `mandatory` tag in the `config.json` file specifies whether a field is required or not. The `extraStringValidation` tag allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule. You can find out more [here](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_2.2.1/com.ibm.i2.connect.developer.doc/i2_connect_spi.json).
+The `mandatory` tag in the `config.json` file specifies whether a field is required or not. The `extraStringValidation` tag allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule. You can find out more [here](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json).
 
 ## Server-side validation
 

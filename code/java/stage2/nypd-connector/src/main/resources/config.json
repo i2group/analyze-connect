@@ -1,13 +1,15 @@
 {
-	"defaultValues": {
-		"timeZoneId": "Europe/London",
-		"resultIdsPersistent": true
-	},
-	"services": [{
-		"id": "nypd-service",
-		"name": "NYPD Connector: Get All",
-		"description": "A service which retrieves all data",
-		"clientConfigType": "NONE",
-		"acquireUrl": "/all"
-	}]
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  },
+  "services": [
+    {
+      "id": "nypd-service",
+      "name": "NYPD Connector: Get All",
+      "description": "A service which retrieves all data",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/all"
+    }
+  ]
 }

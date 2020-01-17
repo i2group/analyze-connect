@@ -16,14 +16,12 @@ package com.example.demo.rest.transport.request.seeded;
 import java.util.List;
 import java.util.Map;
 
-import lombok.ToString;
-
 /**
- * Seeded search request containing entities, links, and item types for seeded entries
+ * An object containing the list of selected entities and links as well as their corresponding items
+ * types as they are selected on the Analyst's Notebook Premium chart.
  */
-@ToString
 public class DaodSeeds {
-    public List<DaodSeedEntityData> entities;
-    public List<DaodSeedLinkData> links;
-    public Map<String, ?> itemTypes;
+  public List<DaodSeedEntityData> entities;
+  public List<DaodSeedLinkData> links;
+  public Map<String, ?> itemTypes;
 }

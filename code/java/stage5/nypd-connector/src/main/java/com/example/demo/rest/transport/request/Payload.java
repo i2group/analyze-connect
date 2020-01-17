@@ -13,17 +13,14 @@
 
 package com.example.demo.rest.transport.request;
 
-import java.util.List;
-
 import com.example.demo.rest.transport.request.seeded.DaodSeeds;
 
-import lombok.ToString;
+import java.util.List;
 
 /**
- * Standard request payload for conditions and seeds provided by the user
+ * The list of conditions and selected entities and links passed from Analyst's Notebook Premium.
  */
-@ToString
 public class Payload {
-    public List<RequestCondition> conditions;
-    public DaodSeeds seeds;
+  public List<RequestCondition> conditions;
+  public DaodSeeds seeds;
 }

@@ -13,12 +13,7 @@
 
 package com.example.demo.rest.transport.request;
 
-import lombok.ToString;
-
-/**
- * Connector request data as a payload
- */
-@ToString
+/** Connector request containing the payload of conditions and seeds. */
 public class ConnectorRequest {
-    public Payload payload;
+  public Payload payload;
 }

@@ -13,32 +13,32 @@
 
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.example.demo.rest.transport.ConnectorResponse;
 import com.example.demo.rest.transport.EntityData;
 import com.example.demo.rest.transport.LinkData;
-
 import org.springframework.stereotype.Service;
 
-/**
- * Used to populate entity lists and link lists to return to the ANBP
- */
+import java.util.ArrayList;
+import java.util.List;
+
+/** A class which demonstrates a connector response with dummy data. */
 @Service
 public class ConnectorDataService {
 
-    /**
-     * Used to populate entity lists and link lists to return to the ANBP
-     * @return A connectorResponse with the entities and links
-     */
-    public ConnectorResponse retrieveTestData() {
-        final List<EntityData> entities = new ArrayList<>();
-        final List<LinkData> links = new ArrayList<>();
-        // TODO: Populate entity and link lists with some test data and see that it is returned to ANBP
-        final ConnectorResponse connectorResponse = new ConnectorResponse();
-        connectorResponse.entities = entities;
-        connectorResponse.links = links;
-        return connectorResponse;
-    }
+  /**
+   * Manually populate a list of entities and links to show in Analyst's Notebook Premium.
+   *
+   * @return A response containing entities and links.
+   */
+  public ConnectorResponse retrieveTestData() {
+    final List<EntityData> entities = new ArrayList<>();
+    final List<LinkData> links = new ArrayList<>();
+
+    // TODO: Populate entity and link lists with some test data and see that it is returned to ANBP
+
+    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    connectorResponse.entities = entities;
+    connectorResponse.links = links;
+    return connectorResponse;
+  }
 }

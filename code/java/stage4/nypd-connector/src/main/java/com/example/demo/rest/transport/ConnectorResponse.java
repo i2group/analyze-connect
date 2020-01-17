@@ -15,11 +15,8 @@ package com.example.demo.rest.transport;
 
 import java.util.List;
 
-/**
- * Connector response data
- * The entities and links that form the foundations of any i2 Analyze query
- */
+/** A connector response containing a list of entities and links. */
 public class ConnectorResponse {
-    public List<EntityData> entities;
-    public List<LinkData> links;
+  public List<EntityData> entities;
+  public List<LinkData> links;
 }

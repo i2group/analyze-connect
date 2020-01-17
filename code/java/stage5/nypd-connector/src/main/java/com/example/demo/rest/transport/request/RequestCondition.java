@@ -13,14 +13,9 @@
 
 package com.example.demo.rest.transport.request;
 
-import lombok.ToString;
-
-/**
- * Standard Form request POJO (Plain Old Java Object) to define the variables for a condition
- */
-@ToString
+/** A user-defined condition passed via the request. */
 public class RequestCondition {
-    public String id;
-    public String logicalType;
-    public String value;
+  public String id;
+  public String logicalType;
+  public String value;
 }

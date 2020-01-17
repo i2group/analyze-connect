@@ -13,10 +13,7 @@
 
 package com.example.demo.rest.transport;
 
-/**
- * Link response data
- * Contains the variables that define each link in the system
- */
+/** Link response data. Contains the variables that define each link in the system. */
 public class LinkData extends ResponseDataBase {
-    // TODO: Complete this class according to the SPI
+  // TODO: Complete this class according to the SPI
 }

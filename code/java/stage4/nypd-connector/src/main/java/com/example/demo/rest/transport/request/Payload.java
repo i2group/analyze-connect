@@ -15,12 +15,7 @@ package com.example.demo.rest.transport.request;
 
 import java.util.List;
 
-import lombok.ToString;
-
-/**
- * Standard request payload contaning conditions provided by the user to query the NYPD database
- */
-@ToString
+/** The list of conditions passed from Analyst's Notebook Premium. */
 public class Payload {
-    public List<RequestCondition> conditions;
+  public List<RequestCondition> conditions;
 }

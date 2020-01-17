@@ -62,7 +62,7 @@ You will need to define the search fields in a `clientConfigs` array at the root
 }
 ```
 
-For more information on client configuration, refer to the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_2.2.1/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html).
+For more information on client configuration, refer to the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html).
 
 ### Test search fields
 Check that your fields work in Analyst's Notebook Premium, you need to tell i2 Analyze to reload it's
@@ -134,7 +134,7 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 </details>
 
 ### Access conditions
-You will need to parse the conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_2.2.1/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples [here](./spi-examples.md).
+You will need to parse the conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples [here](./spi-examples.md).
 
 You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the `DaodRequest` model in the SPI. The list of conditions can be accessed via `request.payload.conditions`.
 

@@ -15,9 +15,7 @@ package com.example.demo.rest.externalsource.transport;
 
 import java.util.ArrayList;
 
-/**
- * Container for the response class containing socrata details
- */
+/** Response class for Socrata */
 public class SocrataResponse extends ArrayList<SocrataResponseData> {
-    private static final long serialVersionUID = 4092894751147398807L;
+  private static final long serialVersionUID = 4092894751147398807L;
 }

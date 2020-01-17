@@ -13,51 +13,54 @@
 
 package com.example.demo;
 
-import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
-
 import com.example.demo.rest.transport.ConnectorResponse;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * Defines endpoints used by i2 Analyze to acquire data
- */
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+
+/** Defines endpoints used by i2 Analyze to acquire data */
 @RestController
 public class ConnectorController {
-    @Value("classpath:config.json")
-    private Resource configResource;
 
-    /**
-     * Socrata external source
-     */
-    private final ExternalConnectorDataService connectorDataService;
+  private final ExternalConnectorDataService connectorDataService;
+  @Value("classpath:config.json")
+  private Resource configResource;
 
-    /**
-     * Create an instance of the ExternalConnectorDataService used to complete aquires
-     */
-    public ConnectorController(ExternalConnectorDataService connectorDataService) {
-        this.connectorDataService = connectorDataService;
-    }
+  /**
+   * Creates an instance of the ExternalConnectorDataService used to complete acquires.
+   *
+   * @param connectorDataService The class containing operations which perform the operation defined
+   *     by the various services.
+   */
+  public ConnectorController(ExternalConnectorDataService connectorDataService) {
+    this.connectorDataService = connectorDataService;
+  }
 
-    /**
-     * Defines the /config endpoint which acquires the config file
-     * @return The config.json file
-     */
-    @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
-    public Resource config() {
-        return configResource;
-    }
+  /**
+   * Defines the /config endpoint which acquires the connector configuration data.
+   *
+   * @return The config.json file.
+   */
+  @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
+  public Resource config() {
+    return configResource;
+  }
 
-    /**
-     * Defines the /all endpoint which acquires the data (entities and links)
-     * @return The entities and links provided by the test service
-     */
-    @RequestMapping(method = RequestMethod.POST, value = "/all", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ConnectorResponse testService() {
-        return connectorDataService.retrieveTestDataFromExternalSource();
-    }
+  /**
+   * Defines the /all endpoint which returns all entities and links.
+   *
+   * @return The response containing all entities and links.
+   */
+  @RequestMapping(
+      method = RequestMethod.POST,
+      value = "/all",
+      consumes = APPLICATION_JSON_VALUE,
+      produces = APPLICATION_JSON_VALUE)
+  public ConnectorResponse testService() {
+    return connectorDataService.retrieveTestDataFromExternalSource();
+  }
 }

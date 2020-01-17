@@ -5,7 +5,7 @@ understand how parameterised and seeded search services work.
 ## Example data
 Throughout, assume you are querying the following set of entities and links.
 
-![Example Data](resources/example-data.PNG)
+![Example Data](images/example-data.png)
 
 In the example schema, there are the following Type IDs for each of the 
 entity, link, and property types used:

@@ -16,17 +16,11 @@ package com.example.demo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * Starts the application
- */
+/** Starts the application */
 @SpringBootApplication
 public class ConnectorApplication {
 
-	/**
-	 * Runs the application with some arguments
-	 * @param args The arguments used to start the application
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(ConnectorApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(ConnectorApplication.class, args);
+  }
 }

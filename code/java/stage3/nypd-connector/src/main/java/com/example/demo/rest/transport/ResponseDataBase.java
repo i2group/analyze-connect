@@ -11,13 +11,13 @@
 # *
 # ********************************************************************************/
 
-package  com.example.demo.rest.transport;
+package com.example.demo.rest.transport;
 
 import java.util.Map;
 
 /**
- * Base POJO (Plain Old Java Object) for response data
- * Defines the base properties (variables) for entities and links
+ * Base POJO (Plain Old Java Object) for response data Defines the base properties (variables) for
+ * entities and links
  */
 public abstract class ResponseDataBase {
   public Object id;

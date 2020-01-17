@@ -13,12 +13,9 @@
 
 package com.example.demo.rest.transport;
 
-/**
- * Link response data
- * Contains the variables that define each link in the system
- */
+/** Link response data. Contains the variables that define each link in the system. */
 public class LinkData extends ResponseDataBase {
-    public Object fromEndId;
-    public Object toEndId;
-    public String linkDirection;
+  public Object fromEndId;
+  public Object toEndId;
+  public String linkDirection;
 }

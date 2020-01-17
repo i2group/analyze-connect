@@ -134,7 +134,7 @@ add the corresponding endpoint in the connector.
 </details>
 
 ### Access seeds
-You will need to manipulate a seed passed into the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_2.2.1/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.
+You will need to manipulate a seed passed into the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.
 
 ### Filter data based on seed
 How you will use the seed depends on what you are trying to achieve.

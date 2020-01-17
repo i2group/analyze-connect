@@ -13,55 +13,63 @@
 
 package com.example.demo;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import com.example.demo.rest.transport.ConnectorResponse;
 import com.example.demo.rest.transport.EntityData;
 import com.example.demo.rest.transport.LinkData;
-
 import org.springframework.stereotype.Service;
 
-/**
- * Used to populate entity lists and link lists to return to the ANBP
- */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/** A class which demonstrates a connector response with dummy data. */
 @Service
 public class ConnectorDataService {
 
-    /**
-     * Used to populate entity lists and link lists to return to the ANBP
-     * @return A connectorResponse with the entities and links
-     */
-    public ConnectorResponse retrieveTestData() {
-        final List<EntityData> entities = new ArrayList<>();
-        final List<LinkData> links = new ArrayList<>();
-    
-        EntityData complaint = new EntityData();
-        complaint.id = "complaint1";
-        complaint.typeId = "ET1";
-        complaint.version = 1L;
-    
-        HashMap<String, Object> propertiesComplaint = new HashMap<String, Object>();
+  /**
+   * Manually populate a list of entities and links to show in Analyst's Notebook Premium.
+   *
+   * @return A response containing entities and links.
+   */
+  public ConnectorResponse retrieveTestData() {
+    final List<EntityData> entities = new ArrayList<>();
+    final List<LinkData> links = new ArrayList<>();
 
-        //Dummy data for a Complaint Number (Integer Type)
-        propertiesComplaint.put("PT1", 660160752);
+    Map<String, Object> complaintProps = new HashMap<>();
+    complaintProps.put("PT1", 660160752); // Complaint Number (int)
+    complaintProps.put("PT2", "2017-05-25"); // Complaint Start Date (String)
+    complaintProps.put("PT10", "Felony"); // Offence Level (String)
+    complaintProps.put("PT18", 40.512460); // Latitude (float)
 
-        //Dummy data for a Complaint Start Date (Date Type as String, but gets converted into LocalDate)
-        propertiesComplaint.put("PT2", "2017-05-25");
+    Map<String, Object> locationProps = new HashMap<>();
+    locationProps.put("PT15", 48); // Precent Code Number (int)
+    locationProps.put("PT16", "BRONX"); // Borough Name (String)
 
-        //Dummy data for the Offence Level (String Type)
-        propertiesComplaint.put("PT10", "Felony");
+    EntityData complaint = new EntityData();
+    complaint.id = "COMP001";
+    complaint.typeId = "ET1";
+    complaint.properties = complaintProps;
 
-        //Dummy data for the Latitude (Float Type)
-        propertiesComplaint.put("PT18", 40.512460100000055);
+    EntityData location = new EntityData();
+    location.id = "LOC001";
+    location.typeId = "ET2";
+    location.properties = locationProps;
 
-        complaint.properties = propertiesComplaint;
-        entities.add(complaint);
+    LinkData link = new LinkData();
+    link.id = "LOCLINK001";
+    link.typeId = "LT1";
+    link.fromEndId = complaint.id;
+    link.toEndId = location.id;
+    link.linkDirection = "WITH";
 
-        final ConnectorResponse connectorResponse = new ConnectorResponse();
-        connectorResponse.entities = entities;
-        connectorResponse.links = links;
-        return connectorResponse;
-    }
+    entities.add(complaint);
+    entities.add(location);
+    links.add(link);
+
+    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    connectorResponse.entities = entities;
+    connectorResponse.links = links;
+    return connectorResponse;
+  }
 }

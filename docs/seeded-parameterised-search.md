@@ -92,7 +92,7 @@ It's time to implement the seeded parameterised search.
 In the same fashion as the other services you have defined, add an acquire endpoint for this service in your controller file.
 
 ### Access conditions and seeds
-You will need to manipulate the seeds and conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_2.2.1/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will need to create basic POJOs to parse the request and access the condition and seed information contained in `request.payload`.
+You will need to manipulate the seeds and conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will need to create basic POJOs to parse the request and access the condition and seed information contained in `request.payload`.
 
 ### Filter data based conditions and seeds
 An `Expand With Conditions` query takes an entity as a seed and returns a list of entities and links that are connected to the seed that satisfy the list of conditions provided by the user.

@@ -104,7 +104,7 @@ endpoint for it in the connector.
 <details><summary><strong>Java</strong></summary>
 <p>
 
-1. A template has been provided to get started with; see the `nypd-connector-2`
+1. A template has been provided to get started with; see the `stage2/nypd-connector`
    directory. This includes:
    * an example configuration `config.json` with a service defined
    * some changes to `ConnectorController`;
@@ -125,13 +125,13 @@ endpoint for it in the connector.
 <details><summary><strong>Node.js</strong></summary>
 <p>
 
-1. A template has been provided to get started with; see the `nypd-connector-2`
+1. A template has been provided to get started with; see the `stage2/nypd-connector`
    directory. This includes:
    * an example configuration `config.json` with a service defined;
    * a new acquire route in `app.js`;
    * a new acquire route with a `/test` endpoint in the `routes` folder;
    * a new file `/helpers/data-service.js` containing functions for acquiring data;
-2. Open the code from the `nypd-connector-2` in VSCode, or any IDE of your choice, 
+2. Open the code from the `stage2/nypd-connector` in VSCode, or any IDE of your choice, 
   and start the connector.
 
 </p>
@@ -140,7 +140,7 @@ endpoint for it in the connector.
 <details><summary><strong>Python</strong></summary>
 <p>
 
-1. A template has been provided to get started with; see the `nypd-connector-2`
+1. A template has been provided to get started with; see the `stage2/nypd-connector`
    directory. This includes:
    * an example configuration `config.json` with a service defined
    * some additions to `controller.py`;

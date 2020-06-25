@@ -21,7 +21,7 @@ If you leave the site for any reason, you can always retrieve your app token aga
 <details><summary><strong>Java</strong></summary>
 <p>
 
-Look at the version of code in the `nypd-connector-3` directory. There are changes to `ConnectorController` and the `application.properties` file. Apply these to your code manually or copy over these two files. If you're copying them, you may need to change the paths of the endpoints defined in `ConnectorController`.
+Look at the version of code in the `stage3/nypd-connector` directory. There are changes to `ConnectorController` and the `application.properties` file. Apply these to your code manually or copy over these two files. If you're copying them, you may need to change the paths of the endpoints defined in `ConnectorController`.
 
 In `application.properties` shown below, specify the NYPD Complaint Dataset API resource for the `socrata.url` key as the URL in the comment and your Socrata API Token for the `socrata.api.token` key.
 
@@ -55,7 +55,7 @@ System.out.println(socrataClient.get(url, String.class, params));
 <details><summary><strong>Node.js</strong></summary>
 <p>
 
-* Look at the version of code in the `nypd-connector-3` directory. This includes:
+* Look at the version of code in the `stage3/nypd-connector` directory. This includes:
   * Changes to `acquire.js` route;
   * A new `socrata-config.js` file;
   * A new `socrata-data-service.js` file;
@@ -72,7 +72,7 @@ System.out.println(socrataClient.get(url, String.class, params));
   ```js
   const URL = `${socrata.url}?$$app_token=${socrata.token}&$limit=${limitValue}`;
   ```
-* Open the code from the `nypd-connector-3` in VSCode, or any IDE of your choice,  and start the connector.
+* Open the code from the `stage3/nypd-connector` in VSCode, or any IDE of your choice,  and start the connector.
 * You need to map the data received into entities and links and return them to i2 Analyze.
 
 </p>
@@ -81,7 +81,7 @@ System.out.println(socrataClient.get(url, String.class, params));
 <details><summary><strong>Python</strong></summary>
 <p>
 
-Look at the version of code in the `nypd-connector-3` directory. Changes have been made to `controller.py` and there is now an additional resource file: `application.yml`. Apply these to your code manually or copy over these two files. If you're copying them, you may need to change the paths of the endpoints defined in `controller.py`.
+Look at the version of code in the `stage3/nypd-connector` directory. Changes have been made to `controller.py` and there is now an additional resource file: `application.yml`. Apply these to your code manually or copy over these two files. If you're copying them, you may need to change the paths of the endpoints defined in `controller.py`.
 
 In `application.yml` shown below, specify the NYPD Complaint Dataset API resource for the `socrata.url` key as the URL in the comment and your Socrata API Token for the `socrata.token` key.
 
@@ -120,6 +120,8 @@ It's worth testing that you are successfully querying the data and returning res
 To make it easier to create entities and links using the data retrieved, you can create a class (Java or Python) or JavaScript object (Node.js) to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serialises the incoming data into a collection of these objects.
 
 Note that in Java, there exists a library which makes this process much easier: `jackson-annotations`.
+
+You might want to add source references to the entities and links that are returned by your connector. This allows users trace the source of the data represented by those entities and links. For information on adding source references, see [here](./source-references.md).
 
 #### (Optional) Verify your marshalling function
 

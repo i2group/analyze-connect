@@ -36,8 +36,8 @@ Problems might include:
   definition
 - invalid default timezone: make sure you set a `timeZoneId` in the
   `defaultValues` section of your connector configuration
-- The application is comunicating with the connector through a protocol that is
-  insecure. You will see this because i2Analyze and your connector communicate
+- The application is communicating with the connector through a protocol that is
+  insecure. You will see this because i2 Analyze and your connector communicate
   via HTTP. In a production environment, you should secure this connection by
   using HTTPS. This is beyond the scope of this guide, but is covered in the
   Knowledge Centre
@@ -64,7 +64,7 @@ number of potential causes. To understand what went wrong:
     Below this line will be more specific information about why the query failed.
     Examples and their solutions are given below.
 
-#### "The schema does not contain an entity/a link/a property or with identifier '\<TYPE_ID\>'"
+#### "The schema does not contain an entity/a link/a property with identifier '\<TYPE_ID\>'"
 This means you have supplied an entity or link with a `typeId` that does not
 exist in your schema. Check that the `typeId` you supplied is not a typo.
 

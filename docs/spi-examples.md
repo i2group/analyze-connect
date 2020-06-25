@@ -1,5 +1,5 @@
 # i2 Connect SPI examples
-You can use the following example `DaodRequest`s and `ConnectorResponse`s to help
+You can use the following example requests and responses to help
 understand how parameterised and seeded search services work.
 
 ## Example data
@@ -7,24 +7,32 @@ Throughout, assume you are querying the following set of entities and links.
 
 ![Example Data](images/example-data.png)
 
-In the example schema, there are the following Type IDs for each of the 
-entity, link, and property types used:
+The following are the type IDs corresponding to each of the entity, link and
+property types used in the example schema:
 
- Item                | ID
----------------------|---------
- Complaint           | ET1
- \- Complaint Number | PT1
- Location            | ET2
- \- Borough Name     | PT16
- Person              | ET3
- \- Age Group        | PT26
- \- Race             | PT27
- \- Gender           | PT28
- Located At          | LT1
- Suspect Of          | LT2
- Victim Of           | LT3
+--------------------------------
+ Entity               | ID
+----------------------|---------
+ Complaint            | ET1
+ Location             | ET2
+ Person               | ET3
+--------------------------------
+ Link                 | ID
+----------------------|---------
+ Located At           | LT1
+ Suspect Of           | LT2
+ Victim Of            | LT3
+---------------------------------------------
+ Properties           | For Entity | ID
+----------------------|------------|---------
+ Complaint Number     | Complaint  | PT1
+ Borough Name         | Location   | PT16
+ Age Group            | Person     | PT26
+ Race                 | Person     | PT27
+ Gender               | Person     | PT28
+---------------------------------------------
 
-This can be represented as a set of entities and links in JSON as follows.
+This can be represented as a set of entities and links in JSON as follows:
 ```json
 {
   "entities": [
@@ -207,12 +215,13 @@ This can be represented as a set of entities and links in JSON as follows.
 ```
 
 ## Parameterised search
-### Search for people by age
+
 To implement a service to search for people by age group, you can define a
-clientConfig in `config.json` like the following:
+`clientConfig` in `config.json` like the following:
 ```json
 {
   "id": "age-search-form",
+  "type": "FORM",
   "config": {
     "sections": [
       {
@@ -220,8 +229,8 @@ clientConfig in `config.json` like the following:
           {
             "id": "age-group-search-term",
             "label": "Age Group",
-            "mandatory": true,
-            "logicalType": "SINGLE_LINE_STRING"
+            "logicalType": "SINGLE_LINE_STRING",
+            "mandatory": true
           }
         ]
       }
@@ -229,6 +238,18 @@ clientConfig in `config.json` like the following:
   }
 }
 ```
+The `id` should be a unique identifier for this `clientConfig`. Then the services you define can use this form by supplying this `id` in the service's `clientConfigId` field.
+
+The `config` contains `sections` and each section contains a JSON object defining a condition field depicted below:
+
+![Example Data](images/parameterised-search.jpg)
+
+- The condition `id` is used as a reference for the value in the request.
+- The `label` is the field title as shown in `[1]` above.
+- The `logicalType` defines the accepted data type of the request value entry `[2]`.
+- The `mandatory` field specifies whether a value is required for the field. Empty mandatory fields are highlighted red and shown a warning message `[3]`.
+
+
 A `DaodRequest` issued by i2 Analyze when a user runs this search might look
 like this:
 ```json
@@ -245,11 +266,14 @@ like this:
   }
 }
 ```
-You can see that they are searching for person entities with age group property
-equal to "18-24". Using the data the connector has, you can then filter through
-the entities to find ones that are person entities, i.e. have `typeId` equal to
- `"ET3"`, and have the age group property `PT26` equal to `"18-24"`. The response, 
- using the example data above, would look like this:
+
+The request searches for Person entities where the Age Group property is equal
+to "18-24". In the implementation of the parameterised search service, you would
+filter through the data and find entities which satisfy the request
+requirements, i.e. have `typeId` equal to `"ET3"` and have the Age Group
+property `PT26` equal to `"18-24"`. The response, from the example request
+above, would look like this:
+
 ```json
 {
   "entities": [
@@ -280,17 +304,20 @@ the entities to find ones that are person entities, i.e. have `typeId` equal to
 
 ## Seeded search
 Seeded searches take as input a set of entities and links that a user already
-has on their chart. The search then uses this information when finding results.
-The examples to go over are:
-* Find Like This, where a user is able to select a single entity and search for
+has on their chart and uses this information when finding results.
+
+![Seed Example](images/seed-example.png)
+
+The example operations to go over are:
+* Find-Like-This, where a user is able to select a single entity and search for
   other entities of the same type with similar properties; and
 * Expand, where a user can select an entity on their chart and search for all
   other entities that are connected to it by a link, and all those entities and
   links will be returned.
 
-### Find Like This
-A DaodRequest receieved by the connector for a Find Like This search on the
-example data could look something like the following.
+### Find-Like-This
+A `DaodRequest` received by the connector for a Find-Like-This search on the
+example data could look something like the following:
 
 ```json
 {
@@ -325,20 +352,20 @@ example data could look something like the following.
 }
 ```
 
-You can deduce which of the entities the `daodSeedEntity` in this request
-corresponds to by looking at the key in the sourceIds field. The third element
+You can deduce which of the entities the `DaodSeedEntity` in this request
+corresponds to by looking at the key in the `sourceIds` field. The third element
 of this list gives us the ID we have assigned the entity in our connector,
-`"jkl"`. You also have its type ID `"ET3"`, so it is a person entity. Have a look
+`"jkl"`. You also have its type ID `"ET3"`, so it is a Person entity. Have a look
 at the data above and find this entity.
 
-To perform a Find Like This search using this seed entity, you need only use its
+To perform a Find-Like-This search using this seed entity, you need only use its
 properties. We can filter through our list of entities for those which have
-`typeId` equal to `"ET3"` (are person entities), and have the properties:
-* `PT26` equal to `"F"`, i.e. it's a female;
+`typeId` equal to `"ET3"` (are Person entities) and have the properties:
+* `PT26` equal to `"F"`, i.e. they are female;
 * `PT27` equal to `"White"`, i.e. they are a white female; and
-* `PT28` equal to `"<18"`, i.e. they are a a white female under 18 years of age.
+* `PT28` equal to `"<18"`, i.e. they are a white female under 18 years of age.
   
-After excluding the seed entity itself, yopu would return the following.
+After excluding the seed entity itself, you would return the following:
 
 ```json
 {
@@ -358,10 +385,8 @@ After excluding the seed entity itself, yopu would return the following.
 }
 ```
 
-
-
 ### Expand
-A daodRequest received by the connector for an Expand service might look like
+A `DaodRequest` received by the connector for an Expand service might look like
 this:
 
 ```json
@@ -394,7 +419,7 @@ this:
   }
 }
 ```
-Again you can deduce which of our entities the `daodSeedEntity` corresponds to by
+Again, you can deduce which of our entities the `DaodSeedEntity` corresponds to by
 looking at the `sourceIds`. The `id` of the entity in question is `"123"` and it
 has `typeID` equal to `"ET1"`, so it is a complaint. Look at the example data above
 and find which entity you are expanding. What would you expect an Expand operation to
@@ -405,7 +430,7 @@ To perform an Expand operation with this entity as the seed, you need to:
    through all the links and finding those with a `fromEndId` or a `toEndId`
    equal to the `id` of the entity, `"jkl"`.
 2. Find all entities at the other end of these links. This can be done by using
-   the `fromEndId`s and `toEndIds` of the links found in step 1 - just use the
+   the `fromEndId`s and `toEndId`s of the links found in step 1 - just use the
    end ID that does not correspond to the seed entity.
 
 If returning these entities and links as-is, along with the entity corresponding
@@ -479,18 +504,18 @@ to the seed, you would respond with:
   ]
 }
 ```
-When copying these results to a chart, the seed entity would be duplicated,
+When copying these results to a chart, the seed entity would be duplicated
 along with all its links and connected entities that may already be on the
-chart, which would all be connected to the duplicate.
+chart which would all be connected to the duplicate.
 
 Depending on how you want the service to function, you might prefer to have the
-returned items connected to the entity that you select on the chart, rather than
-to a duplicate. In this case, you need to change all `id`, `fromEndId`, and the
+returned items connected to the entity that you selected on the chart rather than
+to a duplicate. In this case, you need to change all `id`, `fromEndId` and
 `toEndId` fields that refer to the ID of the seed entity (in this case "123") to
-`seedId` of the `daodSeedEntity` in the request, i.e.
+`seedId` of the `DaodSeedEntity` in the request, i.e.
 `"1e756171-fb3c-40a4-b7c5-5c537fbf0adc"`.
 
-In this case, you would return the following response:"
+In this case, you would return the following response:
 
 ```json
 {

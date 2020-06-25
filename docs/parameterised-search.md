@@ -19,7 +19,7 @@ For this service, you need to set the `clientConfigType`. In this example, you w
     {
       "id": "nypd-search-service",
       "name": "NYPD Connector: Search",
-      "description": "A service with for conditional searches",
+      "description": "A service for conditional searches",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search",
@@ -85,7 +85,7 @@ It's time to implement these conditions.
 
 ### Add an acquire endpoint for your service
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-4`
+* You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
   * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service
   * Changes to the `ConnectorController` class
@@ -104,12 +104,12 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 ### Add an acquire endpoint for your service
 
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-4`
+* You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
   * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service;
   * A new `validate` route;
   * A new `/search` endpoint in the `acquire` route;
-* Open the code from the `nypd-connector-4` in VSCode, or any IDE of your choice, and start the connector.
+* Open the code from the `stage4/nypd-connector` in VSCode, or any IDE of your choice, and start the connector.
 * You will need to implement `findComplaint` function in `socrata-data-service.js` file and fix all TODO's.
 
 </p>
@@ -120,7 +120,7 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 
 ### Add an acquire endpoint for your service
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-4`
+* You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
   * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service
   * Changes to the `controller.py` file

@@ -1,0 +1,115 @@
+{
+	"defaultValues": {
+		"timeZoneId": "Europe/London",
+		"resultIdsPersistent": true
+	},
+	"services": [{
+			"id": "nypd-service",
+			"name": "NYPD Connector: Get All",
+			"description": "A service which retrieves all data",
+			"resultItemTypeIds": ["ET1", "ET2", "ET3", "LT1", "LT2", "LT3"],
+			"clientConfigType": "NONE",
+			"acquireUrl": "/all"
+		},
+		{
+			"id": "nypd-search-service",
+			"name": "NYPD Connector: Search",
+			"description": "A service for conditional searches",
+			"resultItemTypeIds": ["ET1"],
+			"clientConfigType": "FORM",
+			"clientConfigId": "searchForm",
+			"acquireUrl": "/search",
+			"validateUrl": "/search/validate"
+		},
+		{
+			"id": "nypd-find-like-this-complaint-service",
+			"name": "NYPD Connector: Find like this Complaint",
+			"description": "A service which finds a simialr Complaint",
+			"resultItemTypeIds": ["ET1"],
+			"clientConfigType": "NONE",
+			"acquireUrl": "/find-like-this-complaint",
+			"seedConstraints": {
+				"min": 1,
+				"max": 1,
+				"seedTypes": {
+					"allowedTypes": "ENTITY",
+					"itemTypes": [{
+						"id": "ET1",
+						"min": 1,
+						"max": 1
+					}]
+				}
+			}
+		},
+		{
+			"id": "nypd-expand-service",
+			"name": "NYPD Connector: Expand",
+			"description": "A service which executes an expand operation on a seed",
+			"clientConfigType": "NONE",
+			"acquireUrl": "/expand",
+			"seedConstraints": {
+				"min": 1,
+				"max": 1,
+				"seedTypes": {
+					"allowedTypes": "ENTITY",
+					"itemTypes": [{
+							"id": "ET1"
+						},
+						{
+							"id": "ET2"
+						}
+					]
+				}
+			}
+		},
+		{
+			"id": "nypd-expand-with-conditions",
+			"name": "NYPD Connector: Expand with conditions",
+			"description": "A service which executes an Expand operation on a seed with conditions",
+			"clientConfigType": "FORM",
+			"clientConfigId": "expandForm",
+			"acquireUrl": "/expand-with-conditions",
+			"seedConstraints": {
+				"min": 1,
+				"max": 1,
+				"seedTypes": {
+					"allowedTypes": "ENTITY",
+					"itemTypes": [{
+						"id": "ET1"
+					}]
+				}
+			}
+		}
+	],
+	"clientConfigs": [{
+			"id": "searchForm",
+			"config": {
+				"sections": [{
+					"conditions": [{
+							"id": "boro_nm",
+							"label": "Borough",
+							"logicalType": "SINGLE_LINE_STRING"
+						},
+						{
+							"id": "law_cat_cd",
+							"label": "Law Category",
+							"logicalType": "SINGLE_LINE_STRING"
+						}
+					]
+				}]
+			}
+		},
+		{
+			"id": "expandForm",
+			"config": {
+				"sections": [{
+					"conditions": [{
+						"id": "person",
+						"label": "Person",
+						"logicalType": "BOOLEAN"
+					}]
+				}]
+			}
+		}
+	]
+}

@@ -90,7 +90,7 @@ It's time to implement these conditions.
 
 i2 Analyze knows the acquire URL decided on for this service. Now you need to
 add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-5` folder
+* You have a template to get started with; see the `stage5/nypd-connector` folder
   provided. This includes:
   * An example `config.json` with a seeded search service defined. This is just a template in case you have not already defined a new service.
   * Changes to `ConnectorController`.
@@ -106,12 +106,12 @@ add the corresponding endpoint in the connector.
 
 i2 Analyze knows the acquire URL decided on for this service. Now you need to
 add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-5` folder
+* You have a template to get started with; see the `stage5/nypd-connector` folder
   provided. This includes:
   * An example `config.json` with a seeded search service defined. This is just a template in case you have not already defined a new service;
   * Changes to `acquire` route to reflect changes in `config.json`;
   * Chagnes to `socrata-data-service.js` file to have all the functions needed for `acquire` route;
-* Open the code from the `nypd-connector-5` in VSCode, or any IDE of your choice, and start the connector.
+* Open the code from the `stage5/nypd-connector` in VSCode, or any IDE of your choice, and start the connector.
 * You will need to implement functions defined in `socrata-data-service.js` file and fix all TODO's.
 
 </p>
@@ -122,7 +122,7 @@ add the corresponding endpoint in the connector.
 
 i2 Analyze knows the acquire URL decided on for this service. Now you need to
 add the corresponding endpoint in the connector.
-* You have a template to get started with; see the `nypd-connector-5` folder
+* You have a template to get started with; see the `stage5/nypd-connector` folder
   provided. This includes:
   * An example `config.json` with a seeded search service defined. This is just a template in case you have not already defined a new service.
   * Changes to `controller.py`.

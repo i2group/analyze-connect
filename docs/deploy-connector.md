@@ -82,8 +82,8 @@ purposes of this guide, an example Spring Boot application is provided.
 <details><summary><strong>Java</strong></summary>
 <p>
 
-* Open the example starting code from the `nypd-connector-1` folder. Copy the
-  `nypd-connector` subdirectory to wherever you would like to work, and open it
+* Open the example starting code from the `stage1/nypd-connector` folder. Copy the
+  `nypd-connector` directory to wherever you would like to work, and open it
   in VSCode or the IDE of your choice.
 * Have a look at the contents:
   * Resources: `config.json` and `application.properties`
@@ -100,9 +100,9 @@ purposes of this guide, an example Spring Boot application is provided.
 <details><summary><strong>Node.js</strong></summary>
 <p>
 
-* Open the example starting code from the `nypd-connector-1` folder in VSCode,
+* Open the example starting code from the `stage1/nypd-connector` folder in VSCode,
   or the IDE of your choice.
-* Have a look the contents:
+* Have a look at the contents:
   * Resources: `public/json/config.json`
   * Code: a simple Express application
   The `config.json` file tells Analyst's Notebook what services are available
@@ -118,8 +118,8 @@ purposes of this guide, an example Spring Boot application is provided.
 <details><summary><strong>Python</strong></summary>
 <p>
 
-* Open the example starting code from the `nypd-connector-1` folder. Copy the
-  `nypd-connector` subdirectory to wherever you would like to work, and open it
+* Open the example starting code from the `stage1/nypd-connector` folder. Copy the
+  `nypd-connector` directory to wherever you would like to work, and open it
   in VSCode or the IDE of your choice.
 * Have a look at the contents:
   * Resources: `config.json`
@@ -160,6 +160,19 @@ your connector from Analyst's Notebook Premium.
 4. Click the **DETAILS** button and look at the messages. You can see that it
    corresponds to the output you saw when using the `connectors` endpoint from
    Postman.
+
+### Unsecured protocol warning message
+
+You might see the following warning message:
+
+*"Configuration error for the connector with identifier '\<CONNECTOR-ID\>': The
+application is communicating with the connector through a protocol that is not secure."*
+
+You can ignore this in a development environment. This is shown because i2 Analyze and your connector
+communicate via HTTP.
+
+**In a production environment, you should secure this
+connection using HTTPS.** For information about configuring the connection to use HTTPS, see [Client authenticated Secure Sockets Layer with the i2 Connect gateway](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html).
 
 ### Fix the timezone error
 1. Look at the error message about the default timezone. You need to update the

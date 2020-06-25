@@ -8,6 +8,17 @@ You can use Postman collections to test the endpoint of i2 Analyze and your conn
 - Import the Postman environments from [here](../postman/environments);
 - Import the Postman collections from [here](../postman/collections);
 
+To import the environments and collections:
+
+1. Click **Import**, or click **File -> Import**
+2. In the **Import Folder** tab, click **Choose Folders**
+3. Select the `postman` directory that you downloaded from this repository.
+
+The Postman collections are displayed in the left pane and a populated dropdown
+list of environments near the top right of the window.
+
+![Example Data](images/postman.png)
+
 ## Testing i2 Analyze
 
 To make sure that i2 Analyze has been configured correctly, use the `i2 Analyze` environment.

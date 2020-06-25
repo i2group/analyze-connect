@@ -11,14 +11,15 @@ The documentation for understanding, deploying, and configuring the example conn
 7. [Implementing seeded searches](./seeded-search.md)
 8. [Implementing seeded, parameterized searches](./seeded-parameterised-search.md)
 9. [Validating requests](./validation.md)
+10. [Implementing Principal Propagation](./principal-propagation.md)
 
 ## Environment setup
 
 The workshop requires the following tools and technologies:
 
-- **IBM i2 Analyze 4.3.1**: The server that hosts the i2 Connect gateway.
+- **IBM i2 Analyze 4.3.2**: The server that hosts the i2 Connect gateway.
 
-- **IBM i2 Analyst's Notebook Premium 9.2.1**: The client that provides the user
+- **IBM i2 Analyst's Notebook Premium 9.2.2**: The client that provides the user
   interface for interacting with your connector. The client displays the
   resulting entity and link records with their properties.
 

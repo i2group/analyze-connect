@@ -1,8 +1,8 @@
-# Designing the i2 Analyze schema
-The schema is at the core of any i2 Analyze deployment. It defines the types of
-entities, links, and properties that users can view and analyze in Analyst's
-Notebook Premium. This section guides you through the process of developing a
-schema that aligns with the data the connector will retrieve.
+# Designing an i2 Analyze schema
+i2 Analyze schemas are at the core of any i2 Analyze deployment. They define the
+types of entities, links, and properties that users can view and analyze in
+Analyst's Notebook Premium. This section guides you through the process of
+developing a schema that aligns with the data the connector will retrieve.
 
 The process of developing a schema is iterative. Schema design requires fine
 tuning, especially if you are unfamiliar with the data set that you are creating
@@ -50,7 +50,7 @@ you want to.
 Open i2 Analyze Schema Designer. From the **File** menu, click **New Schema**.
 
 ### Adding entity types
-You need to create some entity types that can represent different objects.
+You need to create entity types that can represent different objects.
 These types will relate to the supplied NYPD Complaint Dataset, and you can
 decide what they will be. One example of an entity type used in the sample
 schema is a `Complaint`. You can follow the instructions below to simulate
@@ -68,6 +68,7 @@ data. For example, you could have entity types to represent people and
 locations. Look at the example schema for inspiration if you need to.
 
 #### Adding property types to entity types
+
 For the entity types that you created, decide which fields in the data provide
 information that can be stored in properties. To continue with the `Complaint`
 example, some property types that might be suitable include:
@@ -76,8 +77,6 @@ example, some property types that might be suitable include:
 - Complaint End Date
 - Level of Offense
 - Offense Description
-- Latitude
-- Longitude
 
 These property types are valuable because they allow for additional analysis to
 occur in Analyst's Notebook Premium. They provide the opportunity to conduct
@@ -142,7 +141,7 @@ To create a charting scheme:
 3. Expand **Entity Types** and **Link Types** to reveal the entity and link
    types that you created earlier.
 4. Right-click **Properties** and select **Insert Chart Item Property Type"**.
-   From the drop-down, select **Label**.
+   From the dropdown, select **Label**.
 5. In the **Label** tab, set the text to be displayed with entities of this
    type in Analyst's Notebook Premium to distinguish them on the chart.
 
@@ -209,7 +208,7 @@ To create a charting scheme:
 7. When you have finished making your changes, click **OK** to close the
    charting scheme editor.
 
-See the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SS3J58_9.2.0/com.ibm.i2.iap.schemadesigner.doc/creating_a_charting_scheme.html)
+See the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.iap.schemadesigner.doc/creating_a_charting_scheme.html)
 for information about adding property types that are not used in the example schema.
 
 #### Link summarizations
@@ -229,7 +228,7 @@ flowing to and from entities. If you want to change this setting, this is the
 time to do so! You are likely to use other settings in your own connectors.
 
 ### Live Formatting in Analyst's Notebook Premium
-Live formatting in Analyst's Notebook Premium is a type of Conitional Formatting that changes the 
+Live formatting in Analyst's Notebook Premium is a type of Conditional Formatting that changes the 
 appearance of chart items, by applying conditional formatting specifications in real time. This 
 allows analysts to format their charts to their own specifications. The default appearance of 
 chart items is defined by your schema, but Live Formatting extends this to provide for filtering 
@@ -241,7 +240,7 @@ as follows.
 ![Live Formatting Example](images/live-formatting.png)
 
 If you wish to know more about Live Formatting, including information regarding its setup, how to define
-a specification, and formatting system messages, you can visit the [Knowledge Centre](https://www.ibm.com/support/knowledgecenter/SSXVXZ_latest/com.ibm.i2.anb.doc/about_live_format.html).
+a specification, and formatting system messages, you can visit the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSXVTH_latest/com.ibm.i2.anb.doc/about_live_format.html).
 ### Saving the schema
 1. From the **File** menu, click **Save Schema**.
 2. Choose a location to save your schema, then click **Save**.

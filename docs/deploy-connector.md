@@ -37,14 +37,15 @@ connector.
    </wars>
    ```
 3. Inside the `<topology>` element, add a `<connectors>` element. In here,
-   add a `<connector>` element with `id`, `name`, and `base-url` attributes.
-   Choose whatever `id` and `name` you like, but set the `base-url` to
-   `http://localhost:9081/`. For example:
+   add a `<connector>` element with `id`, `name`, `base-url`, and
+   `gateway-schema` attributes.    Choose whatever `id` and `name` you like, but
+   set the `base-url` to `http://localhost:9081/` and the `gateway-schema` to
+   the short name of your schema. For example:
    ```xml
    <ns1:topology ...>
      ...
      <connectors>
-       <connector base-url="http://localhost:9081/" name="NYPD Crime Connector" id="nypd-crime-connector"/>
+       <connector base-url="http://localhost:9081/" name="NYPD Crime Connector" id="nypd-crime-connector" gateway-schema="NYPD-Complaints"/>
      </connectors>
    </ns1:topology>
    ```
@@ -172,7 +173,7 @@ You can ignore this in a development environment. This is shown because i2 Analy
 communicate via HTTP.
 
 **In a production environment, you should secure this
-connection using HTTPS.** For information about configuring the connection to use HTTPS, see [Client authenticated Secure Sockets Layer with the i2 Connect gateway](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html).
+connection using HTTPS.** For information about configuring the connection to use HTTPS, see [Client authenticated Secure Sockets Layer with the i2 Connect gateway](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html).
 
 ### Fix the timezone error
 1. Look at the error message about the default timezone. You need to update the

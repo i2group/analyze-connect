@@ -1,13 +1,14 @@
 # Validation
 
-You can validate your requests before sending them to the gateway to ensure requests are made in a correct format or desired form.
+You can validate requests at the gateway to ensure they are in the correct form before sending them to the respective service.
 
-Remember to consult the [troubleshooting guide](./troubleshoot.md) if you need
-to during this task.
+Consult the [troubleshooting guide](./troubleshoot.md) if needed during this task.
 
 ## Client-side validation
 
-Validation can be done on the client for simple checks before sending a request to the gateway, such as the presence of values for mandatory fields, or ensuring values are in the correct format. Client-side validation is implemented via the `config.json` file, in the same vein as parameterised searches. An example for a check where a certain field must start with 2 letters and 2 numbers can be shown below:
+Validation can be performed on the client for simple input checks before sending a request to the gateway, such as ensuring the presence of values for mandatory fields, or verifying that input values are in the correct format.
+
+Client-side validation is configured via the connector's configuration in the same way as parameterized searches. Below is an example configuration for validating that input values for the 'Offence' field start with two letters and two numbers:
 
 ```json
 {
@@ -26,13 +27,23 @@ Validation can be done on the client for simple checks before sending a request 
 }
 ```
 
-The `mandatory` tag in the `config.json` file specifies whether a field is required or not. The `extraStringValidation` tag allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule. You can find out more [here](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json).
+The `mandatory` property in the `config.json` file specifies whether a field is required or not.
+
+The `extraStringValidation` property property allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule.
+
+You can find out more on accepted condition properties by looking at the `/{configurationUrl}` endpoint definition in the [i2 Connect Gateway REST SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json).
 
 ## Server-side validation
 
-Validation on the server-side can be done for more complex inputs.
+Validation can be performed on the server for more complex inputs.
 
-For example, if there are 3 input fields and you require at least one to be set, but they are otherwise optional. In your connector, you can check the request contains at least one conditional value. In another case, if you have two date fields and want to support a date range search, you can validate the start date is before the end date.
+For example, if there are 3 input fields and you require at least one to be set but they are otherwise optional. In your connector, you can check that the user has defined at least one condition in the request.
+
+In another case, if you have two date fields and want to support searching a range of dates, you can validate that the start date is before the end date.
+
+### 1. Add the validation endpoint to the connector configuration
+
+In your connector configuration, add the `validateUrl` property after the existing `acquireUrl` property as shown in the snippet below. Set the value to the endpoint where you will implement your server-side validation logic.
 
 ```json
 {
@@ -47,8 +58,30 @@ For example, if there are 3 input fields and you require at least one to be set,
 }
 ```
 
-1. In your response from the configuration endpoint, add the `validateUrl` tag alongside the existing `acquireUrl` tag as shown in the snippet above. Sets its value to the location of the implementation that you will provide.
-2. Implement the rules for the validate endpoint in a way that is consistent with its definition in the REST SPI documentation.
-The payload that the endpoint receives in the request contains all the same seed and parameter information as the acquire endpoint receives.
-3. If validation succeeds according to your rules, return a `null` response. If it fails, set the response to a simple object that contains an `errorMessage` as a string. When the i2 Connect gateway receives a non-null response, it does not subsequently send a request to the acquire endpoint.
-4. Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.
+### 2. Implement the validation endpoint
+
+In your code, implement the server-side logic for the validate endpoint using the conditions in the request. The payload that the endpoint receives in the request contains all the same condition and seed information that the acquire endpoint receives.
+
+If validation succeeds according to your logic, return a 200 response code. The body of the response must either be an empty object or an object containing an `errorMessage` with a `null` value. For example:
+
+```json
+{
+	"errorMessage": null
+}
+```
+
+If it fails, return an object containing an `errorMessage` with your error message:
+
+```json
+{
+	"errorMessage": "This is the error message displayed."
+}
+```
+
+When the i2 Connect gateway receives a non-null `errorMessage`, it does not subsequently send a request to the acquire endpoint.
+
+More information can be found looking at the `/{validationUrl}` endpoint definition in the [i2 Connect Gateway REST SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json).
+
+### 3. Reload the i2 Connect gateway
+
+Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.

@@ -1,0 +1,53 @@
+{
+  "schemaShortName": "async",
+  "schemaUrl": "/schema",
+  "chartingSchemesUrl": "/charting-schemes",
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true,
+    "entityTypeLocation": "CONNECTOR",
+    "linkTypeLocation": "CONNECTOR"
+  },
+  "services": [
+    {
+      "id": "async-acquire-service",
+      "name": "Async Connector: Async Acquire",
+      "description": "An async query that returns all the people and has a default polling interval of 1s.\n\nThe query will also provide a substatus with the query start time",
+      "async": {
+        "queriesResource": "/people",
+        "pollingIntervalInSeconds": 1
+      },
+      "clientConfigType": "FORM",
+      "clientConfigId": "asyncForm",
+      "resultItemTypeIds": {
+        "CONNECTOR": ["Person"]
+      }
+    }
+  ],
+  "clientConfigs": [
+    {
+      "id": "asyncForm",
+      "config": {
+        "sections": [
+          {
+            "conditions": [
+              {
+                "id": "duration",
+                "label": "Duration in seconds - defaults to 10s",
+                "mandatory": false,
+                "logicalType": "INTEGER",
+                "minValue": 0
+              },
+              {
+                "id": "shouldFail",
+                "label": "Should fail - defaults to no",
+                "mandatory": false,
+                "logicalType": "BOOLEAN"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

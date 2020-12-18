@@ -40,8 +40,8 @@ Problems might include:
   insecure. You will see this because i2 Analyze and your connector communicate
   via HTTP. In a production environment, you should secure this connection by
   using HTTPS. This is beyond the scope of this guide, but is covered in the
-  Knowledge Centre
-  [here](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html).
+  Knowledge Center
+  [here](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html).
 
 ## Errors running connector services
 ### "Failed to open the selected query. Contact your system administrator"

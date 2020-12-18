@@ -1,0 +1,882 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "<p>This documentation describes the server programming interface that you must implement when you write a connector to an external data source. Clients discover the URLs of the three connector endpoints through a combination of the topology file for the deployment and your SPI implementation.</p><p>The <b>{configurationUrl}</b> comes from the topology file. By default, the i2 Connect gateway makes a POST request to your connector at the URL that you specify in the <b>base-url</b> attribute of the <b>&lt;connector&gt;</b> element. If the value is <b>http://localhost:3700/</b>, the request comes to <b>http://localhost:3700/config</b>.</p><p>Your response from the <b>{configurationUrl}</b> can contain information about one or more services. The information for each service contains, in its <b>acquireUrl</b> and (optional) <b>validateUrl</b> fields, the URLs of the <b>{acquireUrl}</b> and <b>{validateUrl}</b> endpoints described here.</p>",
+    "title": "i2 Connect gateway REST SPI",
+    "version": "1.0"
+  },
+  "paths": {
+    "/{acquireUrl}": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "A payload that the service can interpret to modify its behavior.<br>\n     If the service has a client configuration of type 'NONE', the payload never contains\n     conditions. For type 'FORM', it contains conditions that have a fixed structure. For a\n     'CUSTOM' client configuration, the contents of the <b>conditions</b> object are free-form.\n     <br>\n     The client configuration type has no effect on whether the request payload contains seed\n     record data. When it does, the <b>seeds</b> object includes summary item type information\n     in the following form:<br>\n     <span style=\"font-family:monospace\">\"allItemTypes\": [</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;{</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\": \"\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeId\": \"ET5\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeLocation\":\n     \"INFOSTORE\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\": \"\",</span>\n     <br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"propertyTypes\": {</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT1\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT2\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">]</span><br>\n     An implementation of the acquire endpoint can choose to act upon the information in the\n     <b>allItemTypes</b> array, or to ignore it and use only the contents of <b>entities</b> and\n     <b>links</b>. <br>\n     <b>Note:</b> Earlier versions of this SPI transported type information in an\n     <b>itemTypes</b> object rather than the <b>allItemTypes</b> array. That mechanism has been\n     retained for compatibility with existing deployments. For information about the structure\n     of the <b>itemTypes</b> object, see the <a\n     href=\"https://www.ibm.com/support/knowledgecenter/SSXVTH_4.3.2/com.ibm.i2.connect.developer.doc/i2_connect_spi.json\">previous\n     version</a> of this documentation.",
+            "in": "body",
+            "name": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DaodRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The POST method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/I2ConnectData"
+            }
+          },
+          "500": {
+            "description": "The connector failed to process the request for data."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>When a client queries an external data source, the i2 Analyze server calls the gateway, and\n the i2 Connect gateway contacts the connector, passing the payload that the client provided. By\n default, the gateway prefixes <b>{acquireUrl}</b> with the base URL from the topology.<br>\n <br>\n If the service in question also specifies the <b>validateUrl</b> property, then the gateway\n uses the <b>{validateUrl}</b> endpoint before it uses <b>{acquireUrl}</b>.<br>\n <br>\n In the response, the <b>properties</b> maps that appear in the contents of the <b>entities</b>\n and <b>links</b> arrays must have the following general structure:<br>\n <br>\n <span style=\"font-family:monospace\">\"properties\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"PT1\": false,</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"PT2\": 0,</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"PT3\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"PT4\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"localDateAndTime\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"timeZoneId\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"isDST\": false</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;},</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"PT5\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"type\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"coordinates\": [</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0,</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;]</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;}</span><br>\n <span style=\"font-family:monospace\">}</span><br>\n <br>\n In the example, <b>PT1</b>, <b>PT2</b>, <b>PT3</b>, <b>PT4</b>, and <b>PT5</b> are valid\n property types that belong to the entity or link type that was specified in <b>typeId</b>.\n <b>PT1</b> has the 'BOOLEAN' logical type, and <b>PT2</b> has one of the numeric logical types.\n <b>PT3</b> might have any of the others, although there are extra rules about 'DATE_AND_TIME'\n and 'GEOSPATIAL' properties that are reflected in <b>PT4</b> and <b>PT5</b>.<br>\n <br>\n 'DATE_AND_TIME' properties are transported as objects that contain the local date &amp; time\n and the timezone identifier as strings, together with a Boolean that indicates whether daylight\n saving time is in effect. However, the connector configuration's default settings allow you to\n simplify values in the response to ISO-8601 strings. If you do that, i2 Analyze sets\n <b>timeZoneId</b> from the default settings, and <b>isDST</b> to <b>false</b>.<br>\n <br>\n 'GEOSPATIAL' properties are transported as objects that contain the type of the shape and the\n coordinates that define it. In this version of the SPI, the only valid <b>type</b> is 'Point',\n for which the <b>coordinates</b> are a triple of decimals that specify longitude, latitude, and\n altitude. (Setting the altitude is optional; i2 Analyze ignores it at present.)",
+        "operationId": "acquire",
+        "summary": "Fetches data synchronously from the service that has the specified acquire URL."
+      }
+    },
+    "/{configurationUrl}": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The GET method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/ConnectorConfig"
+            }
+          },
+          "500": {
+            "description": "The connector failed to provide configuration information."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>At startup, the i2 Connect gateway retrieves configuration information from each connector\n that is defined in the topology file. By default, the gateway uses the endpoint\n <b>{baseURL}/config</b>, but you can specify a different one in the definition.<br>\n <br>\n In the response, for client configurations of type 'FORM', the <b>config</b> object must have\n the following general structure:<br>\n <br>\n <span style=\"font-family:monospace\">\"config\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"sections\": [</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;{</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"title\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"conditions\": [</span>\n <br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>\n <br>\n <span\n style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"id\":\n \"\",</span><br>\n <span\n style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"label\":\n \"\",</span><br>\n <span\n style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"description\":\n \"\",</span><br>\n <span\n style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"mandatory\":\n false,</span><br>\n <span\n style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n \"\"</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>\n <br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;]</span><br>\n <span style=\"font-family:monospace\">}</span><br>\n <br>\n The <b>sections</b> array can contain multiple objects, and each section has a\n <b>conditions</b> array that can also contain multiple objects. Within each condition,\n <b>id</b> must be unique, while the client displays <b>label</b> and <b>description</b> to\n users to explain what the condition does. <b>mandatory</b> determines whether users must\n provide a value for the condition, and <b>logicalType</b> determines what kind of value it is.\n Some logical types allow you to specify validation that the client must enforce on any value\n that the user provides.<br>\n <br>\n When <b>logicalType</b> is 'DOUBLE' or 'INTEGER', you can add <b>minValue</b> and\n <b>maxValue</b> fields to the condition to constrain the numeric range.<br>\n <br>\n When <b>logicalType</b> is 'SINGLE_LINE_STRING' or 'MULTI_LINE_STRING', you can add two objects\n to the condition that constrain the length or the contents of the string:<br>\n <br>\n <span style=\"font-family:monospace\">\"maxStringLength\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"size\": 0,</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;// Defaults to \"uf16codeunits\" if not\n specified</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;// The other legitimate value is\n \"utf8bytes\"</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"units\": \"\"</span><br>\n <span style=\"font-family:monospace\">}</span><br>\n <br>\n <span style=\"font-family:monospace\">\"extraStringValidation\": {</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;// A regular expression that the value must\n match</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"regex\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;// A message that explains the extra validation\n to users</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;\"message\": \"\"</span><br>\n <span style=\"font-family:monospace\">}</span><br>\n <br>\n When <b>logicalType</b> is 'SUGGESTED_FROM', you can add a <b>possibleValues</b> array to the\n condition. (See below.)<br>\n <br>\n When <b>logicalType</b> is 'SELECTED_FROM', you <span style=\"font-style:italic\">must</span> add\n a <b>possibleValues</b> array to the condition:<br>\n <br>\n <span style=\"font-family:monospace\">\"possibleValues\": [</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;{</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"value\": \"\",</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\": \"\"</span><br>\n <span style=\"font-family:monospace\">&nbsp;&nbsp;}</span><br>\n <span style=\"font-family:monospace\">]</span><br>\n <br>\n Each object in <b>possibleValues</b> must have a <b>value</b> field that contains the value to\n be sent back when the client uses the service. If present, the client can display the value in\n <b>displayName</b> to users in place of the <b>value</b> itself.<br>\n <br>\n When <b>logicalType</b> is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no\n additional validation is possible.",
+        "operationId": "config",
+        "summary": "Fetches configuration information from a connector."
+      }
+    },
+    "/{queriesResource}": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "A payload that the service can interpret to modify its behavior.<br>\n     If the service has a client configuration of type 'NONE', the payload never contains\n     conditions. For type 'FORM', it contains conditions that have a fixed structure. For a\n     'CUSTOM' client configuration, the contents of the <b>conditions</b> object are free-form.\n     <br>\n     The client configuration type has no effect on whether the request payload contains seed\n     record data. When it does, the <b>seeds</b> object includes summary item type information\n     in the following form:<br>\n     <span style=\"font-family:monospace\">\"allItemTypes\": [</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;{</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\": \"\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeId\": \"ET5\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeLocation\":\n     \"INFOSTORE\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\": \"\",</span>\n     <br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"propertyTypes\": {</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT1\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT2\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">]</span><br>\n     An implementation of the queries resource endpoint can choose to act upon the information\n     in the <b>allItemTypes</b> array, or to ignore it and use only the contents of\n     <b>entities</b> and <b>links</b>.",
+            "in": "body",
+            "name": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DaodRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The POST method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AsyncQueryResponse"
+            }
+          },
+          "500": {
+            "description": "The connector failed to start the asynchronous query."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>When a client queries an external data source, the i2 Analyze server calls the gateway, and\n the i2 Connect gateway contacts the connector, passing the payload that the client provided. By\n default, the gateway prefixes <b>{queriesResource}</b> with the base URL from the topology.<br>\n <br>\n The other requests that <b>{queriesResource}</b> supports provide ways to determine the status\n of a started asynchronous query, and to fetch its results upon success.<br>\n <br>\n If the service in question also specifies the <b>validateUrl</b> property, then the gateway\n uses the <b>{validateUrl}</b> endpoint before it uses <b>{queriesResource}</b>.<br>\n <br>\n The response must contain a query ID that the client can use in subsequent requests to retrieve\n further information.",
+        "operationId": "acquireAsync",
+        "summary": "Starts an asynchronous query to fetch data from the service in the specified query resource."
+      }
+    },
+    "/{queriesResource}/{queryId}": {
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "No response was specified",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "204": {
+            "description": "The DELETE method completed successfully."
+          },
+          "500": {
+            "description": "The connector failed to delete the query."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>The i2 Connect gateway calls the DELETE method when a query has succeeded, been canceled, or\n failed. A connector can take the call as a cue to clean up any resources associated with\n processing the query.",
+        "operationId": "delete",
+        "summary": "Deletes the specified asynchronous query from the specified queries resource when it is no\n longer needed."
+      },
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The GET method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/AsyncQueryStatus"
+            }
+          },
+          "304": {
+            "description": "There are no changes to the status of the query."
+          },
+          "500": {
+            "description": "The connector failed to determine the status of the query."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>After a client starts an asynchronous query, it uses polling to determine its progress. The\n client polls the i2 Connect gateway, and the gateway calls through to the connector to retrieve\n its status.<br>\n <br>\n The response must contain one of three <b>state</b> values that indicate the status of the\n query: 'STARTED', 'SUCCEEDED', or 'FAILED'.<br>\n <br>\n The response can also contain a series of <b>substatuses</b> that report progress from the\n underlying data source. The four valid substatus types are 'INFORMATION', 'WARNING', 'ERROR',\n and 'SUCCESS'.",
+        "operationId": "status",
+        "summary": "Fetches the status of the specified asynchronous query from the specified queries resource."
+      }
+    },
+    "/{queriesResource}/{queryId}/results": {
+      "get": {
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "The GET method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/I2ConnectData"
+            }
+          },
+          "500": {
+            "description": "The connector failed to retrieve the results of the query."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>Clients can attempt to retrieve results only from an asynchronous query whose state is\n 'SUCCEEDED'. An attempt to fetch results from a query in any other state must fail.<br>\n <br>\n The structure of the response is identical to the response from a synchronous query.",
+        "operationId": "results",
+        "summary": "Fetches the results of the specified asynchronous query from the specified queries resource."
+      }
+    },
+    "/{validateUrl}": {
+      "post": {
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "description": "A payload that the service can interpret to modify its behavior.<br>\n     If the service has a client configuration of type 'NONE', the payload never contains\n     conditions. For type 'FORM', it contains conditions that have a fixed structure. For a\n     'CUSTOM' client configuration, the contents of the <b>conditions</b> object are free-form.\n     <br>\n     The client configuration type has no effect on whether the request payload contains seed\n     record data. When it does, the <b>seeds</b> object includes summary item type information\n     in the following form:<br>\n     <span style=\"font-family:monospace\">\"allItemTypes\": [</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;{</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\": \"\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeId\": \"ET5\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"typeLocation\":\n     \"INFOSTORE\",</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\": \"\",</span>\n     <br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;\"propertyTypes\": {</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT1\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"PT2\": {</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"semanticTypeId\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"displayName\":\n     \"\",</span><br>\n     <span\n     style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;\"logicalType\":\n     \"\"</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">&nbsp;&nbsp;}</span><br>\n     <span style=\"font-family:monospace\">]</span><br>\n     If you implement the <b>{validateUrl}</b> endpoint, you can use the contents of the\n     <b>allItemTypes</b> array in the request to improve the message in the response.",
+            "in": "body",
+            "name": "request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DaodRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The POST method completed successfully.",
+            "schema": {
+              "$ref": "#/definitions/PayloadValidationResponse"
+            }
+          },
+          "500": {
+            "description": "The connector failed to validate the request for data."
+          }
+        },
+        "tags": [
+          "connector"
+        ],
+        "description": "<p>The i2 Connect gateway uses the <b>{validateUrl}</b> endpoint in two places: when a client\n makes a direct request, and immediately before it uses the <b>{acquireUrl}</b> or a\n <b>{queriesResource}</b> endpoint. By default, the gateway prefixes <b>{validateUrl}</b> with\n the base URL from the topology.<br>\n <br>\n If validation fails in front of an attempt to acquire data, the gateway does not continue with\n the attempt.",
+        "operationId": "validate",
+        "summary": "Validates a request for data from the service that has the specified validate URL."
+      }
+    }
+  },
+  "definitions": {
+    "AsyncQueryResponse": {
+      "properties": {
+        "queryId": {
+          "description": "The identifier of the asynchronous query",
+          "type": "string"
+        }
+      }
+    },
+    "AsyncQueryStatus": {
+      "properties": {
+        "errorMessage": {
+          "description": "An error message that explains why an asynchronous query is in the 'FAILED' state",
+          "type": "string"
+        },
+        "state": {
+          "description": "The state of an asynchronous query, which can be 'STARTED', 'SUCCEEDED', or 'FAILED'",
+          "type": "string"
+        },
+        "substatuses": {
+          "description": "More detailed information about the progress of an asynchronous query, in the form of messages\n that might be displayed to users",
+          "items": {
+            "$ref": "#/definitions/AsyncQuerySubstatus"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "AsyncQuerySubstatus": {
+      "properties": {
+        "message": {
+          "description": "The message itself, which might be displayed to users",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the message, which can be 'INFORMATION', 'WARNING', 'ERROR', or 'SUCCESS'",
+          "type": "string"
+        }
+      }
+    },
+    "ClientConfig": {
+      "properties": {
+        "config": {
+          "description": "The client configuration itself",
+          "type": "object"
+        },
+        "id": {
+          "description": "The unique identifier of the client configuration",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of the client configuration, which can be 'NONE', 'FORM', or 'CUSTOM'",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "config"
+      ]
+    },
+    "ConnectorConfig": {
+      "properties": {
+        "chartingSchemesUrl": {
+          "description": "The URL from which to retrieve a charting scheme for the connector, which can be absolute or\n relative to its base URL. No value means that there is no charting scheme",
+          "type": "string"
+        },
+        "clientConfigs": {
+          "description": "The client configurations that the services on the connector use",
+          "items": {
+            "$ref": "#/definitions/ClientConfig"
+          },
+          "type": "array"
+        },
+        "defaultValues": {
+          "$ref": "#/definitions/ConnectorDefaultValues",
+          "description": "Default values to apply to data retrieved by the services on the connector"
+        },
+        "gatewaySchema": {
+          "description": "The short name of the gateway schema whose types the connector uses, or no value if the\n connector does not use a gateway schema. The topology for the deployment can override the\n gateway schema specified here",
+          "type": "string"
+        },
+        "schemaShortName": {
+          "description": "The short name for the connector schema, or no value when there is no connector schema. The\n topology for the deployment can override the name specified here",
+          "type": "string"
+        },
+        "schemaUrl": {
+          "description": "The URL from which to retrieve a schema for the connector, which can be absolute or relative to\n its base URL. No value means that there is no schema",
+          "type": "string"
+        },
+        "services": {
+          "description": "The services available on the connector",
+          "items": {
+            "$ref": "#/definitions/Service"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "defaultValues",
+        "services"
+      ]
+    },
+    "ConnectorDefaultValues": {
+      "properties": {
+        "entityTypeId": {
+          "description": "The identifier of the default entity type to apply to retrieved data",
+          "type": "string"
+        },
+        "entityTypeLocation": {
+          "description": "The location of the default entity type to apply to retrieved data, which can be 'CONNECTOR',\n 'GATEWAY', or 'INFOSTORE'.",
+          "type": "string"
+        },
+        "linkDirection": {
+          "description": "The default link direction to apply to retrieved data, which can be 'NONE', 'WITH', 'AGAINST',\n or 'BOTH'",
+          "type": "string"
+        },
+        "linkTypeId": {
+          "description": "The identifier of the default link type to apply to retrieved data",
+          "type": "string"
+        },
+        "linkTypeLocation": {
+          "description": "The location of the default link type to apply to retrieved data, which can be 'CONNECTOR',\n 'GATEWAY', or 'INFOSTORE'.",
+          "type": "string"
+        },
+        "resultIdsPersistent": {
+          "description": "The default indicator of whether identifiers for the same retrieved data are (<b>true</b>) or\n are not (<b>false</b>) persistent from one set of results to the next.",
+          "type": "boolean"
+        },
+        "timeZoneId": {
+          "description": "The identifier of the default time zone to apply to retrieved data",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timeZoneId"
+      ]
+    },
+    "ConnectorSeedConstraintItemType": {
+      "properties": {
+        "id": {
+          "description": "The identifier of the item type",
+          "type": "string"
+        },
+        "max": {
+          "description": "The maximum number of seed records of this type",
+          "format": "int32",
+          "type": "integer"
+        },
+        "min": {
+          "description": "The minimum number of seed records of this type",
+          "format": "int32",
+          "type": "integer"
+        },
+        "typeLocation": {
+          "description": "The type location value for the item type, used to determine in which schema the item type\n resides. Possible values are GATEWAY, CONNECTOR and INFOSTORE.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "ConnectorSeedConstraints": {
+      "properties": {
+        "connectorIds": {
+          "description": "The identifiers of the connectors from which seed records can originate",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "max": {
+          "description": "The maximum number of seed records that users must specify",
+          "format": "int32",
+          "type": "integer"
+        },
+        "min": {
+          "description": "The minimum number of seed records that users must specify",
+          "format": "int32",
+          "type": "integer"
+        },
+        "seedTypes": {
+          "$ref": "#/definitions/ConnectorSeedTypes",
+          "description": "The constraints on the types that seed records can have"
+        }
+      }
+    },
+    "ConnectorSeedTypes": {
+      "properties": {
+        "allowedTypes": {
+          "description": "The subset of item types by which a seed record can be constrained, which must be 'ENTITY' or\n 'LINK'",
+          "type": "string"
+        },
+        "itemTypes": {
+          "description": "The item types to which a seed record is constrained, which are limited to the subset in\n <b>allowedTypes</b>.",
+          "items": {
+            "$ref": "#/definitions/ConnectorSeedConstraintItemType"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "DaodRequest": {
+      "properties": {
+        "payload": {
+          "$ref": "#/definitions/DaodRequest-Payload",
+          "description": "A custom payload that an i2 Connect service can use to determine what data to retrieve from a\n connected source"
+        }
+      },
+      "required": [
+        "payload"
+      ]
+    },
+    "DaodRequest-Condition": {
+      "properties": {
+        "id": {
+          "description": "The identifier of the condition, as specified in the client configuration for the service",
+          "type": "string"
+        },
+        "logicalType": {
+          "description": "The logical type of the value in the condition",
+          "type": "string"
+        },
+        "value": {
+          "description": "The value that a user supplied for the condition",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "logicalType",
+        "value"
+      ]
+    },
+    "DaodRequest-Payload": {
+      "properties": {
+        "conditions": {
+          "description": "If the service uses a client configuration of type 'FORM', the conditions that a user has\n specified to refine their query",
+          "items": {
+            "$ref": "#/definitions/DaodRequest-Condition"
+          },
+          "type": "array"
+        },
+        "seeds": {
+          "$ref": "#/definitions/DaodSeeds",
+          "description": "If the service supports being seeded by existing i2 Analyze records, the data from those\n records for it to use"
+        }
+      }
+    },
+    "DaodSeedEntityData": {
+      "properties": {
+        "accessDimensionValues": {
+          "description": "The security dimension values of the record identified by <b>seedId</b>",
+          "items": {
+            "$ref": "#/definitions/SecurityDimensionAndValues"
+          },
+          "type": "array"
+        },
+        "extensions": {
+          "description": "Free-form, custom information for the record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "label": {
+          "description": "The label of the record identified by <b>seedId</b>",
+          "type": "string"
+        },
+        "properties": {
+          "description": "The property data of the record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "seedId": {
+          "description": "The identifier of a seed record",
+          "type": "object"
+        },
+        "sourceIds": {
+          "description": "The source identifiers of a seed record",
+          "items": {
+            "$ref": "#/definitions/OriginIdentifier"
+          },
+          "type": "array"
+        },
+        "typeId": {
+          "description": "The type identifier of the record identified by <b>seedId</b>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceIds",
+        "seedId",
+        "typeId"
+      ]
+    },
+    "DaodSeedLinkData": {
+      "properties": {
+        "accessDimensionValues": {
+          "description": "The security dimension values of the record identified by <b>seedId</b>",
+          "items": {
+            "$ref": "#/definitions/SecurityDimensionAndValues"
+          },
+          "type": "array"
+        },
+        "extensions": {
+          "description": "Free-form, custom information for the record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "fromEndId": {
+          "description": "The identifier of the record at the \"from\" end of the link record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "fromEndTypeId": {
+          "description": "The type identifier of the record at the \"from\" end of the link record identified by\n <b>seedId</b>",
+          "type": "string"
+        },
+        "label": {
+          "description": "The label of the record identified by <b>seedId</b>",
+          "type": "string"
+        },
+        "linkDirection": {
+          "description": "The direction of the link record identified by <b>seedId</b>, which overrides any default\n setting",
+          "enum": [
+            "NONE",
+            "WITH",
+            "AGAINST",
+            "BOTH"
+          ],
+          "type": "string"
+        },
+        "properties": {
+          "description": "The property data of the record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "seedId": {
+          "description": "The identifier of a seed record",
+          "type": "object"
+        },
+        "sourceIds": {
+          "description": "The source identifiers of a seed record",
+          "items": {
+            "$ref": "#/definitions/OriginIdentifier"
+          },
+          "type": "array"
+        },
+        "toEndId": {
+          "description": "The identifier of the record at the \"to\" end of the link record identified by <b>seedId</b>",
+          "type": "object"
+        },
+        "toEndTypeId": {
+          "description": "The type identifier of the record at the \"to\" end of the link record identified by\n <b>seedId</b>",
+          "type": "string"
+        },
+        "typeId": {
+          "description": "The type identifier of the record identified by <b>seedId</b>",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sourceIds",
+        "seedId",
+        "typeId",
+        "fromEndTypeId",
+        "fromEndId",
+        "toEndTypeId",
+        "toEndId",
+        "linkDirection"
+      ]
+    },
+    "DaodSeeds": {
+      "properties": {
+        "entities": {
+          "description": "Data from the entity records that were specified as seeds for the request",
+          "items": {
+            "$ref": "#/definitions/DaodSeedEntityData"
+          },
+          "type": "array"
+        },
+        "links": {
+          "description": "Data from the link records that were specified as seeds for the request",
+          "items": {
+            "$ref": "#/definitions/DaodSeedLinkData"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "I2ConnectData": {
+      "properties": {
+        "entities": {
+          "description": "The entity data returned from a connector",
+          "items": {
+            "$ref": "#/definitions/I2ConnectEntityData"
+          },
+          "type": "array"
+        },
+        "errorMessage": {
+          "description": "An error message that might be displayed to users",
+          "type": "string"
+        },
+        "links": {
+          "description": "The link data returned from a connector",
+          "items": {
+            "$ref": "#/definitions/I2ConnectLinkData"
+          },
+          "type": "array"
+        }
+      }
+    },
+    "I2ConnectEntityData": {
+      "properties": {
+        "id": {
+          "description": "The identifier of the data for a record in its source. If the record is from the Information\n Store, <b>id</b> should contain the record identifier in the form <b>\"infoStoreRecordId\":\n \"<i>record_identifier</i>\"</b>. If the record was a seed in the request, <b>id</b> should\n contain the seed identifier",
+          "type": "object"
+        },
+        "properties": {
+          "description": "The property data for a record",
+          "type": "object"
+        },
+        "sourceReference": {
+          "$ref": "#/definitions/SourceReference",
+          "description": "The source reference for a record"
+        },
+        "typeId": {
+          "description": "The type identifier for a record",
+          "type": "string"
+        },
+        "typeLocation": {
+          "description": "Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the\n gateway searches for the type in the connector schema, the associated gateway schema, and the\n Information Store schema in that order",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version for a record",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id"
+      ]
+    },
+    "I2ConnectLinkData": {
+      "properties": {
+        "fromEndId": {
+          "description": "The identifier of the data for the record at the \"from\" end of a link. If the record is from\n the Information Store, <b>fromEndId</b> should contain the record identifier in the form\n <b>\"infoStoreRecordId\": \"<i>record_identifier</i>\"</b>. If the record was a seed in the\n request, <b>fromEndId</b> should contain the seed identifier",
+          "type": "object"
+        },
+        "id": {
+          "description": "The identifier of the data for a record in its source. If the record is from the Information\n Store, <b>id</b> should contain the record identifier in the form <b>\"infoStoreRecordId\":\n \"<i>record_identifier</i>\"</b>. If the record was a seed in the request, <b>id</b> should\n contain the seed identifier",
+          "type": "object"
+        },
+        "linkDirection": {
+          "description": "The direction for a link record, which overrides any default setting",
+          "enum": [
+            "NONE",
+            "WITH",
+            "AGAINST",
+            "BOTH"
+          ],
+          "type": "string"
+        },
+        "properties": {
+          "description": "The property data for a record",
+          "type": "object"
+        },
+        "sourceReference": {
+          "$ref": "#/definitions/SourceReference",
+          "description": "The source reference for a record"
+        },
+        "toEndId": {
+          "description": "The identifier of the data for the record at the \"to\" end of a link, which is subject to the\n same considerations as <b>fromEndId</b>",
+          "type": "object"
+        },
+        "typeId": {
+          "description": "The type identifier for a record",
+          "type": "string"
+        },
+        "typeLocation": {
+          "description": "Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the\n gateway searches for the type in the connector schema, the associated gateway schema, and the\n Information Store schema in that order",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version for a record",
+          "format": "int64",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "id",
+        "fromEndId",
+        "toEndId"
+      ]
+    },
+    "OriginIdentifier": {
+      "properties": {
+        "itemTypeId": {
+          "description": "The identifier of the item type of the record that has this origin identifier",
+          "type": "string"
+        },
+        "key": {
+          "description": "The values that identify some data in its original source",
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "type": {
+          "description": "The type of this origin identifier",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "key"
+      ]
+    },
+    "PayloadValidationResponse": {
+      "properties": {
+        "errorMessage": {
+          "description": "An error message that might be displayed to users",
+          "type": "string"
+        }
+      }
+    },
+    "SecurityDimensionAndValues": {
+      "properties": {
+        "dimensionId": {
+          "description": "The identifier of the security dimension that has the values in <b>ids</b>",
+          "type": "string"
+        },
+        "ids": {
+          "description": "The identifiers of values in the security dimension with <b>dimensionId</b>",
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "dimensionId",
+        "ids"
+      ]
+    },
+    "Service": {
+      "properties": {
+        "acquireUrl": {
+          "description": "The URL for the endpoint that provides result data from the service. If this is present, then\n <b>async</b> must not be present",
+          "type": "string"
+        },
+        "async": {
+          "$ref": "#/definitions/Service-Async",
+          "description": "Indicates that the service must be called asynchronously, and provides configuration settings.\n If this is present, then <b>acquireUrl</b> must not be present"
+        },
+        "clientConfigId": {
+          "description": "The identifier of the client configuration for the service, if the type is not 'NONE'",
+          "type": "string"
+        },
+        "clientConfigType": {
+          "description": "The type of the client configuration for the service, which can be 'NONE', 'FORM', or 'CUSTOM'",
+          "type": "string"
+        },
+        "description": {
+          "description": "A description of the service, which might be displayed to users",
+          "type": "string"
+        },
+        "id": {
+          "description": "The unique identifier of the service",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of the service, which might be displayed to users",
+          "type": "string"
+        },
+        "resultIdsPersistent": {
+          "description": "<b>true</b> if identifiers for the same data retrieved from the service are persistent from one\n set of results to the next; <b>false</b> otherwise",
+          "type": "boolean"
+        },
+        "resultItemTypeIds": {
+          "description": "The identifiers of the item types that can appear in results from the service, in a map with\n the following structure: <b>{\"<i>LOCATION</i>\": [\"TYPEID1\", \"TYPEID2\", ...], ...}</b>.<br>\n <br>\n Here, <i>LOCATION</i> indicates which schema the item type is defined in. Legal values are\n 'INFOSTORE', 'GATEWAY', and 'CONNECTOR'. If a service uses types from all three locations, the\n map has three elements",
+          "type": "object"
+        },
+        "seedConstraints": {
+          "$ref": "#/definitions/ConnectorSeedConstraints",
+          "description": "The constraints on the seeds that users can specify, or null if the service does not support\n seeds"
+        },
+        "validateUrl": {
+          "description": "The URL for the endpoint that validates requests for data from the service",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "clientConfigType"
+      ]
+    },
+    "Service-Async": {
+      "properties": {
+        "pollingIntervalInSeconds": {
+          "description": "The recommended interval at which clients should poll asynchronous endpoints for changes",
+          "format": "int32",
+          "type": "integer"
+        },
+        "queriesResource": {
+          "description": "The base URL of the endpoints for the asynchronous request mechanism to use",
+          "type": "string"
+        }
+      }
+    },
+    "SourceReference": {
+      "properties": {
+        "id": {
+          "description": "The unique identifier of this source reference",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/definitions/SourceReferenceInfo",
+          "description": "The information that this source reference contains"
+        },
+        "userModifiable": {
+          "description": "<b>true</b> if users can edit or delete this source reference; <b>false</b> otherwise",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "source",
+        "id",
+        "userModifiable"
+      ]
+    },
+    "SourceReferenceInfo": {
+      "properties": {
+        "description": {
+          "description": "The description of a source",
+          "type": "string"
+        },
+        "image": {
+          "description": "The URL of an image of a source",
+          "type": "string"
+        },
+        "location": {
+          "description": "The location of a source, which might be a URL",
+          "type": "string"
+        },
+        "name": {
+          "description": "The name of a source",
+          "type": "string"
+        },
+        "type": {
+          "description": "The type of a source",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    }
+  },
+  "tags": [
+    {
+      "name": "connector"
+    }
+  ]
+}

@@ -42,19 +42,42 @@ in the i2 Analyze deployment:
 4. Save and close the properties file.
 
 ### Configure the schema
+To test your schema and use it in Analyst's Notebook before deploying a
+connector, you can configure it as a gateway schema. The steps below describe
+this process.
+
 1. Copy your schema and charting schemes to the
   `toolkit\configuration\fragments\common\WEB-INF\classes` directory.
-2. Copy `example-dynamic-security-schema.xml` from
-  `toolkit\configuration\examples\security-schema` to the
-  `toolkit\configuration\fragments\common\WEB-INF\classes` directory as well.
-3. Update the `ApolloServerSettingsMandatory.properties` file in the same
+2. Update the `ApolloServerSettingsMandatory.properties` file in the same
    directory to point to your schema files by setting the following properties:
 
     ```properties
-    SchemaResource=schema-filename.xml
-    ChartingSchemesResource=charting-schemes-filename.xml
-    DynamicSecuritySchemaResource=example-dynamic-security-schema.xml
+    Gateway.NYPD-Complaints.SchemaResource=schema-filename.xml
+    Gateway.NYPD-Complaints.ChartingSchemesResource=charting-schemes-filename.xml
     ```
+
+   "NYPD-Complaints" is the short name chosen for the schema in this example.
+   You may choose a different short name by replacing "NYPD-Complaints" if you
+   wish. The schema short name will appear in the labels of items on a chart in
+   Analyst's Notebook Premium.
+
+### Configure the security schema
+All i2 Analyze deployments require a security schema, which defines the level of
+access users have to the data in the system. You can learn about the i2 Analyze
+security model in the
+[Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.understanding.doc/security_model.html)
+but, for the purpose of this guide, follow the steps below to use an example
+security schema.
+
+1. Copy `example-dynamic-security-schema.xml` from
+  `toolkit\configuration\examples\security-schema` to the
+  `toolkit\configuration\fragments\common\WEB-INF\classes` directory.
+2. Update the `ApolloServerSettingsMandatory.properties` file in the same
+   directory to point to the security schema by setting the following property:
+
+   ```properties
+    DynamicSecuritySchemaResource=example-dynamic-security-schema.xml
+   ```
 
 ### Generate the default configuration
 For the purposes of this guide, only a basic configuration is required, so you

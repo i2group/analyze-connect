@@ -1,0 +1,6 @@
+{
+	"defaultValues": {
+		"timeZoneId": "dodgy-timezone",
+		"resultIdsPersistent": true
+	}
+}

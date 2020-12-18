@@ -103,21 +103,5 @@
         <LinkMappings />
       </XmlChartingScheme>
     </ChartingScheme>
-    <ChartingScheme Name="Charting Scheme 3">
-      <XmlChartingScheme>
-        <ChartItemAttributes />
-        <ChartItemDataRecordProperties />
-        <EntityMappings />
-        <LinkMappings />
-      </XmlChartingScheme>
-    </ChartingScheme>
-    <ChartingScheme Name="Charting Scheme 4">
-      <XmlChartingScheme>
-        <ChartItemAttributes />
-        <ChartItemDataRecordProperties />
-        <EntityMappings />
-        <LinkMappings />
-      </XmlChartingScheme>
-    </ChartingScheme>
   </ChartingSchemes>
 </ChartingSchemeList>

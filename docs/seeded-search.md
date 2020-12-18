@@ -29,7 +29,7 @@ You will need to add a new service for seeded searches to the services array in 
         "max":1,
         "seedTypes":{
           "allowedTypes":"ENTITY",
-            "itemTypes":[
+          "itemTypes":[
             {
               "id":"made-up-schema-type-id (e.g. ET1)",
               "min":1,
@@ -134,7 +134,7 @@ add the corresponding endpoint in the connector.
 </details>
 
 ### Access seeds
-You will need to manipulate a seed passed into the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.
+You will need to manipulate a seed passed into the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.
 
 ### Filter data based on seed
 How you will use the seed depends on what you are trying to achieve.
@@ -167,4 +167,4 @@ you have not already), which will configure your changes to the topology.
 You should now see a resulting list of entities which are connected to the entity you initially selected.
 
 ## Next steps
-Next, you can combine what you've learned from these past two sections to implement [seeded parameterised searches](./seeded-parameterised-search.md).
+Next, you can combine what you've learned from these past two sections to implement [seeded parameterized searches](./seeded-parameterised-search.md).

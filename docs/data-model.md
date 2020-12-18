@@ -50,6 +50,6 @@ types.
 | INTEGER              | `42`, `-9812`
 | DOUBLE               | `-213.89763`, `0.00083`
 | DECIMAL              | `99.9999` (maximum of four digits after decimal point)
-| SELECTED_FROM        | `"Red"`, `"Green"`, or `"Blue"` if choosing from a set of colours, for example.
+| SELECTED_FROM        | `"Red"`, `"Green"`, or `"Blue"` if choosing from a set of colors, for example.
 | SUGGESTED_FROM       | `"Blue-ish green"`, if you need to be more specific than the suggested options.
 | GEOSPATIAL           | `{"type": "Point", "coordinates": [11.1, 12.2]}`, where the coordinates are latitude and longitude.

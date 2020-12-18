@@ -117,7 +117,7 @@ It's worth testing that you are successfully querying the data and returning res
 
 ### Marshal the data to objects
 
-To make it easier to create entities and links using the data retrieved, you can create a class (Java or Python) or JavaScript object (Node.js) to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serialises the incoming data into a collection of these objects.
+To make it easier to create entities and links using the data retrieved, you can create a class (Java or Python) or JavaScript object (Node.js) to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serializes the incoming data into a collection of these objects.
 
 Note that in Java, there exists a library which makes this process much easier: `jackson-annotations`.
 
@@ -144,4 +144,4 @@ Verify that the response returned from your function is valid and is as expected
 You should now be able to log into Analyst's Notebook Premium and run your query. If there are any errors, you may want to check that your schema is in the right shape, that your data is clean and that there are no missing values.
 
 ## Next steps
-Next, you can [configure your own parameterised search](./parameterised-search.md).
+Next, you can [configure your own parameterized search](./parameterised-search.md).

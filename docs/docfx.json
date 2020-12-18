@@ -1,0 +1,58 @@
+{
+  "build": {
+    "content": [
+      {
+        "files": [
+          "guidetoc/toc.yml",
+          "rest/toc.yml",
+          "rest/i2_connect_spi.json",
+          "toc.yml",
+          "*.md"
+        ]
+      }
+    ],
+    "resource": [
+      {
+        "files": [
+          "images/*"
+        ]
+      }
+    ],
+    "overwrite": [
+      {
+        "files": [
+          "rest/overwrites/*.md"
+        ]
+      }
+    ],
+    "dest": "./output",
+    "template": [
+      "default",
+      "../build/Tools/memberpage.2.56.2/content",
+      "../build/Tools/rest.operationpage.2.56.2/content",
+      "templates/rest",
+      "templates/html"
+    ],
+    "postProcessors": [
+      "ExtractSearchIndex"
+    ],
+    "globalMetadata": {
+      "_appFooter": "&copy; Copyright IBM Corporation 2020.",
+      "_appFaviconPath": "images/favicon.png",
+      "_disableNavbar": false,
+      "_disableBreadcrumb": false,
+      "_disableSideFilter": false,
+      "_disableToc": false,
+      "_gitContribute": {
+        "apiSpecFolder": "docs/rest/overwrites",
+        "branch": "main"
+      },
+      "_gitUrlPattern": "github"
+    },
+    "fileMetadata": {
+      "_disableContribution": {
+        "rest/**": true
+      }
+    }
+  }
+}

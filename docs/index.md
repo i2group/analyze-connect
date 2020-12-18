@@ -1,6 +1,8 @@
-# i2 Connect example connector
+# i2 Connect Example Connectors
 
-The documentation for understanding, deploying, and configuring the example connector is divided into the following sections:
+## Developing a connector walkthrough
+
+The documentation for understanding, deploying and configuring both i2 Analyze and the example connector is divided into the following sections:
 
 1. [Building an i2 Analyze schema and working with the i2 Connect gateway](./schema-design-guide.md)
 2. [Deploying i2 Analyze](./deploy-i2-analyze.md)
@@ -11,15 +13,19 @@ The documentation for understanding, deploying, and configuring the example conn
 7. [Implementing seeded searches](./seeded-search.md)
 8. [Implementing seeded, parameterized searches](./seeded-parameterised-search.md)
 9. [Validating requests](./validation.md)
-10. [Implementing Principal Propagation](./principal-propagation.md)
 
-## Environment setup
+Further materials for connector development:
+
+- [The example asynchronous connector](./connector-async.md)
+- [Implementing Principal Propagation](./principal-propagation.md)
+
+### Environment setup
 
 The workshop requires the following tools and technologies:
 
-- **IBM i2 Analyze 4.3.2**: The server that hosts the i2 Connect gateway.
+- **IBM i2 Analyze 4.3.3**: The server that hosts the i2 Connect gateway.
 
-- **IBM i2 Analyst's Notebook Premium 9.2.2**: The client that provides the user
+- **IBM i2 Analyst's Notebook Premium 9.2.3**: The client that provides the user
   interface for interacting with your connector. The client displays the
   resulting entity and link records with their properties.
 
@@ -49,7 +55,7 @@ connector with.
   tools or libraries. No manual installation other than the specified setup
   instructions is required as the Pipfile contains it as a dependency.
 
-## Additional resources
+### Additional resources
 
 To help you to understand some of the tools and technologies you will use, here
 are a few resources that contain more information about them:
@@ -57,8 +63,23 @@ are a few resources that contain more information about them:
 - [i2 Analyze data model examples](./data-model.md)
 - [Example requests and responses](./spi-examples.md)
 - [Using Postman](./postman.md)
+- Running the example connectors:
+   - Java: [in Visual Studio Code](./run-in-vscode-java.md) or [via the command line](./run-in-cmd-java.md)
+   - [Node.js](./run-in-cmd-node.md)
+   - [Python](./run-in-cmd-python.md)
 - [Troubleshooting](./troubleshoot.md)
-- Running the connector:
-   - **Java**: [in Visual Studio Code](./run-in-vscode-java.md) or [via the command line](./run-in-cmd-java.md)
-   - [**Node.js**](./run-in-cmd-node.md)
-   - [**Python**](./run-in-cmd-python.md)
+
+## Flexible schemas
+
+The documentation for understanding and configuring connector schemas, gateway
+schemas, and item type mappings is divided into the following sections:
+
+- [Connector schemas](./connector-schema.md)
+- [Gateway schemas](./gateway-schema.md)
+- [Item type mapping](./item-type-mapping.md)
+
+The example connectors used are:
+
+- [NYPD Connector](./connector-nypd.md)
+- [KCPD Connector](./connector-kcpd.md)
+- [ERI Connector](./connector-eri.md)

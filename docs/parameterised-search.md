@@ -1,6 +1,6 @@
-# Parameterised search
+# Parameterized search
 
-A parameterised search passes defined conditions that you can use to drive your searches.
+A parameterized search passes defined conditions that you can use to drive your searches.
 
 If you have any problems during this task, remember to consult the
 [troubleshooting guide](./troubleshoot.md).
@@ -8,7 +8,7 @@ If you have any problems during this task, remember to consult the
 ## Configuration
 
 ### Add a new service
-You will need to add a service for parameterised searches to the services array in the `config.json`.
+You will need to add a service for parameterized searches to the services array in the `config.json`.
 
 For this service, you need to set the `clientConfigType`. In this example, you will set the value to be `FORM` so that you can specify your conditions via fields in a form that will be shown in Analyst's Notebook Premium.
 
@@ -28,7 +28,36 @@ For this service, you need to set the `clientConfigType`. In this example, you w
   ]
 }
 ```
-You will need to change the `resultItemTypeIds` to reflect your own entities in your schema, for example `ET1`.
+
+You must update the `resultItemTypeIds` to reflect your own entities in your schema, for example `ET1`. You can also indicate which schema the item type is defined in by using a map with the following structure:
+
+```json
+{
+  "<LOCATION>": ["TYPEID1", "TYPEID2", ...], 
+  ...
+}
+```
+Legal values for `LOCATION` are as follows:
+- `INFOSTORE` - Indicates that the item type returned is from the information store schema
+- `GATEWAY` - Indicates that the item type returned is from the gateway schema
+- `CONNECTOR` - Indicates that the item type returned is from the connector schema
+
+If a service uses types from all three locations, the map has three elements. In this example, the resulting `resultItemTypeIds` looks like the following:
+
+```json
+{
+  ...
+  "services": [
+    {
+      ...
+      "resultItemTypeIds": {
+        "CONNECTOR": ["ET1"]
+      }
+    }
+  ]
+}
+```
+
 ### Define search fields
 You will need to define the search fields in a `clientConfigs` array at the root level of your `config.json`. For example:
 
@@ -62,7 +91,7 @@ You will need to define the search fields in a `clientConfigs` array at the root
 }
 ```
 
-For more information on client configuration, refer to the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html).
+For more information on client configuration, refer to the [Knowledge Center](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html).
 
 ### Test search fields
 Check that your fields work in Analyst's Notebook Premium, you need to tell i2 Analyze to reload it's
@@ -87,7 +116,7 @@ It's time to implement these conditions.
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
 * You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
-  * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service
+  * An example `config.json` with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
   * Changes to the `ConnectorController` class
   * Some extra REST transport classes
 * Apply these changes to your code, either manually, or by copying the relevant
@@ -106,7 +135,7 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
 * You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
-  * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service;
+  * An example `config.json` with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service;
   * A new `validate` route;
   * A new `/search` endpoint in the `acquire` route;
 * Open the code from the `stage4/nypd-connector` in VSCode, or any IDE of your choice, and start the connector.
@@ -122,7 +151,7 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
 * You have a template to get started with; see the `stage4/nypd-connector`
   directory provided. This includes:
-  * An example `config.json` with a parameterised search service and search fields defined. This is just a template in case you have not already defined a new service
+  * An example `config.json` with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
   * Changes to the `controller.py` file
   * Some extra REST transport classes
 * Apply these changes to your code, either manually, or by copying the relevant
@@ -134,7 +163,7 @@ i2 Analyze knows the acquire URL decided on for this service. Now you need to ad
 </details>
 
 ### Access conditions
-You will need to parse the conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples [here](./spi-examples.md).
+You will need to parse the conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples [here](./spi-examples.md).
 
 You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the `DaodRequest` model in the SPI. The list of conditions can be accessed via `request.payload.conditions`.
 
@@ -152,7 +181,7 @@ you have not already), which will configure your changes to the topology. Then:
 
 1. Open Analyst's Notebook Premium.
 2. Click on "External Search".
-3. Select your parameterised search service.
+3. Select your parameterized search service.
 4. Provide a value to the condition field and click "Run".
 
 You should now see a resulting list of entities that satisfy your condition.

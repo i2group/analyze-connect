@@ -1,17 +1,17 @@
-# Seeded parameterised search
+# Seeded parameterized search
 
-Simply put, a seeded parameterised search is a combination of seeded and parameterised searches. This type of search passes information from an entity on the chart to the connector together with conditions that are used to drive searches.
+Simply put, a seeded parameterized search is a combination of seeded and parameterized searches. This type of search passes information from an entity on the chart to the connector together with conditions that are used to drive searches.
 
 Should you have any problems during this task, please consult the
 [troubleshooting guide](./troubleshoot.md).
 
 ## Configuration
 
-You need to configure a service to allow for seeded parameterised searches.
+You need to configure a service to allow for seeded parameterized searches.
 
 ### Add a new service
 
-You will need to set the `clientConfigType` and `clientConfigId` values similar to configuring parameterised search configuration. You will also need to add `seedConstraints` to define constraints on the seed similar to configuring seeded search. For example:
+You will need to set the `clientConfigType` and `clientConfigId` values similar to configuring parameterized search configuration. You will also need to add `seedConstraints` to define constraints on the seed similar to configuring seeded search. For example:
 
 ```json
 {
@@ -41,6 +41,22 @@ You will need to set the `clientConfigType` and `clientConfigId` values similar 
       }
     }
   ]
+}
+```
+
+Optionally, you can also define the type location for the item type with the field `typeLocation`. This can be used to determine in which schema the item type resides. Possible value are 'CONNECTOR', 'GATEWAY' and 'INFOSTORE'. The `itemTypes` object will look like this:
+
+```json
+{
+  "seedTypes": {
+    ...
+    "itemTypes": [
+      {
+        "id": "made-up-schema-type-id (e.g. ET1)",
+        "typeLocation": "CONNECTOR"
+      }
+    ]
+  }
 }
 ```
 
@@ -82,17 +98,17 @@ Use Postman to run the `Reload` request (running the `Form Based Login` request 
 you have not already), which will configure your changes to the topology. Then:
 
 * Log out and log back into Analyst's Notebook Premium to see the configuration changes and our newly-defined service.
-* Try running it. You should receive an error as your seeded parameterised search has been defined but not yet implemented.
+* Try running it. You should receive an error as your seeded parameterized search has been defined but not yet implemented.
 
 ## Implementation
 
-It's time to implement the seeded parameterised search.
+It's time to implement the seeded parameterized search.
 
 ### Add an acquire endpoint for your service
 In the same fashion as the other services you have defined, add an acquire endpoint for this service in your controller file.
 
 ### Access conditions and seeds
-You will need to manipulate the seeds and conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVXZ_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will need to create basic POJOs to parse the request and access the condition and seed information contained in `request.payload`.
+You will need to manipulate the seeds and conditions passed in the request according to the [SPI](https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json) and return a response containing entities and links. You will need to create basic POJOs to parse the request and access the condition and seed information contained in `request.payload`.
 
 ### Filter data based conditions and seeds
 An `Expand With Conditions` query takes an entity as a seed and returns a list of entities and links that are connected to the seed that satisfy the list of conditions provided by the user.
@@ -110,7 +126,7 @@ you have not already), which will configure your changes to the topology. Then:
 1. Open Analyst's Notebook.
 2. Select an entity on the chart.
 3. Click on "External Search".
-4. Click on your seeded parameterised search service.
+4. Click on your seeded parameterized search service.
 5. Provide a value to the condition field and click "Run".
 
 You should now see a resulting list of entities which are connected to the entity you initially selected and also satisfy the conditions you defined.

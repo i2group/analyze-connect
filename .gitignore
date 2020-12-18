@@ -1,7 +1,22 @@
-*.class
-*.jar
-target/
-.settings/
+## Env: IntelliJ
+.idea
+*.iml
+
+## Env: Eclipse
 .classpath
 .factorypath
 .project
+.settings/
+
+## Env: Visual Studio Code
+.vscode/
+
+## Lang: Java
+target/
+
+## Lang: Node.js
+node_modules/
+package-lock.json
+
+## Lang: Python
+__pycache__/

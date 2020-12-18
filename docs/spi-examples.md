@@ -1,6 +1,6 @@
 # i2 Connect SPI examples
 You can use the following example requests and responses to help
-understand how parameterised and seeded search services work.
+understand how parameterized and seeded search services work.
 
 ## Example data
 Throughout, assume you are querying the following set of entities and links.
@@ -38,15 +38,15 @@ This can be represented as a set of entities and links in JSON as follows:
   "entities": [
     {
       "typeId": "ET1",
-      "id": "123",
+      "id": "complaint-1",
       "version": 1,
       "properties": {
-        "PT1": 123,
+        "PT1": "1",
       }
     },
     {
       "typeId": "ET2",
-      "id": "111",
+      "id": "manhattan",
       "version": 1,
       "properties": {
         "PT16": "MANHATTAN"
@@ -54,7 +54,7 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET3",
-      "id": "abc",
+      "id": "person-A",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -64,7 +64,7 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET3",
-      "id": "def",
+      "id": "person-B",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -74,15 +74,15 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET1",
-      "id": "456",
+      "id": "complaint-2",
       "version": 1,
       "properties": {
-        "PT1": 456,
+        "PT1": "2",
       }
     },
     {
       "typeId": "ET3",
-      "id": "ghi",
+      "id": "person-C",
       "version": 1,
       "properties": {
         "PT28": "F",
@@ -92,7 +92,7 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET3",
-      "id": "jkl",
+      "id": "person-D",
       "version": 1,
       "properties": {
         "PT28": "F",
@@ -102,15 +102,15 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET1",
-      "id": "789",
+      "id": "complaint-3",
       "version": 1,
       "properties": {
-        "PT1": 789,
+        "PT1": "3",
       }
     },
     {
       "typeId": "ET2",
-      "id": "222",
+      "id": "bronx",
       "version": 1,
       "properties": {
         "PT16": "BRONX"
@@ -118,7 +118,7 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET3",
-      "id": "mno",
+      "id": "person-E",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -128,7 +128,7 @@ This can be represented as a set of entities and links in JSON as follows:
     },
     {
       "typeId": "ET3",
-      "id": "pqr",
+      "id": "person-F",
       "version": 1,
       "properties": {
         "PT28": "F",
@@ -140,81 +140,81 @@ This can be represented as a set of entities and links in JSON as follows:
   "links": [
     {
       "typeId": "LT1",
-      "id": "aahsgf",
+      "id": "located-at-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "111",
+      "fromEndId": "complaint-1",
+      "toEndId": "manhattan",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT2",
-      "id": "kjhdsm",
+      "id": "suspect-of-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "abc",
+      "fromEndId": "complaint-1",
+      "toEndId": "person-A",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT3",
-      "id": "jkayrj",
+      "id": "victim-of-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "def",
+      "fromEndId": "complaint-1",
+      "toEndId": "person-B",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT1",
-      "id": "jgtwec",
+      "id": "located-at-2",
       "version": 1,
-      "fromEndId": "456",
-      "toEndId": "222",
+      "fromEndId": "complaint-2",
+      "toEndId": "bronx",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT2",
-      "id": "luvsji",
+      "id": "suspect-of-2",
       "version": 1,
-      "fromEndId": "456",
-      "toEndId": "ghi",
+      "fromEndId": "complaint-2",
+      "toEndId": "person-C",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT3",
-      "id": "sbhitv",
+      "id": "victim-of-2",
       "version": 1,
-      "fromEndId": "456",
-      "toEndId": "jkl",
+      "fromEndId": "complaint-2",
+      "toEndId": "person-D",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT1",
-      "id": "utvkde",
+      "id": "located-at-3",
       "version": 1,
-      "fromEndId": "789",
-      "toEndId": "222",
+      "fromEndId": "complaint-3",
+      "toEndId": "bronx",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT2",
-      "id": "abcjit",
+      "id": "suspect-of-3",
       "version": 1,
-      "fromEndId": "789",
-      "toEndId": "mno",
+      "fromEndId": "complaint-3",
+      "toEndId": "person-E",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT3",
-      "id": "bvckuq",
+      "id": "victim-of-3",
       "version": 1,
-      "fromEndId": "789",
-      "toEndId": "pqr",
+      "fromEndId": "complaint-3",
+      "toEndId": "person-F",
       "linkDirection": "WITH",
     }
   ]
 }
 ```
 
-## Parameterised search
+## Parameterized search
 
 To implement a service to search for people by age group, you can define a
 `clientConfig` in `config.json` like the following:
@@ -268,7 +268,7 @@ like this:
 ```
 
 The request searches for Person entities where the Age Group property is equal
-to "18-24". In the implementation of the parameterised search service, you would
+to "18-24". In the implementation of the parameterized search service, you would
 filter through the data and find entities which satisfy the request
 requirements, i.e. have `typeId` equal to `"ET3"` and have the Age Group
 property `PT26` equal to `"18-24"`. The response, from the example request
@@ -279,7 +279,7 @@ above, would look like this:
   "entities": [
     {
       "typeId": "ET3",
-      "id": "abc",
+      "id": "person-A",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -289,7 +289,7 @@ above, would look like this:
     },
     {
       "typeId": "ET3",
-      "id": "mno",
+      "id": "person-E",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -338,7 +338,7 @@ example data could look something like the following:
           "sourceIds": [
             {
               "itemTypeId": "ET3",
-              "key": ["nypd-connector", "ET3", "jkl"],
+              "key": ["nypd-connector", "ET3", "person-D"],
               "type": "OI.DAOD"
             }
           ],
@@ -346,7 +346,7 @@ example data could look something like the following:
         }
       ],
       "links": [],
-      "itemTypes": {}
+      "allItemTypes": []
     }
   }
 }
@@ -355,7 +355,7 @@ example data could look something like the following:
 You can deduce which of the entities the `DaodSeedEntity` in this request
 corresponds to by looking at the key in the `sourceIds` field. The third element
 of this list gives us the ID we have assigned the entity in our connector,
-`"jkl"`. You also have its type ID `"ET3"`, so it is a Person entity. Have a look
+`"person-D"`. You also have its type ID `"ET3"`, so it is a Person entity. Have a look
 at the data above and find this entity.
 
 To perform a Find-Like-This search using this seed entity, you need only use its
@@ -372,7 +372,7 @@ After excluding the seed entity itself, you would return the following:
   "entities": [
     {
       "typeId": "ET3",
-      "id": "ghi",
+      "id": "person-C",
       "version": 1,
       "properties": {
         "PT28": "F",
@@ -400,13 +400,13 @@ this:
           "extensions": [],
           "label": "",
           "properties": {
-            "PT1": 123,
+            "PT1": "1",
           },
           "seedId": "1e756171-fb3c-40a4-b7c5-5c537fbf0adc",
           "sourceIds": [
             {
               "itemTypeId": "ET1",
-              "key": ["nypd-connector", "ET1", "123"],
+              "key": ["nypd-connector", "ET1", "complaint-1"],
               "type": "OI.DAOD"
             }
           ],
@@ -414,13 +414,13 @@ this:
         }
       ],
       "links": [],
-      "itemTypes": {}
+      "allItemTypes": []
     }
   }
 }
 ```
 Again, you can deduce which of our entities the `DaodSeedEntity` corresponds to by
-looking at the `sourceIds`. The `id` of the entity in question is `"123"` and it
+looking at the `sourceIds`. The `id` of the entity in question is `"complaint-1"` and it
 has `typeID` equal to `"ET1"`, so it is a complaint. Look at the example data above
 and find which entity you are expanding. What would you expect an Expand operation to
 return?
@@ -428,7 +428,7 @@ return?
 To perform an Expand operation with this entity as the seed, you need to:
 1. Find all links connected to the corresponding entity. This means going
    through all the links and finding those with a `fromEndId` or a `toEndId`
-   equal to the `id` of the entity, `"jkl"`.
+   equal to the `id` of the entity, `"person-D"`.
 2. Find all entities at the other end of these links. This can be done by using
    the `fromEndId`s and `toEndId`s of the links found in step 1 - just use the
    end ID that does not correspond to the seed entity.
@@ -441,15 +441,15 @@ to the seed, you would respond with:
   "entities": [
     {
       "typeId": "ET1",
-      "id": "123",
+      "id": "complaint-1",
       "version": 1,
       "properties": {
-        "PT1": 123,
+        "PT1": "1",
       }
     },
     {
       "typeId": "ET2",
-      "id": "111",
+      "id": "manhattan",
       "version": 1,
       "properties": {
         "PT16": "MANHATTAN"
@@ -457,7 +457,7 @@ to the seed, you would respond with:
     },
     {
       "typeId": "ET3",
-      "id": "abc",
+      "id": "person-A",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -467,7 +467,7 @@ to the seed, you would respond with:
     },
     {
       "typeId": "ET3",
-      "id": "def",
+      "id": "person-B",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -479,26 +479,26 @@ to the seed, you would respond with:
   "links": [
     {
       "typeId": "LT1",
-      "id": "aahsgf",
+      "id": "located-at-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "111",
+      "fromEndId": "complaint-1",
+      "toEndId": "manhattan",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT2",
-      "id": "kjhdsm",
+      "id": "suspect-of-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "abc",
+      "fromEndId": "complaint-1",
+      "toEndId": "person-A",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT3",
-      "id": "jkayrj",
+      "id": "victim-of-1",
       "version": 1,
-      "fromEndId": "123",
-      "toEndId": "def",
+      "fromEndId": "complaint-1",
+      "toEndId": "person-B",
       "linkDirection": "WITH",
     }
   ]
@@ -511,7 +511,7 @@ chart which would all be connected to the duplicate.
 Depending on how you want the service to function, you might prefer to have the
 returned items connected to the entity that you selected on the chart rather than
 to a duplicate. In this case, you need to change all `id`, `fromEndId` and
-`toEndId` fields that refer to the ID of the seed entity (in this case "123") to
+`toEndId` fields that refer to the ID of the seed entity (in this case "complaint-1") to
 `seedId` of the `DaodSeedEntity` in the request, i.e.
 `"1e756171-fb3c-40a4-b7c5-5c537fbf0adc"`.
 
@@ -522,7 +522,7 @@ In this case, you would return the following response:
   "entities": [
     {
       "typeId": "ET2",
-      "id": "111",
+      "id": "manhattan",
       "version": 1,
       "properties": {
         "PT16": "MANHATTAN"
@@ -530,7 +530,7 @@ In this case, you would return the following response:
     },
     {
       "typeId": "ET3",
-      "id": "abc",
+      "id": "person-A",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -540,7 +540,7 @@ In this case, you would return the following response:
     },
     {
       "typeId": "ET3",
-      "id": "def",
+      "id": "person-B",
       "version": 1,
       "properties": {
         "PT28": "M",
@@ -552,26 +552,26 @@ In this case, you would return the following response:
   "links": [
     {
       "typeId": "LT1",
-      "id": "aahsgf",
+      "id": "located-at-1",
       "version": 1,
       "fromEndId": "1e756171-fb3c-40a4-b7c5-5c537fbf0adc",
-      "toEndId": "111",
+      "toEndId": "manhattan",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT2",
-      "id": "kjhdsm",
+      "id": "suspect-of-1",
       "version": 1,
       "fromEndId": "1e756171-fb3c-40a4-b7c5-5c537fbf0adc",
-      "toEndId": "abc",
+      "toEndId": "person-A",
       "linkDirection": "WITH",
     },
     {
       "typeId": "LT3",
-      "id": "jkayrj",
+      "id": "victim-of-1",
       "version": 1,
       "fromEndId": "1e756171-fb3c-40a4-b7c5-5c537fbf0adc",
-      "toEndId": "def",
+      "toEndId": "person-B",
       "linkDirection": "WITH",
     }
   ]

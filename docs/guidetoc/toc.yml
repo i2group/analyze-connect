@@ -1,0 +1,42 @@
+﻿- name: i2 Connect gateway connector development
+  href: ../index.md
+  items:
+  - name: Designing the i2 Analyze schema
+    href: ../schema-design-guide.md
+  - name: Deploying i2 Analyze
+    href: ../deploy-i2-analyze.md
+  - name: Deploying a connector
+    href: ../deploy-connector.md
+  - name: Adding a service
+    href: ../add-service.md
+  - name: Connect to an external data source
+    href: ../connect-to-eds.md
+    items:
+    - name: Source references
+      href: ../source-references.md
+  - name: Parameterized search
+    href: ../parameterised-search.md
+  - name: Seeded search
+    href: ../seeded-search.md
+  - name: Seeded parameterized search
+    href: ../seeded-parameterised-search.md
+  - name: Validation
+    href: ../validation.md
+  - name: Principal propagation
+    href: ../principal-propagation.md
+  - name: The i2 Analyze data model
+    href: ../data-model.md
+  - name: i2 Connect gateway SPI examples
+    href: ../spi-examples.md
+  - name: Postman
+    href: ../postman.md
+  - name: Troubleshooting guide
+    href: ../troubleshoot.md
+  - name: Running the Java connector in VS Code
+    href: ../run-in-vscode-java.md
+  - name: Running the Java connector via the command line
+    href: ../run-in-cmd-java.md
+  - name: Running the Node.js connector via the command line
+    href: ../run-in-cmd-node.md
+  - name: Running the Python connector
+    href: ../run-in-cmd-python.md

@@ -1,6 +1,6 @@
 # Postman
 
-You can use Postman collections to test the endpoint of i2 Analyze and your connector.
+You can use Postman collections to test the endpoints of i2 Analyze and your connector.
 
 ## Prerequisites
 
@@ -21,81 +21,112 @@ list of environments near the top right of the window.
 
 ## Testing i2 Analyze
 
-To make sure that i2 Analyze has been configured correctly, use the `i2 Analyze` environment.
-  * Select the `i2 Analyze` environment in the top right corner.
+To make sure that i2 Analyze is configured correctly, authenticate a user and test the API.
 
-### Login to i2 Analyze
-First we need to login to i2 Analyze through Postman.
-  * Open the `i2 Analyze Auth` collection.
-  * Run the `Form Based Login` request.
-  * This will generate the token that will be used to login to i2 Analyze.
+### Authentication
 
-Now, after generating the token we want to test that the i2 Analyze works as expected. open `NYPD i2 Analyze` collection.
+1. Click on the environment dropdown menu at the top-right bar and select the `i2 Analyze` environment.
+2. Open the `i2 Analyze` collection.
+3. Open the `Authentication` folder.
+4. Run the `Form Based Login` request.
 
-### Get all valid timezones
-  * Open the `Core Resources` folder.
-  * Run the `GET TimeZones` request.
+This authenticates your Jenny user, and generates the session token to permit subsequent API requests.
 
-You should get a 200 status code and see that i2 Analyze returns all valid timezones.
+### API
 
-### Get all connectors
-  * Open the `Daod Resource` folder.
-  * Run the `Connectors` request.
+After generating the token, test that you can use the i2 Analyze endpoints.
 
-You should get a 200 status code and see that i2 Analyze returns its connectors configuration.
+#### Get all valid timezones
 
-### Reload connectors configuration
-  * Open the `Daod Resource` folder.
-  * Run the `Reload` request.
+1. In the `i2 Analyze` collection, open the `Core` folder.
+2. Run the `Timezones` request.
 
-You should get a 200 status code and see that i2 Analyze returns its new connectors configuration.
+You should see that i2 Analyze returns all valid timezones.
 
-## Testing the connector
+#### Get all connectors
 
-To make sure that your connector is functional, use the `NYPD Connector` environment and the `NYPD Connector` collection.
-  * Select the `NYPD Connector` environment in the top right corner.
-  * Open the `NYPD Connector` collection.
+1. In the `i2 Analyze` collection, open the `Connectors` folder.
+2. Run the `Connectors` request.
 
-### Testing the config endpoint
-After adding the config endpoint you may want to test the endpoint does indeed return your `config.json`.
-  * Open the `Config` folder.
-  * Run the `GET Config`request.
+You should see that i2 Analyze returns a JSON response containing a list of all configured connectors.
 
-You should get a 200 status code and see your config being returned.
+#### Reload connectors configuration
 
-### Testing acquire endpoints
+1. In the `i2 Analyze` collection, open the `Gateway` folder.
+2. Run the `Reload` request.
 
-After adding a new endpoint, you can use Postman to test it.
-**NOTE:** The `NYPD Connector` requests will only work out of the box if you have defined and implemented
-the same services provided as examples. You will need to make changes to these requests if you have created different services.
-In particular, you may need to change parameters/seeds in the parameterized/seeded search requests.
+You should see that i2 Analyze returns its connectors configuration.
 
-#### Test Service endpoint
-* Open the `Acquire` folder.
-* Run the `Test Service` request.
+## Testing a connector
 
-You should get a 200 status code and see some entities and links returned.
+Before you test your connector, ensure that both i2 Analyze and your connector are running. In this example, the NYPD connector is tested. For more information, see [Setting up and running the NYPD connector](./connector-nypd.md).
 
-#### Search Service endpoint
-* Open the `Acquire` folder.
-* Click on `Search Service` request.
-* Open the body of the request and enter conditions that align with how you have implemented the service.
-* Run the `Search Service` request.
+1. From the environment dropdown menu, select the `NYPD Connector` environment.
+2. Open the `Connector Services` collection.
 
-You should get a 200 status code and see some entities and links returned.
+### Config and schema endpoints
 
-#### Find Like This endpoint
-* Open the `Acquire` folder.
-* Click on the `Find Like This` request.
-* Open the body of the request and enter a seed that aligns with how you have implemented the service.
-* Run the `Find Like This` request.
+1. In the `Connector Services` collection, open the `Config` folder.
+2. Run the `Config` request.
 
-You should get a 200 status code and see some entities and links returned.
+The response provided should be the full contents of the connector's `config.json`.
 
-#### Expand endpoint
-* Open the `Acquire` folder.
-* Click on the `Expand` request.
-* Open the body of the request and enter a seed that aligns with how you have implemented the service.
-* Run the `Expand` request.
+The `Schema` and `Charting Schemes` requests should echo the contents of your connector schema and charting schemes XML files respectively.
 
-You should get a 200 status code and see some entities and links returned.
+### Acquire endpoints
+
+The `Acquire` folder contains requests that respond with entities and links according to how their respective endpoints were implemented.
+
+Using the NYPD connector example:
+
+#### All
+
+The `All` request synchronously returns all entities and links from the NYPD dataset as a JSON response.
+
+#### Search
+
+The `Search` request is a [parameterized search](./parameterised-search.md) accepts a JSON payload of specified conditions which filter the results returned.
+
+![Search Request](images/postman-search.png)
+
+The values of each condition can be changed to imitate user input from the client for a condition field.
+
+#### Find Like This
+
+The `Find Like This` request is a [seeded search](./seeded-search.md) that accepts a JSON payload of a single seed entity with a property that is used to filter the JSON response by matching against entities with a similar property.
+
+#### Expand
+
+The `Expand` request is a [seeded search](./seeded-search.md) that accepts a JSON payload of a single seed entity used as a starting point to find other entities connected to it and the links that connect them. These entities and links are returned in the response in JSON format.
+
+### Validate
+
+The `Validate` folder contains a single `Search` request that [performs server-side validation](./validation.md) on the payload of specified conditions to ensure input values are in the correct format.
+
+### Async
+
+The `Async` folder contains requests for the asynchronous service. These requests only function as expected on our Async connector. For more information, see [setting up and running the Async connector](./connector-async.md)
+
+#### Acquire
+
+The `Acquire` request triggers an asynchronous query and returns a `queryId`. Using Postman tests (post-request logic), this `queryId` is automatically stored as an environment variable (`QUERY_ID`) to facilitate subsequent async requests.
+
+![Async Acquire Request](images/postman-async-acquire.png)
+
+The request accepts a payload of parameters for simulating the asynchronous request; configuring the duration of time before succeeding and optionally mocking a failure.
+
+#### Status
+
+Using the `QUERY_ID` retrieved from the previous request, the `Status` retrieves the current status and additional information of the triggered asynchronous query as a JSON response.
+
+![Status Request](images/postman-async-status.png)
+
+#### Results
+
+Using the same `QUERY_ID` from the async acquire, the `Results` retrieves the JSON response of entities and links from the asynchronous query as you would expect from a synchronous request.
+
+This request only works as expected after the status of the query is `SUCCEEDED`.
+
+#### Delete / Cancel
+
+Using the `QUERY_ID`, the `Delete / Cancel` request deletes an asynchronous query if its state is `SUCCEEDED` or `FAILED`. It cancels the running job if it was `STARTED`, causing it to be `FAILED`.

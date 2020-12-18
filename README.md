@@ -1,7 +1,7 @@
 # Welcome
 
 Welcome to the GitHub home page for the i2 Connect example. The i2 Connect
-example demonstrates how to create and and configure an i2 connector that
+example demonstrates how to create and configure an i2 connector that
 retrieves data from an external source.
 
 In a deployment of i2 Analyze that uses the i2 Connect gateway, a _connector_

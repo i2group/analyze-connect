@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Emergency Response Incidents (ERI) Connector </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Emergency Response Incidents (ERI) Connector ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="emergency-response-incidents-eri-connector">Emergency Response Incidents (ERI) Connector</h1>
+
+<p>The ERI connector connects to the <a href="https://data.cityofnewyork.us/Public-Safety/Emergency-Response-Incidents/pasr-j7fb">Emergency Response Incidents Dataset</a> and marshals the data into entities, links and properties. The dataset contains types and locations of incidents which the Office of Emergency Management of New York City have responded to.</p>
+<p>There are seven fields in the dataset:</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Incident Type</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Location</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Borough</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Creation Date</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>Closed Date</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>Latitude</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>Longitude</em></td>
+<td>Number</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-model">Data model</h2>
+<p>The ERI schema models the Emergency Response Incidents Dataset by using all seven fields. Each row of data can be represented by two entities (Incident and Location) and a single link between them (Located At) alongside properties extracted from each field.</p>
+<p>The schema (and charting schemes) for the ERI connector can be found in the <code>schema</code> directory of this repository.</p>
+<h4 id="entity-incident">Entity: Incident</h4>
+<p>Represents a reported incident.</p>
+<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Incident Type</td>
+<td>SELECTED_FROM <strong>\</strong>*</td>
+<td><em>Incident Type</em></td>
+</tr>
+<tr>
+<td>Incident Subtype</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Incident Type</em></td>
+</tr>
+<tr>
+<td>Creation Date</td>
+<td>DATE</td>
+<td><em>Creation Date</em></td>
+</tr>
+<tr>
+<td>Creation Time</td>
+<td>TIME</td>
+<td><em>Creation Date</em></td>
+</tr>
+<tr>
+<td>Closed Date</td>
+<td>DATE</td>
+<td><em>Closed Date</em></td>
+</tr>
+<tr>
+<td>Closed Time</td>
+<td>TIME</td>
+<td><em>Closed Date</em></td>
+</tr>
+</tbody>
+</table>
+<p><strong>\</strong>* The possible values for Incident Type are: <em>Administration, Aviation, Fire, HazMat, Law Enforcement, Marine,
+Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other</em>.</p>
+<h4 id="entity-location">Entity: Location</h4>
+<p>Represents the location at which the incident occurred.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Borough</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Borough</em></td>
+</tr>
+<tr>
+<td>Address</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Location</em></td>
+</tr>
+<tr>
+<td>Coordinates</td>
+<td>GEOSPATIAL</td>
+<td><em>Longitude</em> &amp; <em>Latitude</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="link">Link</h4>
+<p>Associates an incident with the location at which it is reported to have occurred.</p>
+<table>
+<thead>
+<tr>
+<th>Link Type</th>
+<th>Link Ends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Located At</td>
+<td>Incident -&gt; Location</td>
+</tr>
+</tbody>
+</table>
+<h2 id="setup">Setup</h2>
+<p>These instructions are for setting up and running the ERI connector.</p>
+<p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> or <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploying i2 Analyze with the Information Store and the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
+<h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
+<p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the ERI connector:</p>
+<pre><code class="lang-xml">&lt;wars&gt;
+  &lt;war ... &gt;
+    ...
+    &lt;connector-ids&gt;
+      &lt;connector-id value=&quot;eri-connector&quot;/&gt;
+    &lt;/connector-ids&gt;
+    ...
+  &lt;/war&gt;
+&lt;/wars&gt;
+</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
+<pre><code class="lang-xml">&lt;ns1:topology ...&gt;
+  ...
+  &lt;connectors&gt;
+    &lt;connector base-url=&quot;http://localhost:9084&quot; name=&quot;ERI Connector&quot; id=&quot;eri-connector&quot;/&gt;
+  &lt;/connectors&gt;
+&lt;/ns1:topology&gt;
+</code></pre><p>Ensure that you&#39;re using the same port as specified in <code>application.properties</code> (<code>9084</code> by default) and that the value of the <code>id</code> attribute is the name as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+<h3 id="2-configure-the-schema">2. Configure the schema</h3>
+<p>Choose whether you want to configure the ERI schema as a connector schema or a gateway schema.</p>
+<h4 id="connector-schema">Connector schema</h4>
+<p>By default, your connector is configured to use a connector schema. This is due to the presence of the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> in the ERI connector&#39;s <code>config.json</code> in <code>eri\eri-connector\src\main\resources</code>.</p>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>
+<li>The ERI <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
+</ul>
+<p>See for more information on <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
+<h4 id="gateway-schema">Gateway schema</h4>
+<p>If you want to set up the ERI schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the ERI schema and charting scheme found in the <code>schema</code> directory of this repository.</p>
+<p>Additionally, ensure the following is true:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> in <code>eri\eri-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
+<li>The ERI <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
+</ul>
+<h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
+<p>In order to query the external datasource, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
+<p>In the ERI connector&#39;s <code>application.properties</code> file at <code>connector\eri\eri-connector\src\main\resources</code>, add your token.</p>
+<pre><code class="lang-properties">server.port=9084
+socrata.url=https://data.cityofnewyork.us/resource/pasr-j7fb.json
+
+# API Token. Create a Socrata account and create an API Token. Paste it here
+socrata.api.token=
+</code></pre><h3 id="4-run-the-eri-connector">4. Run the ERI connector</h3>
+<p>To run the connector, navigate to <code>connector\eri\eri-connector</code> in your terminal and run the application using the following command:</p>
+<pre><code>mvnw spring-boot:run
+</code></pre><p>For more information about running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
+<h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
+<p>Deploy and start the Liberty server.</p>
+<pre><code>setup -t deployLiberty
+setup -t startLiberty
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

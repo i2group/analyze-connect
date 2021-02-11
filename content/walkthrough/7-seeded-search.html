@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Seeded search </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Seeded search ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="seeded-search">Seeded search</h1>
+
+<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, select an entity in Analyst&#39;s Notebook Premium and open &quot;External Search&quot;.</p>
+<p>Again, if you face any issues during this task, remember to consult the
+<a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
+<h2 id="configuration">Configuration</h2>
+<p>You need to configure a service to allow for seeded searches.</p>
+<h3 id="add-a-new-service">Add a new service</h3>
+<p>You will need to add a new service for seeded searches to the services array in the <code>config.json</code>. You will also need to add <code>seedConstraints</code> which define the entities allowed by the seeded search. For example:</p>
+<pre><code class="lang-json">{
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;nypd-find-like-this-complaint-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Find like this Complaint&quot;,
+      &quot;description&quot;: &quot;A service which finds a similar complaint&quot;,
+      &quot;clientConfigType&quot;: &quot;NONE&quot;,
+      &quot;acquireUrl&quot;: &quot;/find-like-this-complaint&quot;,
+      &quot;seedConstraints&quot;: {
+        &quot;min&quot;: 1,
+        &quot;max&quot;: 1,
+        &quot;seedTypes&quot;: {
+          &quot;allowedTypes&quot;: &quot;ENTITY&quot;,
+          &quot;itemTypes&quot;: [
+            {
+              &quot;id&quot;: &quot;made-up-schema-type-id (e.g. ET1)&quot;,
+              &quot;min&quot;: 1,
+              &quot;max&quot;: 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      &quot;id&quot;: &quot;nypd-expand-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Expand&quot;,
+      &quot;description&quot;: &quot;A service which executes an Expand operation on a seed&quot;,
+      &quot;clientConfigType&quot;: &quot;NONE&quot;,
+      &quot;acquireUrl&quot;: &quot;/expand&quot;,
+      &quot;seedConstraints&quot;: {
+        &quot;min&quot;: 1,
+        &quot;max&quot;: 1,
+        &quot;seedTypes&quot;: {
+          &quot;allowedTypes&quot;: &quot;ENTITY&quot;,
+          &quot;itemTypes&quot;: [
+            {
+              &quot;id&quot;: &quot;made-up-schema-type-id (e.g. ET1)&quot;
+            },
+            {
+              &quot;id&quot;: &quot;made-up-schema-type-id (e.g. ET1)&quot;
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+</code></pre><h3 id="check-service-in-analysts-notebook-premium">Check service in Analyst&#39;s Notebook Premium</h3>
+<p>Check that your service now appears in the list of defined services in Analyst&#39;s Notebook Premium.</p>
+<p>Update connectors&#39; configuration by running:</p>
+<ul>
+<li><code>setup -t updateConnectorsConfiguration</code></li>
+</ul>
+<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
+you have not already), which will configure your changes to the topology. Then:</p>
+<ul>
+<li>Log out and log back into Analyst&#39;s Notebook Premium to see the configuration changes and your newly-defined service.
+(If the service does not show up, try unchecking the <code>Hide queries whose requirements are not met</code> box).</li>
+<li>Try running it by pre-clicking on an entity. You should receive an error as your seeded search has been defined but not yet implemented.</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<p>It&#39;s time to implement these conditions.</p>
+<h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
+<details><summary><strong>Java</strong></summary>
+<p>
+
+i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.
+
+- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+  provided. This includes:
+  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service.
+  - Changes to <code>ConnectorController</code>.
+  - Some new REST transport classes.
+- Apply the code changes, either manually or by copying the relevant files over. You may need to change the path of the new method in <code>ConnectorController</code> if copying the files completely.
+- Notice how the endpoint is defined in the <code>ConnectorController</code> class.
+
+</p>
+</details>
+
+<details><summary><strong>Node.js</strong></summary>
+<p>
+
+i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.
+
+- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+  provided. This includes:
+  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service;
+  - Changes to <code>acquire</code> route to reflect changes in <code>config.json</code>;
+  - Chagnes to <code>socrata-data-service.js</code> file to have all the functions needed for <code>acquire</code> route;
+- Open the code from the <code>stage5/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.
+- You will need to implement functions defined in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.
+
+</p>
+</details>
+
+<details><summary><strong>Python</strong></summary>
+<p>
+
+i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.
+
+- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+  provided. This includes:
+  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service.
+  - Changes to <code>controller.py</code>.
+  - Some new REST transport classes.
+- Apply the code changes, either manually or by copying the relevant files over. You may need to change the path of the new method in <code>controller.py</code> if copying the files completely.
+- Notice how the endpoint is defined in the <code>controller.py</code> class.
+
+</p>
+</details>
+
+<h3 id="access-seeds">Access seeds</h3>
+<p>You will need to manipulate a seed passed into the request according to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">SPI</a> and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.</p>
+<h3 id="filter-data-based-on-seed">Filter data based on seed</h3>
+<p>How you will use the seed depends on what you are trying to achieve.</p>
+<h4 id="find-like-this-seeded-search">Find Like This seeded search</h4>
+<ul>
+<li>A <code>Find Like This</code> query looks at the property values of a selected record and searches for data in the external source that has the same or similar property values.</li>
+<li>For this service you will need to filter out your entities based on the matching properties of the seed entity that can be accessed via <code>request.payload.seeds.entities.get(0)</code>.</li>
+<li><strong><em>NOTE</em></strong>: Do not return the entity that was passed as the <code>seed</code>.</li>
+</ul>
+<h4 id="expand-seeded-search">Expand seeded search</h4>
+<ul>
+<li>An <code>Expand</code> query takes an entity as a seed and returns a list of entities and links that are connected to the seed.</li>
+<li>For this service you will need to find <em>all links</em> connected to the seed entity that can be accessed via <code>request.payload.seeds.entities.get(0)</code>. Then you will need to find <em>all entities</em> connected to these links.</li>
+<li>Finally, you need to make sure that the link is pointing to the <code>seedId</code>.</li>
+<li>To do that, you will need to change <code>toEndId</code> or <code>fromEndId</code> to the <code>seedId</code> that can be accessed via <code>request.payload.seeds.entities.get(0).sourceIds.get(0).key.get(2)</code>.</li>
+</ul>
+<h2 id="run-your-query">Run your query</h2>
+<p>Update connectors&#39; configuration by running:</p>
+<ul>
+<li><code>setup -t updateConnectorsConfiguration</code></li>
+</ul>
+<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
+you have not already), which will configure your changes to the topology.</p>
+<ol>
+<li>Open Analyst&#39;s Notebook Premium.</li>
+<li>Select an entity on the chart.</li>
+<li>Click on &quot;External Search&quot;.</li>
+<li>Click on your seeded search service to run it.</li>
+</ol>
+<p>You should now see a resulting list of entities which are connected to the entity you initially selected.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Next, you can combine what you&#39;ve learned from these past two sections to implement <a href="8-seeded-parameterised-search.html">seeded parameterized searches</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

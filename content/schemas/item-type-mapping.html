@@ -1,0 +1,210 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Item Type Mapping </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Item Type Mapping ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="item-type-mapping">Item Type Mapping</h1>
+
+<p>With the addition of <a href="gateway-schema.html">gateway</a> and <a href="connector-schema.html">connector</a> schemas, it is possible that
+different schemas contain similar item types. i2 Analyze provides a way for you to map similar item types together.</p>
+<h2 id="examples">Examples</h2>
+<ul>
+<li>For a detailed walkthrough of how to define item type mappings, see
+<a href="item-type-mapping-config.html">here</a>.</li>
+<li>To learn more about how you can use item type mapping in your own i2 Analyze
+deployment, see the following examples using the connectors and schemas
+provided in this repository:<ul>
+<li><a href="mapping-connector-to-gateway.html">Adding a connector with a connector schema to an existing deployment with a gateway schema</a></li>
+<li><a href="mapping-connector-to-gateway-to-infostore.html">Adding a connector with a connector schema to an existing deployment with a gateway schema and an Information Store schema</a></li>
+<li><a href="mapping-merge-two-schemas.html">Merging two gateway schemas using item type mapping</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="the-importance-of-item-type-mapping">The importance of item type mapping</h2>
+<p>Having similar item types can cause confusion for analysts, or provide inaccurate analytic results.
+For example, it might cause issues if you have two distinct item types for modelling a
+person. Issues can arise because all of the person data that enters the system
+is split between the two item types. If the two item types for modelling people are Person-A and Person-B, then:</p>
+<ol>
+<li><strong>It is confusing for users.</strong> Analysts might not understand
+why there are two person types and if they are creating a person record,
+it may not be clear which type to choose; Person-A or Person-B.</li>
+<li><strong>It allows incomplete analysis.</strong> Having person data split between two
+types allows users to analyze one type without realising the other exists.
+For example, an analyst executes a query and wants to add all of the person
+records in the results to a chart. When filtering the results, it is possible for them to select the Person-A type without selecting the Person-B
+type, and only add a subset of results to the chart.</li>
+<li><strong>It encourages duplication of data.</strong><ul>
+<li>i2 Analyze provides matching capabilities that allow users to identify
+duplicate records and unite them. However, only records of the same type can
+be matched and united. Therefore, allowing person data to be split between two types
+prevents i2 Analyze from being able to identify all the duplicate person
+records.</li>
+<li>It is possible to have a seeded external search that accepts records of
+type Person-A but not Person-B. Then, in order to use the search with a
+Person-B record, an analyst could create a new Person-A record containing
+the same, or almost the same, data as the Person-B record and use that as
+the seed. The result would be two person records containing the same data.</li>
+</ul>
+</li>
+</ol>
+<p>You should aim to have a single item type for each real-world object modelled by
+your schemas. To achieve this with multiple schemas providing similar types,
+i2 Analyze allows you to map types defined in one schema to types defined in
+another. Continuing with the example above, this means that you could, for
+example, map Person-A (the source type) to Person-B (the target type). This means that:</p>
+<ul>
+<li>The only type visible to users is the target type.</li>
+<li>i2 Analyze maps any records of the source type that are returned by
+queries to records of the target type.</li>
+<li>Any seeded searches provided by connectors that accept the source type
+accept the target type. i2 Analyze applies the mapping in reverse to produce
+records of the source type, then uses these as seeds when sending requests to
+connectors.</li>
+</ul>
+<p>Only users with <code>i2:Administrator</code> command access control permission are able to
+define the item type mapping configuration.</p>
+<h2 id="the-rules-of-item-type-mapping">The rules of item type mapping</h2>
+<p>The process shown applies to any mapping you define. There are, however, some
+restrictions on which types can be mapped to others:</p>
+<ul>
+<li>Item types in the Information Store schema cannot be the source type of a mapping</li>
+<li>Item types in connector schemas cannot be the target of any mappings. Only types in the Information Store schema or gateway schemas can be the
+target of mappings.</li>
+<li>Any item type mappings between two schemas can only go in one direction. For example,
+if you map a type from schema <em>A</em> to a type in schema <em>B</em>, you cannot then map
+a different type from schema <em>B</em> to a type in schema <em>A</em>.</li>
+</ul>
+<h2 id="chained-mappings">Chained mappings</h2>
+<p>If you define a mapping from type <em>A</em> to type <em>B</em> and another mapping from type
+<em>B</em> to type <em>C</em>, then:</p>
+<ul>
+<li>Any records of type <em>A</em> are mapped to records of type <em>C</em> by applying both
+mappings in sequence</li>
+<li>Any records of type <em>B</em> are mapped to records of type <em>C</em> by applying the
+relevant mapping</li>
+<li>Only type <em>C</em> is visible to users</li>
+</ul>
+<h2 id="mapping-to-the-information-store-schema-versus-a-gateway-schema">Mapping to the Information Store schema versus a gateway schema</h2>
+<p>If your i2 Analyze deployment contains:</p>
+<ul>
+<li>an Information Store</li>
+<li>a gateway schema</li>
+<li>at least one more gateway schema or connector schema</li>
+</ul>
+<p>Then for any mapping you define, you have the choice to map to either a type in
+the Information Store schema, or a type in a gateway schema. It&#39;s recommended
+that you map to an Information Store schema item type where possible. This means that:</p>
+<ol>
+<li>The mapped records can be uploaded to the Information Store</li>
+<li>You can find records in the Information Store that match the mapped records
+according to the system match rules, which can reduce duplicated data.</li>
+<li>Information Store services can be used to analyze the mapped records. For
+example, you can perform an expand operation on the records.</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

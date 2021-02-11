@@ -1,0 +1,534 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>New York Police Department (NYPD) Connector </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="New York Police Department (NYPD) Connector ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="new-york-police-department-nypd-connector">New York Police Department (NYPD) Connector</h1>
+
+<p>The NYPD connector connects to the <a href="https://data.cityofnewyork.us/Public-Safety/NYPD-Complaint-Data-Current-Year-To-Date-/5uac-w243">NYPD Complaint Data</a> and marshals the data into entities, links and properties. The dataset contains information on the felony, misdemeanor, and violation crimes reported to the New York City Police Department.</p>
+<p>There are a number of fields in the dataset, of which the following were used:</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>CMPLNT_NUM (Complaint Number)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>ADDR_PCT_CD (Precinct Code)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>BORO_NM (Borough Name)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>CMPLNT_FR_DT (Complaint From Date)</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>CMPLNT_FR_TM (Complaint From Time)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>CMPLNT_TO_DT (Complaint To Date)</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>CMPLNT_TO_TM (Complaint To Time)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>CRM_ATPT_CPTD_CD (Crime Atempted-Completed Code)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>HADEVELOPT (Housing Development)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>JURISDICTION_CODE (Jurisdiction Code)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>JURIS_DESC (Jurisdiction Description)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>KY_CD (Key Code)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>LAW_CAT_CD (Law Category Code)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>LOC_OF_OCCUR_DESC (Location of Occurence Description)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>OFNS_DESC (Offense Description)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>PARKS_NM (Park Name)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>PATROL_BORO (Patrol Borough)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>PD_CD (PD Code)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>PD_DESC (PD Description)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>PREM_TYPE_DESC (Premise Type Description)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>RPT_DT (Report Date)</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>STATION_NAME (Station Name)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>SUSP_AGE_GROUP (Suspect&#39;s Age Group)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>SUSP_RACE (Suspect&#39;s Race)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>SUSP_SEX (Suspect&#39;s Sex)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>TRANSIT_DISTRICT (Transit District)</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>VIC_AGE_GROUP (Victim&#39;s Age Group)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>VIC_RACE (Victim&#39;s Race)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>VIC_SEX (Victim&#39;s Sex)</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Latitude</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>Longitude</em></td>
+<td>Number</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-model">Data model</h2>
+<p>The NYPD schema models the NYPD Complaint Dataset by using its relevant fields. Each row of data can be represented by three entities (Complaint, Person and Location) and a number of appropriate links between them alongside properties extracted from each field.</p>
+<p>The schema (and charting schemes) for the NYPD connector can be found in the <code>schema</code> directory of this repository.</p>
+<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
+<h4 id="entity-complaint">Entity: Complaint</h4>
+<p>Represents a crime complaint.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Complaint Number</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>CMPLNT_NUM</em></td>
+</tr>
+<tr>
+<td>Complaint Start Date</td>
+<td>DATE</td>
+<td><em>CMPLNT_FR_DT</em></td>
+</tr>
+<tr>
+<td>Complaint End Date</td>
+<td>DATE</td>
+<td><em>CMPLNT_TO_DT</em></td>
+</tr>
+<tr>
+<td>Complaint Start Time</td>
+<td>TIME</td>
+<td><em>CMPLNT_FR_TM</em></td>
+</tr>
+<tr>
+<td>Complaint End Time</td>
+<td>TIME</td>
+<td><em>CMPLNT_TO_TM</em></td>
+</tr>
+<tr>
+<td>Crime Status</td>
+<td>SUGGESTED_FROM</td>
+<td><em>CRM_ATPT_CPTD_CD</em></td>
+</tr>
+<tr>
+<td>Jurisdiction Code</td>
+<td>INTEGER</td>
+<td><em>JURISDICTION_CODE</em></td>
+</tr>
+<tr>
+<td>Jurisdiction Description</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>JURIS_DESC</em></td>
+</tr>
+<tr>
+<td>Offence Classification Code</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>KY_CD</em></td>
+</tr>
+<tr>
+<td>Level of Offence</td>
+<td>SUGGESTED_FROM</td>
+<td><em>LAW_CAT_CD</em></td>
+</tr>
+<tr>
+<td>Offence Description</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>OFNS_DESC</em></td>
+</tr>
+<tr>
+<td>Internal Classification Code</td>
+<td>INTEGER</td>
+<td><em>PD_CD</em></td>
+</tr>
+<tr>
+<td>Classification Description</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>PD_DESC</em></td>
+</tr>
+<tr>
+<td>Event Date</td>
+<td>DATE</td>
+<td><em>RPT_DT</em></td>
+</tr>
+<tr>
+<td>Location of Occurrence</td>
+<td>SUGGESTED_FROM</td>
+<td><em>LOC_OF_OCCUR_DESC</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="entity-location">Entity: Location</h4>
+<p>Represents the location of a reported crime.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Precinct Code</td>
+<td>INTEGER</td>
+<td><em>ADDR_PCT_CD</em></td>
+</tr>
+<tr>
+<td>Borough Name</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>BORO_NM</em></td>
+</tr>
+<tr>
+<td>Housing Development</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>HADEVELOPT</em></td>
+</tr>
+<tr>
+<td>Park Name</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>PARKS_NM</em></td>
+</tr>
+<tr>
+<td>Patrol Borough</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>PATROL_BORO</em></td>
+</tr>
+<tr>
+<td>Premises Description</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>PREM_TYP_DESC</em></td>
+</tr>
+<tr>
+<td>Station Name</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>STATION_NAME</em></td>
+</tr>
+<tr>
+<td>Transit District</td>
+<td>INTEGER</td>
+<td><em>TRANSIT_DISTRICT</em></td>
+</tr>
+<tr>
+<td>Coordinates</td>
+<td>GEOSPATIAL</td>
+<td><em>Latitude</em> &amp; <em>Longitude</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="entity-person">Entity: Person</h4>
+<p>Represents a person somehow involved in a reported crime. Since each record of the NYPD Complaint Dataset has information on both victims and suspects, two Person entities are created from a single record.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Age Group</td>
+<td>SUGGESTED_FROM</td>
+<td><em>SUSP_AGE_GROUP</em> or <em>VIC_AGE_GROUP</em></td>
+</tr>
+<tr>
+<td>Race</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>SUSP_RACE</em> or <em>VIC_RACE</em></td>
+</tr>
+<tr>
+<td>Sex</td>
+<td>SUGGESTED_FROM</td>
+<td><em>SUSP_SEX</em> or <em>VIC_SEX</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="links">Links</h4>
+<p>Establishes some connection between a Complaint, a Location and a Person.</p>
+<table>
+<thead>
+<tr>
+<th>Link Type</th>
+<th>Link Ends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Located At</td>
+<td>Complaint -&gt; Location</td>
+</tr>
+<tr>
+<td>Suspect Of</td>
+<td>Person -&gt; Complaint</td>
+</tr>
+<tr>
+<td>Victim Of</td>
+<td>Person -&gt; Complaint</td>
+</tr>
+</tbody>
+</table>
+<h2 id="setup">Setup</h2>
+<p>These instructions are for setting up and running the NYPD connector.</p>
+<p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
+<!-- TODO: Doc review this line-->
+<p>If you want to configure your connector to use an Information Store schema, you must <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploy i2 Analyze with the Information Store and the i2 Connect gateway</a>.</p>
+<h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
+<p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the NYPD connector:</p>
+<pre><code class="lang-xml">&lt;wars&gt;
+  &lt;war ... &gt;
+    ...
+    &lt;connector-ids&gt;
+      &lt;connector-id value=&quot;nypd-connector&quot;/&gt;
+    &lt;/connector-ids&gt;
+    ...
+  &lt;/war&gt;
+&lt;/wars&gt;
+</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> to the topology:</p>
+<pre><code class="lang-xml">&lt;ns1:topology ...&gt;
+  ...
+  &lt;connectors&gt;
+    &lt;connector base-url=&quot;http://localhost:9081&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot;/&gt;
+  &lt;/connectors&gt;
+&lt;/ns1:topology&gt;
+</code></pre><p>Ensure that you&#39;re using the same port as specified in <code>application.properties</code> (<code>9081</code> by default) and that the value of the <code>id</code> attribute is the name as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+<h3 id="2-configure-the-schema">2. Configure the schema</h3>
+<p>Choose whether you want to configure the NYPD schema as a connector schema, a gateway schema, or an Information Store schema.</p>
+<h4 id="connector-schema">Connector schema</h4>
+<p>By default, your connector will be configured as a connector schema. This is due to the presence of the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> in the NYPD connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code>.</p>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>
+<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
+</ul>
+<p>See for more information on <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
+<h4 id="gateway-schema">Gateway schema</h4>
+<p>If you want to set up the NYPD schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the NYPD schema and charting scheme found in the <code>schema</code> directory of this repository.</p>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
+<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
+</ul>
+<!-- TODO: Doc review this section-->
+<h4 id="information-store-schema">Information Store schema</h4>
+<p>If you want to set up the NYPD schema as an Information Store schema:</p>
+<ol>
+<li>Copy the NYPD schema and charting scheme found in the <code>schema</code> directory of this repository to the <code>configuration/fragments/common/WEB-INF/classes</code> directory in your i2 Analyze configuration.</li>
+<li>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory, and update the following properties to point to the relevant files
+<code>properties
+SchemaResource=nypd-complaint-data-schema.xml
+ChartingSchemesResource=nypd-complaint-data-schema-charting-schemes.xml</code></li>
+</ol>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code> <strong>does not</strong> contain the following properties that exist by default; if they are present, remove them:<ul>
+<li><code>schemaUrl</code></li>
+<li><code>chartingSchemesUrl</code></li>
+<li><code>schemaShortName</code></li>
+<li><code>gatewaySchema</code></li>
+</ul>
+</li>
+<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain the following attributes: <ul>
+<li><code>schema-short-name</code></li>
+<li><code>gateway-schema</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
+<p>In order to query the external datasource, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
+<p>In the NYPD connector&#39;s <code>application.properties</code> file at <code>connector\nypd\nypd-connector\src\main\resources</code>, add your token.</p>
+<pre><code class="lang-properties">server.port=9081
+socrata.url=https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+
+# API Token. Create a Socrata account and create an API Token. Paste it here
+socrata.api.token=
+</code></pre><h3 id="3-run-the-nypd-connector">3. Run the NYPD connector</h3>
+<p>To run the connector, navigate to <code>connector\nypd\nypd-connector</code> in your terminal and run the application using the following command:</p>
+<pre><code>mvnw spring-boot:run
+</code></pre><p>For more information on running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
+<h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
+<p>Deploy and start the Liberty server.</p>
+<pre><code>setup -t deployLiberty
+setup -t startLiberty
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

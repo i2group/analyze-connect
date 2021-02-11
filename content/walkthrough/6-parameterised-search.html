@@ -1,0 +1,251 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Parameterized search </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Parameterized search ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="parameterized-search">Parameterized search</h1>
+
+<p>A parameterized search passes defined conditions that you can use to drive your searches.</p>
+<p>If you have any problems during this task, remember to consult the
+<a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="add-a-new-service">Add a new service</h3>
+<p>You will need to add a service for parameterized searches to the services array in the <code>config.json</code>.</p>
+<p>For this service, you need to set the <code>clientConfigType</code>. In this example, you will set the value to be <code>FORM</code> so that you can specify your conditions via fields in a form that will be shown in Analyst&#39;s Notebook Premium.</p>
+<pre><code class="lang-json">{
+  ...
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;nypd-search-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
+      &quot;description&quot;: &quot;A service for conditional searches&quot;,
+      &quot;clientConfigType&quot;: &quot;FORM&quot;,
+      &quot;clientConfigId&quot;: &quot;searchForm&quot;,
+      &quot;acquireUrl&quot;: &quot;/search&quot;
+    }
+  ]
+}
+</code></pre><h3 id="define-search-fields">Define search fields</h3>
+<p>You will need to define the search fields in a <code>clientConfigs</code> array at the root level of your <code>config.json</code>. For example:</p>
+<pre><code class="lang-json">{
+  &quot;defaultValues&quot;: {
+    ...
+  },
+  &quot;services&quot;: [
+    ...
+  ],
+  &quot;clientConfigs&quot;: [
+    {
+      &quot;id&quot;: &quot;searchForm&quot;,
+      &quot;config&quot;: {
+        &quot;sections&quot;: [
+          {
+            &quot;conditions&quot;: [
+              {
+                &quot;id&quot;: &quot;searchTerm&quot;,
+                &quot;label&quot;: &quot;made-up-field (e.g. Complaint Number)&quot;,
+                &quot;mandatory&quot;: false,
+                &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+</code></pre><p>For more information on client configuration, refer to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html">Knowledge Center</a>.</p>
+<h3 id="test-search-fields">Test search fields</h3>
+<p>Check that your fields work in Analyst&#39;s Notebook Premium, you need to tell i2 Analyze to reload it&#39;s
+connectors&#39; configurations, run:</p>
+<ul>
+<li><code>setup -t updateConnectorsConfiguration</code></li>
+</ul>
+<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
+you have not already), which will configure your changes to the topology. You can then:</p>
+<ul>
+<li>Log out and log back into Analyst&#39;s Notebook Premium to see the configuration changes and your newly-defined service.</li>
+<li>Try running it. You should receive an error as your condition fields have been defined but not yet implemented.</li>
+</ul>
+<h2 id="implementation">Implementation</h2>
+<p>It&#39;s time to implement these conditions.</p>
+<details><summary><strong>Java</strong></summary>
+<p>
+
+### Add an acquire endpoint for your service
+i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
+* You have a template to get started with; see the <code>stage4/nypd-connector</code>
+  directory provided. This includes:
+  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
+  * Changes to the <code>ConnectorController</code> class
+  * Some extra REST transport classes
+* Apply these changes to your code, either manually, or by copying the relevant
+  files. If you are copying the files, you may need to change the path of the
+  new method in <code>ConnectorController</code>.
+* Look at how the endpoint is defined in the <code>ConnectorController</code> class and think about how you should implement this service.
+
+</p>
+</details>
+
+<details><summary><strong>Node.js</strong></summary>
+<p>
+
+### Add an acquire endpoint for your service
+
+i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
+* You have a template to get started with; see the <code>stage4/nypd-connector</code>
+  directory provided. This includes:
+  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service;
+  * A new <code>validate</code> route;
+  * A new <code>/search</code> endpoint in the <code>acquire</code> route;
+* Open the code from the <code>stage4/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.
+* You will need to implement <code>findComplaint</code> function in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.
+
+</p>
+</details>
+
+<details><summary><strong>Python</strong></summary>
+<p>
+
+### Add an acquire endpoint for your service
+i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
+* You have a template to get started with; see the <code>stage4/nypd-connector</code>
+  directory provided. This includes:
+  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
+  * Changes to the <code>controller.py</code> file
+  * Some extra REST transport classes
+* Apply these changes to your code, either manually, or by copying the relevant
+  files. If you are copying the files, you may need to change the path of the
+  new method in <code>controller.py</code>.
+* Look at how the endpoint is defined in the <code>controller.py</code> class and think about how you should implement this service.
+
+</p>
+</details>
+
+<h3 id="access-conditions">Access conditions</h3>
+<p>You will need to parse the conditions passed in the request according to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
+<p>You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the <code>DaodRequest</code> model in the SPI. The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>
+<h3 id="filter-data-by-conditions">Filter data by conditions</h3>
+<p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the datasource match the parameters given by the user in the form.</p>
+<h2 id="run-your-query">Run your query</h2>
+<p>Update the connectors&#39; configuration by running:</p>
+<ul>
+<li><code>setup -t updateConnectorsConfiguration</code></li>
+</ul>
+<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
+you have not already), which will configure your changes to the topology. Then:</p>
+<ol>
+<li>Open Analyst&#39;s Notebook Premium.</li>
+<li>Click on &quot;External Search&quot;.</li>
+<li>Select your parameterized search service.</li>
+<li>Provide a value to the condition field and click &quot;Run&quot;.</li>
+</ol>
+<p>You should now see a resulting list of entities that satisfy your condition.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Now you can implement <a href="7-seeded-search.html">seeded searches</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

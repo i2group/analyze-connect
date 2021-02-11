@@ -1,0 +1,1437 @@
+{
+  "homepages": [],
+  "source_base_path": "D:/GitProjects/Connect-Examples/docs",
+  "xrefmap": "xrefmap.yml",
+  "files": [
+    {
+      "type": "Resource",
+      "output": {
+        "resource": {
+          "relative_path": "index.json"
+        }
+      },
+      "is_incremental": false
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/connector-async.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/connector-async.html",
+          "hash": "BVbIO9dY5S/QsM79xR07lA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/connector-eri.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/connector-eri.html",
+          "hash": "s4lYBTYuuvLbFfJNSGzifQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/connector-kcpd.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/connector-kcpd.html",
+          "hash": "RrASYnRkwbCDsWoUp/pSpg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/connector-nypd.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/connector-nypd.html",
+          "hash": "cXSKTNQzolMsceiurXa7cQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/example-connectors/images/vscode.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/example-connectors/images/vscode.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/run-java.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/run-java.html",
+          "hash": "bXktJpEZTu0HVy1CHHmRrg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/run-node.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/run-node.html",
+          "hash": "WHr8NVV1sRPIHpT+ozHovQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/run-python.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/run-python.html",
+          "hash": "DAcUu1G2HQB2hYTnWnn6Ew=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/data-model.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/data-model.html",
+          "hash": "uzXC79ynFIyXi9o+Cpzp7Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.html",
+          "hash": "uDXIJDqPWys0/BHzrkWo4w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/example-data.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/example-data.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/failed-to-open-query.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/failed-to-open-query.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/parameterised-search.jpg",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/parameterised-search.jpg"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/postman-async-acquire.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/postman-async-acquire.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/postman-async-status.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/postman-async-status.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/postman-search.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/postman-search.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/postman.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/postman.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/queries-not-configured-correctly.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/queries-not-configured-correctly.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/miscellaneous/images/seed-example.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/miscellaneous/images/seed-example.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/postman.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/postman.html",
+          "hash": "0apSRUSBEqpAmWbjNQ391Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/principal-propagation.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/principal-propagation.html",
+          "hash": "0b0Ywe/RLDArk8cOt1xG2Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/source-references.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/source-references.html",
+          "hash": "aQSwIKA2g0WMFUUjQeopcQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/spi-examples.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/spi-examples.html",
+          "hash": "FdJN7ofjfZ6EWf3iTXtd5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/miscellaneous/troubleshoot.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/miscellaneous/troubleshoot.html",
+          "hash": "4y9lblwaVz9I36fe13EQhg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi.html",
+          "hash": "Ix892q50brP7hI9iq4ZlBw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/acquire.html",
+          "hash": "SFkRJLEe9vdDnB4184IX/A=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/config.html",
+          "hash": "yRd2JErLxh0QaSjGBOzVOg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/acquireAsync.html",
+          "hash": "riLqnvoCR7OvS9GuNfB8fg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/delete.html",
+          "hash": "5OOxEOit5fq8zaxrBDOZ6Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/status.html",
+          "hash": "/ACYlpT6YsniZopYb8iORQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/results.html",
+          "hash": "xL83ChpG7jjWbF85iuAIDQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/validate.html",
+          "hash": "BA+80kYBg8t/T6TIjE5I+Q=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "content/rest/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/toc.html",
+          "hash": "hZy6ig7Fs7QYxKkVHH1AwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/admin-cac.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/admin-cac.html",
+          "hash": "d9hlMUr6iH9y4vt3ZQBiMw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/connector-schema.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/connector-schema.html",
+          "hash": "Wt6XJy+e4TEyG5uS7R9Txg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/gateway-schema.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/gateway-schema.html",
+          "hash": "deCKySyY6dLzaj2D7MajkQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/admin-ui-gateway-config.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/admin-ui-gateway-config.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/admin-ui-mapping-config.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/admin-ui-mapping-config.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping-kcpd-infostore.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping-kcpd-infostore.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping-select-values-and-reverse-kcpd-infostore.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping-select-values-and-reverse-kcpd-infostore.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping-select-values-and-reverse.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping-select-values-and-reverse.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping-select-values-kcpd-infostore.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping-select-values-kcpd-infostore.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping-select-values.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping-select-values.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/age-property-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/age-property-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/choose-reverse-value-button.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/choose-reverse-value-button.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/choose-reverse-value-options.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/choose-reverse-value-options.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-invalid-fix.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-invalid-fix.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-invalid.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-invalid.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-unconfigured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-unconfigured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-validation-warning.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping-validation-warning.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-incidents-to-kcpd-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-location-to-infostore-location-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-location-to-infostore-location-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-location-to-kcpd-location-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-location-to-kcpd-location-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-to-kcpd-to-infostore-mappings-configured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-to-kcpd-to-infostore-mappings-configured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/eri-types-unmapped.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/eri-types-unmapped.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-entity-types.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-entity-types.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-link-types.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-link-types.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-mapped-records-disabled.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-mapped-records-disabled.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-mapped-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-mapped-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-mapped-to-infostore-records-enabled.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-mapped-to-infostore-records-enabled.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-mapped-to-infostore-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-mapped-to-infostore-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-eri-unmapped-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-eri-unmapped-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-gateway-types-unmapped.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-gateway-types-unmapped.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-location-to-infostore-location-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-location-to-infostore-location-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-location-to-nypd-location-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-location-to-nypd-location-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-person-to-merged-person.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-person-to-merged-person.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-person.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-person.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-report-to-infostore-complaint-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-report-to-infostore-complaint-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-in-list.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-in-list.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-mapping-unconfigured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-mapping-unconfigured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-mapping.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-report-to-nypd-complaint-mapping.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-to-eri-mappings-configured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-to-eri-mappings-configured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-to-nypd-mappings-configured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-to-nypd-mappings-configured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/kcpd-types-unmapped.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/kcpd-types-unmapped.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/mapping-apply-preview.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/mapping-apply-preview.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/mapping-choose-target-type.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/mapping-choose-target-type.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/mapping-configured.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/mapping-configured.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/mapping-properties.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/mapping-properties.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/mapping-property-value.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/mapping-property-value.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/merged-mappings-summary.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/merged-mappings-summary.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-complaint-to-merged-report.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-complaint-to-merged-report.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-dataset-webpage.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-dataset-webpage.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-kcpd-entity-types.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-kcpd-entity-types.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-kcpd-link-types.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-kcpd-link-types.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-kcpd-mapped-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-kcpd-mapped-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-kcpd-unmapped-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-kcpd-unmapped-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-location-to-merged-location.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-location-to-merged-location.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-person-to-merged-person.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-person-to-merged-person.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-person.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-person.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/nypd-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/nypd-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/select-default-value-button.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/select-default-value-button.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/select-default-value-kcpd-city.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/select-default-value-kcpd-city.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/schemas/images/upload-infostore-records.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/schemas/images/upload-infostore-records.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/item-type-mapping-config.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/item-type-mapping-config.html",
+          "hash": "WooJx/FVb0qCQ4deBSZ+Pg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/item-type-mapping.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/item-type-mapping.html",
+          "hash": "kEjtwYmXyJfPHKh1YLn1Uw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/mapping-connector-to-gateway-to-infostore.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/mapping-connector-to-gateway-to-infostore.html",
+          "hash": "yUcR/4MAJUHv3penYwHI5w=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/mapping-connector-to-gateway.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/mapping-connector-to-gateway.html",
+          "hash": "yhYDr22fd/PlZ3C5XjzP4g=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/mapping-merge-two-schemas.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/mapping-merge-two-schemas.html",
+          "hash": "ABC/PsFiBrPEn/Klc7vzlQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/schemas/type-location.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/schemas/type-location.html",
+          "hash": "zXVKA93yuydEUL4phwEAEg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/1-schema-design-guide.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/1-schema-design-guide.html",
+          "hash": "XgQI8WVqv0LoY3ulySZnZA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/2-deploy-i2-analyze.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/2-deploy-i2-analyze.html",
+          "hash": "BI3PQgfpqskBULRBcTd4Cg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/3-deploy-connector.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/3-deploy-connector.html",
+          "hash": "+iM/yLN/owvkWydcIhmfYg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/4-add-service.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/4-add-service.html",
+          "hash": "ARRTSyaI4DaGXv9yCphwCg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/5-connect-to-eds.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/5-connect-to-eds.html",
+          "hash": "zc9SriCTZOVlniG3FJf2Ug=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/6-parameterised-search.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/6-parameterised-search.html",
+          "hash": "3cpmUF3nDGxGwgiprWdbaw=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/7-seeded-search.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/7-seeded-search.html",
+          "hash": "7cWRUpJioCcSK+OvYBupLg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/8-seeded-parameterised-search.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/8-seeded-parameterised-search.html",
+          "hash": "jL50JpMELF2MNNDEyPf+sQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/walkthrough/9-validation.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/walkthrough/9-validation.html",
+          "hash": "p9uZOYiZpBeXEgE4TZspgg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/charting-scheme-labelled.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/charting-scheme-labelled.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/charting-scheme-unlabelled.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/charting-scheme-unlabelled.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/charting-schemes-label-example.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/charting-schemes-label-example.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/complaint-entity-anbp.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/complaint-entity-anbp.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/i2-connect-architecture.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/i2-connect-architecture.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/live-formatting.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/live-formatting.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "content/walkthrough/images/person-entity-anbp.png",
+      "output": {
+        "resource": {
+          "relative_path": "content/walkthrough/images/person-entity-anbp.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "guidetoc/toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "guidetoc/toc.html",
+          "hash": "GZ3Qn8Heh2C+Fcw10GawwQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "images/favicon.png",
+      "output": {
+        "resource": {
+          "relative_path": "images/favicon.png"
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "index.md",
+      "output": {
+        ".html": {
+          "relative_path": "index.html",
+          "hash": "va70KxcMxIj6+VlQpO9fsA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".html": {
+          "relative_path": "toc.html",
+          "hash": "AvzGy8pQYVHsRq9UKzS2Hg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    }
+  ],
+  "incremental_info": [
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot build incrementally because config changed.",
+        "incrementalPhase": "build",
+        "total_file_count": 0,
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ConfigChanged"
+      },
+      "processors": {
+        "ConceptualDocumentProcessor": {
+          "can_incremental": false,
+          "incrementalPhase": "build",
+          "total_file_count": 33,
+          "skipped_file_count": 0
+        },
+        "ResourceDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "RestApiDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor RestApiDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        },
+        "TocDocumentProcessor": {
+          "can_incremental": false,
+          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
+          "incrementalPhase": "build",
+          "total_file_count": 0,
+          "skipped_file_count": 0
+        }
+      }
+    },
+    {
+      "status": {
+        "can_incremental": false,
+        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
+        "incrementalPhase": "postProcessing",
+        "total_file_count": 0,
+        "skipped_file_count": 0
+      },
+      "processors": {}
+    }
+  ],
+  "version_info": {},
+  "groups": [
+    {
+      "xrefmap": "xrefmap.yml"
+    }
+  ]
+}

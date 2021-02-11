@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Deploying a connector </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Deploying a connector ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="deploying-a-connector">Deploying a connector</h1>
+
+<p>In this task, you deploy a minimal connector with a configuration endpoint
+that defines just one service. This is the minimum required for any connector to
+interact with the i2 Connect gateway.</p>
+<p>If you have any issues during this task, the
+<a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> might be helpful.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you start, ensure that you have:</p>
+<ul>
+<li>deployed i2 Analyze with the i2 Connect gateway, and</li>
+<li>defined a schema to model the data, and</li>
+<li>installed Analyst&#39;s Notebook Premium and connected it to your i2 Analyze
+deployment</li>
+</ul>
+<h2 id="adding-the-connector-to-the-i2-analyze-topology">Adding the connector to the i2 Analyze topology</h2>
+<p>This is how to configure the i2 Analyze server so that it knows about your
+connector.</p>
+<h3 id="add-the-connector-to-the-topologyxml">Add the connector to the topology.xml</h3>
+<ol>
+<li>In the <code>i2analyze</code> directory, navigate to the
+<code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code>
+file in a text editor.</li>
+<li>In the <code>opal-services-daod</code> <code>&lt;war&gt;</code> element, if it is not already there,
+add a <code>&lt;connector-ids&gt;</code> element. Inside that, add a <code>&lt;connector-id&gt;</code> element
+with a <code>value</code> attribute that matches the unique identifier of your connector.
+For example:
+<code>xml
+&lt;wars&gt;
+  &lt;war ... name=&quot;opal-services-daod&quot; ... &gt;
+    ...
+    &lt;connector-ids&gt;
+      &lt;connector-id value=&quot;nypd-crime-connector&quot;/&gt;
+    &lt;/connector-ids&gt;
+    ...
+  &lt;/war&gt;
+&lt;/wars&gt;</code></li>
+<li>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here,
+add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, <code>base-url</code>, and
+<code>gateway-schema</code> attributes.    Choose whatever <code>id</code> and <code>name</code> you like, but
+set the <code>base-url</code> to <code>http://localhost:9081/</code> and the <code>gateway-schema</code> to
+the short name of your schema. For example:
+<code>xml
+&lt;ns1:topology ...&gt;
+  ...
+  &lt;connectors&gt;
+    &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Crime Connector&quot; id=&quot;nypd-crime-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
+  &lt;/connectors&gt;
+&lt;/ns1:topology&gt;</code></li>
+</ol>
+<h3 id="reload-the-i2-analyze-configuration">Reload the i2 Analyze configuration</h3>
+<p>For these changes to take effect, you need to update the i2 Analyze connectors
+configuration and use Postman to make the server reload it.</p>
+<ol>
+<li>Navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:
+<code>setup -t updateConnectorsConfiguration</code></li>
+<li>Open Postman and run the <code>Form Based Login</code> request to authenticate
+as the default user in i2 Analyze.</li>
+<li>Call the POST method on the <code>reload</code> endpoint to enact your changes to the topology.</li>
+</ol>
+<h3 id="use-postman-to-verify-the-changes">Use Postman to verify the changes</h3>
+<p>To confirm that you have successfully added a connector to the topology, you can
+send an HTTP GET request to the i2 Analyze server. Although you don&#39;t yet
+have a running connector, this ensures that you have configured i2 Analyze so that it
+can find the one you will soon create.</p>
+<ul>
+<li>Open Postman and call GET on the <code>connectors</code> endpoint.</li>
+</ul>
+<p>In the response, the <code>connectors</code> array includes an entry that corresponds to
+the connector you just defined. However, there is also an error and a message
+saying that i2 Analyze failed to retrieve configuration information for your
+connector. This is because the connector doesn&#39;t exist yet!</p>
+<h2 id="deploying-the-connector">Deploying the connector</h2>
+<p>Now that i2 Analyze is expecting a connector, you had better create one! For the
+purposes of this guide, an example Spring Boot application is provided.</p>
+<h3 id="set-up-the-example-starting-point">Set up the example starting point</h3>
+<details><summary><strong>Java</strong></summary>
+<p>
+
+* Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+  <code>nypd-connector</code> directory to wherever you would like to work, and open it
+  in VSCode or the IDE of your choice.
+* Have a look at the contents:
+  * Resources: <code>config.json</code> and <code>application.properties</code>
+  * Code: a simple Spring Boot application
+  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+  and how to execute them. The <code>application.properties</code> file defines the
+  server ports, the database URLs, and the API token to aid in the connection.
+* Start the connector. See <a href="../example-connectors/run-java.html">running example connectors in Java</a>.
+
+</p>
+</details>
+
+<details><summary><strong>Node.js</strong></summary>
+<p>
+
+* Open the example starting code from the <code>stage1/nypd-connector</code> folder in VSCode,
+  or the IDE of your choice.
+* Have a look at the contents:
+  * Resources: <code>public/json/config.json</code>
+  * Code: a simple Express application
+  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+  and how to execute them. The <code>app.js</code> file is where the <code>CONTEXT_ROOT</code> and
+  all the connector&#39;s endpoints are defined (for now, just the <code>/config</code>
+  endpoint). The <code>routes</code> folder is where all defined routes are implemented
+  (for now, only the <code>config</code> route).
+* Start the connector through the <a href="../example-connectors/run-node.html">command line</a>.
+
+</p>
+</details>
+
+<details><summary><strong>Python</strong></summary>
+<p>
+
+* Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+  <code>nypd-connector</code> directory to wherever you would like to work, and open it
+  in VSCode or the IDE of your choice.
+* Have a look at the contents:
+  * Resources: <code>config.json</code>
+  * Code: a simple Flask application.
+  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+  and how to execute them.
+* Start the connector through the <a href="../example-connectors/run-python.html">command line</a>.
+
+</p>
+</details>
+
+<h3 id="use-postman-to-investigate-the-config-endpoint">Use Postman to investigate the config endpoint</h3>
+<p>The supplied starting code has a <code>config</code> endpoint that is ready to use:</p>
+<ul>
+<li>In Postman, call the GET method of the <code>config</code> endpoint and look at the
+output. It matches the contents of the <code>config.json</code> file that you set up
+earlier.</li>
+</ul>
+<h3 id="update-the-i2-analyze-connectors-configuration">Update the i2 Analyze connectors configuration</h3>
+<p>Now that you have a connector running, you need to tell i2 Analyze to reload its
+connector configurations.</p>
+<ol>
+<li>Run <code>setup -t updateConnectorsConfiguration</code>.</li>
+<li>Call the POST method on the <code>reload</code> endpoint to configure your changes to
+the topology.</li>
+</ol>
+<h3 id="view-the-i2-analyze-connectors-configurations-in-postman">View the i2 Analyze connectors configurations in Postman</h3>
+<ul>
+<li>Exactly as before, open Postman and call GET on the <code>connectors</code> endpoint.</li>
+</ul>
+<p>You no longer have the &quot;Failed to retrieve configuration&quot; error, but it has
+been replaced by two others.</p>
+<h3 id="investigate-in-analysts-notebook-premium">Investigate in Analyst&#39;s Notebook Premium</h3>
+<p>Before you fix these issues, take a look at what happens when you try to use
+your connector from Analyst&#39;s Notebook Premium.</p>
+<ol>
+<li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server.</li>
+<li>In the top ribbon, click the <strong>External Searches</strong> button.</li>
+<li>Notice the banner at the top of the resulting window that says &quot;Some
+queries are not configured correctly.&quot;</li>
+<li>Click the <strong>DETAILS</strong> button and look at the messages. You can see that it
+corresponds to the output you saw when using the <code>connectors</code> endpoint from
+Postman.</li>
+</ol>
+<h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
+<p>You might see the following warning message:</p>
+<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The
+application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
+<p>You can ignore this in a development environment. This is shown because i2 Analyze and your connector
+communicate via HTTP.</p>
+<p><strong>In a production environment, you should secure this
+connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
+<h3 id="fix-the-timezone-error">Fix the timezone error</h3>
+<ol>
+<li>Look at the error message about the default timezone. You need to update the
+<code>config.json</code> file to include a timezone.</li>
+<li>Use the GET method on the <code>core/temporal/timezones</code> endpoint to get a list
+of valid timezones. Add your chosen timezone to the top of the <code>config.json</code>
+file.</li>
+<li>Update the i2 Analyze connector configurations again, and then use either
+Postman or Analyst&#39;s Notebook Premium to check that the problem is
+resolved.</li>
+</ol>
+<h2 id="adding-a-service">Adding a service</h2>
+<p>You still have the error about the connector not having any defined services. A
+valid connector must have at least one service. Next, you need to
+<a href="4-add-service.html">define and implement a service</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

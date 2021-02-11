@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Type Location </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Type Location ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="type-location">Type Location</h1>
+<!-- Doc Review -->
+
+<p>The type location of an item type used by a connector indicates where - between the Information Store schema, the gateway schema used by the connector, or its own connector schema - the item type is defined.</p>
+<p>With the introduction of gateway and connector schemas, it has become important for i2 Analyze to determine the origin of item types. It is possible for two schemas to have item types with the same item type ID; in which case, the gateway will attempt to infer the type location by looking in the following order:</p>
+<ol>
+<li>The connector&#39;s own schema</li>
+<li>The gateway schema used by the connector</li>
+<li>The Information Store schema</li>
+</ol>
+<p>A connector can explicitly specify the type locations for item types to avoid ambiguity and ensure that the desired item type from the appropriate schema is used.</p>
+<h3 id="default-type-locations">Default Type Locations</h3>
+<p>You can specify the default type location for all entities and links returned from the connector in the <code>defaultValues</code> field of the connector configuration as follows:</p>
+<pre><code class="lang-jsonc">{
+  &quot;defaultValues&quot;: {
+    &quot;entityTypeLocation&quot;: &quot;[LOCATION]&quot;,
+    &quot;linkTypeLocation&quot;: &quot;[LOCATION]&quot;
+  },
+  &quot;services&quot;: {
+    /* ... */
+  }
+}
+</code></pre><p>Legal values for <code>[LOCATION]</code> are as follows:</p>
+<ul>
+<li><code>INFOSTORE</code> - Indicates that the item type returned is from the Information Store schema.</li>
+<li><code>GATEWAY</code> - Indicates that the item type returned is from the gateway schema used by the connector.</li>
+<li><code>CONNECTOR</code> - Indicates that the item type returned is from the connector&#39;s own schema.</li>
+</ul>
+<h3 id="result-item-type-locations">Result Item Type Locations</h3>
+<p>A service&#39;s <code>resultItemTypeIds</code> property specifies the item types expected to be returned from the service. It also provides type location overrides for specific item types using the following structure:</p>
+<pre><code class="lang-jsonc">{
+  &quot;&lt;LOCATION&gt;&quot;: [&quot;TYPEID1&quot;, &quot;TYPEID2&quot;, /* ... */ ]
+}
+</code></pre><p>Where <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code> or <code>CONNECTOR</code>.</p>
+<p>Since a service can use item types from all three type locations, all three type locations can be specified. For example, a service which returns entity type <code>ET1</code> from the Information Store schema, <code>ET2</code> the gateway schema and <code>ET3</code> from a connector schema will look like the following:</p>
+<pre><code class="lang-jsonc">{
+  &quot;services&quot;: [
+    {
+      /* ... */
+      &quot;resultItemTypeIds&quot;: {
+        &quot;INFOSTORE&quot;: [&quot;ET1&quot;, &quot;LT1&quot;],
+        &quot;GATEWAY&quot;: [&quot;ET2&quot;, &quot;LT2&quot;],
+        &quot;CONNECTOR&quot;: [&quot;ET3&quot;, &quot;LT3&quot;]
+      }
+    }
+  ]
+}
+</code></pre><p>Specifying type locations in this way will override the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
+<h3 id="type-locations-for-seed-constraints">Type Locations for Seed Constraints</h3>
+<p>It is also possible to specify the type locations of seed items by including <code>typeLocation</code> attributes for each allowed item type of a service&#39;s seed constraint definition. This is shown as follows:</p>
+<pre><code class="lang-jsonc">{
+  &quot;services&quot;: [
+    {
+      /* ... */
+      &quot;resultItemTypeIds&quot;: {
+        &quot;INFOSTORE&quot;: [&quot;ET1&quot;, &quot;LT1&quot;],
+        &quot;GATEWAY&quot;: [&quot;ET2&quot;, &quot;LT2&quot;],
+        &quot;CONNECTOR&quot;: [&quot;ET3&quot;, &quot;LT3&quot;]
+      },
+      &quot;seedConstraints&quot;: {
+        &quot;min&quot;: 1,
+        &quot;max&quot;: 1,
+        &quot;seedTypes&quot;: {
+          &quot;allowedTypes&quot;: &quot;ENTITY&quot;,
+          &quot;itemTypes&quot;: [
+            {
+              &quot;id&quot;: &quot;ET1&quot;,
+              &quot;typeLocation&quot;: &quot;INFOSTORE&quot;, 
+              &quot;min&quot;: 1,
+              &quot;max&quot;: 1
+            },
+            {
+              &quot;id&quot;: &quot;ET3&quot;,
+              &quot;typeLocation&quot;: &quot;CONNECTOR&quot;, 
+              &quot;min&quot;: 1,
+              &quot;max&quot;: 1
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

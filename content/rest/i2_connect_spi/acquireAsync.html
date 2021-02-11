@@ -1,0 +1,724 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>acquireAsync </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="acquireAsync ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../../images/favicon.png">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="i2 Connect gateway REST SPI/1.0/acquireAsync">
+
+<h1 id="i2_Connect_gateway_REST_SPI_1_0_acquireAsync" data-uid="i2 Connect gateway REST SPI/1.0/acquireAsync" class="text-capitalize text-break">acquireAsync</h1>
+<div class="markdown level0 summary"><p>Starts an asynchronous query to fetch data from the service in the specified query resource.</p>
+</div>
+<div class="markdown level0 description"><p><p>When a client queries an external data source, the i2 Analyze server calls the gateway, and
+ the i2 Connect gateway contacts the connector, passing the payload that the client provided. By
+ default, the gateway prefixes <b>{queriesResource}</b> with the base URL from the topology.<br>
+ <br>
+ The other requests that <b>{queriesResource}</b> supports provide ways to determine the status
+ of a started asynchronous query, and to fetch its results upon success.<br>
+ <br>
+ If the service in question also specifies the <b>validateUrl</b> property, then the gateway
+ uses the <b>{validateUrl}</b> endpoint before it uses <b>{queriesResource}</b>.<br>
+ <br>
+ The response must contain a query ID that the client can use in subsequent requests to retrieve
+ further information.</p>
+</div>
+  
+   <h3 id="i2_Connect_gateway_REST_SPI_1_0_acquireAsync_operation" data-uid="i2 Connect gateway REST SPI/1.0/acquireAsync/operation" class="text-capitalize">acquireAsync</h3>
+  <h5>Request</h5>
+  <div class="codewrapper">
+    <pre><code class="lang-restApi hljs">POST /{queriesResource}</code></pre>
+  </div>
+  <h5>Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>In</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">*request</span></td>
+        <td>body</td>
+        <td>
+  
+              <a href="#DaodRequest" class="typelink"><wbr>Daod<wbr>Request</a>
+              
+        </td>
+        <td></td>
+        <td><p>A payload that the service can interpret to modify its behavior.<br>
+     If the service has a client configuration of type &#39;NONE&#39;, the payload never contains
+     conditions. For type &#39;FORM&#39;, it contains conditions that have a fixed structure. For a
+     &#39;CUSTOM&#39; client configuration, the contents of the <b>conditions</b> object are free-form.
+     <br>
+     The client configuration type has no effect on whether the request payload contains seed
+     record data. When it does, the <b>seeds</b> object includes summary item type information
+     in the following form:<br>
+     <span style="font-family:monospace">&quot;allItemTypes&quot;: [</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;displayName&quot;: &quot;&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;typeId&quot;: &quot;ET5&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;typeLocation&quot;:
+     &quot;INFOSTORE&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;semanticTypeId&quot;: &quot;&quot;,</span>
+     <br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;propertyTypes&quot;: {</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;PT1&quot;: {</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;semanticTypeId&quot;:
+     &quot;&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;displayName&quot;:
+     &quot;&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;logicalType&quot;:
+     &quot;&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;PT2&quot;: {</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;semanticTypeId&quot;:
+     &quot;&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;displayName&quot;:
+     &quot;&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;logicalType&quot;:
+     &quot;&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;}</span><br>
+     <span style="font-family:monospace">]</span><br>
+     An implementation of the queries resource endpoint can choose to act upon the information
+     in the <b>allItemTypes</b> array, or to ignore it and use only the contents of
+     <b>entities</b> and <b>links</b>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="responses">
+    <h5>Responses</h5>
+    <table class="table table-bordered table-striped table-condensed">
+      <thead>
+        <tr>
+          <th>Status Code</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Samples</th>
+        </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><span class="status">200</span></td>
+        <td>
+  
+              <a href="#AsyncQueryResponse" class="typelink"><wbr>Async<wbr>Query<wbr>Response</a>
+              
+        </td>
+        <td><p>The POST method completed successfully.</p>
+</td>
+        <td class="sample-response">
+        </td>
+      </tr>
+      <tr>
+        <td><span class="status">500</span></td>
+        <td>
+              
+  
+        </td>
+        <td><p>The connector failed to start the asynchronous query.</p>
+</td>
+        <td class="sample-response">
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+<h2 id="definitions">Definitions</h2>
+  <h3 id="DaodRequest" class="text-capitalize"><wbr>Daod<wbr>Request</h3>
+  <div class="markdown level1 description"><p><p>When a client queries an external data source, the i2 Analyze server calls the gateway, and
+ the i2 Connect gateway contacts the connector, passing the payload that the client provided. By
+ default, the gateway prefixes <b>{queriesResource}</b> with the base URL from the topology.<br>
+ <br>
+ The other requests that <b>{queriesResource}</b> supports provide ways to determine the status
+ of a started asynchronous query, and to fetch its results upon success.<br>
+ <br>
+ If the service in question also specifies the <b>validateUrl</b> property, then the gateway
+ uses the <b>{validateUrl}</b> endpoint before it uses <b>{queriesResource}</b>.<br>
+ <br>
+ The response must contain a query ID that the client can use in subsequent requests to retrieve
+ further information.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">payload</span></td>
+              <td>
+  
+                      <a href="#DaodRequest-Payload" class="typelink"><wbr>Daod<wbr>Request-<wbr>Payload[]</a>
+                  
+              </td>
+              <td><p>A custom payload that an i2 Connect service can use to determine what data to retrieve from a
+ connected source</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="DaodRequest-Payload" class="text-capitalize"><wbr>Daod<wbr>Request-<wbr>Payload</h3>
+  <div class="markdown level1 description"><p>A custom payload that an i2 Connect service can use to determine what data to retrieve from a
+ connected source</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">conditions</span></td>
+              <td>
+  
+                      <a href="#DaodRequest-Condition" class="typelink"><wbr>Daod<wbr>Request-<wbr>Condition[]</a>
+                  
+              </td>
+              <td><p>If the service uses a client configuration of type &#39;FORM&#39;, the conditions that a user has
+ specified to refine their query</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">seeds</span></td>
+              <td>
+  
+                      <a href="#DaodSeeds" class="typelink"><wbr>Daod<wbr>Seeds[]</a>
+                  
+              </td>
+              <td><p>If the service supports being seeded by existing i2 Analyze records, the data from those
+ records for it to use</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="DaodRequest-Condition" class="text-capitalize"><wbr>Daod<wbr>Request-<wbr>Condition</h3>
+  <div class="markdown level1 description"><p>If the service uses a client configuration of type &#39;FORM&#39;, the conditions that a user has
+ specified to refine their query</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">id</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the condition, as specified in the client configuration for the service</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">logicalType</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The logical type of the value in the condition</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">value</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The value that a user supplied for the condition</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="DaodSeeds" class="text-capitalize"><wbr>Daod<wbr>Seeds</h3>
+  <div class="markdown level1 description"><p>If the service supports being seeded by existing i2 Analyze records, the data from those
+ records for it to use</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">entities</span></td>
+              <td>
+  
+                      <a href="#DaodSeedEntityData" class="typelink"><wbr>Daod<wbr>Seed<wbr>Entity<wbr>Data[]</a>
+                  
+              </td>
+              <td><p>Data from the entity records that were specified as seeds for the request</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">links</span></td>
+              <td>
+  
+                      <a href="#DaodSeedLinkData" class="typelink"><wbr>Daod<wbr>Seed<wbr>Link<wbr>Data[]</a>
+                  
+              </td>
+              <td><p>Data from the link records that were specified as seeds for the request</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="DaodSeedEntityData" class="text-capitalize"><wbr>Daod<wbr>Seed<wbr>Entity<wbr>Data</h3>
+  <div class="markdown level1 description"><p>Data from the entity records that were specified as seeds for the request</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">accessDimensionValues</span></td>
+              <td>
+  
+                      <a href="#SecurityDimensionAndValues" class="typelink"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values[]</a>
+                  
+              </td>
+              <td><p>The security dimension values of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">extensions</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>Free-form, custom information for the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">label</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The label of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">properties</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The property data of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">seedId</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The identifier of a seed record</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">sourceIds</span></td>
+              <td>
+  
+                      <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
+                  
+              </td>
+              <td><p>The source identifiers of a seed record</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type identifier of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="SecurityDimensionAndValues" class="text-capitalize"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values</h3>
+  <div class="markdown level1 description"><p>The security dimension values of the record identified by <b>seedId</b></p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">dimensionId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the security dimension that has the values in <b>ids</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">ids</span></td>
+              <td>
+                    array
+  
+                  
+              </td>
+              <td><p>The identifiers of values in the security dimension with <b>dimensionId</b></p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="OriginIdentifier" class="text-capitalize"><wbr>Origin<wbr>Identifier</h3>
+  <div class="markdown level1 description"><p>The source identifiers of a seed record</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">itemTypeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the item type of the record that has this origin identifier</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">key</span></td>
+              <td>
+                    array
+  
+                  
+              </td>
+              <td><p>The values that identify some data in its original source</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">type</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type of this origin identifier</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="DaodSeedLinkData" class="text-capitalize"><wbr>Daod<wbr>Seed<wbr>Link<wbr>Data</h3>
+  <div class="markdown level1 description"><p>Data from the link records that were specified as seeds for the request</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">accessDimensionValues</span></td>
+              <td>
+  
+                      <a href="#SecurityDimensionAndValues" class="typelink"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values[]</a>
+                  
+              </td>
+              <td><p>The security dimension values of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">extensions</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>Free-form, custom information for the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">fromEndId</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The identifier of the record at the &quot;from&quot; end of the link record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">fromEndTypeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type identifier of the record at the &quot;from&quot; end of the link record identified by
+ <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">label</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The label of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">linkDirection</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The direction of the link record identified by <b>seedId</b>, which overrides any default
+ setting</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">properties</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The property data of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">seedId</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The identifier of a seed record</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">sourceIds</span></td>
+              <td>
+  
+                      <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
+                  
+              </td>
+              <td><p>The source identifiers of a seed record</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">toEndId</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The identifier of the record at the &quot;to&quot; end of the link record identified by <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">toEndTypeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type identifier of the record at the &quot;to&quot; end of the link record identified by
+ <b>seedId</b></p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type identifier of the record identified by <b>seedId</b></p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="AsyncQueryResponse" class="text-capitalize"><wbr>Async<wbr>Query<wbr>Response</h3>
+  <div class="markdown level1 description"><p><p>When a client queries an external data source, the i2 Analyze server calls the gateway, and
+ the i2 Connect gateway contacts the connector, passing the payload that the client provided. By
+ default, the gateway prefixes <b>{queriesResource}</b> with the base URL from the topology.<br>
+ <br>
+ The other requests that <b>{queriesResource}</b> supports provide ways to determine the status
+ of a started asynchronous query, and to fetch its results upon success.<br>
+ <br>
+ If the service in question also specifies the <b>validateUrl</b> property, then the gateway
+ uses the <b>{validateUrl}</b> endpoint before it uses <b>{queriesResource}</b>.<br>
+ <br>
+ The response must contain a query ID that the client can use in subsequent requests to retrieve
+ further information.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">queryId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the asynchronous query</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

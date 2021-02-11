@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshooting guide </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshooting guide ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshooting-guide">Troubleshooting guide</h1>
+
+<p>This is a list of common issues you may face during the development of your
+connector and how to solve them. They are categorized by the stage of
+development in which they may arise.</p>
+<p>If you come across a problem that is not covered below, please raise an issue
+<a href="https://github.com/IBM-i2/Analyze-Connect/issues">here</a>.</p>
+<h2 id="where-to-check-for-errors">Where to check for errors</h2>
+<h3 id="log-files">Log files</h3>
+<p>The i2 Analyze server logs can be found in the
+<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\</code> directory.</p>
+<ul>
+<li><code>console.log</code> is the main server log file.</li>
+<li><code>opal-services-daod\IBM_i2_Analysis_Repository.log</code> is where errors with your
+connector configuration and/or data will appear.</li>
+</ul>
+<h2 id="connector-configuration-errors">Connector configuration errors</h2>
+<h3 id="failed-to-retrieve-configuration-information-for-the-connector-with-identifier-connectorid-from-the-url-url">&quot;Failed to retrieve configuration information for the connector with identifier &#39;&lt;CONNECTOR_ID>&#39; from the URL &#39;&lt;URL>&#39;&quot;</h3>
+<p>You will see this in the output when running <code>setup -t start</code> if i2 Analyze fails to
+retrieve your connector&#39;s configuration from its config endpoint. Check that
+the base URL printed here is correct. If not, update the connector base url
+given in the i2 Analyze <code>topology.xml</code> file (in the
+<code>i2analyze\toolkit\configuration\environment</code> directory). If the URL is correct,
+then you need to check the implementation of your config endpoint and that you
+have assigned to it the correct URL path. This should be the base URL suffixed with
+&quot;/config&quot;.</p>
+<h3 id="some-queries-are-not-configured-correctly-contact-your-system-administrator">&quot;Some queries are not configured correctly. Contact your system administrator.‬&quot;</h3>
+<p><img src="images/queries-not-configured-correctly.png" alt="Some queries are not configured correctly"></p>
+<p>You will see this in the External Searches window if there is a problem with
+your connector configuration. Clicking <strong>DETAILS</strong> will provide more information.
+Problems might include:</p>
+<ul>
+<li>no <code>acquireUrl</code> defined for a service: make sure you define one in the service
+definition</li>
+<li>invalid default timezone: make sure you set a <code>timeZoneId</code> in the
+<code>defaultValues</code> section of your connector configuration</li>
+<li>The application is communicating with the connector through a protocol that is
+insecure. You will see this because i2 Analyze and your connector communicate
+via HTTP. In a production environment, you should secure this connection by
+using HTTPS. This is beyond the scope of this guide, but is covered in the
+Knowledge Center
+<a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html">here</a>.</li>
+</ul>
+<h2 id="errors-running-connector-services">Errors running connector services</h2>
+<h3 id="failed-to-open-the-selected-query-contact-your-system-administrator">&quot;Failed to open the selected query. Contact your system administrator&quot;</h3>
+<p><img src="images/failed-to-open-query.png" alt="Failed to open the selected query"></p>
+<p>If you see the above error message when trying to run a query defined by your
+connector via External Searches in Analysts&#39;s Notebook Premium, there are a
+number of potential causes. To understand what went wrong:</p>
+<ol>
+<li>Look at the log file:
+<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\IBM_i2_Analysis_Repository.log</code></li>
+<li>You should see at the bottom a more detailed description of the error that occurred.
+You will most likely see an error message starting with the following:
+ ```
+ d484-4e04-97d5-86e771fed434  - Validation error while retrieving a record.<ul>
+<li>The service with identifier &#39;&lt;SERVICE_NAME&gt;&#39; on the connector with identifier &#39;&lt;CONNECTOR_ID&gt;&#39; returned invalid data
+```
+Below this line will be more specific information about why the query failed.
+Examples and their solutions are given below.</li>
+</ul>
+</li>
+</ol>
+<h4 id="the-schema-does-not-contain-an-entitya-linka-property-with-identifier-typeid">&quot;The schema does not contain an entity/a link/a property with identifier &#39;&lt;TYPE_ID>&#39;&quot;</h4>
+<p>This means you have supplied an entity or link with a <code>typeId</code> that does not
+exist in your schema. Check that the <code>typeId</code> you supplied is not a typo.</p>
+<h4 id="the-value-propertyvalue-is-not-valid-for-the-property-type-with-identifier-typeid-the-value-propertyvalue-is-incompatible-with-the-logicaltype-data-type">&quot;The value &#39;&lt;PROPERTY_VALUE>&#39; is not valid for the property type with identifier &#39;&lt;TYPE_ID>&#39;. The value &#39;&lt;PROPERTY_VALUE>&#39; is incompatible with the &#39;&lt;LOGICAL_TYPE>&#39; data type.&quot;</h4>
+<p>This means that the property value you supplied is not in the correct format,
+which is defined by the logical type of the property. This is especially common
+when dealing with <code>DATE</code>, <code>TIME</code> and <code>DATETIME</code> properties as it can
+be finicky to ensuring input of such values is in the right format. </p>
+<p>Check that you have
+assigned an appropriate logical type for this property and see the
+<a href="data-model.html">data model examples</a> to understand the required format for
+each logical type.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

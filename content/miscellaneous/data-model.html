@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>The i2 Analyze data model </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="The i2 Analyze data model ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="the-i2-analyze-data-model">The i2 Analyze data model</h1>
+
+<p>All the properties defined in a schema, of both entites and links, have what is
+called a logical type. This defines the kind of data that a property represents
+and the format of it. Some properties, for example, respresent numerical data,
+whereas others represent textual data. Furthermore, of those properties
+representing numerical data, some will be integer-valued, whereas others will
+have floating-point values. We use logical types to make these distinctions, and
+there are fifteen of them:</p>
+<ul>
+<li>SINGLE_LINE_STRING</li>
+<li>MULTIPLE_LINE_STRING</li>
+<li>DATE</li>
+<li>TIME</li>
+<li>DATE_AND_TIME</li>
+<li>BOOLEAN</li>
+<li>INTEGER</li>
+<li>DOUBLE</li>
+<li>DECIMAL</li>
+<li>DOCUMENT*</li>
+<li>XML*</li>
+<li>PICTURE*</li>
+<li>SELECTED_FROM</li>
+<li>SUGGESTED_FROM</li>
+<li>GEOSPATIAL</li>
+</ul>
+<p><em>The i2 Connect gateway **does not</em>* support the returning of properties with
+logical type XML, DOCUMENT or PICTURE.</p>
+<p>To see the logical type of a property, open the schema in IBM i2 Analyze Schema
+Designer and click on a property in the left-hand pane. You should see its
+logical type, along with its ID, name, and description. </p>
+<p>When returning entities and links to i2 Analyze from a connector, we must ensure
+that the property values we assign align with the logical type of those
+properties. For example, the i2 Analyze server would complain if we tried to
+assign the value &quot;fourty-two&quot; to a property representing the age of a person,
+that has logical type INTEGER. &quot;fourty-two&quot; is a string and should perhaps be
+changed to 42. See examples below of valid data for each of the valid logical
+types.</p>
+<h2 id="examples">Examples</h2>
+<table>
+<thead>
+<tr>
+<th>Logical Type</th>
+<th>Example(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SINGLE_LINE_STRING</td>
+<td><code>&quot;Up to 250 bytes of UTF-8 characters&quot;</code></td>
+</tr>
+<tr>
+<td>MULTIPLE_LINE_STRING</td>
+<td><code>&quot;Up to 32700 bytes of UTF-8 characters&quot;</code></td>
+</tr>
+<tr>
+<td>DATE</td>
+<td><code>&quot;2019-11-18&quot;</code></td>
+</tr>
+<tr>
+<td>TIME</td>
+<td><code>&quot;16:34:11&quot;</code> or <code>&quot;16:34&quot;</code>. Seconds are optional, but hours and minutes are not. Greater precision than seconds is not supported.</td>
+</tr>
+<tr>
+<td>DATE_AND_TIME</td>
+<td>Four pieces of information are required to specify a particular point in time: <ul><li>The date</li><li>The time as it would appear on a clock</li><li>The time zone in which the point in time is observed</li><li>Daylight Saving Time: If the point in time occurs during the hour that is repeated when clocks are turned back to end Daylight Saving Time, whether to use the first or second occurence of this time.</li></ul> There are two ways of providing this information.<ol><li>Provide just the date and time, in which case the time zone is taken to be the default time zone defined in the connector configuration. This must be specfied as a string conforming to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> with at least minute-precision and up to millisecond-precision. For example:<ul><li><code>&quot;2019-10-29T14:23:55&quot;</code></li><li><code>&quot;2019-10-29T14:23:55.1&quot;</code></li><li><code>&quot;2019-10-29T14:23:55.123&quot;</code></li></ul><li>Provide all four pieces of information in the form <code>{&quot;localDateAndTime&quot;: &quot;2019-10-29T14:23:55.487&quot;, &quot;timeZoneId&quot;: &quot;Australia/Perth&quot;, &quot;isDST&quot;: true}</code>, where:<ul><li><code>localDateAndTime</code> is a timestamp string conforming to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> as above, again with at least minute-precision and up to millisecond-precision.</li><li><code>timeZoneId</code> specifies the time zone in which the moment of time is observed. For a list of valid time zone IDs, see the <a href="https://www.iana.org/time-zones">IANA Time Zone Database</a>.</li><li><code>isDST</code> is used to specify which occurence of the repeated hour to use if the point in time occurs when the clocks turn back at the end of Daylight Saving Time. To use the first, set it to <code>true</code>; to use the second, set it to <code>false</code>.</li></ul></li></li></ol></td>
+</tr>
+<tr>
+<td>BOOLEAN</td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td>INTEGER</td>
+<td><code>42</code>, <code>-9812</code></td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td><code>-213.89763</code>, <code>0.00083</code></td>
+</tr>
+<tr>
+<td>DECIMAL</td>
+<td><code>99.9999</code> (maximum of four digits after decimal point)</td>
+</tr>
+<tr>
+<td>SELECTED_FROM</td>
+<td><code>&quot;Red&quot;</code>, <code>&quot;Green&quot;</code>, or <code>&quot;Blue&quot;</code> if choosing from a set of colors, for example.</td>
+</tr>
+<tr>
+<td>SUGGESTED_FROM</td>
+<td><code>&quot;Blue-ish green&quot;</code>, if you need to be more specific than the suggested options.</td>
+</tr>
+<tr>
+<td>GEOSPATIAL</td>
+<td><code>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [11.1, 12.2]}</code>, where the coordinates are latitude and longitude.</td>
+</tr>
+</tbody>
+</table>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

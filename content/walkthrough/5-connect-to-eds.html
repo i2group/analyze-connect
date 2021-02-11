@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Connect to an external datasource </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Connect to an external datasource ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="connect-to-an-external-datasource">Connect to an external datasource</h1>
+
+<p>Here, you will connect to the NYPD Complaint Dataset as your external datasource and marshal the data into entities, links, and properties so that you can return results which can be displayed in Analyst&#39;s Notebook Premium.</p>
+<p>Again, use the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if you need to.</p>
+<h2 id="create-a-socrata-app-token">Create a Socrata app token</h2>
+<p>You need an app token which will allow you make unlimited requests to Socrata&#39;s API (within reason). If you don&#39;t use an app token, the APIs will throttle by IP address.</p>
+<ol>
+<li>Visit <a href="https://data.cityofnewyork.us/profile/app_tokens">this link</a> to register your account.</li>
+<li>Click on your name in the top right to access <strong>My Profile</strong>.</li>
+<li>Click on <strong>Edit Account Settings</strong>.</li>
+<li>In the side-pane, click on <strong>Developer Settings</strong>.</li>
+<li>At the bottom of the page, click <strong>Create New App Token</strong>, specify your own &quot;Application Name&quot; and &quot;Description&quot; and save.</li>
+</ol>
+<p>If you leave the site for any reason, you can always retrieve your app token again by logging into your account again.</p>
+<h2 id="query-the-external-datasource">Query the external datasource</h2>
+<h3 id="retrieve-the-raw-data">Retrieve the raw data</h3>
+<details><summary><strong>Java</strong></summary>
+<p>
+
+Look at the version of code in the <code>stage3/nypd-connector</code> directory. There are changes to <code>ConnectorController</code> and the <code>application.properties</code> file. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>ConnectorController</code>.
+
+In <code>application.properties</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.api.token</code> key.
+
+<code>properties
+server.port=9081
+
+# Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+socrata.url=
+
+# API Token. Create a Socrata account and create an API Token. Paste it here
+socrata.api.token=</code>
+
+You need to implement the <code>ExternalConnectorDataService</code> and <code>SocrataResponseData</code> classes so that they retrieve data from the NYPD Complaint Dataset and use it to create entities and links to be returned to i2 Analyze. It should not be necessary to modify the example <code>SocrataClient</code>.
+
+The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data. By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.
+
+<code>java
+final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+params.put(&quot;limitValue&quot;, 1); // Only returning 1 entity for the moment. increase when ready
+final String url = &quot;?$limit={limitValue}&quot;;
+
+// Make the request and map the whole response body as a string so that you can
+// see what is returned
+// TODO: Remove this since it&#39;s just for debugging
+System.out.println(socrataClient.get(url, String.class, params));</code>
+</p>
+</details>
+
+<details><summary><strong>Node.js</strong></summary>
+<p>
+
+* Look at the version of code in the <code>stage3/nypd-connector</code> directory. This includes:
+  * Changes to <code>acquire.js</code> route;
+  * A new <code>socrata-config.js</code> file;
+  * A new <code>socrata-data-service.js</code> file;
+* <code>socrata-config.js</code> is where the NYPD Complaint Dataset API resource and the Socrata token are defined.
+  <code>js
+  module.exports = {
+    url: &quot;https://data.cityofnewyork.us/resource/7x9x-zpz6.json&quot;,
+    token: &quot;SET YOUR TOKEN&quot;
+  };</code>
+* <code>socrata-data-service.js</code> contains functions to query NYPD Complaint Dataset.
+  The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data.
+  By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.
+  <code>js
+  const URL = `${socrata.url}?$$app_token=${socrata.token}&amp;$limit=${limitValue}`;</code>
+* Open the code from the <code>stage3/nypd-connector</code> in VSCode, or any IDE of your choice,  and start the connector.
+* You need to map the data received into entities and links and return them to i2 Analyze.
+
+</p>
+</details>
+
+<details><summary><strong>Python</strong></summary>
+<p>
+
+Look at the version of code in the <code>stage3/nypd-connector</code> directory. Changes have been made to <code>controller.py</code> and there is now an additional resource file: <code>application.yml</code>. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>controller.py</code>.
+
+In <code>application.yml</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.token</code> key.
+
+<code>properties
+socrata:
+  url: https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+  token: # Replace with Socrata API token</code>
+
+You need to implement the <code>query_external_datasource</code> function in <code>service.py</code> so that it retrieves data from the NYPD Complaint Dataset and uses it to create entities and links to be returned to i2 Analyze.
+
+The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data. By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.
+
+<code>python
+with open(&#39;static/application.yml&#39;) as yml_file:
+    config = yaml.safe_load(yml_file)
+
+base_url = config[&#39;socrata&#39;][&#39;url&#39;]
+api_token = config[&#39;socrata&#39;][&#39;token&#39;]
+
+limit = 1
+request_url = f&quot;{base_url}?$limit={limit}&quot;
+
+x = requests.get(request_url, headers = { &#39;X-App-Token&#39;: api_token })</code>
+
+</p>
+</details>
+
+<h4 id="optional-verify-the-data">(Optional) Verify the data</h4>
+<p>It&#39;s worth testing that you are successfully querying the data and returning results. Print the returned value to the console and check that it matches with the data you see when you make a request to the acquire endpoint via Postman.</p>
+<h3 id="marshal-the-data-to-objects">Marshal the data to objects</h3>
+<p>To make it easier to create entities and links using the data retrieved, you can create a class (Java or Python) or JavaScript object (Node.js) to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serializes the incoming data into a collection of these objects.</p>
+<p>Note that in Java, there exists a library which makes this process much easier: <code>jackson-annotations</code>.</p>
+<p>You might want to add source references to the entities and links that are returned by your connector. This allows users trace the source of the data represented by those entities and links. For information on adding source references, see <a href="../miscellaneous/source-references.html">here</a>.</p>
+<h4 id="optional-verify-your-marshalling-function">(Optional) Verify your marshalling function</h4>
+<p>Test that you are successfully marshalling the data. You should be able to assert against the properties of your object to verify the expected and actual results are equal.</p>
+<h3 id="extract-entities-and-links-from-objects">Extract entities and links from objects</h3>
+<p>You can create entities and links from the objects that represent rows of the dataset and define their properties using the relevant fields.</p>
+<p>Implement this extraction; deriving entities from each record as well as establishing links between them.</p>
+<p>Create a response object with a list of entities and links to be returned. You need to take care not to duplicate entities in the list. Also take care again to assign property values in the correct format. Refer to the <a href="../miscellaneous/data-model.html">data model examples</a> again if you need.</p>
+<h4 id="optional-validate-your-return-response">(Optional) Validate your return response</h4>
+<p>Verify that the response returned from your function is valid and is as expected.</p>
+<h2 id="view-results-in-analysts-notebook-premium">View results in Analyst&#39;s Notebook Premium</h2>
+<p>You should now be able to log into Analyst&#39;s Notebook Premium and run your query. If there are any errors, you may want to check that your schema is in the right shape, that your data is clean and that there are no missing values.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Next, you can <a href="6-parameterised-search.html">configure your own parameterized search</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

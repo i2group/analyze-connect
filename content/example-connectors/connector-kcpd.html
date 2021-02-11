@@ -1,0 +1,431 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Kansas City Police Department (KCPD) Connector </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Kansas City Police Department (KCPD) Connector ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="kansas-city-police-department-kcpd-connector">Kansas City Police Department (KCPD) Connector</h1>
+
+<p>The KCPD connector connects to the <a href="https://data.kcmo.org/Crime/KCPD-Crime-Data-2020/vsgj-uufz/">KCPD Crime 2020 Dataset</a> as the external datasource and marshals the data into entities, links and properties. This dataset contains reports on the criminal incidents which the Kansas City Police Department of Missouri have recorded.</p>
+<p>There are a number of fields in the dataset:</p>
+<table>
+<thead>
+<tr>
+<th>Column Name</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>Report_No</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Reported_Date</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>Reported_Time</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>From_Date</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>From_Time</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>To_Date</em></td>
+<td>Date &amp; Time</td>
+</tr>
+<tr>
+<td><em>To_Time</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Offense</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>IBRS</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Description</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Beat</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Address</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>City</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Zip Code</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Rep_Dist</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Area</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>DVFlag</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Involvement</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Race</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Sex</em></td>
+<td>Plain Text</td>
+</tr>
+<tr>
+<td><em>Age</em></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><em>Firearm Used Flag</em></td>
+<td>Checkbox</td>
+</tr>
+<tr>
+<td><em>Location</em></td>
+<td>Location</td>
+</tr>
+</tbody>
+</table>
+<h2 id="data-model">Data model</h2>
+<p>The KCPD schema models the KCPD Crime 2020 Dataset using its relevant fields. Each row of data can be represented by three entities (Report, Person and Location) and a number of appropriate links between them alongside properties extracted from each field.</p>
+<p>The schema (and charting schemes) for the KCPD connector can be found in the <code>schema</code> directory of this repository.</p>
+<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
+<h4 id="entity-report">Entity: Report</h4>
+<p>Represents a report about a crime.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Report Number</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Report_No</em></td>
+</tr>
+<tr>
+<td>Report Date</td>
+<td>DATE</td>
+<td><em>Reported_Date</em></td>
+</tr>
+<tr>
+<td>From Date</td>
+<td>DATE</td>
+<td><em>From_Date</em></td>
+</tr>
+<tr>
+<td>To Date</td>
+<td>DATE</td>
+<td><em>To_Date</em></td>
+</tr>
+<tr>
+<td>From Time</td>
+<td>TIME</td>
+<td><em>From_Time</em></td>
+</tr>
+<tr>
+<td>To Time</td>
+<td>TIME</td>
+<td><em>To_Time</em></td>
+</tr>
+<tr>
+<td>Offense</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Offense</em></td>
+</tr>
+<tr>
+<td>Offense Description</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Description</em></td>
+</tr>
+<tr>
+<td>Domestic Violence</td>
+<td>BOOLEAN</td>
+<td><em>DVFlag</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="entity-person">Entity: Person</h4>
+<p>Represents a person somehow involved in a reported crime.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Race</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Race</em></td>
+</tr>
+<tr>
+<td>Sex</td>
+<td>SUGGESTED_FROM</td>
+<td><em>Sex</em></td>
+</tr>
+<tr>
+<td>Age</td>
+<td>SUGGESTED_FROM</td>
+<td><em>Age</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="entity-location">Entity: Location</h4>
+<p>Represents a location at which a reported crime occurred.</p>
+<table>
+<thead>
+<tr>
+<th>Property Type</th>
+<th>Logical Type</th>
+<th>Derived From</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>City</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>City</em></td>
+</tr>
+<tr>
+<td>Address</td>
+<td>SINGLE_LINE_STRING</td>
+<td><em>Address</em></td>
+</tr>
+<tr>
+<td>Zip Code</td>
+<td>INTEGER</td>
+<td><em>Zip Code</em></td>
+</tr>
+<tr>
+<td>Coordinates</td>
+<td>GEOSPATIAL</td>
+<td><em>Location</em></td>
+</tr>
+</tbody>
+</table>
+<h4 id="links">Links</h4>
+<p>Establishes some connection between a Report, a Location and a Person. The KCPD Dataset&#39;s <em>Involvement</em> field is used to determine how a Person is linked to a Report.</p>
+<table>
+<thead>
+<tr>
+<th>Link Type</th>
+<th>Link Ends</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Located At</td>
+<td>Report -&gt; Location</td>
+</tr>
+<tr>
+<td>Suspect Of</td>
+<td>Person -&gt; Report</td>
+</tr>
+<tr>
+<td>Victim Of</td>
+<td>Person -&gt; Report</td>
+</tr>
+<tr>
+<td>Complicit In</td>
+<td>Person -&gt; Report</td>
+</tr>
+<tr>
+<td>Arrested</td>
+<td>Person -&gt; Report</td>
+</tr>
+<tr>
+<td>Charged</td>
+<td>Person -&gt; Report</td>
+</tr>
+</tbody>
+</table>
+<h2 id="setup">Setup</h2>
+<p>These instructions are for setting up and running the KCPD connector.</p>
+<p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> or <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploying i2 Analyze with the Information Store and the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
+<h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
+<p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the KCPD connector:</p>
+<pre><code class="lang-xml">&lt;wars&gt;
+  &lt;war ... &gt;
+    ...
+    &lt;connector-ids&gt;
+      &lt;connector-id value=&quot;kcpd-connector&quot;/&gt;
+    &lt;/connector-ids&gt;
+    ...
+  &lt;/war&gt;
+&lt;/wars&gt;
+</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
+<pre><code class="lang-xml">&lt;ns1:topology ...&gt;
+  ...
+  &lt;connectors&gt;
+    &lt;connector base-url=&quot;http://localhost:9083&quot; name=&quot;KCPD Connector&quot; id=&quot;kcpd-connector&quot;/&gt;
+  &lt;/connectors&gt;
+&lt;/ns1:topology&gt;
+</code></pre><p>Ensure that you&#39;re using the same port as specified in <code>application.properties</code> (<code>9083</code> by default) and that the value of the <code>id</code> attribute is the name as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+<h3 id="2-configure-the-schema">2. Configure the schema</h3>
+<p>Choose whether you want to configure the KCPD schema as a connector schema or a gateway schema.</p>
+<h4 id="connector-schema">Connector schema</h4>
+<p>By default, your connector will be configured to use a connector schema. This is due to the presence of the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> in the KCPD connector&#39;s <code>config.json</code> in <code>kcpd\kcpd-connector\src\main\resources</code>.</p>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>
+<li>The KCPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
+</ul>
+<p>See for more information on <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
+<h4 id="gateway-schema">Gateway schema</h4>
+<p>If you want to set up the KCPD schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the KCPD schema and charting scheme found in the <code>schema</code> directory of this repository.</p>
+<p>Additionally, ensure the following:</p>
+<ul>
+<li>The connector&#39;s <code>config.json</code> in <code>kcpd\kcpd-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
+<li>The KCPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
+</ul>
+<h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
+<p>In order to query the external datasource, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
+<p>In the KCPD connector&#39;s <code>application.properties</code> file at <code>connector\kcpd\kcpd-connector\src\main\resources</code>, add your token.</p>
+<pre><code class="lang-properties">server.port=9083
+socrata.url=https://data.kcmo.org/resource/vsgj-uufz.json
+
+# API Token. Create a Socrata account and create an API Token. Paste it here
+socrata.api.token=
+</code></pre><h3 id="3-run-the-kcpd-connector">3. Run the KCPD connector</h3>
+<p>To run the connector, navigate to <code>connector\kcpd\kcpd-connector</code> in your terminal and run the application using the following command:</p>
+<pre><code>mvnw spring-boot:run
+</code></pre><p>For more information on running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
+<h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
+<p>Deploy and start the Liberty server.</p>
+<pre><code>setup -t deployLiberty
+setup -t startLiberty
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

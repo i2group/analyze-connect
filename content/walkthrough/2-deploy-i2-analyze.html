@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Deploying i2 Analyze with the i2 Connect gateway </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Deploying i2 Analyze with the i2 Connect gateway ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="deploying-i2-analyze-with-the-i2-connect-gateway">Deploying i2 Analyze with the i2 Connect gateway</h1>
+
+<!-- TODO: Doc review this paragraph -->
+<p>This guide walks you through how to deploy IBM i2 Analyze with the i2 Connect gateway only. To deploy IBM i2 Analyze with the Information Store and the i2 Connect gateway, follow <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">this</a> guide.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before you start, ensure that you have:</p>
+<ul>
+<li>installed i2 Analyze, and</li>
+<li><a href="1-schema-design-guide.html">defined a schema</a> to model the data.</li>
+</ul>
+<h2 id="license-acknowledgement">License acknowledgement</h2>
+<ul>
+<li>Open the <code>license_acknowledgement</code> file in your i2 Analyze directory.</li>
+<li>Set the value to <code>ACCEPT</code>. It should now look like this:
+<code>LIC_AGREEMENT = ACCEPT</code></li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<h3 id="create-the-configuration-directory">Create the configuration directory</h3>
+<ol>
+<li>In your i2 Analyze directory, navigate to
+<code>toolkit\examples\configurations\daod-opal</code>.</li>
+<li>Copy the <code>configuration</code> directory to the <code>toolkit</code> directory. This provides
+a starting point for a deployment that includes only the i2 Connect gateway.</li>
+</ol>
+<h3 id="specify-the-credentials-for-deployment">Specify the credentials for deployment</h3>
+<ol>
+<li>Using a text editor, open the
+<code>toolkit\configuration\environment\credentials.properties</code> file.</li>
+<li>Specify a user name and password to use for the Solr indexes in the
+<code>solr.user-name</code> and <code>solr.password</code> properties.</li>
+<li>Enter the password to encrypt LTPA tokens in the <code>ltpakeys.password</code>
+property.</li>
+<li>Save and close the file.</li>
+</ol>
+<h3 id="command-access-control">Command access control</h3>
+<p>To gain access to certain features, including the ability to use Postman to reload
+the connector when making schema changes, you need to copy and modify some files
+in the i2 Analyze deployment:</p>
+<ol>
+<li>Navigate to the <code>toolkit\configuration\examples\security-schema</code> directory and
+copy the file named <code>example-command-access-control-daod.xml</code>.</li>
+<li>Navigate to the <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code>
+directory and paste the file from the previous step.</li>
+<li>Open the <code>DiscoServerSettingsCommon.properties</code> file and add the name of file you
+just copied to the <code>CommandAccessControlResource</code> field, including the <code>.xml</code> extension.</li>
+<li>Save and close the properties file.</li>
+</ol>
+<h3 id="configure-the-schema">Configure the schema</h3>
+<p>To test your schema and use it in Analyst&#39;s Notebook before deploying a
+connector, you can configure it as a gateway schema. The steps below describe
+this process.</p>
+<ol>
+<li>Copy your schema and charting schemes to the
+<code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</li>
+<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory to point to your schema files by setting the following properties:</p>
+<pre><code class="lang-properties">Gateway.NYPD-Complaints.SchemaResource=schema-filename.xml
+Gateway.NYPD-Complaints.ChartingSchemesResource=charting-schemes-filename.xml
+</code></pre><p>&quot;NYPD-Complaints&quot; is the short name chosen for the schema in this example.
+You may choose a different short name by replacing &quot;NYPD-Complaints&quot; if you
+wish. The schema short name will appear in the labels of items on a chart in
+Analyst&#39;s Notebook Premium.</p>
+</li>
+</ol>
+<h3 id="configure-the-security-schema">Configure the security schema</h3>
+<p>All i2 Analyze deployments require a security schema, which defines the level of
+access users have to the data in the system. You can learn about the i2 Analyze
+security model in the
+<a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.understanding.doc/security_model.html">Knowledge Center</a>
+but, for the purpose of this guide, follow the steps below to use an example
+security schema.</p>
+<ol>
+<li>Copy <code>example-dynamic-security-schema.xml</code> from
+<code>toolkit\configuration\examples\security-schema</code> to the
+<code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</li>
+<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory to point to the security schema by setting the following property:</p>
+<pre><code class="lang-properties"> DynamicSecuritySchemaResource=example-dynamic-security-schema.xml
+</code></pre></li>
+</ol>
+<h3 id="generate-the-default-configuration">Generate the default configuration</h3>
+<p>For the purposes of this guide, only a basic configuration is required, so you
+can use the default.</p>
+<ol>
+<li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
+<li>To populate some of the mandatory settings with default values, run:
+<code>sh
+setup -t generateDefaults</code></li>
+<li>In the <code>i2analyze</code> directory, navigate to the
+<code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code>
+file in a text editor.</li>
+<li>Replace every instance of the <code>host-name</code> tag with the value <code>localhost</code>.
+There will be three to change in total. This will be used to test your
+application in Postman.</li>
+</ol>
+<h2 id="deployment">Deployment</h2>
+<ol>
+<li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
+<li>To deploy i2 Analyze with the configuration you have just created, run
+<code>sh
+setup -t deploy</code></li>
+<li>To add an example user whose name and password are both &quot;Jenny&quot;, run:
+<code>sh
+setup -t ensureExampleUserRegistry</code></li>
+<li>To start i2 Analyze, run
+<code>sh
+setup -t start</code></li>
+</ol>
+<p>You can now connect Analyst&#39;s Notebook Premium to i2 Analyze. The output of the
+start command includes the URL to use for the i2 Analyze server.</p>
+<p>This will be the best time to test the schema you created in the previous step, or
+the existing one if you are using the example schema provided. You can open Analyst&#39;s
+Notebook and start to drag/drop entities and links onto your chart, testing different
+charting schemes and seeing what labels appear and how they are formatted. For these
+changes to take effect, you need to update the i2 Analyze connectors
+configuration and run the internal <code>Reload</code> command via Postman.</p>
+<p>First, navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:</p>
+<pre><code class="lang-sh">setup -t updateConnectorsConfiguration
+</code></pre><p>Next you need to open <a href="../miscellaneous/postman.html">Postman</a>, select the <code>i2 Analyze with i2 Connect Gateway</code> environment and run the <code>Form Based Login</code> request. This will
+authenticate you as the default user in i2 Analyze, then you can run the <code>Reload</code>
+request which will configure your schema changes to the topology. (NOTE: You will need
+to perform a reload command for every iteration of your schema design, otherwise the changes
+will not take effect).</p>
+<p>You now have a running i2 Analyze deployment, if you are happy with your schema you can
+now <a href="3-deploy-connector.html">deploy a connector</a>. However, if there are changes you wish
+to make to the schema and associated charting schemes, you can run yourself through the
+<a href="1-schema-design-guide.html">schema design guide</a> again.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

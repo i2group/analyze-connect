@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configuring item type mappings </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configuring item type mappings ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configuring-item-type-mappings">Configuring item type mappings</h1>
+
+<p>To show the process of mapping one type to another, you can map the Person
+type in the <code>NYPD-Complaints</code> schema to the Person type in the <code>KCPD-Crime</code>
+schema.</p>
+<p>Examples of both Person types are shown below. Both Person types contain
+the same property types: age, sex, and race. The main difference between the two
+is that the NYPD Person type models age in ranges, and the KCPD Person type
+holds specific values for ages.</p>
+<center>
+
+NYPD Person | KCPD Person
+:---: | :---:
+<img src="images/nypd-person.png" alt="NYPD Person"> | <img src="images/kcpd-person.png" alt="KCPD Person">
+
+</center>
+
+<h2 id="accessing-the-mapping-configuration-interface">Accessing the mapping configuration interface</h2>
+<p>In a web browser, go to <code>&lt;i2-Analyze-URL&gt;/admin</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is
+the URL used to access your i2 Analyze deployment. For example, 
+<code>http://localhost:9082/opaldaod/admin</code>.</p>
+<p>Log in using credentials with <code>i2:Administrator</code> command access control
+permission. For more information about ensuring you have the correct
+permissions, see <a href="admin-cac.html">Admin Interface</a>.</p>
+<p>The gateway configuration summary is shown as below. For the mapping
+configuration interface, click the button in the sidebar that is highlighted in red.</p>
+<p><img src="images/admin-ui-gateway-config.png" alt="Gateway configuration in admin UI"></p>
+<p>A list of all the item types across all gateway and connector
+schemas is displayed, with some information about any item type mappings that
+have been defined. In this example, no mappings are configured yet.</p>
+<p><img src="images/admin-ui-mapping-config.png" alt="Mapping configuration in admin UI"></p>
+<h2 id="defining-a-mapping">Defining a mapping</h2>
+<h3 id="1-select-the-source-type">1. Select the source type</h3>
+<p>In the list of item types, select the one to map. For this example,
+the Person type from the NYPD-Complaints connector schema is selected. Then,
+click on either the arrow shown on the list item, or <strong>Create Mapping</strong> in the
+pane on the right.</p>
+<h3 id="2-select-the-target-type">2. Select the target type</h3>
+<p>A dialog box that contains a list of item types to which your
+selected source type can be mapped is displayed. Choose an appropriate item
+type. For this example, the Person type from the KCPD-Complaints gateway schema
+is selected. After you select the target type, click <strong>Create mapping</strong>.</p>
+<p><img src="images/mapping-choose-target-type.png" alt="Selecting the target type"></p>
+<h3 id="3-define-the-property-mappings">3. Define the property mappings</h3>
+<p>At this stage, define how the property values of the source type are
+mapped to property values of the target type.</p>
+<p><img src="images/mapping-properties.png" alt="Mapping property types"></p>
+<p>The properties shown in the dialog are the properties of the target type. For
+each target property, you can do one of the following:</p>
+<ul>
+<li><strong>Map a property from the source item type to the target property.</strong> When a
+record of the source item type is mapped to a record of the target item
+type, the target property is populated with the value of the source
+property. The logical type of the source property type must be compatible with
+the logical type of the target property type.</li>
+<li><strong>Map to a fixed value.</strong> When a record of the source item type is mapped to a
+record of the target item type, the target property is populated with the
+fixed value provided in the mapping configuration.</li>
+<li><strong>Leave the property unmapped.</strong> When a record of the source item type is
+mapped to a record of the target type, the target property is not
+populated. Target property types that are mandatory cannot be left unmapped.</li>
+</ul>
+<h4 id="automatically-mapped-properties">Automatically mapped properties</h4>
+<p>A property type of the source item type is automatically mapped to a
+property type in the target item type if they have the same:</p>
+<ul>
+<li>display name</li>
+<li>logical type</li>
+</ul>
+<p>If the two properties have the logical type SELECTED_FROM or
+SUGGESTED_FROM, any possible values of the source property that are also
+present in the target property are mapped automatically to those values in
+the target property.</p>
+<p>You can see in the example that this has applied to the race and sex property
+types. These automatically-generated mappings can still be edited if they do not
+meet your requirements.</p>
+<h4 id="map-a-property-from-the-source-item-type">Map a property from the source item type</h4>
+<p>To map a property from the source item type to a target property:</p>
+<ol>
+<li>Select <strong>Property value</strong> in the left-most dropdown menu below the target
+property name.</li>
+<li>Then, choose a property from the source item type in the right-most dropdown.
+Only compatible properties from the source type are shown.</li>
+</ol>
+<p>For all logical types, except SELECTED_FROM and SUGGESTED_FROM, this is all that
+is required. For properties with a logical type of SELECTED_FROM or
+SUGGESTED_FROM, you might also need to specify how the values are mapped.</p>
+<p><img src="images/mapping-property-value.png" alt="Mapping a property from the source type"></p>
+<p>This is the case in the example when choosing to map the age group property
+from the NYPD schema to the age property in the KCPD schema. The source age
+group property is a SUGGESTED_FROM of age groups; the target age property
+is a SUGGESTED_FROM of specific ages.</p>
+<p>The values shown in the dialog box are the possible values for the target age
+property. For each target property, you can do one of the following:</p>
+<ul>
+<li><strong>Map a value from the source property to it.</strong> Select which value of
+the source property to be mapped to the target value. Each
+value of the source property cannot be mapped to more than one value of the
+target value.</li>
+<li><strong>Leave it unmapped.</strong> Select <strong>&lt;No value></strong> in the dropdown. Then, no
+value of the source property type is mapped to this value of the target
+property type.</li>
+</ul>
+<p>Similar to how property types are automatically mapped, values of
+SELECTED_FROM and SUGGESTED_FROM properties are automatically mapped
+if the value of the target property type is the same as a value of the source
+property type. This is the case for the &quot;&lt;18&quot; and &quot;65+&quot; values.</p>
+<p>For the other target values, you either have to choose an age group from the
+source value to effectively collapse to a single age, or you can leave them
+unmapped.</p>
+<h4 id="map-to-a-fixed-value">Map to a fixed value</h4>
+<p>To map a fixed value:</p>
+<ul>
+<li>Select <strong>Fixed value</strong> in the left-most dropdown menu below the target
+property name.</li>
+<li>Enter a fixed value to use in the left-most field.</li>
+</ul>
+<h4 id="choosing-the-value-for-reverse-conversions">Choosing the value for reverse conversions</h4>
+<p>If a connector accepts a particular item type for the seeds of a seeded search
+and that item type is the source type of a mapping, then users are able to
+use records of the mapping&#39;s target type as seeds when using the service.</p>
+<p>However, when i2 Analyze sends seed records to the connector, it must apply the
+mapping in reverse. This is because the connector is expecting seeds of the
+source item type and is unaware of any mapping configured on the i2 Analyze
+server.</p>
+<p>For mappings of properties where the logical type of both the source property
+and the target property are the same and are not SELECTED_FROM or
+SUGGESTED_FROM, the reverse conversion is done by simply populating the source
+property with the value of the target property.</p>
+<p>When mapping between SELECTED_FROM and SUGGESTED_FROM properties, you can choose
+how i2 Analyze maps the values of the target property to the possible values of
+the source property. To do this:</p>
+<ol>
+<li><p>Click the button to the right of the dropdown menu for a target value that
+has been mapped</p>
+<p><img src="images/choose-reverse-value-button.png" alt="Choosing value for reverse conversions"></p>
+</li>
+<li><p>From the dropdown shown, select which one of the source values you have
+mapped to the target value i2 Analyze should use when applying the mapping in
+reverse for seeded searches.</p>
+</li>
+<li>Confirm your choice by clicking <strong>OK</strong>.</li>
+</ol>
+<h3 id="4-add-a-description">4. Add a description</h3>
+<p>After you define the property mappings, you can add a description of the
+item type mapping.</p>
+<h3 id="5-confirm-the-mapping">5. Confirm the Mapping</h3>
+<p>Click <strong>OK</strong> in the bottom-right of the dialog to save your item type mapping.
+The list of item types shows how the source type has
+been mapped. Note, at this point your mapping has not yet been deployed on
+the server.</p>
+<p><img src="images/mapping-configured.png" alt="Mapping configuration showing a mapped type"></p>
+<p>You are able to edit the mapping by clicking <strong>Edit mapping</strong> in the right-hand
+pane, or delete the mapping by clicking <strong>Delete mapping</strong>.</p>
+<h2 id="applying-the-mappings-for-testing">Applying the mappings for testing</h2>
+<p>After you define the item type mappings, you can test the i2 Connect services
+available on your i2 Analyze deployment to see how they would look if you
+were to apply the mappings you have configured. To do this:</p>
+<ol>
+<li>Click <strong>Apply</strong>. This applies the current mapping configuration for testing.</li>
+<li>Click <strong>Preview services</strong>. This opens the <strong>External Searches</strong> dialog as it
+would appear in Analyst&#39;s Notebook Premium. You can use the services defined
+and see the results as they would appear if the mapping that has been applied
+for testing was deployed on the server.</li>
+</ol>
+<p><img src="images/mapping-apply-preview.png" alt="Applying and previewing mapping"></p>
+<p>To revert the mapping configuration back to the current
+deployed configuration on the server, you can also use the <strong>Restore</strong> button
+that is next to <strong>Apply</strong>.</p>
+<h2 id="applying-the-mapping-to-the-server">Applying the mapping to the server</h2>
+<p>After you preview the i2 Connect services using your new mappings and you
+are happy with them, you can deploy your mapping configuration to the i2 Analyze
+server. To do this:</p>
+<ol>
+<li>In the mapping configuration interface, click <strong>Export</strong> in the top right
+corner. This downloads a <code>mapping-configuration.json</code> file.</li>
+<li>Move the <code>mapping-configuration.json</code> file into the
+<code>toolkit/configuration/fragments/common/WEB-INF/classes</code> directory of your
+configuration.</li>
+<li><p>Redeploy the i2 Analyze server:</p>
+<pre><code class="lang-shell">setup -t stopLiberty
+setup -t deployLiberty
+setup -t startLiberty
+</code></pre></li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

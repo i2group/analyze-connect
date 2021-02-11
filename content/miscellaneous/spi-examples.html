@@ -1,0 +1,713 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>i2 Connect SPI examples </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="i2 Connect SPI examples ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="i2-connect-spi-examples">i2 Connect SPI examples</h1>
+
+<p>You can use the following example requests and responses to help
+understand how parameterized and seeded search services work.</p>
+<h2 id="example-data">Example data</h2>
+<p>Throughout, assume you are querying the following set of entities and links.</p>
+<p><img src="images/example-data.png" alt="Example Data"></p>
+<p>The following are the type IDs corresponding to each of the entity, link and
+property types used in the example schema:</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Entity</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Complaint</td>
+<td>ET1</td>
+</tr>
+<tr>
+<td> Location</td>
+<td>ET2</td>
+</tr>
+<tr>
+<td> Person</td>
+<td>ET3</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Link</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Located At</td>
+<td>LT1</td>
+</tr>
+<tr>
+<td> Suspect Of</td>
+<td>LT2</td>
+</tr>
+<tr>
+<td> Victim Of</td>
+<td>LT3</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th>For Entity</th>
+<th>ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Complaint Number</td>
+<td>Complaint</td>
+<td>PT1</td>
+</tr>
+<tr>
+<td> Borough Name</td>
+<td>Location</td>
+<td>PT16</td>
+</tr>
+<tr>
+<td> Age Group</td>
+<td>Person</td>
+<td>PT26</td>
+</tr>
+<tr>
+<td> Race</td>
+<td>Person</td>
+<td>PT27</td>
+</tr>
+<tr>
+<td> Gender</td>
+<td>Person</td>
+<td>PT28</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p>This can be represented as a set of entities and links in JSON as follows:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;ET1&quot;,
+      &quot;id&quot;: &quot;complaint-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT1&quot;: &quot;1&quot;,
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET2&quot;,
+      &quot;id&quot;: &quot;manhattan&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT16&quot;: &quot;MANHATTAN&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-A&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-B&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;Black&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET1&quot;,
+      &quot;id&quot;: &quot;complaint-2&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT1&quot;: &quot;2&quot;,
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-C&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;F&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-D&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;F&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET1&quot;,
+      &quot;id&quot;: &quot;complaint-3&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT1&quot;: &quot;3&quot;,
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET2&quot;,
+      &quot;id&quot;: &quot;bronx&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT16&quot;: &quot;BRONX&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-E&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-F&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;F&quot;,
+        &quot;PT26&quot;: &quot;45-64&quot;,
+        &quot;PT27&quot;: &quot;Black&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: [
+    {
+      &quot;typeId&quot;: &quot;LT1&quot;,
+      &quot;id&quot;: &quot;located-at-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;manhattan&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT2&quot;,
+      &quot;id&quot;: &quot;suspect-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;person-A&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT3&quot;,
+      &quot;id&quot;: &quot;victim-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;person-B&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT1&quot;,
+      &quot;id&quot;: &quot;located-at-2&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-2&quot;,
+      &quot;toEndId&quot;: &quot;bronx&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT2&quot;,
+      &quot;id&quot;: &quot;suspect-of-2&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-2&quot;,
+      &quot;toEndId&quot;: &quot;person-C&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT3&quot;,
+      &quot;id&quot;: &quot;victim-of-2&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-2&quot;,
+      &quot;toEndId&quot;: &quot;person-D&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT1&quot;,
+      &quot;id&quot;: &quot;located-at-3&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-3&quot;,
+      &quot;toEndId&quot;: &quot;bronx&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT2&quot;,
+      &quot;id&quot;: &quot;suspect-of-3&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-3&quot;,
+      &quot;toEndId&quot;: &quot;person-E&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT3&quot;,
+      &quot;id&quot;: &quot;victim-of-3&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-3&quot;,
+      &quot;toEndId&quot;: &quot;person-F&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    }
+  ]
+}
+</code></pre><h2 id="parameterized-search">Parameterized search</h2>
+<p>To implement a service to search for people by age group, you can define a
+<code>clientConfig</code> in <code>config.json</code> like the following:</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: &quot;age-search-form&quot;,
+  &quot;type&quot;: &quot;FORM&quot;,
+  &quot;config&quot;: {
+    &quot;sections&quot;: [
+      {
+        &quot;conditions&quot;: [
+          {
+            &quot;id&quot;: &quot;age-group-search-term&quot;,
+            &quot;label&quot;: &quot;Age Group&quot;,
+            &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
+            &quot;mandatory&quot;: true
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre><p>The <code>id</code> should be a unique identifier for this <code>clientConfig</code>. Then the services you define can use this form by supplying this <code>id</code> in the service&#39;s <code>clientConfigId</code> field.</p>
+<p>The <code>config</code> contains <code>sections</code> and each section contains a JSON object defining a condition field depicted below:</p>
+<p><img src="images/parameterised-search.jpg" alt="Example Data"></p>
+<ul>
+<li>The condition <code>id</code> is used as a reference for the value in the request.</li>
+<li>The <code>label</code> is the field title as shown in <code>[1]</code> above.</li>
+<li>The <code>logicalType</code> defines the accepted data type of the request value entry <code>[2]</code>.</li>
+<li>The <code>mandatory</code> field specifies whether a value is required for the field. Empty mandatory fields are highlighted red and shown a warning message <code>[3]</code>.</li>
+</ul>
+<p>A <code>DaodRequest</code> issued by i2 Analyze when a user runs this search might look
+like this:</p>
+<pre><code class="lang-json">{
+  &quot;payload&quot;: {
+    &quot;conditions&quot;: [
+      {
+        &quot;id&quot;: &quot;age-group-search&quot;,
+        &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
+        &quot;value&quot;: &quot;18-24&quot;
+      }
+    ],
+    &quot;seeds&quot;: {}
+  }
+}
+</code></pre><p>The request searches for Person entities where the Age Group property is equal
+to &quot;18-24&quot;. In the implementation of the parameterized search service, you would
+filter through the data and find entities which satisfy the request
+requirements, i.e. have <code>typeId</code> equal to <code>&quot;ET3&quot;</code> and have the Age Group
+property <code>PT26</code> equal to <code>&quot;18-24&quot;</code>. The response, from the example request
+above, would look like this:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-A&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-E&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: []
+}
+</code></pre><h2 id="seeded-search">Seeded search</h2>
+<p>Seeded searches take as input a set of entities and links that a user already
+has on their chart and uses this information when finding results.</p>
+<p><img src="images/seed-example.png" alt="Seed Example"></p>
+<p>The example operations to go over are:</p>
+<ul>
+<li>Find-Like-This, where a user is able to select a single entity and search for
+other entities of the same type with similar properties; and</li>
+<li>Expand, where a user can select an entity on their chart and search for all
+other entities that are connected to it by a link, and all those entities and
+links will be returned.</li>
+</ul>
+<h3 id="find-like-this">Find-Like-This</h3>
+<p>A <code>DaodRequest</code> received by the connector for a Find-Like-This search on the
+example data could look something like the following:</p>
+<pre><code class="lang-json">{
+  &quot;payload&quot;: {
+    &quot;conditions&quot;: {},
+    &quot;seeds&quot;: {
+      &quot;entities&quot;: [
+        {
+          &quot;accessDimensionValues&quot;: [],
+          &quot;extensions&quot;: [],
+          &quot;label&quot;: &quot;&quot;,
+          &quot;properties&quot;: {
+            &quot;PT28&quot;: &quot;F&quot;,
+            &quot;PT26&quot;: &quot;&lt;18&quot;,
+            &quot;PT27&quot;: &quot;White&quot;
+          },
+          &quot;seedId&quot;: &quot;d8ee0564-57bb-40ed-9409-79f8d13497a5&quot;,
+          &quot;sourceIds&quot;: [
+            {
+              &quot;itemTypeId&quot;: &quot;ET3&quot;,
+              &quot;key&quot;: [&quot;nypd-connector&quot;, &quot;ET3&quot;, &quot;person-D&quot;],
+              &quot;type&quot;: &quot;OI.DAOD&quot;
+            }
+          ],
+          &quot;typeId&quot;: &quot;ET3&quot;
+        }
+      ],
+      &quot;links&quot;: [],
+      &quot;allItemTypes&quot;: []
+    }
+  }
+}
+</code></pre><p>You can deduce which of the entities the <code>DaodSeedEntity</code> in this request
+corresponds to by looking at the key in the <code>sourceIds</code> field. The third element
+of this list gives us the ID we have assigned the entity in our connector,
+<code>&quot;person-D&quot;</code>. You also have its type ID <code>&quot;ET3&quot;</code>, so it is a Person entity. Have a look
+at the data above and find this entity.</p>
+<p>To perform a Find-Like-This search using this seed entity, you need only use its
+properties. We can filter through our list of entities for those which have
+<code>typeId</code> equal to <code>&quot;ET3&quot;</code> (are Person entities) and have the properties:</p>
+<ul>
+<li><code>PT26</code> equal to <code>&quot;F&quot;</code>, i.e. they are female;</li>
+<li><code>PT27</code> equal to <code>&quot;White&quot;</code>, i.e. they are a white female; and</li>
+<li><code>PT28</code> equal to <code>&quot;&lt;18&quot;</code>, i.e. they are a white female under 18 years of age.</li>
+</ul>
+<p>After excluding the seed entity itself, you would return the following:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-C&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;F&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: []
+}
+</code></pre><h3 id="expand">Expand</h3>
+<p>A <code>DaodRequest</code> received by the connector for an Expand service might look like
+this:</p>
+<pre><code class="lang-json">{
+  &quot;payload&quot;: {
+    &quot;conditions&quot;: {},
+    &quot;seeds&quot;: {
+      &quot;entities&quot;: [
+        {
+          &quot;accessDimensionValues&quot;: [],
+          &quot;extensions&quot;: [],
+          &quot;label&quot;: &quot;&quot;,
+          &quot;properties&quot;: {
+            &quot;PT1&quot;: &quot;1&quot;,
+          },
+          &quot;seedId&quot;: &quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;,
+          &quot;sourceIds&quot;: [
+            {
+              &quot;itemTypeId&quot;: &quot;ET1&quot;,
+              &quot;key&quot;: [&quot;nypd-connector&quot;, &quot;ET1&quot;, &quot;complaint-1&quot;],
+              &quot;type&quot;: &quot;OI.DAOD&quot;
+            }
+          ],
+          &quot;typeId&quot;: &quot;ET1&quot;
+        }
+      ],
+      &quot;links&quot;: [],
+      &quot;allItemTypes&quot;: []
+    }
+  }
+}
+</code></pre><p>Again, you can deduce which of our entities the <code>DaodSeedEntity</code> corresponds to by
+looking at the <code>sourceIds</code>. The <code>id</code> of the entity in question is <code>&quot;complaint-1&quot;</code> and it
+has <code>typeID</code> equal to <code>&quot;ET1&quot;</code>, so it is a complaint. Look at the example data above
+and find which entity you are expanding. What would you expect an Expand operation to
+return?</p>
+<p>To perform an Expand operation with this entity as the seed, you need to:</p>
+<ol>
+<li>Find all links connected to the corresponding entity. This means going
+through all the links and finding those with a <code>fromEndId</code> or a <code>toEndId</code>
+equal to the <code>id</code> of the entity, <code>&quot;person-D&quot;</code>.</li>
+<li>Find all entities at the other end of these links. This can be done by using
+the <code>fromEndId</code>s and <code>toEndId</code>s of the links found in step 1 - just use the
+end ID that does not correspond to the seed entity.</li>
+</ol>
+<p>If returning these entities and links as-is, along with the entity corresponding
+to the seed, you would respond with:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;ET1&quot;,
+      &quot;id&quot;: &quot;complaint-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT1&quot;: &quot;1&quot;,
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET2&quot;,
+      &quot;id&quot;: &quot;manhattan&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT16&quot;: &quot;MANHATTAN&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-A&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-B&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;Black&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: [
+    {
+      &quot;typeId&quot;: &quot;LT1&quot;,
+      &quot;id&quot;: &quot;located-at-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;manhattan&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT2&quot;,
+      &quot;id&quot;: &quot;suspect-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;person-A&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT3&quot;,
+      &quot;id&quot;: &quot;victim-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;complaint-1&quot;,
+      &quot;toEndId&quot;: &quot;person-B&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    }
+  ]
+}
+</code></pre><p>When copying these results to a chart, the seed entity would be duplicated
+along with all its links and connected entities that may already be on the
+chart which would all be connected to the duplicate.</p>
+<p>Depending on how you want the service to function, you might prefer to have the
+returned items connected to the entity that you selected on the chart rather than
+to a duplicate. In this case, you need to change all <code>id</code>, <code>fromEndId</code> and
+<code>toEndId</code> fields that refer to the ID of the seed entity (in this case &quot;complaint-1&quot;) to
+<code>seedId</code> of the <code>DaodSeedEntity</code> in the request, i.e.
+<code>&quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;</code>.</p>
+<p>In this case, you would return the following response:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;ET2&quot;,
+      &quot;id&quot;: &quot;manhattan&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT16&quot;: &quot;MANHATTAN&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-A&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;18-24&quot;,
+        &quot;PT27&quot;: &quot;White&quot;
+      }
+    },
+    {
+      &quot;typeId&quot;: &quot;ET3&quot;,
+      &quot;id&quot;: &quot;person-B&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+        &quot;PT28&quot;: &quot;M&quot;,
+        &quot;PT26&quot;: &quot;&lt;18&quot;,
+        &quot;PT27&quot;: &quot;Black&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: [
+    {
+      &quot;typeId&quot;: &quot;LT1&quot;,
+      &quot;id&quot;: &quot;located-at-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;,
+      &quot;toEndId&quot;: &quot;manhattan&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT2&quot;,
+      &quot;id&quot;: &quot;suspect-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;,
+      &quot;toEndId&quot;: &quot;person-A&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    },
+    {
+      &quot;typeId&quot;: &quot;LT3&quot;,
+      &quot;id&quot;: &quot;victim-of-1&quot;,
+      &quot;version&quot;: 1,
+      &quot;fromEndId&quot;: &quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;,
+      &quot;toEndId&quot;: &quot;person-B&quot;,
+      &quot;linkDirection&quot;: &quot;WITH&quot;,
+    }
+  ]
+}
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

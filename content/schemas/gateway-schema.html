@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Gateway schemas </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Gateway schemas ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="gateway-schemas">Gateway schemas</h1>
+
+<p>A gateway schema is a type of i2 Analyze schema that defines the item types that can
+be used by any number of connectors. A gateway schema allows multiple connectors to return
+the same item types, which makes them useful in situations where
+multiple connectors return similar data.</p>
+<p>Gateway schemas can be used in i2 Analyze deployments that include the i2 Connect
+gateway. Gateway schemas are optional, and there is no limit to the number of gateway schemas that can be
+deployed. A connector can return item types from one gateway schema only.</p>
+<p>For more information about the kinds of schema that you can deploy, see <a href="https://www.ibm.com/support/knowledgecenter/SSXVTH_latest/com.ibm.i2.understanding.doc/i2_analyze_schemas.html">i2 Analyze schemas</a>.</p>
+<p>To create a gateway schema, use i2 Analyze Schema Designer. This provides an
+interface for creating the XML file containing the schema and, optionally, an
+additional XML file containing the charting schemes. To learn more about how to
+develop i2 Analyze schemas, see <a href="../walkthrough/1-schema-design-guide.html">Designing an i2 Analyze schema</a>.</p>
+<h2 id="gateway-schema-short-names">Gateway schema short names</h2>
+<p>All gateway schemas have a short name that is displayed to analysts
+in i2 Analyst&#39;s Notebook Premium when they interact with entity and link types
+from that schema. The short name must be unique within the i2
+Analyze deployment. You specify the short name when you configure the gateway schema.</p>
+<p>For a connector to return item types defined in a gateway
+schema, the connector must be assigned to that gateway schema using the short name of the schema.</p>
+<h2 id="configuring-a-gateway-schema">Configuring a gateway schema</h2>
+<p>To configure a gateway schema, you must have a schema XML file and provide a
+short name for it. You can also provide a charting schemes XML file.</p>
+<p>To configure a gateway schema:</p>
+<ol>
+<li>Copy your schema and charting schemes files to the
+<code>configuration/fragments/common/WEB-INF/classes</code> directory in your i2 Analyze
+configuration.</li>
+<li>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory, and add the following properties
+<code>properties
+Gateway.&lt;SCHEMA_SHORT_NAME&gt;.SchemaResource=&lt;SCHEMA_XML_FILE_NAME&gt;
+Gateway.&lt;SCHEMA_SHORT_NAME&gt;.ChartingSchemesResource=&lt;CHARTING_SCHEMES_XML_FILE_NAME&gt;</code></li>
+</ol>
+<p>For example, to configure a gateway schema that defines item types
+relating to telecommunications data:</p>
+<ul>
+<li>The schema file is <code>telecom-schema.xml</code></li>
+<li>The charting schemes file is <code>telecom-schema-charting-schemes.xml</code></li>
+<li>The short name is <code>Telecom</code></li>
+</ul>
+<p>Add the following in <code>ApolloServerSettingsMandatory.properties</code>:</p>
+<pre><code class="lang-properties">Gateway.Telecom.SchemaResource=telecom-schema.xml
+Gateway.Telecom.ChartingSchemesResource=telecom-schema-charting-schemes.xml
+</code></pre><h2 id="assigning-a-connector-to-a-gateway-schema">Assigning a connector to a gateway schema</h2>
+<p>For a connector to be able to return item types defined in a gateway schema,
+you must assign it to the gateway schema using the short name of the gateway schema.
+You can assign the connector in two ways:</p>
+<ul>
+<li>The connector can supply the short name of the gateway schema to be assigned to in the configuration that is returned from its configuration endpoint.</li>
+<li>You can specify the short name of the gateway schema that the connector is assigned to when defining the connector in the i2 Analyze topology (<code>topology.xml</code>).</li>
+</ul>
+<p>The gateway schema that a connector is assigned to in the i2 Analyze topology takes
+precedence over the one specified by the connector in its configuration.</p>
+<h3 id="assigning-a-connector-to-a-gateway-schema-in-the-connector-configuration">Assigning a connector to a gateway schema in the connector configuration</h3>
+<p>In the configuration returned from configuration endpoint, a
+gateway schema short name can be specified using the <code>gatewaySchema</code> field of
+the <code>ConnectorConfig</code> object. For example:</p>
+<pre><code class="lang-json">{
+    &quot;gatewaySchema&quot;: &quot;Telecom&quot;,
+    &quot;defaultValues&quot;: {
+        ...
+    },
+    &quot;services&quot;: [
+        ...
+    ],
+    &quot;clientConfigs&quot;: [
+        ...
+    ]
+}
+</code></pre><p>For more information about the <code>ConnectorConfig</code> object, see the
+<a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">i2 Connect gateway REST SPI</a>.</p>
+<h3 id="assigning-a-connector-to-a-gateway-schema-in-the-i2-analyze-topology">Assigning a connector to a gateway schema in the i2 Analyze topology</h3>
+<p>To assign a connector to a gateway schema in the i2 Analyze topology, specify
+the gateway schema short name in the <code>connector</code> element using the
+<code>gateway-schema</code> attribute. For example:</p>
+<pre><code class="lang-xml">&lt;connector id=&quot;example-connector&quot; name=&quot;Example Connector&quot; base-url=&quot;http://localhost:3700/&quot; gateway-schema=&quot;Telecom&quot; /&gt;
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

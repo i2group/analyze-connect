@@ -1,0 +1,48 @@
+### YamlMime:XRefMap
+sorted: true
+references:
+- uid: i2 Connect gateway REST SPI/1.0
+  name: i2 Connect gateway REST SPI
+  href: content/rest/i2_connect_spi.html
+- uid: i2 Connect gateway REST SPI/1.0/acquire
+  name: acquire
+  href: content/rest/i2_connect_spi/acquire.html
+- uid: i2 Connect gateway REST SPI/1.0/acquire/operation
+  name: acquire
+  href: content/rest/i2_connect_spi/acquire.html#i2_Connect_gateway_REST_SPI_1_0_acquire_operation
+- uid: i2 Connect gateway REST SPI/1.0/acquireAsync
+  name: acquireAsync
+  href: content/rest/i2_connect_spi/acquireAsync.html
+- uid: i2 Connect gateway REST SPI/1.0/acquireAsync/operation
+  name: acquireAsync
+  href: content/rest/i2_connect_spi/acquireAsync.html#i2_Connect_gateway_REST_SPI_1_0_acquireAsync_operation
+- uid: i2 Connect gateway REST SPI/1.0/config
+  name: config
+  href: content/rest/i2_connect_spi/config.html
+- uid: i2 Connect gateway REST SPI/1.0/config/operation
+  name: config
+  href: content/rest/i2_connect_spi/config.html#i2_Connect_gateway_REST_SPI_1_0_config_operation
+- uid: i2 Connect gateway REST SPI/1.0/delete
+  name: delete
+  href: content/rest/i2_connect_spi/delete.html
+- uid: i2 Connect gateway REST SPI/1.0/delete/operation
+  name: delete
+  href: content/rest/i2_connect_spi/delete.html#i2_Connect_gateway_REST_SPI_1_0_delete_operation
+- uid: i2 Connect gateway REST SPI/1.0/results
+  name: results
+  href: content/rest/i2_connect_spi/results.html
+- uid: i2 Connect gateway REST SPI/1.0/results/operation
+  name: results
+  href: content/rest/i2_connect_spi/results.html#i2_Connect_gateway_REST_SPI_1_0_results_operation
+- uid: i2 Connect gateway REST SPI/1.0/status
+  name: status
+  href: content/rest/i2_connect_spi/status.html
+- uid: i2 Connect gateway REST SPI/1.0/status/operation
+  name: status
+  href: content/rest/i2_connect_spi/status.html#i2_Connect_gateway_REST_SPI_1_0_status_operation
+- uid: i2 Connect gateway REST SPI/1.0/validate
+  name: validate
+  href: content/rest/i2_connect_spi/validate.html
+- uid: i2 Connect gateway REST SPI/1.0/validate/operation
+  name: validate
+  href: content/rest/i2_connect_spi/validate.html#i2_Connect_gateway_REST_SPI_1_0_validate_operation

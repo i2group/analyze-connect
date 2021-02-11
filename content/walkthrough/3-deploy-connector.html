@@ -153,57 +153,66 @@ connector. This is because the connector doesn&#39;t exist yet!</p>
 <p>Now that i2 Analyze is expecting a connector, you had better create one! For the
 purposes of this guide, an example Spring Boot application is provided.</p>
 <h3 id="set-up-the-example-starting-point">Set up the example starting point</h3>
-<details><summary><strong>Java</strong></summary>
-<p>
-
-* Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
-  <code>nypd-connector</code> directory to wherever you would like to work, and open it
-  in VSCode or the IDE of your choice.
-* Have a look at the contents:
-  * Resources: <code>config.json</code> and <code>application.properties</code>
-  * Code: a simple Spring Boot application
-  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-  and how to execute them. The <code>application.properties</code> file defines the
-  server ports, the database URLs, and the API token to aid in the connection.
-* Start the connector. See <a href="../example-connectors/run-java.html">running example connectors in Java</a>.
-
-</p>
-</details>
-
-<details><summary><strong>Node.js</strong></summary>
-<p>
-
-* Open the example starting code from the <code>stage1/nypd-connector</code> folder in VSCode,
-  or the IDE of your choice.
-* Have a look at the contents:
-  * Resources: <code>public/json/config.json</code>
-  * Code: a simple Express application
-  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-  and how to execute them. The <code>app.js</code> file is where the <code>CONTEXT_ROOT</code> and
-  all the connector&#39;s endpoints are defined (for now, just the <code>/config</code>
-  endpoint). The <code>routes</code> folder is where all defined routes are implemented
-  (for now, only the <code>config</code> route).
-* Start the connector through the <a href="../example-connectors/run-node.html">command line</a>.
-
-</p>
-</details>
-
-<details><summary><strong>Python</strong></summary>
-<p>
-
-* Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
-  <code>nypd-connector</code> directory to wherever you would like to work, and open it
-  in VSCode or the IDE of your choice.
-* Have a look at the contents:
-  * Resources: <code>config.json</code>
-  * Code: a simple Flask application.
-  The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-  and how to execute them.
-* Start the connector through the <a href="../example-connectors/run-python.html">command line</a>.
-
-</p>
-</details>
-
+<h4 id="java">Java</h4>
+<ol>
+<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+<code>nypd-connector</code> directory to wherever you would like to work, and open it
+in VSCode or the IDE of your choice.</p>
+</li>
+<li><p>Have a look at the contents:</p>
+<ul>
+<li><p>Resources: <code>config.json</code> and <code>application.properties</code></p>
+</li>
+<li><p>Code: a simple Spring Boot application</p>
+</li>
+</ul>
+<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+and how to execute them. The <code>application.properties</code> file defines the
+server ports, the database URLs, and the API token to aid in the connection.</p>
+</li>
+<li><p>Start the connector. See <a href="../example-connectors/run-java.html">running example connectors in Java</a>.</p>
+</li>
+</ol>
+<h4 id="nodejs">Node.js</h4>
+<ol>
+<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder in VSCode,
+or the IDE of your choice.</p>
+</li>
+<li><p>Have a look at the contents:</p>
+<ul>
+<li><p>Resources: <code>public/json/config.json</code></p>
+</li>
+<li><p>Code: a simple Express application</p>
+</li>
+</ul>
+<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+and how to execute them. The <code>app.js</code> file is where the <code>CONTEXT_ROOT</code> and
+all the connector&#39;s endpoints are defined (for now, just the <code>/config</code>
+endpoint). The <code>routes</code> folder is where all defined routes are implemented
+(for now, only the <code>config</code> route).</p>
+</li>
+<li><p>Start the connector through the <a href="../example-connectors/run-node.html">command line</a>.</p>
+</li>
+</ol>
+<h4 id="python">Python</h4>
+<ol>
+<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+<code>nypd-connector</code> directory to wherever you would like to work, and open it
+in VSCode or the IDE of your choice.</p>
+</li>
+<li><p>Have a look at the contents:</p>
+<ul>
+<li><p>Resources: <code>config.json</code></p>
+</li>
+<li><p>Code: a simple Flask application.</p>
+</li>
+</ul>
+<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
+and how to execute them.</p>
+</li>
+<li><p>Start the connector through the <a href="../example-connectors/run-python.html">command line</a>.</p>
+</li>
+</ol>
 <h3 id="use-postman-to-investigate-the-config-endpoint">Use Postman to investigate the config endpoint</h3>
 <p>The supplied starting code has a <code>config</code> endpoint that is ready to use:</p>
 <ul>

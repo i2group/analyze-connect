@@ -143,59 +143,55 @@ you have not already), which will configure your changes to the topology. You ca
 </ul>
 <h2 id="implementation">Implementation</h2>
 <p>It&#39;s time to implement these conditions.</p>
-<details><summary><strong>Java</strong></summary>
-<p>
-
-### Add an acquire endpoint for your service
-i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the <code>stage4/nypd-connector</code>
-  directory provided. This includes:
-  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
-  * Changes to the <code>ConnectorController</code> class
-  * Some extra REST transport classes
-* Apply these changes to your code, either manually, or by copying the relevant
-  files. If you are copying the files, you may need to change the path of the
-  new method in <code>ConnectorController</code>.
-* Look at how the endpoint is defined in the <code>ConnectorController</code> class and think about how you should implement this service.
-
-</p>
-</details>
-
-<details><summary><strong>Node.js</strong></summary>
-<p>
-
-### Add an acquire endpoint for your service
-
-i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the <code>stage4/nypd-connector</code>
-  directory provided. This includes:
-  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service;
-  * A new <code>validate</code> route;
-  * A new <code>/search</code> endpoint in the <code>acquire</code> route;
-* Open the code from the <code>stage4/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.
-* You will need to implement <code>findComplaint</code> function in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.
-
-</p>
-</details>
-
-<details><summary><strong>Python</strong></summary>
-<p>
-
-### Add an acquire endpoint for your service
-i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.
-* You have a template to get started with; see the <code>stage4/nypd-connector</code>
-  directory provided. This includes:
-  * An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template in case you have not already defined a new service
-  * Changes to the <code>controller.py</code> file
-  * Some extra REST transport classes
-* Apply these changes to your code, either manually, or by copying the relevant
-  files. If you are copying the files, you may need to change the path of the
-  new method in <code>controller.py</code>.
-* Look at how the endpoint is defined in the <code>controller.py</code> class and think about how you should implement this service.
-
-</p>
-</details>
-
+<h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
+<h4 id="java">Java</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
+directory provided. This includes:<ul>
+<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
+in case you have not already defined a new service</li>
+<li>Changes to the <code>ConnectorController</code> class</li>
+<li>Some extra REST transport classes</li>
+</ul>
+</li>
+<li>Apply these changes to your code, either manually, or by copying the relevant
+files. If you are copying the files, you may need to change the path of the
+new method in <code>ConnectorController</code>.</li>
+<li>Look at how the endpoint is defined in the <code>ConnectorController</code> class and think about how you should implement
+this service.</li>
+</ul>
+<h4 id="nodejs">Node.js</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
+directory provided. This includes:<ul>
+<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
+in case you have not already defined a new service</li>
+<li>A new <code>validate</code> route</li>
+<li>A new <code>/search</code> endpoint in the <code>acquire</code> route</li>
+</ul>
+</li>
+<li>Open the code from the <code>stage4/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.</li>
+<li>You will need to implement <code>findComplaint</code> function in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.</li>
+</ul>
+<h4 id="python">Python</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
+directory provided. This includes:<ul>
+<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
+in case you have not already defined a new service</li>
+<li>Changes to the <code>controller.py</code> file</li>
+<li>Some extra REST transport classes</li>
+</ul>
+</li>
+<li>Apply these changes to your code, either manually, or by copying the relevant
+files. If you are copying the files, you may need to change the path of the
+new method in <code>controller.py</code>.</li>
+<li>Look at how the endpoint is defined in the <code>controller.py</code> class and think about how you should implement
+this service.</li>
+</ul>
 <h3 id="access-conditions">Access conditions</h3>
 <p>You will need to parse the conditions passed in the request according to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
 <p>You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the <code>DaodRequest</code> model in the SPI. The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>

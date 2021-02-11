@@ -1174,7 +1174,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/3-deploy-connector.html",
-          "hash": "+iM/yLN/owvkWydcIhmfYg=="
+          "hash": "i583qVhp/JEzIDj76ewEIA=="
         }
       },
       "is_incremental": false,
@@ -1186,7 +1186,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/4-add-service.html",
-          "hash": "ARRTSyaI4DaGXv9yCphwCg=="
+          "hash": "XTyKiA0QgQpsgHMjXkv68A=="
         }
       },
       "is_incremental": false,
@@ -1198,7 +1198,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "zc9SriCTZOVlniG3FJf2Ug=="
+          "hash": "VXTZmaxZL/CUZuNcM4pWVw=="
         }
       },
       "is_incremental": false,
@@ -1210,7 +1210,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/6-parameterised-search.html",
-          "hash": "3cpmUF3nDGxGwgiprWdbaw=="
+          "hash": "S813hDoi897tvLjkq8p55A=="
         }
       },
       "is_incremental": false,
@@ -1222,7 +1222,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/7-seeded-search.html",
-          "hash": "7cWRUpJioCcSK+OvYBupLg=="
+          "hash": "62whh4KhC3LeKSUJJGC76w=="
         }
       },
       "is_incremental": false,

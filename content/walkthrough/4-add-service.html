@@ -188,65 +188,78 @@ Think about the relevant objects you will need to implement in order to build
 a service that returns a fixed set of entities and links that you will create.</p>
 <h3 id="add-an-acquire-endpoint">Add an acquire endpoint</h3>
 <p>i2 Analyze knows the acquire URL for this service. Now you need to add an
-endpoint for it in the connector.
-<details><summary><strong>Java</strong></summary>
-<p>
+endpoint for it in the connector.</p>
+<h4 id="java">Java</h4>
 <ol>
-<li>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
-directory. This includes:<ul>
-<li>an example configuration <code>config.json</code> with a service defined</li>
-<li>some changes to <code>ConnectorController</code>;</li>
-<li>a new class <code>ConnectorDataService</code>; and</li>
-<li>some REST transport classes.</li>
+<li><p>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
+directory. This includes:</p>
+<ul>
+<li><p>an example configuration <code>config.json</code> with a service defined</p>
+</li>
+<li><p>some changes to <code>ConnectorController</code></p>
+</li>
+<li><p>a new class <code>ConnectorDataService</code></p>
+</li>
+<li><p>some REST transport classes.</p>
+</li>
 </ul>
 </li>
-<li>Apply these changes to your code, either manually, or by copying the files
+<li><p>Apply these changes to your code, either manually, or by copying the files
 over directly. You may need to change the path of the new method in
 <code>ConnectorController</code> to match the acquireUrl of your service. You need not
 copy the example <code>config.json</code> if you have defined your service correctly.
 You can also just use the directory provided as it is setup to be used straight
-away.</li>
-<li>Look at how the endpoint is defined in the <code>ConnectorController</code> class and
-the code that produces the response that is returned to i2 Analyze.</li>
+away.</p>
+</li>
+<li><p>Look at how the endpoint is defined in the <code>ConnectorController</code> class and
+the code that produces the response that is returned to i2 Analyze.</p>
+</li>
 </ol>
-<p>
-</details></p>
-<details><summary><strong>Node.js</strong></summary>
-<p>
-
-1. A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
-   directory. This includes:
-   * an example configuration <code>config.json</code> with a service defined;
-   * a new acquire route in <code>app.js</code>;
-   * a new acquire route with a <code>/test</code> endpoint in the <code>routes</code> folder;
-   * a new file <code>/helpers/data-service.js</code> containing functions for acquiring data;
-2. Open the code from the <code>stage2/nypd-connector</code> in VSCode, or any IDE of your choice, 
-  and start the connector.
-
-</p>
-</details>
-
-<details><summary><strong>Python</strong></summary>
-<p>
-
-1. A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
-   directory. This includes:
-   * an example configuration <code>config.json</code> with a service defined
-   * some additions to <code>controller.py</code>;
-   * a new file for service functions, <code>service.py</code>; and
-   * a new file <code>classes.py</code> containing some REST transport classes.
-2. Apply these changes to your code, either manually, or by copying the files
-   over directly. You may need to change the path of the new method in
-   <code>controller.py</code> to match the acquireUrl of your service. You need not
-   copy the example <code>config.json</code> if you have defined your service correctly.
-   You can also just use the directory provided as it is setup to be used straight
-   away.
-3. Look at how the endpoint is defined in the <code>controller.py</code> class and
-   the code that produces the response that is returned to i2 Analyze.
-
-</p>
-</details>
-
+<h4 id="nodejs">Node.js</h4>
+<ol>
+<li><p>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
+directory. This includes:</p>
+<ul>
+<li><p>an example configuration <code>config.json</code> with a service defined</p>
+</li>
+<li><p>a new acquire route in <code>app.js</code></p>
+</li>
+<li><p>a new acquire route with a <code>/test</code> endpoint in the <code>routes</code> folder</p>
+</li>
+<li><p>a new file <code>/helpers/data-service.js</code> containing functions for acquiring data</p>
+</li>
+</ul>
+</li>
+<li><p>Open the code from the <code>stage2/nypd-connector</code> in VSCode, or any IDE of your choice,
+and start the connector.</p>
+</li>
+</ol>
+<h4 id="python">Python</h4>
+<ol>
+<li><p>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
+directory. This includes:</p>
+<ul>
+<li><p>an example configuration <code>config.json</code> with a service defined</p>
+</li>
+<li><p>some additions to <code>controller.py</code></p>
+</li>
+<li><p>a new file for service functions, <code>service.py</code></p>
+</li>
+<li><p>a new file <code>classes.py</code> containing some REST transport classes.</p>
+</li>
+</ul>
+</li>
+<li><p>Apply these changes to your code, either manually, or by copying the files
+over directly. You may need to change the path of the new method in
+<code>controller.py</code> to match the acquireUrl of your service. You need not
+copy the example <code>config.json</code> if you have defined your service correctly.
+You can also just use the directory provided as it is setup to be used straight
+away.</p>
+</li>
+<li><p>Look at how the endpoint is defined in the <code>controller.py</code> class and
+the code that produces the response that is returned to i2 Analyze.</p>
+</li>
+</ol>
 <h3 id="test-the-service-in-analysts-notebook-premium">Test the service in Analyst&#39;s Notebook Premium</h3>
 <ol>
 <li>Redeploy the connector. Depending on how you are running the connector, this
@@ -256,49 +269,46 @@ window.</li>
 <li>You should no longer get a 404 Error, but the search will return nothing</li>
 </ol>
 <h3 id="return-some-data">Return some data</h3>
-<details><summary><strong>Java</strong></summary>
-<p>
-
-1. Make changes so that the service returns some entities and links - just
-   create some dummy data for now. You will need to complete the implementation
-   of the <code>LinkData</code> class provided.
-2. Test your changes in Analyst&#39;s Notebook in the same way.
-3. If you don&#39;t see what you expect to, or you come across an error,
-   investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.
-
-</p>
-</details>
-
-<details><summary><strong>Node.js</strong></summary>
-<p>
-
-1. Make changes so that the service returns some entities and links - just
-   create some dummy data for now.
-2. Test your changes in Analyst&#39;s Notebook in the same way.
-3. If you don&#39;t see what you expect to, or you come across an error,
-   investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.
-
-</p>
-</details>
-
-<details><summary><strong>Python</strong></summary>
-<p>
-
-1. Make changes so that the service returns some entities and links - just
-   create some dummy data for now. You will need to complete the implementation
-   of the <code>Link</code> class in <code>classes.py</code>. Ensure you are importing the classes into <code>service.py</code>.
-2. Test your changes in Analyst&#39;s Notebook in the same way.
-3. If you don&#39;t see what you expect to, or you come across an error,
-   investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.
-
-</p>
-</details>
-
+<h4 id="java-1">Java</h4>
+<ol>
+<li><p>Make changes so that the service returns some entities and links - just
+create some dummy data for now. You will need to complete the implementation
+of the <code>LinkData</code> class provided.</p>
+</li>
+<li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
+</li>
+<li><p>If you don&#39;t see what you expect to, or you come across an error,
+investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
+</li>
+</ol>
+<h4 id="nodejs-1">Node.js</h4>
+<ol>
+<li><p>Make changes so that the service returns some entities and links - just
+create some dummy data for now.</p>
+</li>
+<li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
+</li>
+<li><p>If you don&#39;t see what you expect to, or you come across an error,
+investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
+</li>
+</ol>
+<h4 id="python-1">Python</h4>
+<ol>
+<li><p>Make changes so that the service returns some entities and links - just
+create some dummy data for now. You will need to complete the implementation
+of the <code>Link</code> class in <code>classes.py</code>. Ensure you are importing the classes into <code>service.py</code>.</p>
+</li>
+<li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
+</li>
+<li><p>If you don&#39;t see what you expect to, or you come across an error,
+investigate the <code>IBM_i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
+</li>
+</ol>
 <p>It is vital that you return property values
 in the format expected, which is defined by the logical type of each property.
 See the <a href="../miscellaneous/data-model.html">data model examples</a> for examples of each supported
 logical type.</p>
-<h2 id="querying-data-from-an-external-source">Querying data from an external source.</h2>
+<h2 id="querying-data-from-an-external-source">Querying data from an external source</h2>
 <p>Now that you have a basic connector with a working simple service, you can make
 it more useful by <a href="5-connect-to-eds.html">returning real data</a>.</p>
 </article>

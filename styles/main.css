@@ -261,7 +261,11 @@ body .toc, .sidefilter, .sidetoc {
   }
 }
 
-/* Improve colours of code syntax; might regret starting this */
+/* Improve colours of code syntax */
 .hljs, .hljs-tag {
   color: #ccc;
-}	
+}
+
+.hljs-attr {
+  color: #ae9dc8;
+}

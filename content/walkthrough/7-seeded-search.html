@@ -149,57 +149,53 @@ you have not already), which will configure your changes to the topology. Then:<
 <h2 id="implementation">Implementation</h2>
 <p>It&#39;s time to implement these conditions.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
-<details><summary><strong>Java</strong></summary>
-<p>
-
-i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.
-
-- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-  provided. This includes:
-  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service.
-  - Changes to <code>ConnectorController</code>.
-  - Some new REST transport classes.
-- Apply the code changes, either manually or by copying the relevant files over. You may need to change the path of the new method in <code>ConnectorController</code> if copying the files completely.
-- Notice how the endpoint is defined in the <code>ConnectorController</code> class.
-
-</p>
-</details>
-
-<details><summary><strong>Node.js</strong></summary>
-<p>
-
-i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.
-
-- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-  provided. This includes:
-  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service;
-  - Changes to <code>acquire</code> route to reflect changes in <code>config.json</code>;
-  - Chagnes to <code>socrata-data-service.js</code> file to have all the functions needed for <code>acquire</code> route;
-- Open the code from the <code>stage5/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.
-- You will need to implement functions defined in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.
-
-</p>
-</details>
-
-<details><summary><strong>Python</strong></summary>
-<p>
-
-i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.
-
-- You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-  provided. This includes:
-  - An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not already defined a new service.
-  - Changes to <code>controller.py</code>.
-  - Some new REST transport classes.
-- Apply the code changes, either manually or by copying the relevant files over. You may need to change the path of the new method in <code>controller.py</code> if copying the files completely.
-- Notice how the endpoint is defined in the <code>controller.py</code> class.
-
-</p>
-</details>
-
+<h4 id="java">Java</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+provided. This includes:<ul>
+<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
+already defined a new service.</li>
+<li>Changes to <code>ConnectorController</code></li>
+<li>Some new REST transport classes</li>
+</ul>
+</li>
+<li>Apply the code changes, either manually or by copying the relevant files over. You may need to change the path
+of the new method in <code>ConnectorController</code> if copying the files completely.</li>
+<li>Notice how the endpoint is defined in the <code>ConnectorController</code> class.</li>
+</ul>
+<h4 id="nodejs">Node.js</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+provided. This includes:<ul>
+<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
+already defined a new service.</li>
+<li>Changes to <code>acquire</code> route to reflect changes in <code>config.json</code></li>
+<li>Changes to <code>socrata-data-service.js</code> file to have all the functions needed for <code>acquire</code> route</li>
+</ul>
+</li>
+<li>Open the code from the <code>stage5/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.</li>
+<li>You will need to implement functions defined in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.</li>
+</ul>
+<h4 id="python">Python</h4>
+<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
+add the corresponding endpoint in the connector.</p>
+<ul>
+<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
+provided. This includes:<ul>
+<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
+already defined a new service.</li>
+<li>Changes to <code>controller.py</code></li>
+<li>Some new REST transport classes</li>
+</ul>
+</li>
+<li>Apply the code changes, either manually or by copying the relevant files over. You may need to change the path
+of the new method in <code>controller.py</code> if copying the files completely.</li>
+<li>Notice how the endpoint is defined in the <code>controller.py</code> class.</li>
+</ul>
 <h3 id="access-seeds">Access seeds</h3>
 <p>You will need to manipulate a seed passed into the request according to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">SPI</a> and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.</p>
 <h3 id="filter-data-based-on-seed">Filter data based on seed</h3>

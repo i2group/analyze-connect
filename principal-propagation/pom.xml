@@ -4,8 +4,8 @@
 	<groupId>com.i2group</groupId>
 	<artifactId>PrincipalPropagation</artifactId>
 	<version>1</version>
-	<name>PrincipalPropogation</name>
-	<description>Demo project for principal propagation</description>
+	<name>Principal Propagation</name>
+	<description>A demonstration project for principal propagation.</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<toolkitLocation>C:\IBM\i2analyze</toolkitLocation>
@@ -17,19 +17,19 @@
 			<version>4.3.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.i2group</groupId>
-			<artifactId>httpclient</artifactId>
-			<version>4.5.6</version>
-		</dependency>
-		<dependency>
 			<groupId>com.ibm.websphere</groupId>
 			<artifactId>security</artifactId>
 			<version>1.1.38</version>
 		</dependency>
 		<dependency>
 			<groupId>com.i2group</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.12</version>
+		</dependency>
+		<dependency>
+			<groupId>com.i2group</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.4.10</version>
+			<version>4.4.13</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -74,10 +74,10 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpcore-4.4.10.jar</file>
+							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpcore-4.4.13.jar</file>
 							<groupId>com.i2group</groupId>
 							<artifactId>httpcore</artifactId>
-							<version>4.4.10</version>
+							<version>4.4.13</version>
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>
@@ -88,10 +88,10 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpclient-4.5.6.jar</file>
+							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpclient-4.5.12.jar</file>
 							<groupId>com.i2group</groupId>
 							<artifactId>httpclient</artifactId>
-							<version>4.5.6</version>
+							<version>4.5.12</version>
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>
@@ -102,10 +102,18 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<finalName>PrincipalPropogation</finalName>
+					<finalName>PrincipalPropagation</finalName>
 					<outputDirectory>${toolkitLocation}/toolkit/configuration/fragments/opal-services/WEB-INF/lib/</outputDirectory>                   
 				</configuration>
-			</plugin>  
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>6</source>
+					<target>6</target>
+				</configuration>
+			</plugin>
 		</plugins>    
 	</build>
 </project>

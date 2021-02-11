@@ -17,10 +17,7 @@
       "description": "A service for conditional searches",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
-      "acquireUrl": "/search",
-      "resultItemTypeIds": [
-        "made-up-schema-type-id"
-      ]
+      "acquireUrl": "/search"
     }
   ],
   "clientConfigs": [

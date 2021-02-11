@@ -1,6 +1,6 @@
 #********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -31,7 +31,7 @@ def schema():
 def charting_schemes():
     return send_from_directory('static', 'nypd-complaint-data-schema-charting-schemes.xml')
 
-@controller.route('/all', methods=['GET', 'POST'])
+@controller.route('/all', methods=['POST'])
 def all():
     records = query_external_datasource()
     response = marshal(records)

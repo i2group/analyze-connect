@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -14,16 +14,21 @@
 package com.i2group.nypd.rest.transport;
 
 import com.i2group.nypd.rest.externalsource.transport.SocrataResponseData;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /** Used to generate entity and link objects */
 public class ItemFactory {
-  @Autowired
-  @Value("${socrata.url}")
-  private static String baseUrl;
+
+  private static String BASE_URL;
+  private static Resource SOURCE_REFERENCE_IMAGE;
+
+  public ItemFactory(String baseUrl, Resource image) {
+    BASE_URL = baseUrl;
+    SOURCE_REFERENCE_IMAGE = image;
+  }
 
   /**
    * Creates complaint from a single record of data.
@@ -31,8 +36,8 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created complaint object.
    */
-  public static EntityData createComplaint(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+  public EntityData createComplaint(SocrataResponseData entry) {
+    final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT1", entry.complaintNum);
     properties.put("PT2", entry.complaintStartDate);
     properties.put("PT3", entry.complaintEndDate);
@@ -48,12 +53,12 @@ public class ItemFactory {
     properties.put("PT14", entry.dateReported);
     properties.put("PT29", entry.occurrenceLocation);
 
-    EntityData complaint = new EntityData();
+    final EntityData complaint = new EntityData();
     complaint.id = "COMP" + entry.complaintNum;
     complaint.typeId = "ET1";
     complaint.version = 1L;
     complaint.properties = properties;
-    complaint.sourceReference = generateSourceReference(complaint.id, entry.complaintNum);
+    complaint.sourceReference = generateSourceReference(entry.complaintNum);
 
     return complaint;
   }
@@ -64,18 +69,18 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created location object.
    */
-  public static EntityData createLocation(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+  public EntityData createLocation(SocrataResponseData entry) {
+    final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT15", entry.precinctCode);
     properties.put("PT16", entry.boroName);
     properties.put("PT18", GeospatialPoint.withCoordinates(entry.latitude, entry.longitude));
 
-    EntityData location = new EntityData();
+    final EntityData location = new EntityData();
     location.id = "LOC" + entry.precinctCode + entry.boroName;
     location.typeId = "ET2";
     location.version = 1L;
     location.properties = properties;
-    location.sourceReference = generateSourceReference(location.id, entry.complaintNum);
+    location.sourceReference = generateSourceReference(entry.complaintNum);
 
     return location;
   }
@@ -86,18 +91,18 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created suspect object.
    */
-  public static EntityData createSuspect(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+  public EntityData createSuspect(SocrataResponseData entry) {
+    final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT26", entry.suspAge);
     properties.put("PT27", entry.suspRace);
     properties.put("PT28", entry.suspSex);
 
-    EntityData suspect = new EntityData();
+    final EntityData suspect = new EntityData();
     suspect.id = "SUSP" + entry.complaintNum;
     suspect.typeId = "ET3";
     suspect.version = 1L;
     suspect.properties = properties;
-    suspect.sourceReference = generateSourceReference(suspect.id, entry.complaintNum);
+    suspect.sourceReference = generateSourceReference(entry.complaintNum);
 
     return suspect;
   }
@@ -108,18 +113,18 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created victim object.
    */
-  public static EntityData createVictim(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+  public EntityData createVictim(SocrataResponseData entry) {
+    final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT26", entry.vicAge);
     properties.put("PT27", entry.vicRace);
     properties.put("PT28", entry.vicSex);
 
-    EntityData victim = new EntityData();
+    final EntityData victim = new EntityData();
     victim.id = "VIC" + entry.complaintNum;
     victim.typeId = "ET3";
     victim.version = 1L;
     victim.properties = properties;
-    victim.sourceReference = generateSourceReference(victim.id, entry.complaintNum);
+    victim.sourceReference = generateSourceReference(entry.complaintNum);
 
     return victim;
   }
@@ -130,15 +135,15 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public static LinkData createLocationLink(
+  public LinkData createLocationLink(
       SocrataResponseData entry, EntityData complaint, EntityData location) {
-    LinkData locationLink = new LinkData();
+    final LinkData locationLink = new LinkData();
     locationLink.id = "LINKLOC" + entry.complaintNum;
     locationLink.typeId = "LT1";
     locationLink.fromEndId = complaint.id;
     locationLink.toEndId = location.id;
     locationLink.linkDirection = "WITH";
-    locationLink.sourceReference = generateSourceReference(locationLink.id, entry.complaintNum);
+    locationLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return locationLink;
   }
@@ -149,15 +154,15 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public static LinkData createSuspectLink(
+  public LinkData createSuspectLink(
       SocrataResponseData entry, EntityData complaint, EntityData suspect) {
-    LinkData suspectLink = new LinkData();
+    final LinkData suspectLink = new LinkData();
     suspectLink.id = "LINKSUSP" + entry.complaintNum;
     suspectLink.typeId = "LT2";
     suspectLink.fromEndId = suspect.id;
     suspectLink.toEndId = complaint.id;
     suspectLink.linkDirection = "WITH";
-    suspectLink.sourceReference = generateSourceReference(suspectLink.id, entry.complaintNum);
+    suspectLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return suspectLink;
   }
@@ -168,15 +173,15 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public static LinkData createVictimLink(
+  public LinkData createVictimLink(
       SocrataResponseData entry, EntityData complaint, EntityData victim) {
-    LinkData victimLink = new LinkData();
+    final LinkData victimLink = new LinkData();
     victimLink.id = "LINKVIC" + entry.complaintNum;
     victimLink.typeId = "LT3";
     victimLink.fromEndId = victim.id;
     victimLink.toEndId = complaint.id;
     victimLink.linkDirection = "WITH";
-    victimLink.sourceReference = generateSourceReference(victimLink.id, entry.complaintNum);
+    victimLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return victimLink;
   }
@@ -185,22 +190,25 @@ public class ItemFactory {
    * Generate a valid source reference, querying a link to an item of data using the unique
    * complaint number.
    *
-   * @param id The ID of the entity or link object.
    * @param complaintNum The complaint number of the record associated with the entity.
    * @return The SourceReference object containing details of the source.
    */
-  private static SourceReference generateSourceReference(Object id, String complaintNum) {
-    SourceInfo source = new SourceInfo();
+  private SourceReference generateSourceReference(String complaintNum) {
+    final SourceInfo source = new SourceInfo();
     source.name = "NYPD Complaint Dataset";
     source.type = "Open source data";
     source.description =
         "A source reference to the corresponding record from the NYPD Complaint Dataset.";
-    source.location = baseUrl + "?$where=cmplnt_num=" + complaintNum;
-    source.image =
-        "https://github.ibm.com/ibmi2/Connect-Examples/tree/master/docs/images/nypd-dataset-webpage.png?raw=true";
+    source.location = ItemFactory.BASE_URL + "?$where=cmplnt_num=" + complaintNum;
 
-    SourceReference reference = new SourceReference();
-    reference.id = "SR_" + id;
+    try {
+      source.image = SOURCE_REFERENCE_IMAGE.getFile().getAbsolutePath();
+    } catch (IOException e) {
+      source.image = null;
+    }
+
+    final SourceReference reference = new SourceReference();
+    reference.id = "";
     reference.source = source;
 
     return reference;

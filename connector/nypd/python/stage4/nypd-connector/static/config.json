@@ -16,8 +16,7 @@
 			"description": "A service with a search form",
 			"clientConfigType": "FORM",
 			"clientConfigId": "searchForm",
-			"acquireUrl": "/test-search-service",
-			"resultItemTypeIds": ["made-up-schema-type-id"]
+			"acquireUrl": "/test-search-service"
 		}
 	],
 	"clientConfigs": [{

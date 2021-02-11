@@ -21,18 +21,12 @@
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search",
-      "validateUrl": "/search/validate",
-      "resultItemTypeIds": [
-        "ET1"
-      ]
+      "validateUrl": "/search/validate"
     },
     {
       "id": "nypd-find-like-this-complaint-service",
       "name": "NYPD Connector: Find like this Complaint",
       "description": "A service which finds a similar complaint",
-      "resultItemTypeIds": [
-        "ET1"
-      ],
       "clientConfigType": "NONE",
       "acquireUrl": "/find-like-this-complaint",
       "seedConstraints": {
@@ -106,12 +100,40 @@
               {
                 "id": "boro_nm",
                 "label": "Borough Name",
-                "logicalType": "SINGLE_LINE_STRING"
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "BROOKLYN"
+                  },
+                  {
+                    "value": "BRONX"
+                  },
+                  {
+                    "value": "MANHATTAN"
+                  },
+                  {
+                    "value": "QUEENS"
+                  },
+                  {
+                    "value": "STATEN ISLAND"
+                  }
+                ]
               },
               {
                 "id": "law_cat_cd",
                 "label": "Law Category",
-                "logicalType": "SINGLE_LINE_STRING"
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "FELONY"
+                  },
+                  {
+                    "value": "MISDEMEANOR"
+                  },
+                  {
+                    "value": "VIOLATION"
+                  }
+                ]
               }
             ]
           }

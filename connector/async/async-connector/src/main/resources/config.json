@@ -4,9 +4,7 @@
   "chartingSchemesUrl": "/charting-schemes",
   "defaultValues": {
     "timeZoneId": "Europe/London",
-    "resultIdsPersistent": true,
-    "entityTypeLocation": "CONNECTOR",
-    "linkTypeLocation": "CONNECTOR"
+    "resultIdsPersistent": true
   },
   "services": [
     {
@@ -18,10 +16,7 @@
         "pollingIntervalInSeconds": 1
       },
       "clientConfigType": "FORM",
-      "clientConfigId": "asyncForm",
-      "resultItemTypeIds": {
-        "CONNECTOR": ["Person"]
-      }
+      "clientConfigId": "asyncForm"
     }
   ],
   "clientConfigs": [

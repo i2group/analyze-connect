@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -17,7 +17,7 @@ const router = express.Router();
 /* Validate /search */
 router.post("/search/validate", (req, res) => {
   const conditions = req.body.payload.conditions;
-  const validationResponse = (conditions && conditions.length === 2) ? 
+  const validationResponse = (conditions && conditions.length === 2) ?
     { errorMessage: "" } : { errorMessage: "No Conditions Provided" };
   res.status(200).send(validationResponse);
 });

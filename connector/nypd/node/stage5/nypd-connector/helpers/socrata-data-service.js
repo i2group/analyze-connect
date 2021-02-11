@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -17,7 +17,7 @@ const socrata = require("../socrata-config.js");
 const URL = `${socrata.url}?$$app_token=${socrata.token}`;
 
 module.exports = {
-  
+
   /**
    * Get all data from the NYPD complaint dataset
    * @param {Integer} limitValue - Used to set the max number of rows retured from NYPD complaint dataset
@@ -48,16 +48,16 @@ module.exports = {
   findSimilarComplaint: function(limitValue, seeds) {
     // TODO: extract seed
     // e.g const entitySeed = seeds.entities[0];
-    
+
     // TODO: extract seed properties
     // e.g const props = entitySeed.properties;
-    
+
     // TODO: build the URL
     // const url = `${URL}&$limit=${limitValue}&$where=law_cat_cd="${props["PT10"]}"`;
-    
+
     // TODO: add typeIds you want to be returned (in this case complaint typeId)
     // e.g const includeItemTypes = ["ET1"];
-    
+
     // TODO: run the request
     // return runRequest(url, includeItemTypes);
   },
@@ -70,23 +70,23 @@ module.exports = {
   expand: async function(limitValue, seeds) {
     // TODO: extract seed
     // e.g const entitySeed = seeds.entities[0];
-    
+
     // TODO: extract seed properties
     // e.g const props = entitySeed.properties;
-    
+
     // TODO: extract sourceId
     // e.g const sourceId = entitySeed.sourceIds[0].key[2];
-    
+
     // Set url based on the entity seed type ID
     // e.g let url = `${URL}&$limit=${limitValue}&$where=cmplnt_num=${props["PT1"]}`;
-    
+
     // TODO: set includeItemTypes (in this case should be all of them exept the entity seed type id)
     // e.g const includeItemTypes = ["ET1", "ET2", "ET3", "LT1", "LT2", "LT3"];
     //     includeItemTypes.splice(includeItemTypes.indexOf(entitySeed.typeId), 1); // remove the entity seed typeId
-    
+
     // TODO: run the request
     // const resp = await runRequest(url, includeItemTypes);
-    
+
     // Change End Ids to the entity seed id
     // This is required for links to connect to the entity that is already on the chart
     // resp.links.forEach(link => {
@@ -99,7 +99,7 @@ module.exports = {
     // return resp;
   },
 
-  
+
   /**
    * Expand the seeded entity with conditions
    * @param {Integer} limitValue - Used to set the max number of rows retured from NYPD complaint dataset
@@ -112,10 +112,10 @@ module.exports = {
   }
 };
 
-/** 
+/**
  * Run request and returns a JSON object with entities and links
  * @param {string} url - URL used to query NYPD complaint dataset
- * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned 
+ * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned
 */
 async function runRequest(url, includeItemTypes) {
   const data = JSON.parse(await doRequest(url));
@@ -130,8 +130,8 @@ async function runRequest(url, includeItemTypes) {
   return { entities, links };
 }
 
-/** 
- * Create a Promise from the request 
+/**
+ * Create a Promise from the request
  * @param {string} url - URL used to query NYPD complaint dataset
 */
 function doRequest(url) {

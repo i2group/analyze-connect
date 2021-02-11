@@ -1,95 +1,117 @@
 {
-    "schemaShortName": "NYPD-Complaints",
-    "schemaUrl": "/schema",
-    "chartingSchemesUrl": "/charting-schemes",
-	"defaultValues": {
-		"timeZoneId": "Europe/London",
-		"resultIdsPersistent": true
-	},
-	"services": [
+  "schemaShortName": "NYPD-Complaints",
+  "schemaUrl": "/schema",
+  "chartingSchemesUrl": "/charting-schemes",
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  },
+  "services": [
     {
-			"id": "nypd-service",
-			"name": "NYPD Connector",
-			"description": "A service which retrieves all data",
-			"clientConfigType": "NONE",
-			"acquireUrl": "/all"
-		},
-		{
-			"id": "nypd-search-service",
-			"name": "NYPD Connector Search",
-			"description": "A service with a search form for conditional searches.",
-			"clientConfigType": "FORM",
-			"clientConfigId": "searchForm",
-			"acquireUrl": "/search",
-			"validateUrl": "/search/validate"
-		},
-		{
-			"id": "nypd-expand",
-			"name": "NYPD Connector Seeded Search (Expand)",
-			"description": "A service which executes an Expand operation on a seed.",
-			"clientConfigType": "NONE",
-			"acquireUrl": "/expand",
-			"seedConstraints": {
-				"min": 1,
-				"max": 1,
-				"seedTypes": {
-					"allowedTypes": "ENTITY",
-					"itemTypes": [{
-						"id": "ET2"
-					}]
-				}
-			}
-		},
-		{
-			"id": "nypd-service-find-like-this",
-			"name": "NYPD Connector Seeded Search (Find Like This)",
-			"description": "A service which executes a Find-Like-This operation on a seed.",
-			"clientConfigType": "NONE",
-			"acquireUrl": "/find-like-this-complaint",
-			"seedConstraints": {
-				"min": 1,
-				"max": 1,
-				"seedTypes": {
-					"allowedTypes": "ENTITY",
-					"itemTypes": [{
-						"id": "ET1",
-						"min": 1,
-						"max": 1
-					}]
-				}
-			}
-		},
-		{
-			"id": "nypd-expand-with-conditions",
-			"name": "NYPD Connector Seeded Search (Expand With Conditions)",
-			"description": "A service which executes an Expand With Conditions operation on a seed.",
-			"clientConfigType": "FORM",
-			"clientConfigId": "searchForm",
-			"acquireUrl": "/expand-with-conditions",
-			"validateUrl": "/expand-with-conditions/validate",
-			"seedConstraints": {
-				"min": 1,
-				"max": 1,
-				"seedTypes": {
-					"allowedTypes": "ENTITY",
-					"itemTypes": [{
-						"id": "ET2"
-					}]
-				}
-			}
-		}
-	],
-	"clientConfigs": [{
-		"id": "searchForm",
-		"config": {
-			"sections": [{
-				"conditions": [{
-					"id": "law_cat_cd",
-					"label": "Level of Offence",
-					"logicalType": "SINGLE_LINE_STRING",
-					"mandatory": true
-				}]
-			}]
-		}
-	}]
+      "id": "nypd-service",
+      "name": "NYPD Connector",
+      "description": "A service which retrieves all data",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/all"
+    },
+    {
+      "id": "nypd-search-service",
+      "name": "NYPD Connector Search",
+      "description": "A service with a search form for conditional searches.",
+      "clientConfigType": "FORM",
+      "clientConfigId": "searchForm",
+      "acquireUrl": "/search",
+      "validateUrl": "/search/validate"
+    },
+    {
+      "id": "nypd-expand",
+      "name": "NYPD Connector Seeded Search (Expand)",
+      "description": "A service which executes an Expand operation on a seed.",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/expand",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "nypd-service-find-like-this",
+      "name": "NYPD Connector Seeded Search (Find Like This)",
+      "description": "A service which executes a Find-Like-This operation on a seed.",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/find-like-this-complaint",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET1",
+              "min": 1,
+              "max": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "nypd-expand-with-conditions",
+      "name": "NYPD Connector Seeded Search (Expand With Conditions)",
+      "description": "A service which executes an Expand With Conditions operation on a seed.",
+      "clientConfigType": "FORM",
+      "clientConfigId": "searchForm",
+      "acquireUrl": "/expand-with-conditions",
+      "validateUrl": "/expand-with-conditions/validate",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET2"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "clientConfigs": [
+    {
+      "id": "searchForm",
+      "config": {
+        "sections": [
+          {
+            "conditions": [
+              {
+                "id": "law_cat_cd",
+                "label": "Law Category",
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "FELONY"
+                  },
+                  {
+                    "value": "MISDEMEANOR"
+                  },
+                  {
+                    "value": "VIOLATION"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
 }

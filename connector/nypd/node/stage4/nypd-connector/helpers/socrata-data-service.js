@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -17,7 +17,7 @@ const socrata = require("../socrata-config.js");
 const URL = `${socrata.url}?$$app_token=${socrata.token}`;
 
 module.exports = {
-  
+
   /**
    * Get all data from the NYPD complaint dataset
    * @param {Integer} limitValue - Used to set the max number of rows retured from NYPD complaint dataset
@@ -36,7 +36,7 @@ module.exports = {
   findComplaint: function(limitValue, conditions) {
 
     // TODO: parse `conditions` and get boro and law_cat values
-    
+
     // TODO: build the url
     // e.g const url = `${URL}&$limit=${limitValue}&$where=boro_nm="${boro}" AND law_cat_cd="${law_cat}"`;
 
@@ -47,16 +47,16 @@ module.exports = {
   }
 };
 
-/** 
+/**
  * Run request and returns a JSON object with entities and links
  * @param {string} url - URL used to query NYPD complaint dataset
- * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned 
+ * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned
 */
 async function runRequest(url, includeItemTypes) {
   const data = JSON.parse(await doRequest(url));
   const entities = [],
     links = [];
-  
+
   data.forEach(row => {
     // TODO: Create Entities and Links for each row of the data received
     //       Only create Entities and Links whose typeIds are in the includeItemTypes array
@@ -66,8 +66,8 @@ async function runRequest(url, includeItemTypes) {
   return { entities, links };
 }
 
-/** 
- * Create a Promise from the request 
+/**
+ * Create a Promise from the request
  * @param {string} url - URL used to query NYPD complaint dataset
 */
 function doRequest(url) {

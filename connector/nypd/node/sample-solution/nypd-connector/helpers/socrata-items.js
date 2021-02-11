@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -11,7 +11,10 @@
 # *
 # ********************************************************************************/
 
+const path = require('path');
 const socrata = require("../socrata-config.js");
+
+const resourceImage = path.join(__dirname, '../public/images/nypd-dataset-webpage.png');
 
 module.exports = {
   complaintTypeId: "ET1",
@@ -47,7 +50,7 @@ module.exports = {
         PT11: data.ofns_desc,
         PT7: parseInt(data.jurisdiction_code, 10)
       },
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -63,7 +66,7 @@ module.exports = {
           coordinates: [data.latitude, data.longitude]
         }
       },
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -76,7 +79,7 @@ module.exports = {
         PT27: data.vic_race,
         PT28: data.vic_sex
       },
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -89,7 +92,7 @@ module.exports = {
         PT27: data.susp_race,
         PT28: data.susp_sex
       },
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -101,7 +104,7 @@ module.exports = {
       fromEndId: complaintId,
       toEndId: locationId,
       linkDirection: "WITH",
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -113,7 +116,7 @@ module.exports = {
       toEndId: complaintId,
       fromEndId: victimId,
       linkDirection: "WITH",
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   },
 
@@ -125,20 +128,20 @@ module.exports = {
       toEndId: complaintId,
       fromEndId: suspectId,
       linkDirection: "WITH",
-      sourceReference: getExampleSourceRef(id, data.cmplnt_num)
+      sourceReference: getExampleSourceRef(data.cmplnt_num)
     };
   }
 };
 
-function getExampleSourceRef(id, complaintNum){
+function getExampleSourceRef(complaintNum){
   return {
-    id: `SR_${id}`,
+    id: "",
     source: {
       name: "NYPD Complaint Dataset",
       type: "Open source data",
       description: "A source reference to the corresponding record from the NYPD Complaint Dataset.",
       location: `${socrata.url}?$where=cmplnt_num=${complaintNum}`,
-      image: "https://github.ibm.com/ibmi2/Connect-Examples/tree/master/docs/images/nypd-dataset-webpage.png?raw=true"
+      image: resourceImage
     }
   }
 }

@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -25,27 +25,37 @@ import com.i2group.nypd.rest.transport.request.seeded.DaodSeedEntityData;
 import com.i2group.nypd.rest.transport.request.seeded.DaodSeeds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 /** Used to query the NYPD complaint dataset, turning the raw data into entities and links. */
 @Service
 public class ExternalConnectorDataService {
   private final SocrataClient socrataClient;
+  private final ItemFactory itemFactory;
+
+  private final static String LIMIT_PARAM = "?$limit={limitValue}";
 
   /**
    * Constructor used to initialise the Socrata client and factory objects used to retrieve
    * complaint data.
-   *
-   * @param baseUrl The URL of the NYPD complaint dataset.
+   *  @param baseUrl The URL of the NYPD complaint dataset.
    * @param apiToken The API token used to access the NYPD complaint dataset.
    */
   @Autowired
   public ExternalConnectorDataService(
-      @Value("${socrata.url}") String baseUrl, @Value("${socrata.api.token}") String apiToken) {
-    socrataClient = new SocrataClient(baseUrl, apiToken);
+      @Value("${socrata.url}") String baseUrl,
+      @Value("${socrata.api.token}") String apiToken,
+      @Value("classpath:nypd-dataset-webpage.png") Resource resource) {
+    this.itemFactory = new ItemFactory(baseUrl, resource);
+    this.socrataClient = new SocrataClient(baseUrl, apiToken);
   }
 
   /**
@@ -56,9 +66,8 @@ public class ExternalConnectorDataService {
   public ConnectorResponse retrieveAll() {
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
-    String url = "?$limit={limitValue}";
 
-    final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
+    final SocrataResponse response = socrataClient.get(LIMIT_PARAM, SocrataResponse.class, params);
     return marshalItemsFromResponse(response);
   }
 
@@ -71,21 +80,24 @@ public class ExternalConnectorDataService {
   public ConnectorResponse search(List<RequestCondition> conditions) {
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
-    String url = "?$limit={limitValue}";
+    final StringBuilder url = new StringBuilder(LIMIT_PARAM);
 
     int count = 0;
     for (RequestCondition condition : conditions) {
-      url += count == 0 ? "&$where=" : "&";
       params.put(condition.id, condition.value);
-      url += condition.id + "='{" + condition.id + "}'";
+      url.append(count == 0 ? "&$where=" : "&")
+          .append(condition.id)
+          .append("='{")
+          .append(condition.id)
+          .append("}'");
       count++;
     }
 
-    final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
+    final SocrataResponse response = socrataClient.get(url.toString(), SocrataResponse.class, params);
 
     final ConnectorResponse connectorResponse = new ConnectorResponse();
     connectorResponse.entities =
-        response.stream().map(ItemFactory::createComplaint).collect(Collectors.toList());
+        response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
     connectorResponse.links = Collections.emptyList();
     return connectorResponse;
   }
@@ -103,13 +115,13 @@ public class ExternalConnectorDataService {
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
     params.put("lawCategory", seed.properties.get("PT10"));
-    String url = "?$limit={limitValue}&$where=law_cat_cd='{lawCategory}'";
 
+    final String url = LIMIT_PARAM + "&$where=law_cat_cd='{lawCategory}'";
     final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
 
     final ConnectorResponse connectorResponse = new ConnectorResponse();
     connectorResponse.entities =
-        response.stream().map(ItemFactory::createComplaint).collect(Collectors.toList());
+        response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
     connectorResponse.links = Collections.emptyList();
     return connectorResponse;
   }
@@ -122,7 +134,7 @@ public class ExternalConnectorDataService {
    * @return A response containing the entities and links.
    */
   public ConnectorResponse expand(DaodSeeds seeds) {
-    DaodSeedEntityData seed = seeds.entities.get(0);
+    final DaodSeedEntityData seed = seeds.entities.get(0);
     String field = "", value = "";
 
     if (seed.typeId.equals("ET1")) {
@@ -137,7 +149,8 @@ public class ExternalConnectorDataService {
     params.put("limitValue", 50);
     params.put("field", field);
     params.put("value", value);
-    String url = "?$limit={limitValue}&{field}={value}";
+
+    final String url = LIMIT_PARAM + "&{field}={value}";
 
     final SocrataResponse socrataResponse = socrataClient.get(url, SocrataResponse.class, params);
     ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
@@ -168,17 +181,22 @@ public class ExternalConnectorDataService {
     params.put("field", field);
     params.put("limitValue", 50);
     params.put("value", value);
-    String url = "?$limit={limitValue}&{field}={value}";
+
+    final StringBuilder url = new StringBuilder(LIMIT_PARAM);
+    url.append("&{field}={value}");
 
     int count = 0;
     for (RequestCondition condition : payload.conditions) {
-      url += count == 0 ? "&$where=" : "&";
+      url.append(count == 0 ? "&$where=" : "&");
       params.put(condition.id, condition.value);
-      url += condition.id + "='{" + condition.id + "}'";
+      url.append(condition.id)
+          .append("='{")
+          .append(condition.id)
+          .append("}'");
       count++;
     }
 
-    final SocrataResponse socrataResponse = socrataClient.get(url, SocrataResponse.class, params);
+    final SocrataResponse socrataResponse = socrataClient.get(url.toString(), SocrataResponse.class, params);
     ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
@@ -199,36 +217,36 @@ public class ExternalConnectorDataService {
     final Map<String, EntityData> complaints = new HashMap<>();
     final Map<String, EntityData> locations = new HashMap<>();
 
-    response.stream()
+    response
         .forEach(
             entry -> {
-              EntityData complaint;
+              final EntityData complaint;
               if (complaints.containsKey(entry.complaintNum)) {
                 complaint = complaints.get(entry.complaintNum);
               } else {
-                complaint = ItemFactory.createComplaint(entry);
+                complaint = itemFactory.createComplaint(entry);
                 complaints.put(entry.complaintNum, complaint);
                 entities.add(complaint);
               }
 
-              EntityData location;
-              String key = entry.precinctCode + entry.boroName;
+              final EntityData location;
+              final String key = entry.precinctCode + entry.boroName;
               if (locations.containsKey(key)) {
                 location = locations.get(key);
               } else {
-                location = ItemFactory.createLocation(entry);
+                location = itemFactory.createLocation(entry);
                 locations.put(key, location);
                 entities.add(location);
               }
 
-              EntityData suspect = ItemFactory.createSuspect(entry);
-              EntityData victim = ItemFactory.createVictim(entry);
+              final EntityData suspect = itemFactory.createSuspect(entry);
+              final EntityData victim = itemFactory.createVictim(entry);
               entities.add(suspect);
               entities.add(victim);
 
-              LinkData locationLink = ItemFactory.createLocationLink(entry, complaint, location);
-              LinkData suspectLink = ItemFactory.createSuspectLink(entry, complaint, suspect);
-              LinkData victimLink = ItemFactory.createVictimLink(entry, complaint, victim);
+              final LinkData locationLink = itemFactory.createLocationLink(entry, complaint, location);
+              final LinkData suspectLink = itemFactory.createSuspectLink(entry, complaint, suspect);
+              final LinkData victimLink = itemFactory.createVictimLink(entry, complaint, victim);
               links.add(locationLink);
               links.add(suspectLink);
               links.add(victimLink);

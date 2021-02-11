@@ -21,10 +21,7 @@
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search",
-      "validateUrl": "/search/validate",
-      "resultItemTypeIds": [
-        "ET1", "ET2"
-      ]
+      "validateUrl": "/search/validate"
     },
     {
       "id": "kcpd-find-like-this-location-service",

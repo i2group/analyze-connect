@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -14,15 +14,7 @@
 package com.i2group.async;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +32,7 @@ import com.i2group.async.rest.transport.AsyncStatusResponse.State;
 import com.i2group.async.rest.transport.ResponseData.Person;
 import com.i2group.async.rest.transport.request.RequestCondition;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -48,14 +41,22 @@ import org.springframework.stereotype.Service;
 @Service
 public class ExternalConnectorDataService {
 
-  @Value("classpath:people.json")
-  private Resource peopleResource;
-  private Date startDate;
-  private AsyncQuerySubstatus queryStarted;
-  private CompletableFuture<Void> asyncQuery = new CompletableFuture<>();
   private final AsyncStatusResponse status = new AsyncStatusResponse();
   private final Map<String, ConnectorResponse> asyncResponses = new HashMap<>();
   private final Map<String, AsyncStatusResponse> asyncStatuses = new HashMap<>();
+  private final ItemFactory itemFactory;
+  private final Resource peopleResource;
+
+  private Date startDate;
+  private AsyncQuerySubstatus queryStarted;
+  private CompletableFuture<Void> asyncQuery = new CompletableFuture<>();
+
+  @Autowired
+  public ExternalConnectorDataService(
+      @Value("classpath:people.json") Resource resource) {
+    this.itemFactory = new ItemFactory(resource);
+    this.peopleResource = resource;
+  }
 
   /**
    * Retrieves the data matching certain specified conditions.
@@ -123,7 +124,7 @@ public class ExternalConnectorDataService {
       case STARTED:
         substatus.type = Substatus.INFORMATION;
         substatus.message = "Query started - " + startDate;
-        statusResponse.substatuses = Arrays.asList(substatus);
+        statusResponse.substatuses = Collections.singletonList(substatus);
         queryStarted = substatus;
         break;
       case SUCCEEDED:
@@ -134,7 +135,7 @@ public class ExternalConnectorDataService {
       case FAILED:
         substatus.type = Substatus.ERROR;
         substatus.message = "Query failed - " + startDate;
-        statusResponse.substatuses = Arrays.asList(substatus);
+        statusResponse.substatuses = Collections.singletonList(substatus);
         break;
       default:
         throw new Error("Query in unkown state");
@@ -185,7 +186,7 @@ public class ExternalConnectorDataService {
    * Marshal the response items into a list of entities and links. Ensures no
    * duplicate complaints or locations are included.
    *
-   * @param response The resulting source records returned from the request.
+   * @param responseData The resulting source records returned from the request.
    * @return The response containing entities and links.
    */
   private ConnectorResponse marshalItemsFromResponse(ResponseData responseData) {
@@ -200,7 +201,7 @@ public class ExternalConnectorDataService {
       if (people.containsKey(entry.id)) {
         person = people.get(entry.id);
       } else {
-        person = ItemFactory.createPerson(entry);
+        person = itemFactory.createPerson(entry);
         people.put(entry.id, person);
         entities.add(person);
       }
@@ -213,15 +214,15 @@ public class ExternalConnectorDataService {
           if (people.containsKey(friendId)) {
             friend = people.get(friendId);
           } else {
-            friend = ItemFactory.createPerson(friendPerson);
+            friend = itemFactory.createPerson(friendPerson);
             people.put(friendId, friend);
             entities.add(friend);
           }
 
-          String uniqueId = "LINK-PER" + person.id + "-FRIEND" + friend.id;
-          String alternateUniqueId = "LINK-PER" + friend.id + "-FRIEND" + person.id;
+          final String uniqueId = "LINK-PER" + person.id + "-FRIEND" + friend.id;
+          final String alternateUniqueId = "LINK-PER" + friend.id + "-FRIEND" + person.id;
           if (!linkIds.contains(uniqueId) || !linkIds.contains(alternateUniqueId)) {
-            LinkData personLink = ItemFactory.createPersonLink(entry, person, friend);
+            LinkData personLink = itemFactory.createPersonLink(person, friend);
             links.add(personLink);
             linkIds.add(uniqueId);
             linkIds.add(alternateUniqueId);

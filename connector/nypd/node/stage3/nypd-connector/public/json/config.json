@@ -7,7 +7,6 @@
 		"id": "nypd-service",
 		"name": "NYPD Connector: Get All",
 		"description": "A service which retrieves all data",
-		"resultItemTypeIds": ["ET1", "ET2", "ET3", "LT1", "LT2", "LT3"],
 		"clientConfigType": "NONE",
 		"acquireUrl": "/all"
 	}]

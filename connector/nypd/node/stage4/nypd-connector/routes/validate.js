@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -19,13 +19,13 @@ router.post("/search/validate", (req, res) => {
 
   // TODO: parse conditions
   // e.g const conditions = req.body.payload.conditions;
-  
+
   const validationResponse = { errorMessage: "" };
   // TODO: validate that conditions is not empty and have valid values
   //       if this is not the case set the errorMessage
 
   res.status(200).send(validationResponse);
-  
+
 });
 
 module.exports = router;

@@ -17,18 +17,12 @@
       "description": "A service for conditional searches",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
-      "acquireUrl": "/search",
-      "resultItemTypeIds": [
-        "made-up-schema-type-id"
-      ]
+      "acquireUrl": "/search"
     },
     {
       "id": "nypd-find-like-this-complaint-service",
       "name": "NYPD Connector: Find like this Complaint",
       "description": "A service which finds a similar complaint",
-      "resultItemTypeIds": [
-        "made-up-schema-type-id"
-      ],
       "clientConfigType": "NONE",
       "acquireUrl": "/find-like-this-complaint",
       "seedConstraints": {

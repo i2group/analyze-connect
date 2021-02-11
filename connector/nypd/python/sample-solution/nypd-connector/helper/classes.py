@@ -1,6 +1,6 @@
 #********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -12,6 +12,7 @@
 # ********************************************************************************
 
 import yaml
+import os
 
 type_ids = {
     'complaint': 'ET1',
@@ -27,6 +28,7 @@ with open('static/application.yml') as yml_file:
     config = yaml.safe_load(yml_file)
 
 base_url = config['socrata']['url']
+resource_image = os.path.abspath("static/nypd-dataset-webpage.png")
 
 class ResponseBaseData:
     """
@@ -88,7 +90,7 @@ class Complaint(Entity):
             'PT13': entry.get('pd_desc'),
             'PT14': entry.get('rpt_dt')[:10] if entry.get('rpt_dt') else None,
             'PT29': entry.get('loc_of_occur_desc') if entry.get('loc_of_occur_desc') else None
-        }, generate_source_ref(id, entry.get('cmplnt_num')))
+        }, generate_source_ref(entry.get('cmplnt_num')))
 
 class Location(Entity):
     """
@@ -110,7 +112,7 @@ class Location(Entity):
             'PT21': entry.get('prem_typ_desc'),
             'PT22': entry.get('station_name'),
             'PT23': int(float(entry.get('transit_district'))) if entry.get('transit_district') else None,
-        }, generate_source_ref(id, entry.get('cmplnt_num')))
+        }, generate_source_ref(entry.get('cmplnt_num')))
 
 class GeospatialPoint:
     """
@@ -137,7 +139,7 @@ class Victim(Entity):
             'PT26': entry.get('vic_age_group'),
             'PT27': entry.get('vic_race'),
             'PT28': entry.get('vic_sex')
-        }, generate_source_ref(id, entry.get('cmplnt_num')))
+        }, generate_source_ref(entry.get('cmplnt_num')))
 
 class Suspect(Entity):
     """
@@ -151,7 +153,7 @@ class Suspect(Entity):
             'PT26': entry.get('susp_age_group'),
             'PT27': entry.get('susp_race'),
             'PT28': entry.get('susp_sex')
-        }, generate_source_ref(id, entry.get('cmplnt_num')))
+        }, generate_source_ref(entry.get('cmplnt_num')))
 
 class LocatedAt(Link):
     """
@@ -159,7 +161,7 @@ class LocatedAt(Link):
     """
     def __init__(self, entry):
         id = get_id("LA", entry)
-        super().__init__("LA" + id, type_ids['located_at'], None, generate_source_ref(id, entry.get('cmplnt_num')))
+        super().__init__("LA" + id, type_ids['located_at'], None, generate_source_ref(entry.get('cmplnt_num')))
 
 class VictimOf(Link):
     """
@@ -167,7 +169,7 @@ class VictimOf(Link):
     """
     def __init__(self, entry):
         id = get_id("VO", entry)
-        super().__init__("VO" + id, type_ids['victim_of'], None, generate_source_ref(id, entry.get('cmplnt_num')))
+        super().__init__("VO" + id, type_ids['victim_of'], None, generate_source_ref(entry.get('cmplnt_num')))
 
 class SuspectOf(Link):
     """
@@ -175,20 +177,20 @@ class SuspectOf(Link):
     """
     def __init__(self, entry):
         id = get_id("SO", entry)
-        super().__init__("SO" + id, type_ids['suspect_of'], None, generate_source_ref(id, entry.get('cmplnt_num')))
+        super().__init__("SO" + id, type_ids['suspect_of'], None, generate_source_ref(entry.get('cmplnt_num')))
 
 def get_id(base, entry):
     id = int(entry.get('cmplnt_num'))
     return base + str(id)
 
-def generate_source_ref(id, complaint_num):
+def generate_source_ref(complaint_num):
     return {
-        'id': 'SR_' + str(id),
+        "id": "",
         'source': {
             'name': "NYPD Complaint Dataset",
             'type': "Open source data",
             'description': "A source reference to the corresponding record from the NYPD Complaint Dataset.",
             'location': f"{base_url}?$where=cmplnt_num={complaint_num}",
-            'image': "https://github.ibm.com/ibmi2/Connect-Examples/tree/master/docs/images/nypd-dataset-webpage.png?raw=true"
+            'image': resource_image
         }
     }

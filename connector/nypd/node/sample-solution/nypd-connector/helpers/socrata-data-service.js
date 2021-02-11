@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -18,7 +18,7 @@ const items = require("./socrata-items.js");
 const URL = `${socrata.url}?$$app_token=${socrata.token}`;
 
 module.exports = {
-  
+
   /**
    * Get all data from the NYPD complaint dataset
    * @param {Integer} limitValue - Used to set the max number of rows retured from NYPD complaint dataset
@@ -59,7 +59,7 @@ module.exports = {
     return resp;
   },
 
-  
+
   /**
    * Expand the seeded entity with conditions
    * @param {Integer} limitValue - Used to set the max number of rows retured from NYPD complaint dataset
@@ -88,7 +88,7 @@ module.exports = {
         link.fromEndId = entitySeed.seedId;
       }
     });
-    return resp;  
+    return resp;
   },
 
   /**
@@ -116,10 +116,10 @@ module.exports = {
   }
 };
 
-/** 
+/**
  * Run request and returns a JSON object with entities and links
  * @param {string} url - URL used to query NYPD complaint dataset
- * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned 
+ * @param {Array} includeItemTypes - List of item type ids used to determine what items need to be returned
 */
 async function runRequest(url, includeItemTypes) {
   const data = JSON.parse(await doRequest(url));
@@ -164,8 +164,8 @@ async function runRequest(url, includeItemTypes) {
   return { entities, links };
 }
 
-/** 
- * Create a Promise from the request 
+/**
+ * Create a Promise from the request
  * @param {string} url - URL used to query NYPD complaint dataset
 */
 function doRequest(url) {

@@ -20,18 +20,12 @@
       "description": "A service for conditional searches.",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
-      "acquireUrl": "/search",
-      "resultItemTypeIds": [
-        "ET1"
-      ]
+      "acquireUrl": "/search"
     },
     {
       "id": "eri-find-like-this-incident-service",
       "name": "ERI Connector: Find-Like-This Incident",
       "description": "A service which finds a similar incident.",
-      "resultItemTypeIds": [
-        "ET1"
-      ],
       "clientConfigType": "NONE",
       "acquireUrl": "/find-like-this-incident",
       "seedConstraints": {

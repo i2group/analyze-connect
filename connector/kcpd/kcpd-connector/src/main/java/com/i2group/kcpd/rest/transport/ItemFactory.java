@@ -1,6 +1,6 @@
 /********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -48,7 +48,7 @@ public class ItemFactory {
     report.typeId = "ET1";
     report.version = 1L;
     report.properties = properties;
-    report.sourceReference = generateSourceReference(report.id, entry.reportNumber);
+    report.sourceReference = generateSourceReference(entry.reportNumber);
 
     return report;
   }
@@ -71,11 +71,11 @@ public class ItemFactory {
     }
 
     EntityData location = new EntityData();
-    location.id = "LOC" + entry.address;
+    location.id = "LOC" + entry.address + entry.zipCode;
     location.typeId = "ET2";
     location.version = 1L;
     location.properties = properties;
-    location.sourceReference = generateSourceReference(location.id, entry.reportNumber);
+    location.sourceReference = generateSourceReference(entry.reportNumber);
 
     return location;
   }
@@ -97,7 +97,7 @@ public class ItemFactory {
     person.typeId = "ET3";
     person.version = 1L;
     person.properties = properties;
-    person.sourceReference = generateSourceReference(person.id, entry.reportNumber);
+    person.sourceReference = generateSourceReference(entry.reportNumber);
 
     return person;
   }
@@ -118,7 +118,7 @@ public class ItemFactory {
     locationLink.fromEndId = report.id;
     locationLink.toEndId = location.id;
     locationLink.linkDirection = LinkData.Direction.WITH;
-    locationLink.sourceReference = generateSourceReference(locationLink.id, entry.reportNumber);
+    locationLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return locationLink;
   }
@@ -139,7 +139,7 @@ public class ItemFactory {
     suspectLink.fromEndId = suspect.id;
     suspectLink.toEndId = report.id;
     suspectLink.linkDirection = LinkData.Direction.WITH;
-    suspectLink.sourceReference = generateSourceReference(suspectLink.id, entry.reportNumber);
+    suspectLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return suspectLink;
   }
@@ -160,7 +160,7 @@ public class ItemFactory {
     victimLink.fromEndId = victim.id;
     victimLink.toEndId = report.id;
     victimLink.linkDirection = LinkData.Direction.WITH;
-    victimLink.sourceReference = generateSourceReference(victimLink.id, entry.reportNumber);
+    victimLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return victimLink;
   }
@@ -181,7 +181,7 @@ public class ItemFactory {
     arrestedLink.fromEndId = arrested.id;
     arrestedLink.toEndId = report.id;
     arrestedLink.linkDirection = LinkData.Direction.WITH;
-    arrestedLink.sourceReference = generateSourceReference(arrestedLink.id, entry.reportNumber);
+    arrestedLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return arrestedLink;
   }
@@ -202,7 +202,7 @@ public class ItemFactory {
     chargedLink.fromEndId = charged.id;
     chargedLink.toEndId = report.id;
     chargedLink.linkDirection = LinkData.Direction.WITH;
-    chargedLink.sourceReference = generateSourceReference(chargedLink.id, entry.reportNumber);
+    chargedLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return chargedLink;
   }
@@ -223,7 +223,7 @@ public class ItemFactory {
     complicitLink.fromEndId = complicit.id;
     complicitLink.toEndId = report.id;
     complicitLink.linkDirection = LinkData.Direction.WITH;
-    complicitLink.sourceReference = generateSourceReference(complicitLink.id, entry.reportNumber);
+    complicitLink.sourceReference = generateSourceReference(entry.reportNumber);
 
     return complicitLink;
   }
@@ -236,7 +236,7 @@ public class ItemFactory {
    * @param reportNum The report number of the record associated with the entity.
    * @return The SourceReference object containing details of the source.
    */
-  private static SourceReference generateSourceReference(Object id, String reportNum) {
+  private static SourceReference generateSourceReference(String reportNum) {
     SourceInfo source = new SourceInfo();
     source.name = "KCPD Crime Data";
     source.type = "Open source data";
@@ -245,7 +245,7 @@ public class ItemFactory {
     source.location = baseUrl + "?report_no=" + reportNum;
 
     SourceReference reference = new SourceReference();
-    reference.id = "SR_" + id;
+    reference.id = "";
     reference.source = source;
 
     return reference;

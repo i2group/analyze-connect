@@ -1,6 +1,6 @@
 #********************************************************************************
 # * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2020. All Rights Reserved
+# * (C) Copyright IBM Corporation 2021. All Rights Reserved
 # *
 # * This program and the accompanying materials are made available under the
 # * terms of the Eclipse Public License 2.0 which is available at
@@ -23,7 +23,7 @@ def config():
     """
     return send_from_directory('static', 'config.json')
 
-@controller.route('/test-service')
+@controller.route('/test-service', methods=['POST'])
 def test():
     """
     Defines the /test-service endpoint which acquires the

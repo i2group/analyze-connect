@@ -85,20 +85,23 @@ It is imperative that you have Python installed and added to <code>PATH</code>. 
 your connector up-and-running.</p>
 <h2 id="installation">Installation</h2>
 <p>If you&#39;re running Windows, you can install all required dependencies and create a virtual environment by running this setup batch script in the <code>nypd-connector</code> working directory:</p>
-<pre><code>./setup.bat
+<pre><code class="lang-shell">./setup.bat
 </code></pre><p>Alternatively, run this sequence of the instructions (that the above batch script performs):</p>
 <ol>
-<li>Install <code>pipenv</code>, the virtual environment and package manager.
- <code>pip install pipenv</code></li>
-<li>Activate your virtual environment.
- <code>pipenv --python [python-version]</code></li>
-<li>Synchronize the environments dependencies with that of the Pipfile.
- <code>pipenv sync</code></li>
+<li><p>Install <code>pipenv</code>, the virtual environment and package manager.</p>
+<pre><code class="lang-shell">pip install pipenv
+</code></pre></li>
+<li><p>Activate your virtual environment.</p>
+<pre><code class="lang-shell">pipenv --python [python-version]
+</code></pre></li>
+<li><p>Synchronize the environments dependencies with that of the Pipfile.</p>
+<pre><code class="lang-shell">pipenv sync
+</code></pre></li>
 </ol>
 <p>You&#39;ll need to do this each time you&#39;re in a new Python working directory to ensure dependencies are installed and that your virtual environment is activated.</p>
 <h2 id="starting-and-stopping-the-application">Starting and stopping the application</h2>
 <p>To start the connector application, run the following command in the working directory:</p>
-<pre><code>pipenv run python app.py
+<pre><code class="lang-shell">pipenv run python app.py
 </code></pre><p>Simply press <code>Ctrl+C</code> to stop the application.</p>
 </article>
           </div>

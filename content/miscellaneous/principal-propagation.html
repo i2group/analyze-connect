@@ -97,27 +97,27 @@
 </code></pre><p>This location is used by Maven to locate the JAR files to pull into the local Maven repository and where to place the packaged JAR file that contains your implementation.</p>
 <p>To set up the Maven environment, open a terminal in the <code>principal-propagation</code> directory.</p>
 <h4 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies:</h4>
-<pre><code>mvnw initialize
+<pre><code class="lang-shell">mvnw initialize
 </code></pre><p>This pulls in JAR files from the i2 Analyze deployment toolkit into your local Maven repository.</p>
 <h4 id="2-compile-and-install-the-project">2. Compile and install the project:</h4>
-<pre><code>mvnw clean install
+<pre><code class="lang-shell">mvnw clean install
 </code></pre><p>At this point, you could start editing the implementation in <code>principal-propagation/src/main/java/com/i2group/example/PrincipalPropagation.java</code>. For the example implementation, do not make any changes.</p>
 <h2 id="deploy-the-principal-propagation-implementation">Deploy the principal propagation implementation</h2>
 <p>When the implementation is complete, package the class into a JAR file.</p>
 <p>Open a terminal in the <code>principal-propagation</code> directory and run the following command:</p>
-<pre><code>mvnw package
+<pre><code class="lang-shell">mvnw package
 </code></pre><p>The Maven <code>package</code> command creates a JAR file from the <code>PrincipalPropagation.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
 <h2 id="configuring-i2analyze">Configuring i2Analyze</h2>
 <p>For i2Analyze to use the <code>PrincipalPropagation.jar</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
 <p>Add the following line to the end of the <code>toolkit/configuration/fragments/opal-services/WEB-INF/classes/DiscoServerSettingsCommon.properties</code> file:</p>
 <pre><code class="lang-properties">ConnectorRequestModifier=com.i2group.example.PrincipalPropagation
 </code></pre><h2 id="redeploy-and-restart-liberty">Redeploy and restart Liberty</h2>
-<pre><code>setup -t stopLiberty
+<pre><code class="lang-shell">setup -t stopLiberty
 setup -t deployLiberty
 setup -t startLiberty
 </code></pre><p>Any connectors receive an extra header named <code>i2ExtensionHeader</code> in responses from the i2 Connect gateway.</p>
 <p>For example:</p>
-<pre><code>Host: localhost:9084,
+<pre><code class="lang-http">Host: localhost:9084,
 Connection: keep-alive,
 Content-Length: 92,
 User-Agent: Apache-HttpClient/4.5.6 (Java/1.8.0_232)

@@ -129,15 +129,12 @@ number of potential causes. To understand what went wrong:</p>
 <ol>
 <li>Look at the log file:
 <code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\IBM_i2_Analysis_Repository.log</code></li>
-<li>You should see at the bottom a more detailed description of the error that occurred.
-You will most likely see an error message starting with the following:
- ```
- d484-4e04-97d5-86e771fed434  - Validation error while retrieving a record.<ul>
-<li>The service with identifier &#39;&lt;SERVICE_NAME&gt;&#39; on the connector with identifier &#39;&lt;CONNECTOR_ID&gt;&#39; returned invalid data
-```
-Below this line will be more specific information about why the query failed.
-Examples and their solutions are given below.</li>
-</ul>
+<li><p>You should see at the bottom a more detailed description of the error that occurred.
+You will most likely see an error message starting with the following:</p>
+<pre><code class="lang-shell">d484-4e04-97d5-86e771fed434  - Validation error while retrieving a record.
+- The service with identifier &#39;&lt;SERVICE_NAME&gt;&#39; on the connector with identifier &#39;&lt;CONNECTOR_ID&gt;&#39; returned invalid data
+</code></pre><p>Below this line will be more specific information about why the query failed.
+Examples and their solutions are given below.</p>
 </li>
 </ol>
 <h4 id="the-schema-does-not-contain-an-entitya-linka-property-with-identifier-typeid">&quot;The schema does not contain an entity/a link/a property with identifier &#39;&lt;TYPE_ID>&#39;&quot;</h4>

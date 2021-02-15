@@ -106,11 +106,11 @@ short name for it. You can also provide a charting schemes XML file.</p>
 <li>Copy your schema and charting schemes files to the
 <code>configuration/fragments/common/WEB-INF/classes</code> directory in your i2 Analyze
 configuration.</li>
-<li>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
-directory, and add the following properties
-<code>properties
-Gateway.&lt;SCHEMA_SHORT_NAME&gt;.SchemaResource=&lt;SCHEMA_XML_FILE_NAME&gt;
-Gateway.&lt;SCHEMA_SHORT_NAME&gt;.ChartingSchemesResource=&lt;CHARTING_SCHEMES_XML_FILE_NAME&gt;</code></li>
+<li><p>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory, and add the following properties</p>
+<pre><code class="lang-properties">Gateway.&lt;SCHEMA_SHORT_NAME&gt;.SchemaResource=&lt;SCHEMA_XML_FILE_NAME&gt;
+Gateway.&lt;SCHEMA_SHORT_NAME&gt;.ChartingSchemesResource=&lt;CHARTING_SCHEMES_XML_FILE_NAME&gt;
+</code></pre></li>
 </ol>
 <p>For example, to configure a gateway schema that defines item types
 relating to telecommunications data:</p>

@@ -90,7 +90,7 @@
 <p>A connector can explicitly specify the type locations for item types to avoid ambiguity and ensure that the desired item type from the appropriate schema is used.</p>
 <h3 id="default-type-locations">Default Type Locations</h3>
 <p>You can specify the default type location for all entities and links returned from the connector in the <code>defaultValues</code> field of the connector configuration as follows:</p>
-<pre><code class="lang-jsonc">{
+<pre><code class="lang-json">{
   &quot;defaultValues&quot;: {
     &quot;entityTypeLocation&quot;: &quot;[LOCATION]&quot;,
     &quot;linkTypeLocation&quot;: &quot;[LOCATION]&quot;
@@ -107,12 +107,12 @@
 </ul>
 <h3 id="result-item-type-locations">Result Item Type Locations</h3>
 <p>A service&#39;s <code>resultItemTypeIds</code> property specifies the item types expected to be returned from the service. It also provides type location overrides for specific item types using the following structure:</p>
-<pre><code class="lang-jsonc">{
+<pre><code class="lang-json">{
   &quot;&lt;LOCATION&gt;&quot;: [&quot;TYPEID1&quot;, &quot;TYPEID2&quot;, /* ... */ ]
 }
 </code></pre><p>Where <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code> or <code>CONNECTOR</code>.</p>
 <p>Since a service can use item types from all three type locations, all three type locations can be specified. For example, a service which returns entity type <code>ET1</code> from the Information Store schema, <code>ET2</code> the gateway schema and <code>ET3</code> from a connector schema will look like the following:</p>
-<pre><code class="lang-jsonc">{
+<pre><code class="lang-json">{
   &quot;services&quot;: [
     {
       /* ... */
@@ -127,7 +127,7 @@
 </code></pre><p>Specifying type locations in this way will override the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
 <h3 id="type-locations-for-seed-constraints">Type Locations for Seed Constraints</h3>
 <p>It is also possible to specify the type locations of seed items by including <code>typeLocation</code> attributes for each allowed item type of a service&#39;s seed constraint definition. This is shown as follows:</p>
-<pre><code class="lang-jsonc">{
+<pre><code class="lang-json">{
   &quot;services&quot;: [
     {
       /* ... */

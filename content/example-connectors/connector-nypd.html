@@ -463,22 +463,22 @@
 <p>If you want to set up the NYPD schema as an Information Store schema:</p>
 <ol>
 <li>Copy the NYPD schema and charting scheme found in the <code>schema</code> directory of this repository to the <code>configuration/fragments/common/WEB-INF/classes</code> directory in your i2 Analyze configuration.</li>
-<li>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
-directory, and update the following properties to point to the relevant files
-<code>properties
-SchemaResource=nypd-complaint-data-schema.xml
-ChartingSchemesResource=nypd-complaint-data-schema-charting-schemes.xml</code></li>
+<li><p>Open the <code>ApolloServerSettingsMandatory.properties</code> file in the same
+directory, and update the following properties to point to the relevant files</p>
+<pre><code class="lang-properties">SchemaResource=nypd-complaint-data-schema.xml
+ChartingSchemesResource=nypd-complaint-data-schema-charting-schemes.xml
+</code></pre></li>
 </ol>
 <p>Additionally, ensure the following:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code> <strong>does not</strong> contain the following properties that exist by default; if they are present, remove them:<ul>
+<li>The connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code> <em>does not</em> contain the following properties that exist by default; if they are present, remove them:<ul>
 <li><code>schemaUrl</code></li>
 <li><code>chartingSchemesUrl</code></li>
 <li><code>schemaShortName</code></li>
 <li><code>gatewaySchema</code></li>
 </ul>
 </li>
-<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain the following attributes: <ul>
+<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <em>does not</em> contain the following attributes: <ul>
 <li><code>schema-short-name</code></li>
 <li><code>gateway-schema</code></li>
 </ul>

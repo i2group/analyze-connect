@@ -90,8 +90,9 @@
 <h2 id="license-acknowledgement">License acknowledgement</h2>
 <ul>
 <li>Open the <code>license_acknowledgement</code> file in your i2 Analyze directory.</li>
-<li>Set the value to <code>ACCEPT</code>. It should now look like this:
-<code>LIC_AGREEMENT = ACCEPT</code></li>
+<li><p>Set the value to <code>ACCEPT</code>. It should now look like this:</p>
+<pre><code>LIC_AGREEMENT = ACCEPT
+</code></pre></li>
 </ul>
 <h2 id="configuration">Configuration</h2>
 <h3 id="create-the-configuration-directory">Create the configuration directory</h3>
@@ -162,12 +163,13 @@ directory to point to the security schema by setting the following property:</p>
 can use the default.</p>
 <ol>
 <li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
-<li>To populate some of the mandatory settings with default values, run:
-<code>sh
-setup -t generateDefaults</code></li>
-<li>In the <code>i2analyze</code> directory, navigate to the
+<li><p>To populate some of the mandatory settings with default values, run:</p>
+<pre><code class="lang-sh">setup -t generateDefaults
+</code></pre></li>
+<li><p>In the <code>i2analyze</code> directory, navigate to the
 <code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code>
-file in a text editor.</li>
+file in a text editor.</p>
+</li>
 <li>Replace every instance of the <code>host-name</code> tag with the value <code>localhost</code>.
 There will be three to change in total. This will be used to test your
 application in Postman.</li>
@@ -175,15 +177,15 @@ application in Postman.</li>
 <h2 id="deployment">Deployment</h2>
 <ol>
 <li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
-<li>To deploy i2 Analyze with the configuration you have just created, run
-<code>sh
-setup -t deploy</code></li>
-<li>To add an example user whose name and password are both &quot;Jenny&quot;, run:
-<code>sh
-setup -t ensureExampleUserRegistry</code></li>
-<li>To start i2 Analyze, run
-<code>sh
-setup -t start</code></li>
+<li><p>To deploy i2 Analyze with the configuration you have just created, run</p>
+<pre><code class="lang-sh">setup -t deploy
+</code></pre></li>
+<li><p>To add an example user whose name and password are both &quot;Jenny&quot;, run:</p>
+<pre><code class="lang-sh">setup -t ensureExampleUserRegistry
+</code></pre></li>
+<li><p>To start i2 Analyze, run</p>
+<pre><code class="lang-sh">setup -t start
+</code></pre></li>
 </ol>
 <p>You can now connect Analyst&#39;s Notebook Premium to i2 Analyze. The output of the
 start command includes the URL to use for the i2 Analyze server.</p>

@@ -303,10 +303,14 @@
 <li>The connector&#39;s <code>config.json</code> in <code>async\async-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default. If they are present, remove them.</li>
 <li>The Async <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
-<h3 id="3-run-the-async-connector">3. Run the Async connector</h3>
+<h3 id="3-optional-configure-the-query-timeout">3. (Optional) Configure the query timeout</h3>
+<p>By default, i2 Analyze expects asynchronous queries to complete within 10 minutes of being started. If that doesn&#39;t happen, the gateway stops asking the connector for its status. Next time the client polls for information, the server informs it of the failure.</p>
+<p>To change the default timeout period and support longer-running queries, you can add a setting named <code>AsyncQueryTimeoutSeconds</code> to the <code>DiscoServerSettingsCommon.properties</code> file. For example, to set the timeout to an hour:</p>
+<pre><code class="lang-shell">AsyncQueryTimeoutSeconds=3600
+</code></pre><h3 id="4-run-the-async-connector">4. Run the Async connector</h3>
 <p>To run the connector, navigate to <code>connector\async\async-connector</code> in your terminal and run the application using the following command:</p>
 <pre><code class="lang-shell">mvnw spring-boot:run
-</code></pre><h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
+</code></pre><h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
 <pre><code class="lang-shell">setup -t deployLiberty
 setup -t startLiberty

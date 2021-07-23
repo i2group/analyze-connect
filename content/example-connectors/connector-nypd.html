@@ -420,7 +420,6 @@
 <h2 id="setup">Setup</h2>
 <p>These instructions are for setting up and running the NYPD connector.</p>
 <p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
-<!-- TODO: Doc review this line-->
 <p>If you want to configure your connector to use an Information Store schema, you must <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploy i2 Analyze with the Information Store and the i2 Connect gateway</a>.</p>
 <h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
 <p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the NYPD connector:</p>
@@ -458,7 +457,6 @@
 <li>The connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
 <li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
-<!-- TODO: Doc review this section-->
 <h4 id="information-store-schema">Information Store schema</h4>
 <p>If you want to set up the NYPD schema as an Information Store schema:</p>
 <ol>

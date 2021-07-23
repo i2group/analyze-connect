@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Migrating from schema fragments </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Migrating from schema fragments ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        <div class="article row grid">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="migrating-from-schema-fragments">Migrating from schema fragments</h1>
+
+<p>Before the introduction of <a href="connector-schema.html">connector</a> and <a href="gateway-schema.html">gateway
+schemas</a> in i2 Analyze 4.3.3, schema fragments were supported
+on standalone DAOD deployments. Schema fragments are a mechanism used to extend
+an i2 Analyze schema to incorporate new types from external data sources. They
+are combined with the deployed schema on server start-up.</p>
+<p>Similarly to the way connector schemas are retrieved now, schema fragments are
+provided via endpoints defined in the connector configuration so that they are
+made available to the server.</p>
+<h2 id="updating-the-schema-fragments">Updating the schema fragments</h2>
+<p>Schema fragments have a slightly different syntax to that of full schemas.
+Because of that, you will first need to create a new schema using the same
+entity and link types from your schema fragment. The easiest way to do this
+would be through the use of the <strong>i2 Analyze Schema Designer</strong>.</p>
+<h2 id="migrating-to-a-connector-schema">Migrating to a connector schema</h2>
+<p>Configuring a <a href="connector-schema.html">connector schema</a> is very similar to
+configuring schema fragments. Supplying the <code>schemaUrl</code> (and, optionally, the
+<code>chartingSchemesUrl</code>) endpoints in the connector configuration works in the same
+fashion.</p>
+<p>Just like with schema fragments, it is easiest, but not mandatory, to implement
+these endpoints on the server which hosts the connector that uses them. As such,
+the URLs can be either absolute or relative to the connector&#39;s base URL.</p>
+<h3 id="using-short-names">Using short names</h3>
+<p>An important distinction to note is the presence of <a href="connector-schema.html#connector-schema-short-names">schema short
+names</a>, names which are
+displayed to analysts when viewing entity and link types so that they can
+identify which schema an item type belongs to. If you do not want the schema
+short name to default to the ID of the connector, it is necessary to explicitly
+specify the short name in either <a href="connector-schema.html#specifying-the-schema-short-name-in-the-connector-configuration">the connector
+configuration</a>
+or <a href="connector-schema.html#specifying-the-short-name-in-the-i2-analyze-topology">the i2 Analyze
+topology</a>.</p>
+<h2 id="migrating-to-a-gateway-schema">Migrating to a gateway schema</h2>
+<p>Migrating from using schema fragments to using a <a href="gateway-schema.html">gateway
+schema</a> is largely different. Ensure you carry out the
+following:</p>
+<h4 id="1-remove-schema-fragment-configuration">1. Remove schema fragment configuration</h4>
+<p>First, remove the <code>schemaUrl</code> (and <code>chartingSchemesUrl</code> if it exists)
+definitions from the connector configuration. Leaving these properties in will
+have the connector believe that the specified endpoints are for retrieving a
+connector schema.</p>
+<h4 id="2-configure-the-gateway-schema">2. Configure the gateway schema</h4>
+<p>Follow the steps to <a href="connector-schema.html#configuring-a-gateway-schema">configure a gateway
+schema</a>. Unlike short names
+for connector schemas, all gateway schemas must have a short name specified.</p>
+<h4 id="3-assign-a-connector-to-a-gateway-schema">3. Assign a connector to a gateway schema</h4>
+<p>Follow the steps to <a href="connector-schema.html#assigning-a-connector-to-a-gateway-schema">assign a connector to a gateway
+schema</a>. This
+will enable your connector to accept seeds and return item types defined in the
+gateway schema.</p>
+<p>Using the same schema short name you specified for the gateway, it is necessary
+to specify the same in <a href="connector-schema.html#assigning-a-connector-to-a-gateway-schema-in-the-connector-configuration">the connector&#39;s
+configuration</a>
+or <a href="connector-schema.html#assigning-a-connector-to-a-gateway-schema-in-the-i2-Analyze-topology">the i2 Analyze
+topology</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

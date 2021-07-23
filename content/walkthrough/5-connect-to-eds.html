@@ -134,7 +134,7 @@ You need to map the data received into entities and links and return them to i2 
 <h4 id="python">Python</h4>
 <p>Look at the version of code in the <code>stage3/nypd-connector</code> directory. Changes have been made to <code>controller.py</code> and there is now an additional resource file: <code>application.yml</code>. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>controller.py</code>.</p>
 <p>In <code>application.yml</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.token</code> key.</p>
-<pre><code class="lang-properties">socrata:
+<pre><code class="lang-yaml">socrata:
   url: https://data.cityofnewyork.us/resource/7x9x-zpz6.json
   token: # Replace with Socrata API token
 </code></pre><p>You need to implement the <code>query_external_datasource</code> function in <code>service.py</code> so that it retrieves data from the NYPD Complaint Dataset and uses it to create entities and links to be returned to i2 Analyze.</p>

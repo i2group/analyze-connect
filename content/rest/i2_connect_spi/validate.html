@@ -108,6 +108,19 @@
     </thead>
     <tbody>
       <tr>
+        <td><span class="parametername">Authorization</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>If the service requires authentication, a string in the form <b>Bearer
+     <i>token</i></b>, where <b>token</b> was previously returned by the service following a
+     successful authentication attempt.</p>
+</td>
+      </tr>
+      <tr>
         <td><span class="parametername">*request</span></td>
         <td>body</td>
         <td>
@@ -183,6 +196,18 @@
         </td>
       </tr>
       <tr>
+        <td><span class="status">401</span></td>
+        <td>
+  
+              <a href="#ProblemDetails" class="typelink"><wbr>Problem<wbr>Details</a>
+              
+        </td>
+        <td><p>Authentication failed because the token was missing or not valid.</p>
+</td>
+        <td class="sample-response">
+        </td>
+      </tr>
+      <tr>
         <td><span class="status">500</span></td>
         <td>
               
@@ -223,14 +248,14 @@
                   
               </td>
               <td><p>A custom payload that an i2 Connect service can use to determine what data to retrieve from a
- connected source</p>
+ connected source.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="DaodRequest-Payload" class="text-capitalize"><wbr>Daod<wbr>Request-<wbr>Payload</h3>
   <div class="markdown level1 description"><p>A custom payload that an i2 Connect service can use to determine what data to retrieve from a
- connected source</p>
+ connected source.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -249,7 +274,7 @@
                   
               </td>
               <td><p>If the service uses a client configuration of type &#39;FORM&#39;, the conditions that a user has
- specified to refine their query</p>
+ specified to refine their query.</p>
 </td>
           </tr>
           <tr>
@@ -260,14 +285,14 @@
                   
               </td>
               <td><p>If the service supports being seeded by existing i2 Analyze records, the data from those
- records for it to use</p>
+ records for it to use.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="DaodRequest-Condition" class="text-capitalize"><wbr>Daod<wbr>Request-<wbr>Condition</h3>
   <div class="markdown level1 description"><p>If the service uses a client configuration of type &#39;FORM&#39;, the conditions that a user has
- specified to refine their query</p>
+ specified to refine their query.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -285,7 +310,7 @@
   
                   
               </td>
-              <td><p>The identifier of the condition, as specified in the client configuration for the service</p>
+              <td><p>The identifier of the condition, as specified in the client configuration for the service.</p>
 </td>
           </tr>
           <tr>
@@ -295,7 +320,7 @@
   
                   
               </td>
-              <td><p>The logical type of the value in the condition</p>
+              <td><p>The logical type of the value in the condition.</p>
 </td>
           </tr>
           <tr>
@@ -305,14 +330,14 @@
   
                   
               </td>
-              <td><p>The value that a user supplied for the condition</p>
+              <td><p>The value that a user supplied for the condition.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="DaodSeeds" class="text-capitalize"><wbr>Daod<wbr>Seeds</h3>
   <div class="markdown level1 description"><p>If the service supports being seeded by existing i2 Analyze records, the data from those
- records for it to use</p>
+ records for it to use.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -330,7 +355,7 @@
                       <a href="#DaodSeedEntityData" class="typelink"><wbr>Daod<wbr>Seed<wbr>Entity<wbr>Data[]</a>
                   
               </td>
-              <td><p>Data from the entity records that were specified as seeds for the request</p>
+              <td><p>Data from the entity records that were specified as seeds for the request.</p>
 </td>
           </tr>
           <tr>
@@ -340,13 +365,13 @@
                       <a href="#DaodSeedLinkData" class="typelink"><wbr>Daod<wbr>Seed<wbr>Link<wbr>Data[]</a>
                   
               </td>
-              <td><p>Data from the link records that were specified as seeds for the request</p>
+              <td><p>Data from the link records that were specified as seeds for the request.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="DaodSeedEntityData" class="text-capitalize"><wbr>Daod<wbr>Seed<wbr>Entity<wbr>Data</h3>
-  <div class="markdown level1 description"><p>Data from the entity records that were specified as seeds for the request</p>
+  <div class="markdown level1 description"><p>Data from the entity records that were specified as seeds for the request.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -364,7 +389,7 @@
                       <a href="#SecurityDimensionAndValues" class="typelink"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values[]</a>
                   
               </td>
-              <td><p>The security dimension values of the record identified by <b>seedId</b></p>
+              <td><p>The security dimension values of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -374,7 +399,7 @@
   
                   
               </td>
-              <td><p>Free-form, custom information for the record identified by <b>seedId</b></p>
+              <td><p>Free-form, custom information for the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -384,7 +409,7 @@
   
                   
               </td>
-              <td><p>The label of the record identified by <b>seedId</b></p>
+              <td><p>The label of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -394,7 +419,7 @@
   
                   
               </td>
-              <td><p>The property data of the record identified by <b>seedId</b></p>
+              <td><p>The property data of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -404,7 +429,7 @@
   
                   
               </td>
-              <td><p>The identifier of a seed record</p>
+              <td><p>The identifier of a seed record.</p>
 </td>
           </tr>
           <tr>
@@ -414,7 +439,7 @@
                       <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
                   
               </td>
-              <td><p>The source identifiers of a seed record</p>
+              <td><p>The source identifiers of a seed record.</p>
 </td>
           </tr>
           <tr>
@@ -424,13 +449,13 @@
   
                   
               </td>
-              <td><p>The type identifier of the record identified by <b>seedId</b></p>
+              <td><p>The type identifier of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="SecurityDimensionAndValues" class="text-capitalize"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values</h3>
-  <div class="markdown level1 description"><p>The security dimension values of the record identified by <b>seedId</b></p>
+  <div class="markdown level1 description"><p>The security dimension values of the record identified by <b>seedId</b>.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -448,7 +473,7 @@
   
                   
               </td>
-              <td><p>The identifier of the security dimension that has the values in <b>ids</b></p>
+              <td><p>The identifier of the security dimension that has the values in <b>ids</b>.</p>
 </td>
           </tr>
           <tr>
@@ -458,13 +483,13 @@
   
                   
               </td>
-              <td><p>The identifiers of values in the security dimension with <b>dimensionId</b></p>
+              <td><p>The identifiers of values in the security dimension with <b>dimensionId</b>.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="OriginIdentifier" class="text-capitalize"><wbr>Origin<wbr>Identifier</h3>
-  <div class="markdown level1 description"><p>The source identifiers of a seed record</p>
+  <div class="markdown level1 description"><p>The source identifiers of a seed record.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -482,7 +507,7 @@
   
                   
               </td>
-              <td><p>The identifier of the item type of the record that has this origin identifier</p>
+              <td><p>The identifier of the item type of the record that has this origin identifier.</p>
 </td>
           </tr>
           <tr>
@@ -492,7 +517,7 @@
   
                   
               </td>
-              <td><p>The values that identify some data in its original source</p>
+              <td><p>The values that identify some data in its original source.</p>
 </td>
           </tr>
           <tr>
@@ -502,13 +527,13 @@
   
                   
               </td>
-              <td><p>The type of this origin identifier</p>
+              <td><p>The type of this origin identifier.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="DaodSeedLinkData" class="text-capitalize"><wbr>Daod<wbr>Seed<wbr>Link<wbr>Data</h3>
-  <div class="markdown level1 description"><p>Data from the link records that were specified as seeds for the request</p>
+  <div class="markdown level1 description"><p>Data from the link records that were specified as seeds for the request.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -526,7 +551,7 @@
                       <a href="#SecurityDimensionAndValues" class="typelink"><wbr>Security<wbr>Dimension<wbr>And<wbr>Values[]</a>
                   
               </td>
-              <td><p>The security dimension values of the record identified by <b>seedId</b></p>
+              <td><p>The security dimension values of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -536,7 +561,7 @@
   
                   
               </td>
-              <td><p>Free-form, custom information for the record identified by <b>seedId</b></p>
+              <td><p>Free-form, custom information for the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -546,7 +571,7 @@
   
                   
               </td>
-              <td><p>The identifier of the record at the &quot;from&quot; end of the link record identified by <b>seedId</b></p>
+              <td><p>The identifier of the record at the &quot;from&quot; end of the link record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -557,7 +582,7 @@
                   
               </td>
               <td><p>The type identifier of the record at the &quot;from&quot; end of the link record identified by
- <b>seedId</b></p>
+ <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -567,7 +592,7 @@
   
                   
               </td>
-              <td><p>The label of the record identified by <b>seedId</b></p>
+              <td><p>The label of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -578,7 +603,7 @@
                   
               </td>
               <td><p>The direction of the link record identified by <b>seedId</b>, which overrides any default
- setting</p>
+ setting.</p>
 </td>
           </tr>
           <tr>
@@ -588,7 +613,7 @@
   
                   
               </td>
-              <td><p>The property data of the record identified by <b>seedId</b></p>
+              <td><p>The property data of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -598,7 +623,7 @@
   
                   
               </td>
-              <td><p>The identifier of a seed record</p>
+              <td><p>The identifier of a seed record.</p>
 </td>
           </tr>
           <tr>
@@ -608,7 +633,7 @@
                       <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
                   
               </td>
-              <td><p>The source identifiers of a seed record</p>
+              <td><p>The source identifiers of a seed record.</p>
 </td>
           </tr>
           <tr>
@@ -618,7 +643,7 @@
   
                   
               </td>
-              <td><p>The identifier of the record at the &quot;to&quot; end of the link record identified by <b>seedId</b></p>
+              <td><p>The identifier of the record at the &quot;to&quot; end of the link record identified by <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -629,7 +654,7 @@
                   
               </td>
               <td><p>The type identifier of the record at the &quot;to&quot; end of the link record identified by
- <b>seedId</b></p>
+ <b>seedId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -639,7 +664,7 @@
   
                   
               </td>
-              <td><p>The type identifier of the record identified by <b>seedId</b></p>
+              <td><p>The type identifier of the record identified by <b>seedId</b>.</p>
 </td>
           </tr>
       </tbody>
@@ -669,7 +694,83 @@
   
                   
               </td>
-              <td><p>An error message that might be displayed to users</p>
+              <td><p>An error message that might be displayed to users.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="ProblemDetails" class="text-capitalize"><wbr>Problem<wbr>Details</h3>
+  <div class="markdown level1 description"><p><p>The i2 Connect gateway uses the <b>{validateUrl}</b> endpoint in two places: when a client
+ makes a direct request, and immediately before it uses the <b>{acquireUrl}</b> or a
+ <b>{queriesResource}</b> endpoint. By default, the gateway prefixes <b>{validateUrl}</b> with
+ the base URL from the topology.<br>
+ <br>
+ If validation fails in front of an attempt to acquire data, the gateway does not continue with
+ the attempt.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">detail</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>Additional detail about the problem, specific to this instance of it. This information might
+ also be displayed to the user in the form of an error message.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">instance</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>A URL for a resource specific to this instance of the problem. The URL can be absolute or
+ relative to the path of the i2 Connect service.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">status</span></td>
+              <td>
+                    integer
+                      (int32)
+  
+                  
+              </td>
+              <td><p>The HTTP status code returned by the i2 Connect service.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">title</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The title of the problem, which might be displayed to the user.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">type</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>A URL for a resource that describes the type of the problem. If the problem is that the service
+ requires authentication, this field must be set to
+ <tt>urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</tt>, which triggers the i2 Connect gateway
+ to prompt the user for credentials.</p>
 </td>
           </tr>
       </tbody>

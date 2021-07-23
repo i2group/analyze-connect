@@ -128,7 +128,7 @@
     }
   ]
 }
-</code></pre><p>For more information on client configuration, refer to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_config_endpoint.html">Knowledge Center</a>.</p>
+</code></pre><p>For more information on client configuration, refer to the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=source-implementing-configuration-endpoint">IBM Documentation</a>.</p>
 <h3 id="test-search-fields">Test search fields</h3>
 <p>Check that your fields work in Analyst&#39;s Notebook Premium, you need to tell i2 Analyze to reload it&#39;s
 connectors&#39; configurations, run:</p>
@@ -193,7 +193,7 @@ new method in <code>controller.py</code>.</li>
 this service.</li>
 </ul>
 <h3 id="access-conditions">Access conditions</h3>
-<p>You will need to parse the conditions passed in the request according to the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
+<p>You will need to parse the conditions passed in the request according to the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
 <p>You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the <code>DaodRequest</code> model in the SPI. The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>
 <h3 id="filter-data-by-conditions">Filter data by conditions</h3>
 <p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the datasource match the parameters given by the user in the form.</p>

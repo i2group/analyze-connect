@@ -100,7 +100,7 @@
 }
 </code></pre><p>The <code>mandatory</code> property in the <code>config.json</code> file specifies whether a field is required or not.</p>
 <p>The <code>extraStringValidation</code> property property allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule.</p>
-<p>You can find out more on accepted condition properties by looking at the <code>/{configurationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">i2 Connect gateway REST SPI</a>.</p>
+<p>You can find out more on accepted condition properties by looking at the <code>/{configurationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
 <h2 id="server-side-validation">Server-side validation</h2>
 <p>Validation can be performed on the server for more complex inputs.</p>
 <p>For example, if there are 3 input fields and you require at least one to be set but they are otherwise optional. In your connector, you can check that the user has defined at least one condition in the request.</p>
@@ -127,7 +127,7 @@
     &quot;errorMessage&quot;: &quot;This is the error message displayed.&quot;
 }
 </code></pre><p>When the i2 Connect gateway receives a non-null <code>errorMessage</code>, it does not subsequently send a request to the acquire endpoint.</p>
-<p>More information can be found looking at the <code>/{validationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">i2 Connect gateway REST SPI</a>.</p>
+<p>More information can be found looking at the <code>/{validationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="3-reload-the-i2-connect-gateway">3. Reload the i2 Connect gateway</h3>
 <p>Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>
 </article>

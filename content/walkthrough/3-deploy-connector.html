@@ -157,7 +157,7 @@ purposes of this guide, an example Spring Boot application is provided.</p>
 <h3 id="set-up-the-example-starting-point">Set up the example starting point</h3>
 <h4 id="java">Java</h4>
 <ol>
-<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+<li><p>Open the example starting code from the <code>connector/nypd/java/stage1/nypd-connector</code> folder. Copy the
 <code>nypd-connector</code> directory to wherever you would like to work, and open it
 in VSCode or the IDE of your choice.</p>
 </li>
@@ -177,7 +177,7 @@ server ports, the database URLs, and the API token to aid in the connection.</p>
 </ol>
 <h4 id="nodejs">Node.js</h4>
 <ol>
-<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder in VSCode,
+<li><p>Open the example starting code from the <code>connector/nypd/node/stage1/nypd-connector</code> folder in VSCode,
 or the IDE of your choice.</p>
 </li>
 <li><p>Have a look at the contents:</p>
@@ -198,7 +198,7 @@ endpoint). The <code>routes</code> folder is where all defined routes are implem
 </ol>
 <h4 id="python">Python</h4>
 <ol>
-<li><p>Open the example starting code from the <code>stage1/nypd-connector</code> folder. Copy the
+<li><p>Open the example starting code from the <code>connector/nypd/python/stage1/nypd-connector</code> folder. Copy the
 <code>nypd-connector</code> directory to wherever you would like to work, and open it
 in VSCode or the IDE of your choice.</p>
 </li>
@@ -255,7 +255,7 @@ application is communicating with the connector through a protocol that is not s
 <p>You can ignore this in a development environment. This is shown because i2 Analyze and your connector
 communicate via HTTP.</p>
 <p><strong>In a production environment, you should secure this
-connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.eia.go.live.doc/t_connect_security.html">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
+connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=analyze-client-authenticated-ssl-i2-connect-gateway">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
 <h3 id="fix-the-timezone-error">Fix the timezone error</h3>
 <ol>
 <li>Look at the error message about the default timezone. You need to update the

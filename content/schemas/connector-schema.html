@@ -84,7 +84,7 @@ or all of the item types the connector can return. Connector schemas allow for c
 or removed from, i2 Analyze deployments more easily without the need to change
 the existing Information Store or gateway schemas. They also make it easier
 for connectors to be shared and used by multiple deployments.</p>
-<p>For more information about the kinds of schema that you can deploy, see <a href="https://www.ibm.com/support/knowledgecenter/SSXVTH_latest/com.ibm.i2.understanding.doc/i2_analyze_schemas.html">i2 Analyze schemas</a>.</p>
+<p>For more information about the kinds of schema that you can deploy, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=model-i2-analyze-schemas">i2 Analyze schemas</a>.</p>
 <p>To create a connector schema, use i2 Analyze Schema Designer. Schema Designer provides an
 interface for creating the XML file containing the schema and, optionally, an
 additional XML file containing the charting schemes. To learn more about how to
@@ -152,7 +152,7 @@ not specified in either location, then the ID of the connector in the i2 Analyze
     ]
 }
 </code></pre><p>For more information about the <code>ConnectorConfig</code> object, see the
-<a href="https://www.ibm.com/support/knowledgecenter/en/SSXVTH_latest/com.ibm.i2.connect.developer.doc/i2_connect_spi.json">i2 Connect gateway REST SPI</a>.</p>
+<a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="specifying-the-short-name-in-the-i2-analyze-topology">Specifying the short name in the i2 Analyze topology</h3>
 <p>To specify the short name in the i2 Analyze topology, use the <code>schema-short-name</code> attribute of the <code>connector</code> element. For example:</p>
 <pre><code class="lang-xml">&lt;connector id=&quot;example-connector&quot; name=&quot;Example Connector&quot; base-url=&quot;http://localhost:3700/&quot; schema-short-name=&quot;Social Media&quot; /&gt;

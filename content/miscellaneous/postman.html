@@ -98,7 +98,6 @@ list of environments near the top right of the window.</p>
 <h2 id="testing-i2-analyze">Testing i2 Analyze</h2>
 <p>To make sure that i2 Analyze is configured correctly, authenticate a user and test the API.</p>
 <h3 id="authentication">Authentication</h3>
-<!-- TODO: Doc review -->
 <ol>
 <li>Click on the environment dropdown menu at the top-right bar:<ul>
 <li>If you have <a href="../walkthrough/2-deploy-i2-analyze.html">deployed i2 Analyze with the i2 Connect gateway</a>, select the <code>i2 Analyze with i2 Connect Gateway</code> environment.</li>
@@ -130,20 +129,27 @@ list of environments near the top right of the window.</p>
 <li>Run the <code>Reload</code> request.</li>
 </ol>
 <p>You should see that i2 Analyze returns its connectors configuration.</p>
+<h4 id="reload-live-configuration">Reload live configuration</h4>
+<ol>
+<li>Ensure you are <a href="#authentication">authenticated</a> as the <code>Administrator</code> user (Jenny).</li>
+<li>In the <code>i2 Analyze</code> collection, open the <code>Admin</code> folder.</li>
+<li>Run the <code>Reload</code> request.</li>
+</ol>
+<p>A <code>200 OK</code> response indicates that the live configuration was loaded successfully.</p>
 <h2 id="testing-a-connector">Testing a connector</h2>
 <p>Before you test your connector, ensure that both i2 Analyze and your connector are running. In this example, the NYPD connector is tested. For more information, see <a href="../example-connectors/connector-nypd.html">Setting up and running the NYPD connector</a>.</p>
 <ol>
 <li>From the environment dropdown menu, select the <code>NYPD Connector</code> environment.</li>
 <li>Open the <code>Connector Services</code> collection.</li>
 </ol>
-<h3 id="config-and-schema-endpoints">Config and schema endpoints</h3>
+<h3 id="config-and-schema-requests">Config and schema requests</h3>
 <ol>
 <li>In the <code>Connector Services</code> collection, open the <code>Config</code> folder.</li>
 <li>Run the <code>Config</code> request.</li>
 </ol>
 <p>The response provided should be the full contents of the connector&#39;s <code>config.json</code>.</p>
 <p>The <code>Schema</code> and <code>Charting Schemes</code> requests should echo the contents of your connector schema and charting schemes XML files respectively.</p>
-<h3 id="acquire-endpoints">Acquire endpoints</h3>
+<h3 id="acquire-requests">Acquire requests</h3>
 <p>The <code>Acquire</code> folder contains requests that respond with entities and links according to how their respective endpoints were implemented.</p>
 <p>Using the NYPD connector example:</p>
 <h4 id="all">All</h4>
@@ -156,22 +162,29 @@ list of environments near the top right of the window.</p>
 <p>The <code>Find Like This</code> request is a <a href="../walkthrough/7-seeded-search.html">seeded search</a> that accepts a JSON payload of a single seed entity with a property that is used to filter the JSON response by matching against entities with a similar property.</p>
 <h4 id="expand">Expand</h4>
 <p>The <code>Expand</code> request is a <a href="../walkthrough/7-seeded-search.html">seeded search</a> that accepts a JSON payload of a single seed entity used as a starting point to find other entities connected to it and the links that connect them. These entities and links are returned in the response in JSON format.</p>
-<h3 id="validate">Validate</h3>
+<h3 id="validate-requests">Validate requests</h3>
 <p>The <code>Validate</code> folder contains a single <code>Search</code> request that <a href="../walkthrough/9-validation.html">performs server-side validation</a> on the payload of specified conditions to ensure input values are in the correct format.</p>
-<h3 id="async">Async</h3>
-<p>The <code>Async</code> folder contains requests for the asynchronous service. These requests only function as expected on our Async connector. For more information, see <a href="../example-connectors/connector-async.html">setting up and running the Async connector</a></p>
+<h3 id="async-requests">Async requests</h3>
+<p>The <code>Async</code> folder contains requests for the asynchronous service. These requests only function as expected on the Async connector. For more information, see <a href="../example-connectors/connector-async.html">setting up and running the Async connector</a></p>
 <h4 id="acquire">Acquire</h4>
-<p>The <code>Acquire</code> request triggers an asynchronous query and returns a <code>queryId</code>. Using Postman tests (post-request logic), this <code>queryId</code> is automatically stored as an environment variable (<code>QUERY_ID</code>) to facilitate subsequent async requests.</p>
+<p>The <code>Acquire</code> request triggers an asynchronous query and returns a <code>queryId</code>. Using Postman tests (post-request logic), this <code>queryId</code> is automatically stored as an environment variable (<code>queryId</code>) to facilitate subsequent async requests.</p>
 <p><img src="images/postman-async-acquire.png" alt="Async Acquire Request"></p>
 <p>The request accepts a payload of parameters for simulating the asynchronous request; configuring the duration of time before succeeding and optionally mocking a failure.</p>
 <h4 id="status">Status</h4>
-<p>Using the <code>QUERY_ID</code> retrieved from the previous request, the <code>Status</code> retrieves the current status and additional information of the triggered asynchronous query as a JSON response.</p>
+<p>Using the <code>queryId</code> retrieved from the previous request, the <code>Status</code> retrieves the current status and additional information of the triggered asynchronous query as a JSON response.</p>
 <p><img src="images/postman-async-status.png" alt="Status Request"></p>
 <h4 id="results">Results</h4>
-<p>Using the same <code>QUERY_ID</code> from the async acquire, the <code>Results</code> retrieves the JSON response of entities and links from the asynchronous query as you would expect from a synchronous request.</p>
+<p>Using the same <code>queryId</code> from the async acquire, the <code>Results</code> retrieves the JSON response of entities and links from the asynchronous query as you would expect from a synchronous request.</p>
 <p>This request only works as expected after the status of the query is <code>SUCCEEDED</code>.</p>
 <h4 id="delete--cancel">Delete / Cancel</h4>
-<p>Using the <code>QUERY_ID</code>, the <code>Delete / Cancel</code> request deletes an asynchronous query if its state is <code>SUCCEEDED</code> or <code>FAILED</code>. It cancels the running job if it was <code>STARTED</code>, causing it to be <code>FAILED</code>.</p>
+<p>Using the <code>queryId</code>, the <code>Delete / Cancel</code> request deletes an asynchronous query if its state is <code>SUCCEEDED</code> or <code>FAILED</code>. It cancels the running job if it was <code>STARTED</code>, causing it to be <code>FAILED</code>.</p>
+<h3 id="auth-requests">Auth requests</h3>
+<p>The <code>Auth</code> folder contains requests for the services which require authentication. These requests only function as expected on the Auth connector. For more information, see <a href="../example-connectors/connector-auth.html">setting up and running the Auth connector</a></p>
+<h4 id="login">Login</h4>
+<p>There are two <code>Login</code> requests for the two example authentication configurations specified in the connector configuration of the Auth connector. One logs in using sample username and password credentials; the other logs in using a sample API key.</p>
+<p>The post-request logic stores the <code>authToken</code> which the connector responds with on a successful log-in. This <code>authToken</code> is used for subsequent requests.</p>
+<h4 id="acquire--acquire-async">Acquire &amp; Acquire Async</h4>
+<p>These requests are just like the <a href="#acquire-endpoints">synchronous acquire</a> and <a href="#acquire">asynchronous acquire</a> requests except that they include the generated <code>authToken</code> from the <a href="#login">login</a> requests in the <code>Authorization</code> header of their requests.</p>
 </article>
           </div>
           

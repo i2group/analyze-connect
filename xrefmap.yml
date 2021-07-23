@@ -28,6 +28,12 @@ references:
 - uid: i2 Connect gateway REST SPI/1.0/delete/operation
   name: delete
   href: content/rest/i2_connect_spi/delete.html#i2_Connect_gateway_REST_SPI_1_0_delete_operation
+- uid: i2 Connect gateway REST SPI/1.0/login
+  name: login
+  href: content/rest/i2_connect_spi/login.html
+- uid: i2 Connect gateway REST SPI/1.0/login/operation
+  name: login
+  href: content/rest/i2_connect_spi/login.html#i2_Connect_gateway_REST_SPI_1_0_login_operation
 - uid: i2 Connect gateway REST SPI/1.0/results
   name: results
   href: content/rest/i2_connect_spi/results.html

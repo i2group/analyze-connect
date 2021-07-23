@@ -92,6 +92,33 @@
   <div class="codewrapper">
     <pre><code class="lang-restApi hljs">GET /{queriesResource}/{queryId}/results</code></pre>
   </div>
+  <h5>Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>In</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">Authorization</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>If the service requires authentication, a string in the form <b>Bearer
+     <i>token</i></b>, where <b>token</b> was previously returned by the service following a
+     successful authentication attempt.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <div class="responses">
     <h5>Responses</h5>
     <table class="table table-bordered table-striped table-condensed">
@@ -112,6 +139,18 @@
               
         </td>
         <td><p>The GET method completed successfully.</p>
+</td>
+        <td class="sample-response">
+        </td>
+      </tr>
+      <tr>
+        <td><span class="status">401</span></td>
+        <td>
+  
+              <a href="#ProblemDetails" class="typelink"><wbr>Problem<wbr>Details</a>
+              
+        </td>
+        <td><p>Authentication failed because the token was missing or not valid.</p>
 </td>
         <td class="sample-response">
         </td>
@@ -153,7 +192,7 @@
                       <a href="#I2ConnectEntityData" class="typelink"><wbr>I2<wbr>Connect<wbr>Entity<wbr>Data[]</a>
                   
               </td>
-              <td><p>The entity data returned from a connector</p>
+              <td><p>The entity data returned from a connector.</p>
 </td>
           </tr>
           <tr>
@@ -163,7 +202,7 @@
   
                   
               </td>
-              <td><p>An error message that might be displayed to users</p>
+              <td><p>An error message that might be displayed to users.</p>
 </td>
           </tr>
           <tr>
@@ -173,13 +212,13 @@
                       <a href="#I2ConnectLinkData" class="typelink"><wbr>I2<wbr>Connect<wbr>Link<wbr>Data[]</a>
                   
               </td>
-              <td><p>The link data returned from a connector</p>
+              <td><p>The link data returned from a connector.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="I2ConnectEntityData" class="text-capitalize"><wbr>I2<wbr>Connect<wbr>Entity<wbr>Data</h3>
-  <div class="markdown level1 description"><p>The entity data returned from a connector</p>
+  <div class="markdown level1 description"><p>The entity data returned from a connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -210,7 +249,7 @@
   
                   
               </td>
-              <td><p>The property data for a record</p>
+              <td><p>The property data for a record.</p>
 </td>
           </tr>
           <tr>
@@ -220,7 +259,7 @@
                       <a href="#SourceReference" class="typelink"><wbr>Source<wbr>Reference[]</a>
                   
               </td>
-              <td><p>The source reference for a record</p>
+              <td><p>The source reference for a record.</p>
 </td>
           </tr>
           <tr>
@@ -230,7 +269,7 @@
   
                   
               </td>
-              <td><p>The type identifier for a record</p>
+              <td><p>The type identifier for a record.</p>
 </td>
           </tr>
           <tr>
@@ -242,7 +281,7 @@
               </td>
               <td><p>Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the
  gateway searches for the type in the connector schema, the associated gateway schema, and the
- Information Store schema in that order</p>
+ Information Store schema in that order.</p>
 </td>
           </tr>
           <tr>
@@ -253,13 +292,13 @@
   
                   
               </td>
-              <td><p>The version for a record</p>
+              <td><p>The version for a record.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="SourceReference" class="text-capitalize"><wbr>Source<wbr>Reference</h3>
-  <div class="markdown level1 description"><p>The source reference for a record</p>
+  <div class="markdown level1 description"><p>The source reference for a record.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -271,39 +310,19 @@
       </thead>
       <tbody>
           <tr>
-              <td><span class="parametername">id</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The unique identifier of this source reference</p>
-</td>
-          </tr>
-          <tr>
               <td><span class="parametername">source</span></td>
               <td>
   
                       <a href="#SourceReferenceInfo" class="typelink"><wbr>Source<wbr>Reference<wbr>Info[]</a>
                   
               </td>
-              <td><p>The information that this source reference contains</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">userModifiable</span></td>
-              <td>
-                    boolean
-  
-                  
-              </td>
-              <td><p><b>true</b> if users can edit or delete this source reference; <b>false</b> otherwise</p>
+              <td><p>The information that this source reference contains.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="SourceReferenceInfo" class="text-capitalize"><wbr>Source<wbr>Reference<wbr>Info</h3>
-  <div class="markdown level1 description"><p>The information that this source reference contains</p>
+  <div class="markdown level1 description"><p>The information that this source reference contains.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -321,7 +340,7 @@
   
                   
               </td>
-              <td><p>The description of a source</p>
+              <td><p>The description of a source.</p>
 </td>
           </tr>
           <tr>
@@ -331,7 +350,7 @@
   
                   
               </td>
-              <td><p>The URL of an image of a source</p>
+              <td><p>The URL of an image of a source.</p>
 </td>
           </tr>
           <tr>
@@ -341,7 +360,7 @@
   
                   
               </td>
-              <td><p>The location of a source, which might be a URL</p>
+              <td><p>The location of a source, which might be a URL.</p>
 </td>
           </tr>
           <tr>
@@ -351,7 +370,7 @@
   
                   
               </td>
-              <td><p>The name of a source</p>
+              <td><p>The name of a source.</p>
 </td>
           </tr>
           <tr>
@@ -361,13 +380,13 @@
   
                   
               </td>
-              <td><p>The type of a source</p>
+              <td><p>The type of a source.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="I2ConnectLinkData" class="text-capitalize"><wbr>I2<wbr>Connect<wbr>Link<wbr>Data</h3>
-  <div class="markdown level1 description"><p>The link data returned from a connector</p>
+  <div class="markdown level1 description"><p>The link data returned from a connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -411,7 +430,7 @@
   
                   
               </td>
-              <td><p>The direction for a link record, which overrides any default setting</p>
+              <td><p>The direction for a link record, which overrides any default setting.</p>
 </td>
           </tr>
           <tr>
@@ -421,7 +440,7 @@
   
                   
               </td>
-              <td><p>The property data for a record</p>
+              <td><p>The property data for a record.</p>
 </td>
           </tr>
           <tr>
@@ -431,7 +450,7 @@
                       <a href="#SourceReference" class="typelink"><wbr>Source<wbr>Reference[]</a>
                   
               </td>
-              <td><p>The source reference for a record</p>
+              <td><p>The source reference for a record.</p>
 </td>
           </tr>
           <tr>
@@ -442,7 +461,7 @@
                   
               </td>
               <td><p>The identifier of the data for the record at the &quot;to&quot; end of a link, which is subject to the
- same considerations as <b>fromEndId</b></p>
+ same considerations as <b>fromEndId</b>.</p>
 </td>
           </tr>
           <tr>
@@ -452,7 +471,7 @@
   
                   
               </td>
-              <td><p>The type identifier for a record</p>
+              <td><p>The type identifier for a record.</p>
 </td>
           </tr>
           <tr>
@@ -464,7 +483,7 @@
               </td>
               <td><p>Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the
  gateway searches for the type in the connector schema, the associated gateway schema, and the
- Information Store schema in that order</p>
+ Information Store schema in that order.</p>
 </td>
           </tr>
           <tr>
@@ -475,7 +494,80 @@
   
                   
               </td>
-              <td><p>The version for a record</p>
+              <td><p>The version for a record.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="ProblemDetails" class="text-capitalize"><wbr>Problem<wbr>Details</h3>
+  <div class="markdown level1 description"><p><p>Clients can attempt to retrieve results only from an asynchronous query whose state is
+ &#39;SUCCEEDED&#39;. An attempt to fetch results from a query in any other state must fail.<br>
+ <br>
+ The structure of the response is identical to the response from a synchronous query.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">detail</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>Additional detail about the problem, specific to this instance of it. This information might
+ also be displayed to the user in the form of an error message.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">instance</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>A URL for a resource specific to this instance of the problem. The URL can be absolute or
+ relative to the path of the i2 Connect service.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">status</span></td>
+              <td>
+                    integer
+                      (int32)
+  
+                  
+              </td>
+              <td><p>The HTTP status code returned by the i2 Connect service.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">title</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The title of the problem, which might be displayed to the user.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">type</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>A URL for a resource that describes the type of the problem. If the problem is that the service
+ requires authentication, this field must be set to
+ <tt>urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</tt>, which triggers the i2 Connect gateway
+ to prompt the user for credentials.</p>
 </td>
           </tr>
       </tbody>

@@ -42,7 +42,7 @@
     </LinkStrengths>
   </LinkStrengthInfo>
   <LabelingSchemes>
-    <LabelingScheme Id="8355f4c5-1444-4a2f-b4da-f9374fbd80e6" Name="Async Connector Labeling Scheme">
+    <LabelingScheme Id="8355f4c5-1444-4a2f-b4da-f9374fbd80e6" Name="Auth Connector Labeling Scheme">
       <LabelDefinitions>
         <LabelDefinition ItemTypeId="Person">
           <LabelParts>

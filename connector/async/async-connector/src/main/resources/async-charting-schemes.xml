@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <chart:ChartingSchemeList xmlns:chart="http://www.i2group.com/Schemas/2012-05-29/ModelData/v2">
   <ChartingSchemes>
-    <ChartingScheme Name="Example Connector">
+    <ChartingScheme Name="Async Connector">
       <XmlChartingScheme>
         <ChartItemAttributes />
         <EntityMappings>

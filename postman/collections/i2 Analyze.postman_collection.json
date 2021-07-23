@@ -7,6 +7,33 @@
 	},
 	"item": [
 		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Reload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{context-root}}/api/v1/admin/config/reload",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{context-root}}",
+								"api",
+								"v1",
+								"admin",
+								"config",
+								"reload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Authentication",
 			"item": [
 				{
@@ -15,7 +42,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "29de2494-745f-4723-a6fe-58c763c613ae",
 								"exec": [
 									"tests[\"Status code is 200\"] = responseCode.code === 200;",
 									"",
@@ -64,8 +90,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Core",
@@ -92,8 +117,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Connectors",
@@ -124,8 +148,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Gateway",
@@ -155,6 +178,27 @@
 								"v1",
 								"gateway",
 								"reload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Schema",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/{{context-root}}/api/v1/gateway/schema",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"{{context-root}}",
+								"api",
+								"v1",
+								"gateway",
+								"schema"
 							]
 						}
 					},
@@ -212,8 +256,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		}
 	],
 	"auth": {
@@ -244,7 +287,6 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "46d7f143-d710-4e1a-84c1-adcc4fc427b5",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -254,7 +296,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "fa6d993b-7424-479f-bb31-92cfac4e83c7",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -264,23 +305,19 @@
 	],
 	"variable": [
 		{
-			"id": "34272235-c04d-44c9-808f-b31de26ad96f",
 			"key": "contextRoot",
 			"value": "opal",
 			"type": "string"
 		},
 		{
-			"id": "490f86be-e51a-495a-bd70-5be718cc927c",
 			"key": "user",
 			"value": "Jenny",
 			"type": "string"
 		},
 		{
-			"id": "cf15806d-0826-4ece-add7-34102efab10d",
 			"key": "password",
 			"value": "Jenny",
 			"type": "string"
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

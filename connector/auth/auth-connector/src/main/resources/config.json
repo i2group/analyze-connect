@@ -1,0 +1,100 @@
+{
+  "schemaShortName": "auth",
+  "schemaUrl": "/schema",
+  "chartingSchemesUrl": "/charting-schemes",
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  },
+  "services": [
+    {
+      "id": "auth-acquire",
+      "name": "Auth Connector: Acquire",
+      "description": "A service which retrieves all data. Only authorized access permitted.",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/acquire",
+      "authConfigId": "authConfig1"
+    },
+    {
+      "id": "auth-acquire-apikey",
+      "name": "Auth Connector: Acquire API Key",
+      "description": "A service which retrieves all data. Only authorized access permitted.",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/acquire",
+      "authConfigId": "authConfig2"
+    },
+    {
+      "id": "auth-async-acquire",
+      "name": "Auth Connector: Async Acquire",
+      "description": "A service which retrieves all data asynchronously. Only authorized access permitted.",
+      "async": {
+        "queriesResource": "/async",
+        "pollingIntervalInSeconds": 1
+      },
+      "clientConfigType": "FORM",
+      "clientConfigId": "asyncForm",
+      "authConfigId": "authConfig1"
+    }
+  ],
+  "authConfigs": [
+    {
+      "id": "authConfig1",
+      "loginUrl": "/login/userpass",
+      "form": {
+        "description": "This service requires a username and password.",
+        "fields": [
+          {
+            "id": "username",
+            "label": "Username",
+            "type": "text"
+          },
+          {
+            "id": "password",
+            "label": "Password",
+            "type": "password"
+          }
+        ]
+      }
+    },
+    {
+      "id": "authConfig2",
+      "loginUrl": "/login/apikey",
+      "form": {
+        "description": "This service requires an API key.",
+        "fields": [
+          {
+            "id": "apikey",
+            "label": "API Key",
+            "type": "password"
+          }
+        ]
+      }
+    }
+  ],
+  "clientConfigs": [
+    {
+      "id": "asyncForm",
+      "config": {
+        "sections": [
+          {
+            "conditions": [
+              {
+                "id": "duration",
+                "label": "Duration in seconds - defaults to 10s",
+                "mandatory": false,
+                "logicalType": "INTEGER",
+                "minValue": 0
+              },
+              {
+                "id": "shouldFail",
+                "label": "Should fail - defaults to false",
+                "mandatory": false,
+                "logicalType": "BOOLEAN"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

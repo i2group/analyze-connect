@@ -12,7 +12,7 @@
       "name": "Async Connector: Async Acquire",
       "description": "An async query that returns all the people and has a default polling interval of 1s.\n\nThe query will also provide a substatus with the query start time",
       "async": {
-        "queriesResource": "/people",
+        "queriesResource": "/async",
         "pollingIntervalInSeconds": 1
       },
       "clientConfigType": "FORM",

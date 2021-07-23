@@ -86,41 +86,41 @@ public class ConnectorController {
   }
 
   /**
-   * Defines the /people endpoint.
+   * Defines the /async endpoint.
    *
    * @return The query response.
    */
-  @RequestMapping(method = RequestMethod.POST, value = "/people", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.POST, value = "/async", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   public AsyncQueryResponse asyncAcquireService(@Valid @RequestBody ConnectorRequest request) {
     return connectorDataService.asyncAcquire(request.payload.conditions);
   }
 
   /**
-   * Defines the /people/{queryId} endpoint.
+   * Defines the /async/{queryId} endpoint.
    *
    * @return The status response.
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/people/{queryId}", produces = APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.GET, value = "/async/{queryId}", produces = APPLICATION_JSON_VALUE)
   public AsyncStatusResponse asyncStatusService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncStatus(queryId);
   }
 
   /**
-   * Defines the /people/{queryId}/results endpoint.
+   * Defines the /async/{queryId}/results endpoint.
    *
    * @return The results of the query.
    */
-  @RequestMapping(method = RequestMethod.GET, value = "/people/{queryId}/results", produces = APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.GET, value = "/async/{queryId}/results", produces = APPLICATION_JSON_VALUE)
   public ConnectorResponse asyncResultsService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncResults(queryId);
   }
 
   /**
-   * Defines the /people/{queryId} endpoint.
+   * Defines the /async/{queryId} endpoint.
    *
    * @return The response with the removed query.
    */
-  @RequestMapping(method = RequestMethod.DELETE, value = "/people/{queryId}", produces = APPLICATION_JSON_VALUE)
+  @RequestMapping(method = RequestMethod.DELETE, value = "/async/{queryId}", produces = APPLICATION_JSON_VALUE)
   public @ResponseBody ConnectorResponse asyncDeleteService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncDelete(queryId);
   }

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<chart:ChartingSchemeList xmlns:chart="http://www.i2group.com/Schemas/2012-05-29/ModelData/v2">
+  <ChartingSchemes>
+    <ChartingScheme Name="Auth Connector">
+      <XmlChartingScheme>
+        <ChartItemAttributes />
+        <EntityMappings>
+          <Default>
+            <PropertyMappings>
+              <PropertyMapping Property="Label">
+                <ResolvableValue>
+                  <ApolloLabel SchemeId="8355f4c5-1444-4a2f-b4da-f9374fbd80e6" />
+                </ResolvableValue>
+              </PropertyMapping>
+            </PropertyMappings>
+          </Default>
+        </EntityMappings>
+        <LinkMappings />
+      </XmlChartingScheme>
+    </ChartingScheme>
+  </ChartingSchemes>
+</chart:ChartingSchemeList>

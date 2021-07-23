@@ -14,17 +14,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "d62b5cc8-e49b-4df5-9bde-012c26860d8c",
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"response has correct structure\", function () {",
-									"    let jsonResp = pm.response.json();",
-									"    pm.expect(jsonResp.entities).to.be.an('array');",
-									"    pm.expect(jsonResp.links).to.be.an('array');",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -64,17 +55,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c23e497b-9b08-42dc-a1cc-638c34e1a256",
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"response has correct structure\", function () {",
-									"    let jsonResp = pm.response.json();",
-									"    pm.expect(jsonResp.entities).to.be.an('array');",
-									"    pm.expect(jsonResp.links).to.be.an('array');",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -110,17 +92,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7cf628ca-6e27-4d4b-817d-d3decfcf6540",
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"response has correct structure\", function () {",
-									"    let jsonResp = pm.response.json();",
-									"    pm.expect(jsonResp.entities).to.be.an('array');",
-									"    pm.expect(jsonResp.links).to.be.an('array');",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -156,17 +129,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bd820af9-372e-4a61-aa87-03710b76e746",
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"response has correct structure\", function () {",
-									"    let jsonResp = pm.response.json();",
-									"    pm.expect(jsonResp.entities).to.be.an('array');",
-									"    pm.expect(jsonResp.links).to.be.an('array');",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -196,8 +160,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Validate",
@@ -208,16 +171,8 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "da220345-aadf-46a7-b010-8410cba9f9ef",
 								"exec": [
-									"pm.test(\"response is ok\", function () {",
-									"    pm.response.to.have.status(200);",
-									"});",
-									"",
-									"pm.test(\"response has correct structure\", function () {",
-									"    let jsonResp = pm.response.json();",
-									"    pm.expect(jsonResp.errorMessage).to.eql(null);",
-									"});"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -248,8 +203,7 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Async",
@@ -260,11 +214,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "53eb3e1c-5d65-4cb6-9407-8e96ba174690",
 								"exec": [
 									"const response = pm.response.json();\r",
 									"pm.expect(response).to.have.property('queryId');\r",
-									"pm.environment.set(\"QUERY_ID\", response.queryId);"
+									"pm.environment.set(\"queryId\", response.queryId);"
 								],
 								"type": "text/javascript"
 							}
@@ -283,12 +236,12 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/people",
+							"raw": "{{url}}/async",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"people"
+								"async"
 							]
 						}
 					},
@@ -300,13 +253,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/people/{{QUERY_ID}}",
+							"raw": "{{url}}/async/{{queryId}}",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"people",
-								"{{QUERY_ID}}"
+								"async",
+								"{{queryId}}"
 							]
 						}
 					},
@@ -318,13 +271,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/people/{{QUERY_ID}}/results",
+							"raw": "{{url}}/async/{{queryId}}/results",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"people",
-								"{{QUERY_ID}}",
+								"async",
+								"{{queryId}}",
 								"results"
 							]
 						}
@@ -337,20 +290,19 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/people/{{QUERY_ID}}",
+							"raw": "{{url}}/async/{{queryId}}",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"people",
-								"{{QUERY_ID}}"
+								"async",
+								"{{queryId}}"
 							]
 						}
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
 		},
 		{
 			"name": "Config",
@@ -406,9 +358,178 @@
 					},
 					"response": []
 				}
-			],
-			"protocolProfileBehavior": {}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Acquire",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/acquire",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"acquire"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Acquire Async",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.expect(response).to.have.property('queryId');\r",
+									"pm.environment.set(\"queryId\", response.queryId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"payload\": {\r\n\t\t\"conditions\": [\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"duration\",\r\n\t\t\t\t\"value\": 10\r\n\t\t\t},\r\n\t\t\t{\r\n\t\t\t\t\"id\": \"shouldFail\",\r\n\t\t\t\t\"value\": false\r\n\t\t\t\t\r\n\t\t\t}\r\n\t\t]\r\n\t}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/async",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"async"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (Username-Password)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"authToken\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"foo\",\r\n    \"password\": \"foo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login/userpass",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login",
+								"userpass"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login (API Key)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"authToken\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"apikey\": \"foo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/login/apikey",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"login",
+								"apikey"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
-	],
-	"protocolProfileBehavior": {}
+	]
 }

@@ -80,25 +80,10 @@
 <h1 id="running-the-python-connector">Running the Python connector</h1>
 
 <p>The example Python connector is a simple Flask application built on Python 3.7.4.
-It is imperative that you have Python installed and added to <code>PATH</code>. Older versions of Python may not work.</p>
-<p>In the project directory (where the <code>Pipfile</code> is), use the commands below to install dependencies and get
-your connector up-and-running.</p>
+It is imperative that you have Python installed and added to <code>PATH</code>. Older versions of Python may not allow the application work as expected.</p>
 <h2 id="installation">Installation</h2>
-<p>If you&#39;re running Windows, you can install all required dependencies and create a virtual environment by running this setup batch script in the <code>nypd-connector</code> working directory:</p>
-<pre><code class="lang-shell">./setup.bat
-</code></pre><p>Alternatively, run this sequence of the instructions (that the above batch script performs):</p>
-<ol>
-<li><p>Install <code>pipenv</code>, the virtual environment and package manager.</p>
-<pre><code class="lang-shell">pip install pipenv
-</code></pre></li>
-<li><p>Activate your virtual environment.</p>
-<pre><code class="lang-shell">pipenv --python [python-version]
-</code></pre></li>
-<li><p>Synchronize the environments dependencies with that of the Pipfile.</p>
-<pre><code class="lang-shell">pipenv sync
-</code></pre></li>
-</ol>
-<p>You&#39;ll need to do this each time you&#39;re in a new Python working directory to ensure dependencies are installed and that your virtual environment is activated.</p>
+<p>In the project directory (where the <code>Pipfile</code> is located), run <code>setup</code> on Windows or <code>./setup.sh</code> on Linux to execute the setup script.</p>
+<p>This will create the virtual environment and install the required dependencies for the working project directory.</p>
 <h2 id="starting-and-stopping-the-application">Starting and stopping the application</h2>
 <p>To start the connector application, run the following command in the working directory:</p>
 <pre><code class="lang-shell">pipenv run python app.py

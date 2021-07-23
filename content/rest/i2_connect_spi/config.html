@@ -305,6 +305,16 @@
       </thead>
       <tbody>
           <tr>
+              <td><span class="parametername">authConfigs</span></td>
+              <td>
+  
+                      <a href="#AuthConfig" class="typelink"><wbr>Auth<wbr>Config[]</a>
+                  
+              </td>
+              <td><p>The authentication configurations that the services on the connector use.</p>
+</td>
+          </tr>
+          <tr>
               <td><span class="parametername">chartingSchemesUrl</span></td>
               <td>
                     string
@@ -312,7 +322,7 @@
                   
               </td>
               <td><p>The URL from which to retrieve a charting scheme for the connector, which can be absolute or
- relative to its base URL. No value means that there is no charting scheme</p>
+ relative to its base URL. No value means that there is no charting scheme.</p>
 </td>
           </tr>
           <tr>
@@ -322,7 +332,7 @@
                       <a href="#ClientConfig" class="typelink"><wbr>Client<wbr>Config[]</a>
                   
               </td>
-              <td><p>The client configurations that the services on the connector use</p>
+              <td><p>The client configurations that the services on the connector use.</p>
 </td>
           </tr>
           <tr>
@@ -332,7 +342,7 @@
                       <a href="#ConnectorDefaultValues" class="typelink"><wbr>Connector<wbr>Default<wbr>Values[]</a>
                   
               </td>
-              <td><p>Default values to apply to data retrieved by the services on the connector</p>
+              <td><p>Default values to apply to data retrieved by the services on the connector.</p>
 </td>
           </tr>
           <tr>
@@ -344,7 +354,7 @@
               </td>
               <td><p>The short name of the gateway schema whose types the connector uses, or no value if the
  connector does not use a gateway schema. The topology for the deployment can override the
- gateway schema specified here</p>
+ gateway schema specified here.</p>
 </td>
           </tr>
           <tr>
@@ -355,7 +365,7 @@
                   
               </td>
               <td><p>The short name for the connector schema, or no value when there is no connector schema. The
- topology for the deployment can override the name specified here</p>
+ topology for the deployment can override the name specified here.</p>
 </td>
           </tr>
           <tr>
@@ -366,7 +376,7 @@
                   
               </td>
               <td><p>The URL from which to retrieve a schema for the connector, which can be absolute or relative to
- its base URL. No value means that there is no schema</p>
+ its base URL. No value means that there is no schema.</p>
 </td>
           </tr>
           <tr>
@@ -376,13 +386,135 @@
                       <a href="#Service" class="typelink"><wbr>Service[]</a>
                   
               </td>
-              <td><p>The services available on the connector</p>
+              <td><p>The services available on the connector.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="AuthConfig" class="text-capitalize"><wbr>Auth<wbr>Config</h3>
+  <div class="markdown level1 description"><p>The authentication configurations that the services on the connector use.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">form</span></td>
+              <td>
+  
+                      <a href="#AuthConfig-Form" class="typelink"><wbr>Auth<wbr>Config-<wbr>Form[]</a>
+                  
+              </td>
+              <td><p>The form that the client displays so that users can provide credentials.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">id</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The unique identifier of the authentication configuration.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">loginUrl</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The URL for the endpoint that provides authentication functionality.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="AuthConfig-Form" class="text-capitalize"><wbr>Auth<wbr>Config-<wbr>Form</h3>
+  <div class="markdown level1 description"><p>The form that the client displays so that users can provide credentials.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">description</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>A description of the form and its fields, to be displayed to users.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">fields</span></td>
+              <td>
+  
+                      <a href="#AuthConfig-FormField" class="typelink"><wbr>Auth<wbr>Config-<wbr>Form<wbr>Field[]</a>
+                  
+              </td>
+              <td><p>The fields for the form.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="AuthConfig-FormField" class="text-capitalize"><wbr>Auth<wbr>Config-<wbr>Form<wbr>Field</h3>
+  <div class="markdown level1 description"><p>The fields for the form.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">id</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the field.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">label</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The field label, to be displayed to users.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">type</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The type of the field, which can be either &#39;text&#39; or &#39;password&#39;.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="ClientConfig" class="text-capitalize"><wbr>Client<wbr>Config</h3>
-  <div class="markdown level1 description"><p>The client configurations that the services on the connector use</p>
+  <div class="markdown level1 description"><p>The client configurations that the services on the connector use.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -400,7 +532,7 @@
   
                   
               </td>
-              <td><p>The client configuration itself</p>
+              <td><p>The client configuration itself.</p>
 </td>
           </tr>
           <tr>
@@ -410,7 +542,7 @@
   
                   
               </td>
-              <td><p>The unique identifier of the client configuration</p>
+              <td><p>The unique identifier of the client configuration.</p>
 </td>
           </tr>
           <tr>
@@ -420,13 +552,13 @@
   
                   
               </td>
-              <td><p>The type of the client configuration, which can be &#39;NONE&#39;, &#39;FORM&#39;, or &#39;CUSTOM&#39;</p>
+              <td><p>The type of the client configuration, which can be &#39;NONE&#39;, &#39;FORM&#39;, or &#39;CUSTOM&#39;.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="ConnectorDefaultValues" class="text-capitalize"><wbr>Connector<wbr>Default<wbr>Values</h3>
-  <div class="markdown level1 description"><p>Default values to apply to data retrieved by the services on the connector</p>
+  <div class="markdown level1 description"><p>Default values to apply to data retrieved by the services on the connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -444,7 +576,7 @@
   
                   
               </td>
-              <td><p>The identifier of the default entity type to apply to retrieved data</p>
+              <td><p>The identifier of the default entity type to apply to retrieved data.</p>
 </td>
           </tr>
           <tr>
@@ -466,7 +598,7 @@
                   
               </td>
               <td><p>The default link direction to apply to retrieved data, which can be &#39;NONE&#39;, &#39;WITH&#39;, &#39;AGAINST&#39;,
- or &#39;BOTH&#39;</p>
+ or &#39;BOTH&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -476,7 +608,7 @@
   
                   
               </td>
-              <td><p>The identifier of the default link type to apply to retrieved data</p>
+              <td><p>The identifier of the default link type to apply to retrieved data.</p>
 </td>
           </tr>
           <tr>
@@ -508,13 +640,13 @@
   
                   
               </td>
-              <td><p>The identifier of the default time zone to apply to retrieved data</p>
+              <td><p>The identifier of the default time zone to apply to retrieved data.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="Service" class="text-capitalize"><wbr>Service</h3>
-  <div class="markdown level1 description"><p>The services available on the connector</p>
+  <div class="markdown level1 description"><p>The services available on the connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -533,7 +665,7 @@
                   
               </td>
               <td><p>The URL for the endpoint that provides result data from the service. If this is present, then
- <b>async</b> must not be present</p>
+ <b>async</b> must not be present.</p>
 </td>
           </tr>
           <tr>
@@ -544,7 +676,17 @@
                   
               </td>
               <td><p>Indicates that the service must be called asynchronously, and provides configuration settings.
- If this is present, then <b>acquireUrl</b> must not be present</p>
+ If this is present, then <b>acquireUrl</b> must not be present.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">authConfigId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the authentication configuration for the service.</p>
 </td>
           </tr>
           <tr>
@@ -554,7 +696,7 @@
   
                   
               </td>
-              <td><p>The identifier of the client configuration for the service, if the type is not &#39;NONE&#39;</p>
+              <td><p>The identifier of the client configuration for the service, if the type is not &#39;NONE&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -564,7 +706,7 @@
   
                   
               </td>
-              <td><p>The type of the client configuration for the service, which can be &#39;NONE&#39;, &#39;FORM&#39;, or &#39;CUSTOM&#39;</p>
+              <td><p>The type of the client configuration for the service, which can be &#39;NONE&#39;, &#39;FORM&#39;, or &#39;CUSTOM&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -574,7 +716,7 @@
   
                   
               </td>
-              <td><p>A description of the service, which might be displayed to users</p>
+              <td><p>A description of the service, which might be displayed to users.</p>
 </td>
           </tr>
           <tr>
@@ -584,7 +726,7 @@
   
                   
               </td>
-              <td><p>The unique identifier of the service</p>
+              <td><p>The unique identifier of the service.</p>
 </td>
           </tr>
           <tr>
@@ -594,7 +736,7 @@
   
                   
               </td>
-              <td><p>The name of the service, which might be displayed to users</p>
+              <td><p>The name of the service, which might be displayed to users.</p>
 </td>
           </tr>
           <tr>
@@ -605,7 +747,7 @@
                   
               </td>
               <td><p><b>true</b> if identifiers for the same data retrieved from the service are persistent from one
- set of results to the next; <b>false</b> otherwise</p>
+ set of results to the next; <b>false</b> otherwise.</p>
 </td>
           </tr>
           <tr>
@@ -618,9 +760,9 @@
               <td><p>The identifiers of the item types that can appear in results from the service, in a map with
  the following structure: <b>{&quot;<i>LOCATION</i>&quot;: [&quot;TYPEID1&quot;, &quot;TYPEID2&quot;, ...], ...}</b>.<br>
  <br>
- Here, <i>LOCATION</i> indicates which schema the item type is defined in. Legal values are
+ . Here, <i>LOCATION</i> indicates which schema the item type is defined in. Legal values are
  &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, and &#39;CONNECTOR&#39;. If a service uses types from all three locations, the
- map has three elements</p>
+ map has three elements.</p>
 </td>
           </tr>
           <tr>
@@ -631,7 +773,7 @@
                   
               </td>
               <td><p>The constraints on the seeds that users can specify, or null if the service does not support
- seeds</p>
+ seeds.</p>
 </td>
           </tr>
           <tr>
@@ -641,14 +783,14 @@
   
                   
               </td>
-              <td><p>The URL for the endpoint that validates requests for data from the service</p>
+              <td><p>The URL for the endpoint that validates requests for data from the service.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="Service-Async" class="text-capitalize"><wbr>Service-<wbr>Async</h3>
   <div class="markdown level1 description"><p>Indicates that the service must be called asynchronously, and provides configuration settings.
- If this is present, then <b>acquireUrl</b> must not be present</p>
+ If this is present, then <b>acquireUrl</b> must not be present.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -667,7 +809,7 @@
   
                   
               </td>
-              <td><p>The recommended interval at which clients should poll asynchronous endpoints for changes</p>
+              <td><p>The recommended interval at which clients should poll asynchronous endpoints for changes.</p>
 </td>
           </tr>
           <tr>
@@ -677,14 +819,14 @@
   
                   
               </td>
-              <td><p>The base URL of the endpoints for the asynchronous request mechanism to use</p>
+              <td><p>The base URL of the endpoints for the asynchronous request mechanism to use.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="ConnectorSeedConstraints" class="text-capitalize"><wbr>Connector<wbr>Seed<wbr>Constraints</h3>
   <div class="markdown level1 description"><p>The constraints on the seeds that users can specify, or null if the service does not support
- seeds</p>
+ seeds.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -702,7 +844,7 @@
   
                   
               </td>
-              <td><p>The identifiers of the connectors from which seed records can originate</p>
+              <td><p>The identifiers of the connectors from which seed records can originate.</p>
 </td>
           </tr>
           <tr>
@@ -713,7 +855,7 @@
   
                   
               </td>
-              <td><p>The maximum number of seed records that users must specify</p>
+              <td><p>The maximum number of seed records that users must specify.</p>
 </td>
           </tr>
           <tr>
@@ -724,7 +866,7 @@
   
                   
               </td>
-              <td><p>The minimum number of seed records that users must specify</p>
+              <td><p>The minimum number of seed records that users must specify.</p>
 </td>
           </tr>
           <tr>
@@ -734,13 +876,13 @@
                       <a href="#ConnectorSeedTypes" class="typelink"><wbr>Connector<wbr>Seed<wbr>Types[]</a>
                   
               </td>
-              <td><p>The constraints on the types that seed records can have</p>
+              <td><p>The constraints on the types that seed records can have.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="ConnectorSeedTypes" class="text-capitalize"><wbr>Connector<wbr>Seed<wbr>Types</h3>
-  <div class="markdown level1 description"><p>The constraints on the types that seed records can have</p>
+  <div class="markdown level1 description"><p>The constraints on the types that seed records can have.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -759,7 +901,7 @@
                   
               </td>
               <td><p>The subset of item types by which a seed record can be constrained, which must be &#39;ENTITY&#39; or
- &#39;LINK&#39;</p>
+ &#39;LINK&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -795,7 +937,7 @@
   
                   
               </td>
-              <td><p>The identifier of the item type</p>
+              <td><p>The identifier of the item type.</p>
 </td>
           </tr>
           <tr>
@@ -806,7 +948,7 @@
   
                   
               </td>
-              <td><p>The maximum number of seed records of this type</p>
+              <td><p>The maximum number of seed records of this type.</p>
 </td>
           </tr>
           <tr>
@@ -817,7 +959,7 @@
   
                   
               </td>
-              <td><p>The minimum number of seed records of this type</p>
+              <td><p>The minimum number of seed records of this type.</p>
 </td>
           </tr>
           <tr>

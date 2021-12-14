@@ -237,7 +237,7 @@ Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the ERI schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
-<p>By default, your connector is configured to use a connector schema. This is due to the presence of the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> in the ERI connector&#39;s <code>config.json</code> in <code>eri\eri-connector\src\main\resources</code>.</p>
+<p>By default, your connector has the ERI schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the ERI connector&#39;s <code>config.json</code> file, in <code>eri\eri-connector\src\main\resources</code>.</p>
 <p>Additionally, ensure the following:</p>
 <ul>
 <li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>

@@ -443,7 +443,7 @@
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the NYPD schema as a connector schema, a gateway schema, or an Information Store schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
-<p>By default, your connector will be configured as a connector schema. This is due to the presence of the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> in the NYPD connector&#39;s <code>config.json</code> in <code>nypd\nypd-connector\src\main\resources</code>.</p>
+<p>By default, your connector has the NYPD schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the NYPD connector&#39;s <code>config.json</code> file, in <code>nypd\nypd-connector\src\main\resources</code>.</p>
 <p>Additionally, ensure the following:</p>
 <ul>
 <li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>

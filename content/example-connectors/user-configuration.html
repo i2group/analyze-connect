@@ -1,0 +1,246 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>User-specific configuration </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="User-specific configuration ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                IBM <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="user-specific-configuration">User-specific configuration</h1>
+
+<p>User-specific configuration is an advanced feature of i2 Connect that enables a connector to provide different configurations that are customized to specific users or groups of users. With the exception of the schema and the charting scheme (which remain global for a connector), you can customize all elements of connector configuration dynamically.</p>
+<p>A connector can provide user-specific configuration through a separate configuration endpoint, the URL of which you can provide in your response from the standard configuration endpoint. When the user-specific endpoint is called on behalf of an authenticated user, the i2 Connect gateway provides headers that you can use to identify the user making the request:</p>
+<table>
+<thead>
+<tr>
+<th>Header</th>
+<th>Description</th>
+<th>Type</th>
+<th>Example value (when decoded)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>I2-Principal</code></td>
+<td>The user&#39;s principal name</td>
+<td>String</td>
+<td><code>cn=user,dn=example</code></td>
+</tr>
+<tr>
+<td><code>I2-Display-Name</code></td>
+<td>The user&#39;s display name</td>
+<td>String</td>
+<td><code>User Name</code></td>
+</tr>
+<tr>
+<td><code>I2-User-Groups</code></td>
+<td>The user&#39;s group membership</td>
+<td>Base64-encoded JSON array</td>
+<td><code>[&quot;Analyst&quot;,&quot;Clerk&quot;]</code></td>
+</tr>
+<tr>
+<td><code>I2-Security-Permissions</code></td>
+<td>The user&#39;s security permissions</td>
+<td>Base64-encoded JSON array</td>
+<td><code>[{&quot;dimension&quot;:&quot;SD-SL&quot;,&quot;permissions&quot;:[{&quot;dimensionValue&quot;:&quot;CON&quot;,&quot;level&quot;:&quot;UPDATE&quot;},{&quot;dimensionValue&quot;:&quot;UC&quot;,&quot;level&quot;:&quot;UPDATE&quot;}]}]</code></td>
+</tr>
+<tr>
+<td><code>I2-Command-Access-Permissions</code></td>
+<td>The user&#39;s command access control permissions</td>
+<td>Base64-encoded JSON array</td>
+<td><code>[&quot;i2:Connectors&quot;,&quot;i2:Notes&quot;]</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="creating-user-specific-configurations">Creating user-specific configurations</h2>
+<p>To implement user-specific configurations for your connector, you must first enable and then provide them.</p>
+<h3 id="enable-user-specific-configurations">Enable user-specific configurations</h3>
+<p>To enable user-specific configurations, you set the <code>userConfigUrl</code> field of a connector&#39;s configuration. For example:</p>
+<pre><code class="lang-json">{
+  &quot;userConfigUrl&quot;: &quot;/userconfig&quot;
+}
+</code></pre><p>Here, the <code>userConfigUrl</code> field defines the (relative) URL at which the user specific configuration can be found. When <code>userConfigUrl</code> is present, the only other fields that can appear in the connector&#39;s configuration are:</p>
+<ul>
+<li><code>schemaUrl</code></li>
+<li><code>chartingSchemesUrl</code></li>
+<li><code>schemaShortName</code></li>
+<li><code>gatewaySchema</code></li>
+</ul>
+<blockquote><p><strong>Important:</strong> As soon as you deploy a connector whose <code>userConfigUrl</code> field is set, the i2 Analyze gateway starts to make requests that contain the above headers, which can contain sensitive information.</p>
+<p>To prevent this behavior, you can add the following property to a settings file:</p>
+<p><code>SendSensitiveHeadersToConnectors=false</code></p>
+<p>This setting effectively disables connectors that employ user-specific configuration, but it might help you to detect a connector that you did not expect to use it.</p>
+</blockquote>
+<h3 id="provide-user-specific-configurations">Provide user-specific configurations</h3>
+<p>The endpoint at the URL specified in the <code>userConfigUrl</code> field must return a configuration response similar to the one that the standard configuration endpoint returns. The user-specific configuration response supports the following fields:</p>
+<ul>
+<li><code>defaultValues</code></li>
+<li><code>services</code></li>
+<li><code>clientConfigs</code></li>
+<li><code>authConfigs</code></li>
+</ul>
+<p>When a user connects to the i2 Connect gateway and a connector with user-specific configuration is present, the gateway checks whether it has a configuration cached for that user. If it does not, it calls the <code>userConfigUrl</code> endpoint with the headers that are listed above.</p>
+<p>The connector can use the headers to determine which configuration to provide for the requesting user. In the example connector, the user-specific configuration is simply provided from two different static files with hard-coded settings. In practice, you can create the configurations in any way that meets your needs, including by dynamically generating them in code.</p>
+<blockquote><p><strong>Note:</strong> In the current version of i2 Analyze, the user configuration endpoint always receives all the custom HTTP headers. It is good practice, however, to treat them as optional and handle their absence gracefully.</p>
+</blockquote>
+<h2 id="setting-up-an-example-connector">Setting up an example connector</h2>
+<p>The instructions in the second half of this topic describe how to extend the Java version of the <a href="connector-nypd.html">NYPD example connector</a> to support user-specific configurations.</p>
+<p>Ensure that you have a working deployment of the Java version of the NYPD connector before you continue:</p>
+<ul>
+<li>If you already followed the NYPD connector example using Java, you can use it as your starting point and build on it.</li>
+<li>Otherwise, you can start with the <a href="../../../connector/nypd/java/sample-solution/nypd-connector">sample solution</a> and follow the <a href="../walkthrough/3-deploy-connector.html">deployment instructions</a>.</li>
+</ul>
+<h3 id="1-add-the-user-specific-example-override">1. Add the user-specific example override</h3>
+<p>This example works by overriding some aspects of the NYPD example connector.</p>
+<ul>
+<li>Make a copy of the sample solution (or your existing NYPD connector example, if you are using it).</li>
+<li><p>Copy the contents of the user configuration <a href="../../../connector/user-config/override">override directory</a> over your copied solution. The differences between the override and the sample solution are:</p>
+<ul>
+<li><code>ConnectorController.java</code> is modified to return <code>global-config.json</code> as the standard configuration, and to return <code>analyst-config.json</code> and <code>other-config.json</code> for the new, user-specific configurations.</li>
+<li>The existing <code>config.json</code> file is no longer used.</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-start-the-connector">2. Start the connector</h3>
+<p>To start the modified connector, open a command prompt, navigate to the location that you used in the previous step, and run the application:</p>
+<pre><code class="lang-shell">mvnw spring-boot:run
+</code></pre><h3 id="3-configure-group-membership">3. Configure group membership</h3>
+<p>To activate the modified connector, ensure that your <code>user.registry.xml</code> file contains at least two users. One must be a member of the <code>Analyst</code> group but not the <code>Clerk</code> group, while the other must have the opposite settings.</p>
+<p>You can find the file at <code>i2analyze\deploy\wlp\usr\shared\config</code>, and a minimal example looks like this:</p>
+<pre><code class="lang-xml">&lt;user name=&quot;analyst-user&quot; password=&quot;password&quot;/&gt;
+&lt;user name=&quot;clerk-user&quot; password=&quot;password&quot;/&gt;
+&lt;group name=&quot;Analyst&quot;&gt;
+  &lt;member name=&quot;analyst-user&quot;/&gt;
+&lt;/group&gt;
+&lt;group name=&quot;Clerk&quot;&gt;
+  &lt;member name=&quot;clerk-user&quot;/&gt;
+&lt;/group&gt;
+&lt;group name=&quot;Controlled&quot;&gt;
+  &lt;member name=&quot;analyst-user&quot;/&gt;
+  &lt;member name=&quot;clerk-user&quot;/&gt;
+&lt;/group&gt;
+</code></pre><blockquote><p><strong>Note:</strong> The example assumes that you are using the example security schema. Users must also have access to at least one value from each security dimension in the security schema in order to access the system.</p>
+</blockquote>
+<h3 id="4-configure-command-access-control">4. Configure command access control</h3>
+<p>The group names in the command access control file must match the names of user groups in the user registry file. To ensure that users in the <code>Clerk</code> group are able to view the connector, you must update the command access control file.</p>
+<ol>
+<li>Navigate to <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code> and open the <code>example-command-access-control.xml</code> file in a text editor. </li>
+<li><p>Add the user group specified in the user registry file to the command access control file, and include the permission for the connector. For example:</p>
+<pre><code class="lang-xml">&lt;CommandAccessPermissions UserGroup=&quot;Clerk&quot;&gt;
+    &lt;Permission Value=&quot;i2:Connectors:nypd-connector&quot; /&gt;
+&lt;/CommandAccessPermissions&gt;
+</code></pre></li>
+</ol>
+<h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
+<p>Next, deploy and start the Liberty server that hosts i2 Analyze:</p>
+<pre><code class="lang-shell">setup -t deployLiberty
+setup -t startLiberty
+</code></pre><h3 id="6-test-the-connector">6. Test the connector</h3>
+<p>To test the connector, you must log in with different credentials that you expect to receive different configurations.</p>
+<ul>
+<li>Using Analyst&#39;s Notebook Premium, log in as a user that is <em>not</em> an <code>Analyst</code> and open the External Searches tool. Check that you only have access to the <code>NYPD Connector: Search</code> service, and that the <code>Law Category</code> drop-down does not contain <code>FELONY</code>.</li>
+<li>Log out and log back in as a user that <em>is</em> an <code>Analyst</code>, and open the External Searches tool again. Check that the list now includes the other connector services (for example, <code>NYPD Connector: Expand</code>), and that the options in the <code>Law Category</code> drop-down include <code>FELONY</code>.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; Copyright IBM Corporation 2021.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

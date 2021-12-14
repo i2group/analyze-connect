@@ -1,6 +1,6 @@
 {
   "homepages": [],
-  "source_base_path": "C:/Dev/Connect-Examples/docs",
+  "source_base_path": "C:/Dev/Git/Connectors/Connect-Examples/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -18,7 +18,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-async.html",
-          "hash": "2z7rUYLSfpwK1Lf+Cid+Uw=="
+          "hash": "qVSL6PotNUZCXrT6KQR/gg=="
         }
       },
       "is_incremental": false,
@@ -33,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-auth.html",
-          "hash": "bqbSd/lTorgW1MIpuar4aw=="
+          "hash": "W+BneIafuY2HE2HLOOM83Q=="
         }
       },
       "is_incremental": false,
@@ -45,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-eri.html",
-          "hash": "s4lYBTYuuvLbFfJNSGzifQ=="
+          "hash": "cNds4AmbXWJWYkCB+w79Kg=="
         }
       },
       "is_incremental": false,
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-kcpd.html",
-          "hash": "RrASYnRkwbCDsWoUp/pSpg=="
+          "hash": "RgaEw6MYh0FfftUyxHwv7A=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-nypd.html",
-          "hash": "yx9YV07ihchM2wMT3qsXYA=="
+          "hash": "FdRMU5VAovCWX5b36sQX4g=="
         }
       },
       "is_incremental": false,
@@ -123,12 +123,27 @@
       "version": ""
     },
     {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Conceptual",
+      "source_relative_path": "content/example-connectors/user-configuration.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/example-connectors/user-configuration.html",
+          "hash": "ZvAteAgKNqBuV7iWFzSzfA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
       "type": "Conceptual",
       "source_relative_path": "content/miscellaneous/data-model.md",
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/data-model.html",
-          "hash": "rAEwMAx5KZFdPicqyiBLXg=="
+          "hash": "h3Cswm29NrfigqjDWrj/Mg=="
         }
       },
       "is_incremental": false,
@@ -299,19 +314,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/troubleshoot.html",
-          "hash": "csT7LMdLazprZDrQfcLzTg=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "RestApi",
-      "source_relative_path": "content/rest/i2_connect_spi.json",
-      "output": {
-        ".html": {
-          "relative_path": "content/rest/i2_connect_spi/results.html",
-          "hash": "I8DFyX3F7bCKczmkj4d75A=="
+          "hash": "Wjd3Y+bjBQjC9USU1cs64Q=="
         }
       },
       "is_incremental": false,
@@ -323,7 +326,55 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/i2_connect_spi/validate.html",
-          "hash": "jph3babUWNTo5d2KIios8Q=="
+          "hash": "4hNmGZxBZv0tj1fKsn3PWA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/results.html",
+          "hash": "6jAdUJI/VzzQKW86HipemQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/userConfig.html",
+          "hash": "nwktBAQnlGYb9orJjZteIg=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/delete.html",
+          "hash": "MX7sjicm4YWyJ0nTnOMmig=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "RestApi",
+      "source_relative_path": "content/rest/i2_connect_spi.json",
+      "output": {
+        ".html": {
+          "relative_path": "content/rest/i2_connect_spi/status.html",
+          "hash": "iEpAPH3XEmOriBNKcypqlA=="
         }
       },
       "is_incremental": false,
@@ -347,7 +398,7 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/i2_connect_spi/acquire.html",
-          "hash": "lDTrV8UwqFxtmqtMXFDAEg=="
+          "hash": "iqbYVuYIa+Sofy+rJL3XLA=="
         }
       },
       "is_incremental": false,
@@ -359,7 +410,7 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/i2_connect_spi/config.html",
-          "hash": "dy0xrF0FoQRO86POfh9IXQ=="
+          "hash": "I1odLL3R5kQAQji0hLPuSw=="
         }
       },
       "is_incremental": false,
@@ -371,7 +422,7 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/i2_connect_spi/login.html",
-          "hash": "Ry7q7y6EFt/8dxR/R1tM7w=="
+          "hash": "EN8ZFBjXF9BtVw7mbYcDVA=="
         }
       },
       "is_incremental": false,
@@ -383,31 +434,7 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/i2_connect_spi/acquireAsync.html",
-          "hash": "SGGiEv/NScR8QXBUYLtHbA=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "RestApi",
-      "source_relative_path": "content/rest/i2_connect_spi.json",
-      "output": {
-        ".html": {
-          "relative_path": "content/rest/i2_connect_spi/delete.html",
-          "hash": "Ut/DG4hnuq23MHDcJSgTLQ=="
-        }
-      },
-      "is_incremental": false,
-      "version": ""
-    },
-    {
-      "type": "RestApi",
-      "source_relative_path": "content/rest/i2_connect_spi.json",
-      "output": {
-        ".html": {
-          "relative_path": "content/rest/i2_connect_spi/status.html",
-          "hash": "vpSldBYW+Yhr243DSZZpkg=="
+          "hash": "IScMkXI/7WA9Mbwn3C/hZQ=="
         }
       },
       "is_incremental": false,
@@ -419,7 +446,7 @@
       "output": {
         ".html": {
           "relative_path": "content/rest/toc.html",
-          "hash": "7yHoD6M50FgPUA2EP14u+A=="
+          "hash": "one88jIqlmnCiEZ7wzH6kw=="
         }
       },
       "is_incremental": false,
@@ -1213,7 +1240,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/3-deploy-connector.html",
-          "hash": "gNbWO5bt5qxEPNpQtvqFmg=="
+          "hash": "s506nQH/7u3MthqE6k1Bow=="
         }
       },
       "is_incremental": false,
@@ -1225,7 +1252,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/4-add-service.html",
-          "hash": "v1S8t5oVZ98elRYd0itO4A=="
+          "hash": "MT1PqXWiojwCV/0BEjGiOA=="
         }
       },
       "is_incremental": false,
@@ -1237,7 +1264,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "2/xzcNyM1Ib162j81kxqFQ=="
+          "hash": "jJ3NxdnMP0kqyinz3ULyZw=="
         }
       },
       "is_incremental": false,
@@ -1374,7 +1401,7 @@
       "output": {
         ".html": {
           "relative_path": "guidetoc/toc.html",
-          "hash": "NHnkb+fM0yQ9svk78GHK7Q=="
+          "hash": "0QYTSMtPD0U2LvrGGq3NmA=="
         }
       },
       "is_incremental": false,
@@ -1400,7 +1427,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "sGeKq3kRNkDL51mtRLFQmQ=="
+          "hash": "+hx4jCVr/4WO9ZtXxFWPeQ=="
         }
       },
       "is_incremental": false,
@@ -1422,17 +1449,19 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because config changed.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "ConfigChanged"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
-          "total_file_count": 35,
-          "skipped_file_count": 33
+          "total_file_count": 36,
+          "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

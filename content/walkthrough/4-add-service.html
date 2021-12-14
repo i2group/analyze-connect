@@ -133,8 +133,7 @@ connector configuration returned by the config endpoint. This means editing the
 </tbody>
 </table>
 <p>   It is also common and recommended to add a <code>description</code> field. This appears
-   to users in Analyst&#39;s Notebook Premium, so can be used to give more information about
-   what the service does. You should have something like the following.</p>
+   to users in Analyst&#39;s Notebook Premium, so that it can be used to give more information about what the service does. You should have something like the following.</p>
 <pre><code class="lang-json">{
   &quot;defaultValues&quot;: {
      &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
@@ -150,9 +149,14 @@ connector configuration returned by the config endpoint. This means editing the
      }
   ]
 }
-</code></pre><h3 id="update-the-connectors-configuration">Update the connector&#39;s configuration</h3>
-<p>To tell i2 Analyze to pick up these changes, you need to tell i2 Analyze to reload it&#39;s
-connectors&#39; configurations, run:</p>
+</code></pre><p>After defining the service, you must restart your connector. Refer to the following language guides for the steps to take:</p>
+<ul>
+<li><a href="../example-connectors/run-java.html">Java</a></li>
+<li><a href="../example-connectors/run-node.html">Node</a></li>
+<li><a href="../example-connectors/run-python.html">Python</a></li>
+</ul>
+<h3 id="update-the-connectors-configuration">Update the connector&#39;s configuration</h3>
+<p>In order for i2 Analyze to recognize these changes, you must reload the connectors&#39; configuration by running:</p>
 <ul>
 <li><code>setup -t updateConnectorsConfiguration</code></li>
 </ul>
@@ -167,15 +171,14 @@ you have not already), which will configure your changes to the topology.</p>
 <h3 id="view-the-service-in-analysts-notebook-premium">View the service in Analyst&#39;s Notebook Premium</h3>
 <p>Now that you have defined a service, you can try to use it.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook Premium and login to the i2 Analyze server. If you
+<li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server. If you
 were already logged in, log out and then back in again.</li>
 <li>Open External Searches. The service you have defined should appear.</li>
 <li>Try to run it. Although the service is defined, since it has not yet been
-implemented, you should see a red banner appear with the message &quot;Failed to
-open the selected query. Contact your system administrator‬.&quot;</li>
+implemented, you should see a red banner appear with the message &quot;The application failed to perform the search operation.&quot;</li>
 <li>To see the full error, look in the <code>IBM_i2_Analysis_Repository.log</code> found
 in <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> within the
-<code>i2analyze</code> directory. You should see a 404 (Page Not Found) Error. This is
+<code>i2analyze</code> directory. You should see a 404 (Not Found) Error. This is
 because an endpoint for the <code>acquireUrl</code> defined in the <code>config.json</code> has
 not been implemented.</li>
 </ol>
@@ -266,7 +269,7 @@ the code that produces the response that is returned to i2 Analyze.</p>
 may be done automatically for you when changes are made.</li>
 <li>Re-run the service in  Analyst&#39;s Notebook Premium via the External Searches
 window.</li>
-<li>You should no longer get a 404 Error, but the search will return nothing</li>
+<li>You should no longer get a 404 Error, but the search will return nothing.</li>
 </ol>
 <h3 id="return-some-data">Return some data</h3>
 <h4 id="java-1">Java</h4>

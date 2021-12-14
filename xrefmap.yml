@@ -46,6 +46,12 @@ references:
 - uid: i2 Connect gateway REST SPI/1.0/status/operation
   name: status
   href: content/rest/i2_connect_spi/status.html#i2_Connect_gateway_REST_SPI_1_0_status_operation
+- uid: i2 Connect gateway REST SPI/1.0/userConfig
+  name: userConfig
+  href: content/rest/i2_connect_spi/userConfig.html
+- uid: i2 Connect gateway REST SPI/1.0/userConfig/operation
+  name: userConfig
+  href: content/rest/i2_connect_spi/userConfig.html#i2_Connect_gateway_REST_SPI_1_0_userConfig_operation
 - uid: i2 Connect gateway REST SPI/1.0/validate
   name: validate
   href: content/rest/i2_connect_spi/validate.html

@@ -108,21 +108,17 @@ For example:</p>
   &lt;war ... name=&quot;opal-services-daod&quot; ... &gt;
     ...
     &lt;connector-ids&gt;
-      &lt;connector-id value=&quot;nypd-crime-connector&quot;/&gt;
+      &lt;connector-id value=&quot;nypd-connector&quot;/&gt;
     &lt;/connector-ids&gt;
     ...
   &lt;/war&gt;
 &lt;/wars&gt;
 </code></pre></li>
-<li><p>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here,
-add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, <code>base-url</code>, and
-<code>gateway-schema</code> attributes. Choose whatever <code>id</code> and <code>name</code> you like, but
-set the <code>base-url</code> to <code>http://localhost:9081/</code> and the <code>gateway-schema</code> to
-the short name of your schema. For example:</p>
+<li><p>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here, add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, and <code>base-url</code> attributes. Choose whatever <code>id</code> and <code>name</code> you like, but set the <code>base-url</code> to <code>http://localhost:9081/</code>. If the schema is configured as a gateway schema, also add a <code>gateway-schema</code> attribute and set it to the schema short name. For example:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
   &lt;connectors&gt;
-    &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Crime Connector&quot; id=&quot;nypd-crime-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
+    &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
 </code></pre></li>
@@ -134,8 +130,8 @@ configuration and use Postman to make the server reload it.</p>
 <li><p>Navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:</p>
 <pre><code>setup -t updateConnectorsConfiguration
 </code></pre></li>
-<li><p>Open Postman and run the <code>Form Based Login</code> request to authenticate
-as the default user in i2 Analyze.</p>
+<li><p>Open <a href="../miscellaneous/postman.html">Postman</a> and run the <code>Form Based Login</code> request to
+authenticate as the default user in i2 Analyze.</p>
 </li>
 <li>Call the POST method on the <code>reload</code> endpoint to enact your changes to the topology.</li>
 </ol>
@@ -148,9 +144,28 @@ can find the one you will soon create.</p>
 <li>Open Postman and call GET on the <code>connectors</code> endpoint.</li>
 </ul>
 <p>In the response, the <code>connectors</code> array includes an entry that corresponds to
-the connector you just defined. However, there is also an error and a message
+the connector you just defined. However, there is also an error with a message
 saying that i2 Analyze failed to retrieve configuration information for your
-connector. This is because the connector doesn&#39;t exist yet!</p>
+connector, as shown below. This is because the connector doesn&#39;t exist yet!</p>
+<pre><code class="lang-json">{
+    &quot;connectors&quot;: [
+        {
+            ...
+            &quot;messages&quot;: [
+                {
+                    &quot;message&quot;: &quot;Failed to retrieve configuration information for the connector with identifier &#39;nypd-connector&#39; from the URL &#39;http://localhost:9081/config&#39;.&quot;,
+                    &quot;level&quot;: &quot;ERROR&quot;
+                }
+            ]
+        }
+    ]
+}
+</code></pre><h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
+<p>You might also see the following warning message in the Postman response:</p>
+<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The
+application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
+<p>In a development environment, you can ignore this warning. It appears because i2 Analyze and your connector are communicating via HTTP rather than HTTPS.</p>
+<p><strong>In a production environment, you should secure this connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=analyze-client-authenticated-ssl-i2-connect-gateway">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
 <h2 id="deploying-the-connector">Deploying the connector</h2>
 <p>Now that i2 Analyze is expecting a connector, you had better create one! For the
 purposes of this guide, an example Spring Boot application is provided.</p>
@@ -170,7 +185,7 @@ in VSCode or the IDE of your choice.</p>
 </ul>
 <p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
 and how to execute them. The <code>application.properties</code> file defines the
-server ports, the database URLs, and the API token to aid in the connection.</p>
+server port. In later walkthroughs, it also defines the resource URL and the API token required to connect to the resource.</p>
 </li>
 <li><p>Start the connector. See <a href="../example-connectors/run-java.html">running example connectors in Java</a>.</p>
 </li>
@@ -218,9 +233,9 @@ and how to execute them.</p>
 <h3 id="use-postman-to-investigate-the-config-endpoint">Use Postman to investigate the config endpoint</h3>
 <p>The supplied starting code has a <code>config</code> endpoint that is ready to use:</p>
 <ul>
-<li>In Postman, call the GET method of the <code>config</code> endpoint and look at the
-output. It matches the contents of the <code>config.json</code> file that you set up
-earlier.</li>
+<li>In <a href="../miscellaneous/postman.html">Postman</a>, call the GET method of the <code>config</code>
+endpoint and look at the output. It matches the contents of the <code>config.json</code>
+file that you set up earlier.</li>
 </ul>
 <h3 id="update-the-i2-analyze-connectors-configuration">Update the i2 Analyze connectors configuration</h3>
 <p>Now that you have a connector running, you need to tell i2 Analyze to reload its
@@ -235,42 +250,34 @@ the topology.</li>
 <li>Exactly as before, open Postman and call GET on the <code>connectors</code> endpoint.</li>
 </ul>
 <p>You no longer have the &quot;Failed to retrieve configuration&quot; error, but it has
-been replaced by two others.</p>
-<h3 id="investigate-in-analysts-notebook-premium">Investigate in Analyst&#39;s Notebook Premium</h3>
+been replaced by two others:</p>
+<pre><code class="lang-json">{
+   &quot;connectors&quot;: [
+      {
+         ...
+         &quot;messages&quot;: [
+            {
+               &quot;message&quot;: &quot;The connector with identifier &#39;nypd-connector&#39; has no defined services.&quot;,
+               &quot;level&quot;: &quot;ERROR&quot;
+            },
+            {
+               &quot;message&quot;: &quot;The configuration for the connector with identifier &#39;nypd-connector&#39; specifies a default time zone identifier that is not valid: dodgy-timezone.&quot;,
+               &quot;level&quot;: &quot;ERROR&quot;
+            }
+         ]
+      }
+   ]
+}
+</code></pre><h3 id="investigate-in-analysts-notebook-premium">Investigate in Analyst&#39;s Notebook Premium</h3>
 <p>Before you fix these issues, take a look at what happens when you try to use
 your connector from Analyst&#39;s Notebook Premium.</p>
 <ol>
 <li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server.</li>
 <li>In the top ribbon, click the <strong>External Searches</strong> button.</li>
-<li>Notice the banner at the top of the resulting window that says &quot;Some
-queries are not configured correctly.&quot;</li>
-<li>Click the <strong>DETAILS</strong> button and look at the messages. You can see that it
-corresponds to the output you saw when using the <code>connectors</code> endpoint from
-Postman.</li>
-</ol>
-<h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
-<p>You might see the following warning message:</p>
-<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The
-application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
-<p>You can ignore this in a development environment. This is shown because i2 Analyze and your connector
-communicate via HTTP.</p>
-<p><strong>In a production environment, you should secure this
-connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=analyze-client-authenticated-ssl-i2-connect-gateway">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
-<h3 id="fix-the-timezone-error">Fix the timezone error</h3>
-<ol>
-<li>Look at the error message about the default timezone. You need to update the
-<code>config.json</code> file to include a timezone.</li>
-<li>Use the GET method on the <code>core/temporal/timezones</code> endpoint to get a list
-of valid timezones. Add your chosen timezone to the top of the <code>config.json</code>
-file.</li>
-<li>Update the i2 Analyze connector configurations again, and then use either
-Postman or Analyst&#39;s Notebook Premium to check that the problem is
-resolved.</li>
+<li>Notice the banner at the top of the resulting window that says &quot;Some queries are not configured correctly&quot;. This is because there are errors in your configuration, as shown when you called the <code>connectors</code> endpoint from Postman earlier.</li>
 </ol>
 <h2 id="adding-a-service">Adding a service</h2>
-<p>You still have the error about the connector not having any defined services. A
-valid connector must have at least one service. Next, you need to
-<a href="4-add-service.html">define and implement a service</a>.</p>
+<p>To enable the use of the connector, you must resolve all the errors displayed in the connector messages. One of the errors is caused by the connector not having any services. The next step is therefore to <a href="4-add-service.html">define and implement a service</a>.</p>
 </article>
           </div>
           

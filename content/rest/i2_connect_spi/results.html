@@ -237,10 +237,17 @@
                   
               </td>
               <td><p>The identifier of the data for a record in its source. If the record is from the Information
- Store, <b>id</b> should contain the record identifier in the form <b>&quot;infoStoreRecordId&quot;:
- &quot;<i>record_identifier</i>&quot;</b>. If the record was a seed in the request, <b>id</b> should
- contain the seed identifier</p>
-</td>
+ Store, <b>id</b> should contain the record identifier in the form <b>{ &quot;infoStoreRecordId&quot;:
+ &quot;<i>record_identifier</i>&quot; }</b>. If the record was a seed in the request, <b>id</b> should
+ contain the seed identifier. To specify a source identifier, <b>id</b> should contain it in
+ this form:</p>
+ <pre>
+ {
+   "sourceId" : {
+     "type" : "source_id_type",
+     "key" : ["part1", "part2"...]
+   }
+ }</pre></td>
           </tr>
           <tr>
               <td><span class="parametername">properties</span></td>
@@ -279,9 +286,9 @@
   
                   
               </td>
-              <td><p>Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the
- gateway searches for the type in the connector schema, the associated gateway schema, and the
- Information Store schema in that order.</p>
+              <td><p>The location of the schema in which <b>typeId</b> is defined. If absent, the gateway searches
+ for the type in the connector schema, the associated gateway schema, and the Information Store
+ schema in that order. Valid values are &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, and &#39;CONNECTOR&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -316,13 +323,13 @@
                       <a href="#SourceReferenceInfo" class="typelink"><wbr>Source<wbr>Reference<wbr>Info[]</a>
                   
               </td>
-              <td><p>The information that this source reference contains.</p>
+              <td><p>The information that the source reference contains.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="SourceReferenceInfo" class="text-capitalize"><wbr>Source<wbr>Reference<wbr>Info</h3>
-  <div class="markdown level1 description"><p>The information that this source reference contains.</p>
+  <div class="markdown level1 description"><p>The information that the source reference contains.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -404,11 +411,18 @@
   
                   
               </td>
-              <td><p>The identifier of the data for the record at the &quot;from&quot; end of a link. If the record is from
- the Information Store, <b>fromEndId</b> should contain the record identifier in the form
- <b>&quot;infoStoreRecordId&quot;: &quot;<i>record_identifier</i>&quot;</b>. If the record was a seed in the
- request, <b>fromEndId</b> should contain the seed identifier</p>
-</td>
+              <td><p>The identifier of the data for the record at the &#39;from&#39; end of a link. If the record is from
+ the Information Store, <b>fromEndId</b> should contain the record identifier in the form <b>{
+ &quot;infoStoreRecordId&quot;: &quot;<i>record_identifier</i>&quot; }</b>. If the record was a seed in the request,
+ <b>fromEndId</b> should contain the seed identifier. To specify a source identifier,
+ <b>fromEndId</b> should contain it in this form:</p>
+ <pre>
+ {
+   "sourceId" : {
+     "type" : "source_id_type",
+     "key" : ["part1", "part2"...]
+   }
+ }</pre></td>
           </tr>
           <tr>
               <td><span class="parametername">id</span></td>
@@ -418,10 +432,17 @@
                   
               </td>
               <td><p>The identifier of the data for a record in its source. If the record is from the Information
- Store, <b>id</b> should contain the record identifier in the form <b>&quot;infoStoreRecordId&quot;:
- &quot;<i>record_identifier</i>&quot;</b>. If the record was a seed in the request, <b>id</b> should
- contain the seed identifier</p>
-</td>
+ Store, <b>id</b> should contain the record identifier in the form <b>{ &quot;infoStoreRecordId&quot;:
+ &quot;<i>record_identifier</i>&quot; }</b>. If the record was a seed in the request, <b>id</b> should
+ contain the seed identifier. To specify a source identifier, <b>id</b> should contain it in
+ this form:</p>
+ <pre>
+ {
+   "sourceId" : {
+     "type" : "source_id_type",
+     "key" : ["part1", "part2"...]
+   }
+ }</pre></td>
           </tr>
           <tr>
               <td><span class="parametername">linkDirection</span></td>
@@ -460,7 +481,7 @@
   
                   
               </td>
-              <td><p>The identifier of the data for the record at the &quot;to&quot; end of a link, which is subject to the
+              <td><p>The identifier of the data for the record at the &#39;to&#39; end of a link, which is subject to the
  same considerations as <b>fromEndId</b>.</p>
 </td>
           </tr>
@@ -481,9 +502,9 @@
   
                   
               </td>
-              <td><p>Optionally, the location of the schema in which <b>typeId</b> is defined. When absent, the
- gateway searches for the type in the connector schema, the associated gateway schema, and the
- Information Store schema in that order.</p>
+              <td><p>The location of the schema in which <b>typeId</b> is defined. If absent, the gateway searches
+ for the type in the connector schema, the associated gateway schema, and the Information Store
+ schema in that order. Valid values are &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, and &#39;CONNECTOR&#39;.</p>
 </td>
           </tr>
           <tr>
@@ -565,9 +586,9 @@
                   
               </td>
               <td><p>A URL for a resource that describes the type of the problem. If the problem is that the service
- requires authentication, this field must be set to
- <tt>urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</tt>, which triggers the i2 Connect gateway
- to prompt the user for credentials.</p>
+ requires authentication, this field must be set to <code>
+ urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</code>, which triggers the i2 Connect gateway to
+ prompt the user for credentials.</p>
 </td>
           </tr>
       </tbody>

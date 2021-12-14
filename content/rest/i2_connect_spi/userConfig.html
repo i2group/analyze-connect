@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>config </title>
+    <title>userConfig </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="config ">
+    <meta name="title" content="userConfig ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../../images/favicon.png">
@@ -76,115 +76,141 @@
               </ul>
             </div>
           </div>
-            <article class="content wrap" id="_content" data-uid="i2 Connect gateway REST SPI/1.0/config">
+            <article class="content wrap" id="_content" data-uid="i2 Connect gateway REST SPI/1.0/userConfig">
 
-<h1 id="i2_Connect_gateway_REST_SPI_1_0_config" data-uid="i2 Connect gateway REST SPI/1.0/config" class="text-capitalize text-break">config</h1>
-<div class="markdown level0 summary"><p>Fetches configuration information from a connector.</p>
+<h1 id="i2_Connect_gateway_REST_SPI_1_0_userConfig" data-uid="i2 Connect gateway REST SPI/1.0/userConfig" class="text-capitalize text-break">userConfig</h1>
+<div class="markdown level0 summary"><p>Fetches the configuration information for the current user from a connector that supports
+ user-specific configuration.</p>
 </div>
 <div class="markdown level0 description"><p><p>At startup, the i2 Connect gateway retrieves configuration information from each connector
- that is defined in the topology file. By default, the gateway uses the endpoint
- <b>{baseURL}/config</b>, but you can specify a different one in the definition.<br>
+ that is defined in the topology file. If the configuration contains the <b>userConfigUrl</b>
+ field, the i2 Connect gateway uses its value as the URL for accessing this endpoint.<br>
  <br>
- <b>Important:</b> For a connector that supports user-specific configuration, the response must
- contain the <b>userConfigUrl</b> field, in which case only the <b>schemaUrl</b>,
- <b>chartingSchemesUrl</b>, <b>schemaShortName</b>, and <b>gatewaySchema</b> fields are also
- valid. The connector must provide all other configuration information in response to requests
- on the <b>{userConfigurationUrl}</b> endpoint.<br>
- <br>
- When the response contains them, for client configurations of type &#39;FORM&#39;, the <b>config</b>
- object must have the following general structure:<br>
- <br>
- <span style="font-family:monospace">&quot;config&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;sections&quot;: [</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;{</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;id&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;label&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;description&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;mandatory&quot;:
- false,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;logicalType&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;defaultValue&quot;:
- &quot;&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;]</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- The <b>sections</b> array can contain multiple objects, and each section has a
- <b>conditions</b> array that can also contain multiple objects.<br>
- <br>
- Within each condition, <b>id</b> must be unique, while the client displays <b>label</b> and
- <b>description</b> to users to explain what the condition does. <b>mandatory</b> determines
- whether users must provide a value for the condition, <b>defaultValue</b> allows you to pre-
- populate the condition with a value, and <b>logicalType</b> determines what kind of value
- it is and how you must format it. For the format rules, see
- <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-valid-formats-i2-connect-data-values">
- Valid formats for i2 Connect data values</a>.<br>
- <br>
- Some logical types allow you to specify validation that the client must enforce on any value
- that the user provides.<br>
- <br>
- When <b>logicalType</b> is &#39;DOUBLE&#39; or &#39;INTEGER&#39;, you can add <b>minValue</b> and
- <b>maxValue</b> fields to the condition to constrain the numeric range.<br>
- <br>
- When <b>logicalType</b> is &#39;SINGLE_LINE_STRING&#39; or &#39;MULTI_LINE_STRING&#39;, you can add two objects
- to the condition that constrain the length or the contents of the string:<br>
- <br>
- <span style="font-family:monospace">&quot;maxStringLength&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;size&quot;: 0,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// Defaults to &quot;uf16codeunits&quot; if not
- specified</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// The other legitimate value is
- &quot;utf8bytes&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;units&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- <span style="font-family:monospace">&quot;extraStringValidation&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// A regular expression that the value must
- match</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;regex&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// A message that explains the extra validation
- to users</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;message&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- When <b>logicalType</b> is &#39;SUGGESTED_FROM&#39;, you can add a <b>possibleValues</b> array to the
- condition. (See below.)<br>
- <br>
- When <b>logicalType</b> is &#39;SELECTED_FROM&#39;, you <span style="font-style:italic">must</span> add
- a <b>possibleValues</b> array to the condition:<br>
- <br>
- <span style="font-family:monospace">&quot;possibleValues&quot;: [</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;{</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;value&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;displayName&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;}</span><br>
- <span style="font-family:monospace">]</span><br>
- <br>
- Each object in <b>possibleValues</b> must have a <b>value</b> field that contains the value to
- be sent back when the client uses the service. If present, the client can display the value in
- <b>displayName</b> to users in place of the <b>value</b> itself.<br>
- <br>
- When <b>logicalType</b> is &#39;BOOLEAN&#39; or &#39;GEOSPATIAL&#39; or &#39;DATE&#39; or &#39;TIME&#39; or &#39;DATE_AND_TIME&#39;, no
- additional validation is possible.</p>
+ For a connector that supports user-specific configuration, the fields in the response replace
+ the identically named fields in the response from the <b>{configurationUrl}</b> endpoint.</p>
 </div>
   
-   <h3 id="i2_Connect_gateway_REST_SPI_1_0_config_operation" data-uid="i2 Connect gateway REST SPI/1.0/config/operation" class="text-capitalize">config</h3>
+   <h3 id="i2_Connect_gateway_REST_SPI_1_0_userConfig_operation" data-uid="i2 Connect gateway REST SPI/1.0/userConfig/operation" class="text-capitalize">userConfig</h3>
   <h5>Request</h5>
   <div class="codewrapper">
-    <pre><code class="lang-restApi hljs">GET /{configurationUrl}</code></pre>
+    <pre><code class="lang-restApi hljs">GET /{userConfigurationUrl}</code></pre>
   </div>
+  <h5>Parameters</h5>
+  <table class="table table-bordered table-striped table-condensed">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>In</th>
+        <th>Type</th>
+        <th>Default</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="parametername">I2-Command-Access-Permissions</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A Base64-encoded JSON structure that contains the current user&#39;s
+     command access control permissions. For example:<br>
+     <br>
+     <span style="font-family:monospace">[&quot;i2:ChartsUpload&quot;,&quot;i2:ChartsRead&quot;,...]</span></p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">I2-Principal</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A string that contains the current user&#39;s principal name.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">I2-Display-Name</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A string that contains the current user&#39;s display name.</p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">I2-Security-Permissions</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A Base64-encoded JSON structure that contains the current user&#39;s
+     security permissions. For example:<br>
+     <br>
+     <span style="font-family:monospace">[{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&quot;dimension&quot;:&quot;SD-SL&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&quot;permissions&quot;:[{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;dimensionValue&quot;:&quot;CON&quot;,</span>
+     <br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;level&quot;:&quot;UPDATE&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;},</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;dimensionValue&quot;:&quot;UC&quot;,</span>
+     <br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;level&quot;:&quot;UPDATE&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;}]</span><br>
+     <span style="font-family:monospace">},</span><br>
+     <span style="font-family:monospace">{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&quot;dimension&quot;:&quot;SD-SC&quot;,</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&quot;permissions&quot;:[{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;dimensionValue&quot;:&quot;HI&quot;,</span>
+     <br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;level&quot;:&quot;UPDATE&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;},</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;{</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;dimensionValue&quot;:&quot;OSI&quot;,</span>
+     <br>
+     <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;level&quot;:&quot;UPDATE&quot;</span><br>
+     <span style="font-family:monospace">&nbsp;&nbsp;}]</span><br>
+     <span style="font-family:monospace">}]</span></p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">I2-User-Groups</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A Base64-encoded JSON structure that contains the current user&#39;s security
+     group membership details. For example:<br>
+     <br>
+     <span style="font-family:monospace">[&quot;Analyst&quot;,&quot;Administrator&quot;,&quot;Clerk&quot;,...]</span></p>
+</td>
+      </tr>
+      <tr>
+        <td><span class="parametername">Accept-Language</span></td>
+        <td>header</td>
+        <td>
+              
+  
+        </td>
+        <td></td>
+        <td><p>A string that contains a list of the languages that the client can
+     understand, <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language">as
+     described here</a>.</p>
+</td>
+      </tr>
+    </tbody>
+  </table>
   <div class="responses">
     <h5>Responses</h5>
     <table class="table table-bordered table-striped table-condensed">
@@ -201,7 +227,7 @@
         <td><span class="status">200</span></td>
         <td>
   
-              <a href="#ConnectorConfig" class="typelink"><wbr>Connector<wbr>Config</a>
+              <a href="#UserConnectorConfig" class="typelink"><wbr>User<wbr>Connector<wbr>Config</a>
               
         </td>
         <td><p>The GET method completed successfully.</p>
@@ -224,104 +250,13 @@
     </table>
   </div>
 <h2 id="definitions">Definitions</h2>
-  <h3 id="ConnectorConfig" class="text-capitalize"><wbr>Connector<wbr>Config</h3>
+  <h3 id="UserConnectorConfig" class="text-capitalize"><wbr>User<wbr>Connector<wbr>Config</h3>
   <div class="markdown level1 description"><p><p>At startup, the i2 Connect gateway retrieves configuration information from each connector
- that is defined in the topology file. By default, the gateway uses the endpoint
- <b>{baseURL}/config</b>, but you can specify a different one in the definition.<br>
+ that is defined in the topology file. If the configuration contains the <b>userConfigUrl</b>
+ field, the i2 Connect gateway uses its value as the URL for accessing this endpoint.<br>
  <br>
- <b>Important:</b> For a connector that supports user-specific configuration, the response must
- contain the <b>userConfigUrl</b> field, in which case only the <b>schemaUrl</b>,
- <b>chartingSchemesUrl</b>, <b>schemaShortName</b>, and <b>gatewaySchema</b> fields are also
- valid. The connector must provide all other configuration information in response to requests
- on the <b>{userConfigurationUrl}</b> endpoint.<br>
- <br>
- When the response contains them, for client configurations of type &#39;FORM&#39;, the <b>config</b>
- object must have the following general structure:<br>
- <br>
- <span style="font-family:monospace">&quot;config&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;sections&quot;: [</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;{</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;title&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;conditions&quot;: [</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;id&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;label&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;description&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;mandatory&quot;:
- false,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;logicalType&quot;:
- &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;defaultValue&quot;:
- &quot;&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}</span>
- <br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;]</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;}</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;]</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- The <b>sections</b> array can contain multiple objects, and each section has a
- <b>conditions</b> array that can also contain multiple objects.<br>
- <br>
- Within each condition, <b>id</b> must be unique, while the client displays <b>label</b> and
- <b>description</b> to users to explain what the condition does. <b>mandatory</b> determines
- whether users must provide a value for the condition, <b>defaultValue</b> allows you to pre-
- populate the condition with a value, and <b>logicalType</b> determines what kind of value
- it is and how you must format it. For the format rules, see
- <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-valid-formats-i2-connect-data-values">
- Valid formats for i2 Connect data values</a>.<br>
- <br>
- Some logical types allow you to specify validation that the client must enforce on any value
- that the user provides.<br>
- <br>
- When <b>logicalType</b> is &#39;DOUBLE&#39; or &#39;INTEGER&#39;, you can add <b>minValue</b> and
- <b>maxValue</b> fields to the condition to constrain the numeric range.<br>
- <br>
- When <b>logicalType</b> is &#39;SINGLE_LINE_STRING&#39; or &#39;MULTI_LINE_STRING&#39;, you can add two objects
- to the condition that constrain the length or the contents of the string:<br>
- <br>
- <span style="font-family:monospace">&quot;maxStringLength&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;size&quot;: 0,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// Defaults to &quot;uf16codeunits&quot; if not
- specified</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// The other legitimate value is
- &quot;utf8bytes&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;units&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- <span style="font-family:monospace">&quot;extraStringValidation&quot;: {</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// A regular expression that the value must
- match</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;regex&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;// A message that explains the extra validation
- to users</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&quot;message&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">}</span><br>
- <br>
- When <b>logicalType</b> is &#39;SUGGESTED_FROM&#39;, you can add a <b>possibleValues</b> array to the
- condition. (See below.)<br>
- <br>
- When <b>logicalType</b> is &#39;SELECTED_FROM&#39;, you <span style="font-style:italic">must</span> add
- a <b>possibleValues</b> array to the condition:<br>
- <br>
- <span style="font-family:monospace">&quot;possibleValues&quot;: [</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;{</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;value&quot;: &quot;&quot;,</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;&nbsp;&nbsp;&quot;displayName&quot;: &quot;&quot;</span><br>
- <span style="font-family:monospace">&nbsp;&nbsp;}</span><br>
- <span style="font-family:monospace">]</span><br>
- <br>
- Each object in <b>possibleValues</b> must have a <b>value</b> field that contains the value to
- be sent back when the client uses the service. If present, the client can display the value in
- <b>displayName</b> to users in place of the <b>value</b> itself.<br>
- <br>
- When <b>logicalType</b> is &#39;BOOLEAN&#39; or &#39;GEOSPATIAL&#39; or &#39;DATE&#39; or &#39;TIME&#39; or &#39;DATE_AND_TIME&#39;, no
- additional validation is possible.</p>
+ For a connector that supports user-specific configuration, the fields in the response replace
+ the identically named fields in the response from the <b>{configurationUrl}</b> endpoint.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -339,19 +274,7 @@
                       <a href="#AuthConfig" class="typelink"><wbr>Auth<wbr>Config[]</a>
                   
               </td>
-              <td><p>The authentication configurations that the services on the connector use. This field is not
- valid when <b>userConfigUrl</b> is present and populated.</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">chartingSchemesUrl</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The URL from which to retrieve a charting scheme for the connector, which can be absolute or
- relative to its base URL. No value means that there is no charting scheme.</p>
+              <td><p>The authentication configurations that the services on the connector use.</p>
 </td>
           </tr>
           <tr>
@@ -361,8 +284,7 @@
                       <a href="#ClientConfig" class="typelink"><wbr>Client<wbr>Config[]</a>
                   
               </td>
-              <td><p>The client configurations that the services on the connector use. This field is not valid when
- <b>userConfigUrl</b> is present and populated.</p>
+              <td><p>The client configurations that the services on the connector use.</p>
 </td>
           </tr>
           <tr>
@@ -372,42 +294,7 @@
                       <a href="#ConnectorDefaultValues" class="typelink"><wbr>Connector<wbr>Default<wbr>Values[]</a>
                   
               </td>
-              <td><p>Default values to apply to data retrieved by the services on the connector. This field is not
- valid when <b>userConfigUrl</b> is present and populated.</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">gatewaySchema</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The short name of the gateway schema whose types the connector uses, or no value if the
- connector does not use a gateway schema. The topology for the deployment can override the
- gateway schema specified here.</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">schemaShortName</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The short name for the connector schema, or no value when there is no connector schema. The
- topology for the deployment can override the name specified here.</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">schemaUrl</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The URL from which to retrieve a schema for the connector, which can be absolute or relative to
- its base URL. No value means that there is no schema.</p>
+              <td><p>Default values to apply to data retrieved by the services on the connector.</p>
 </td>
           </tr>
           <tr>
@@ -417,29 +304,13 @@
                       <a href="#Service" class="typelink"><wbr>Service[]</a>
                   
               </td>
-              <td><p>The services available on the connector. This field is not valid when <b>userConfigUrl</b> is
- present and populated.</p>
-</td>
-          </tr>
-          <tr>
-              <td><span class="parametername">userConfigUrl</span></td>
-              <td>
-                    string
-  
-                  
-              </td>
-              <td><p>The URL from which to retrieve user-specific configuration settings, which can be absolute or
- relative to the connector&#39;s base URL. No value means that there is no user-specific
- configuration. When this field is present and populated, <b>schemaUrl</b>,
- <b>chartingSchemesUrl</b>, <b>schemaShortName</b>, and <b>gatewaySchema</b> can also be
- present, but no other fields are valid.</p>
+              <td><p>The services available on the connector.</p>
 </td>
           </tr>
       </tbody>
   </table>
   <h3 id="AuthConfig" class="text-capitalize"><wbr>Auth<wbr>Config</h3>
-  <div class="markdown level1 description"><p>The authentication configurations that the services on the connector use. This field is not
- valid when <b>userConfigUrl</b> is present and populated.</p>
+  <div class="markdown level1 description"><p>The authentication configurations that the services on the connector use.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -561,8 +432,7 @@
       </tbody>
   </table>
   <h3 id="ClientConfig" class="text-capitalize"><wbr>Client<wbr>Config</h3>
-  <div class="markdown level1 description"><p>The client configurations that the services on the connector use. This field is not valid when
- <b>userConfigUrl</b> is present and populated.</p>
+  <div class="markdown level1 description"><p>The client configurations that the services on the connector use.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -606,8 +476,7 @@
       </tbody>
   </table>
   <h3 id="ConnectorDefaultValues" class="text-capitalize"><wbr>Connector<wbr>Default<wbr>Values</h3>
-  <div class="markdown level1 description"><p>Default values to apply to data retrieved by the services on the connector. This field is not
- valid when <b>userConfigUrl</b> is present and populated.</p>
+  <div class="markdown level1 description"><p>Default values to apply to data retrieved by the services on the connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>
@@ -696,8 +565,7 @@
       </tbody>
   </table>
   <h3 id="Service" class="text-capitalize"><wbr>Service</h3>
-  <div class="markdown level1 description"><p>The services available on the connector. This field is not valid when <b>userConfigUrl</b> is
- present and populated.</p>
+  <div class="markdown level1 description"><p>The services available on the connector.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
       <thead>

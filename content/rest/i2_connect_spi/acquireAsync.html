@@ -337,11 +337,14 @@
           <tr>
               <td><span class="parametername">value</span></td>
               <td>
-                    string
+                    object
   
                   
               </td>
-              <td><p>The value that a user supplied for the condition.</p>
+              <td><p>The value that a user supplied for the condition, which must be formatted correctly for its
+ logical type. For the format rules, see
+ <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-valid-formats-i2-connect-data-values">
+ Valid formats for i2 Connect data values</a></p>
 </td>
           </tr>
       </tbody>
@@ -360,6 +363,17 @@
       </thead>
       <tbody>
           <tr>
+              <td><span class="parametername">allItemTypes</span></td>
+              <td>
+  
+                      <a href="#ItemType" class="typelink"><wbr>Item<wbr>Type[]</a>
+                  
+              </td>
+              <td><p>Schema information for the item types of the records that contributed to the data in
+ <b>entities</b> and <b>links</b>, which might come from different schemas.</p>
+</td>
+          </tr>
+          <tr>
               <td><span class="parametername">entities</span></td>
               <td>
   
@@ -370,6 +384,17 @@
 </td>
           </tr>
           <tr>
+              <td><span class="parametername">itemTypes</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>Schema information for the item types of the records that contributed to the data in
+ <b>entities</b> and <b>links</b>, keyed by item type identifier.</p>
+</td>
+          </tr>
+          <tr>
               <td><span class="parametername">links</span></td>
               <td>
   
@@ -377,6 +402,71 @@
                   
               </td>
               <td><p>Data from the link records that were specified as seeds for the request.</p>
+</td>
+          </tr>
+      </tbody>
+  </table>
+  <h3 id="ItemType" class="text-capitalize"><wbr>Item<wbr>Type</h3>
+  <div class="markdown level1 description"><p>Schema information for the item types of the records that contributed to the data in
+ <b>entities</b> and <b>links</b>, which might come from different schemas.</p>
+</div>
+  <table class="table table-bordered table-striped table-condensed">
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Notes</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr>
+              <td><span class="parametername">displayName</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The display name for this item type.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">propertyTypes</span></td>
+              <td>
+                    object
+  
+                  
+              </td>
+              <td><p>The property types of this item type.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">semanticTypeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of the semantic type for this item type.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeId</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The identifier of this item type.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeLocation</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The location of this type, which can be &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, &#39;CONNECTOR&#39;, or &#39;OTHER&#39;.</p>
 </td>
           </tr>
       </tbody>
@@ -447,7 +537,7 @@
               <td><span class="parametername">sourceIds</span></td>
               <td>
   
-                      <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
+                      <a href="#SourceIdentifier" class="typelink"><wbr>Source<wbr>Identifier[]</a>
                   
               </td>
               <td><p>The source identifiers of a seed record.</p>
@@ -461,6 +551,17 @@
                   
               </td>
               <td><p>The type identifier of the record identified by <b>seedId</b>.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeLocation</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The location of the type definition for the record identified by <b>seedId</b>, which can be
+ &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, &#39;CONNECTOR&#39;, or &#39;OTHER&#39;.</p>
 </td>
           </tr>
       </tbody>
@@ -499,7 +600,7 @@
           </tr>
       </tbody>
   </table>
-  <h3 id="OriginIdentifier" class="text-capitalize"><wbr>Origin<wbr>Identifier</h3>
+  <h3 id="SourceIdentifier" class="text-capitalize"><wbr>Source<wbr>Identifier</h3>
   <div class="markdown level1 description"><p>The source identifiers of a seed record.</p>
 </div>
   <table class="table table-bordered table-striped table-condensed">
@@ -518,7 +619,9 @@
   
                   
               </td>
-              <td><p>The identifier of the item type of the record that has this origin identifier.</p>
+              <td><p>The identifier of the item type of the record that has this source identifier.</p>
+<p> <p><b>Deprecated:</b> This field will be removed in a future release. Use the owning record&#39;s
+ <b>typeId</b> instead. Do not rely on the value of this field if it is set.</p>
 </td>
           </tr>
           <tr>
@@ -528,7 +631,7 @@
   
                   
               </td>
-              <td><p>The values that identify some data in its original source.</p>
+              <td><p>Values that together identify some data in its original source.</p>
 </td>
           </tr>
           <tr>
@@ -538,7 +641,7 @@
   
                   
               </td>
-              <td><p>The type of this origin identifier.</p>
+              <td><p>The type of this source identifier.</p>
 </td>
           </tr>
       </tbody>
@@ -641,7 +744,7 @@
               <td><span class="parametername">sourceIds</span></td>
               <td>
   
-                      <a href="#OriginIdentifier" class="typelink"><wbr>Origin<wbr>Identifier[]</a>
+                      <a href="#SourceIdentifier" class="typelink"><wbr>Source<wbr>Identifier[]</a>
                   
               </td>
               <td><p>The source identifiers of a seed record.</p>
@@ -676,6 +779,17 @@
                   
               </td>
               <td><p>The type identifier of the record identified by <b>seedId</b>.</p>
+</td>
+          </tr>
+          <tr>
+              <td><span class="parametername">typeLocation</span></td>
+              <td>
+                    string
+  
+                  
+              </td>
+              <td><p>The location of the type definition for the record identified by <b>seedId</b>, which can be
+ &#39;INFOSTORE&#39;, &#39;GATEWAY&#39;, &#39;CONNECTOR&#39;, or &#39;OTHER&#39;.</p>
 </td>
           </tr>
       </tbody>
@@ -789,9 +903,9 @@
                   
               </td>
               <td><p>A URL for a resource that describes the type of the problem. If the problem is that the service
- requires authentication, this field must be set to
- <tt>urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</tt>, which triggers the i2 Connect gateway
- to prompt the user for credentials.</p>
+ requires authentication, this field must be set to <code>
+ urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</code>, which triggers the i2 Connect gateway to
+ prompt the user for credentials.</p>
 </td>
           </tr>
       </tbody>

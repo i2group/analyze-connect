@@ -1,0 +1,141 @@
+{
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  },
+  "services": [
+    {
+      "id": "nypd-service",
+      "name": "NYPD Connector: Get All",
+      "description": "A service which retrieves all data",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/all"
+    },
+    {
+      "id": "nypd-search-service",
+      "name": "NYPD Connector: Search",
+      "description": "A service for conditional searches",
+      "clientConfigType": "FORM",
+      "clientConfigId": "searchForm",
+      "acquireUrl": "/search",
+      "validateUrl": "/search/validate"
+    },
+    {
+      "id": "nypd-find-like-this-complaint-service",
+      "name": "NYPD Connector: Find like this Complaint",
+      "description": "A service which finds a similar complaint",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/find-like-this-complaint",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET1",
+              "min": 1,
+              "max": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "nypd-expand-service",
+      "name": "NYPD Connector: Expand",
+      "description": "A service which executes an Expand operation on a seed",
+      "clientConfigType": "NONE",
+      "acquireUrl": "/expand",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET1"
+            },
+            {
+              "id": "ET2"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "nypd-expand-with-conditions",
+      "name": "NYPD Connector: Expand with Conditions",
+      "description": "A service which executes an Expand operation on a seed with conditions",
+      "clientConfigType": "FORM",
+      "clientConfigId": "searchForm",
+      "acquireUrl": "/expand-with-conditions",
+      "seedConstraints": {
+        "min": 1,
+        "max": 1,
+        "seedTypes": {
+          "allowedTypes": "ENTITY",
+          "itemTypes": [
+            {
+              "id": "ET1"
+            },
+            {
+              "id": "ET2"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "clientConfigs": [
+    {
+      "id": "searchForm",
+      "config": {
+        "sections": [
+          {
+            "conditions": [
+              {
+                "id": "boro_nm",
+                "label": "Borough Name",
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "BROOKLYN"
+                  },
+                  {
+                    "value": "BRONX"
+                  },
+                  {
+                    "value": "MANHATTAN"
+                  },
+                  {
+                    "value": "QUEENS"
+                  },
+                  {
+                    "value": "STATEN ISLAND"
+                  }
+                ]
+              },
+              {
+                "id": "law_cat_cd",
+                "label": "Law Category",
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "FELONY"
+                  },
+                  {
+                    "value": "MISDEMEANOR"
+                  },
+                  {
+                    "value": "VIOLATION"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

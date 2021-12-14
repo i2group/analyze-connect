@@ -1,0 +1,65 @@
+{
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  },
+  "services": [
+    {
+      "id": "nypd-search-service",
+      "name": "NYPD Connector: Search",
+      "description": "A service for conditional searches",
+      "clientConfigType": "FORM",
+      "clientConfigId": "searchForm",
+      "acquireUrl": "/search",
+      "validateUrl": "/search/validate"
+    }
+  ],
+  "clientConfigs": [
+    {
+      "id": "searchForm",
+      "config": {
+        "sections": [
+          {
+            "conditions": [
+              {
+                "id": "boro_nm",
+                "label": "Borough Name",
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "BROOKLYN"
+                  },
+                  {
+                    "value": "BRONX"
+                  },
+                  {
+                    "value": "MANHATTAN"
+                  },
+                  {
+                    "value": "QUEENS"
+                  },
+                  {
+                    "value": "STATEN ISLAND"
+                  }
+                ]
+              },
+              {
+                "id": "law_cat_cd",
+                "label": "Law Category",
+                "logicalType": "SELECTED_FROM",
+                "possibleValues": [
+                  {
+                    "value": "MISDEMEANOR"
+                  },
+                  {
+                    "value": "VIOLATION"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

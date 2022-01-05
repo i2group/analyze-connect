@@ -18,8 +18,8 @@ search all the data in an external source, or a subset of the data that
 satisfies a set of specified conditions. The connectors also perform
 server-side validation to prohibit invalid requests.
 
-- [Read the documentation](https://ibm-i2.github.io/analyze-connect)
-- [Download a ZIP archive of this repository](https://github.com/IBM-i2/Analyze-Connect/releases)
+- [Read the documentation](http://i2group.github.io/analyze-connect)
+- [Download a ZIP archive of this repository](https://github.com/i2group/analyze-connect/releases)
 
 You can raise issues and questions about the example connectors for the i2
-Connect gateway [here](https://github.com/IBM-i2/Analyze-Connect/issues).
+Connect gateway [here](https://github.com/i2group/analyze-connect/issues).

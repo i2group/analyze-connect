@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Connector Schemas </title>
+    <title>Connector schemas </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Connector Schemas ">
+    <meta name="title" content="Connector schemas ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,85 +77,71 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="connector-schemas">Connector Schemas</h1>
+<h1 id="connector-schemas">Connector schemas</h1>
 
-<p>A connector schema is a type of i2 Analyze schema that is provided by a connector that defines some
-or all of the item types the connector can return. Connector schemas allow for connectors to be added to,
-or removed from, i2 Analyze deployments more easily without the need to change
-the existing Information Store or gateway schemas. They also make it easier
-for connectors to be shared and used by multiple deployments.</p>
-<p>For more information about the kinds of schema that you can deploy, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=model-i2-analyze-schemas">i2 Analyze schemas</a>.</p>
-<p>To create a connector schema, use i2 Analyze Schema Designer. Schema Designer provides an
-interface for creating the XML file containing the schema and, optionally, an
-additional XML file containing the charting schemes. To learn more about how to
-develop i2 Analyze schemas, see <a href="../walkthrough/1-schema-design-guide.html">Designing an i2 Analyze schema</a>.</p>
+<p>A connector schema is a type of i2 Analyze schema that is provided by a connector that defines some or all of the item types the connector can return. Connector schemas allow for connectors to be added to, or removed from, i2 Analyze deployments more easily without the need to change the existing Information Store or gateway schemas. They also make it easier for connectors to be shared and used by multiple deployments.</p>
+<p>To create a connector schema, use i2 Analyze Schema Designer, which provides an interface for creating the XML file containing the schema and, optionally, an additional XML file containing the charting schemes. To learn more about how to develop i2 Analyze schemas, see <a href="../walkthrough/1-schema-design-guide.html">Designing an i2 Analyze schema</a>.</p>
 <h2 id="configuring-a-connector-schema">Configuring a connector schema</h2>
 <p>A connector schema is provided by the connector itself. To supply a schema, a connector must provide:</p>
 <ul>
 <li>An endpoint that returns the schema in its XML form from a GET request.</li>
 <li>The URL for the endpoint. The URL is provided in the <code>schemaUrl</code> field of its configuration, and it must be relative to the connector&#39;s base URL.</li>
 </ul>
-<p>A connector schema can optionally be supplemented with a connector charting
-scheme. To supply a charting scheme, a connector must provide:</p>
+<p>A connector schema can be supplemented with a charting scheme. To supply a charting scheme, a connector must provide:</p>
 <ul>
 <li>An endpoint that returns the charting scheme in its XML form from a GET request.</li>
 <li>The URL for the endpoint. The URL is provided in the <code>chartingSchemesUrl</code> field of its configuration, and it must be relative to the connector&#39;s base URL.</li>
 </ul>
-<p>For example, if a connector&#39;s base URL is <code>http://exampleconnector.com:3700</code>, the schema and charting schemes endpoints might be accessible at the following URLs:</p>
+<p>For example, if a connector&#39;s base URL is <code>http://exampleconnector.com:3700</code>, the schema and charting schemes endpoints might be available at the following URLs:</p>
 <ul>
 <li><code>http://exampleconnector.com:3700/schema</code></li>
 <li><code>http://exampleconnector.com:3700/charting-schemes</code></li>
 </ul>
-<p>Then, you add the <code>schemaUrl</code> and <code>chartingSchemesUrl</code> fields to the
-configuration that is returned from the configuration endpoint. For example:</p>
+<p>Then, you add the <code>schemaUrl</code> and <code>chartingSchemesUrl</code> fields to the object that is returned from the configuration endpoint. For example:</p>
 <pre><code class="lang-json">{
-    &quot;schemaUrl&quot;: &quot;/schema&quot;,
-    &quot;chartingSchemesUrl&quot;: &quot;/charting-schemes&quot;,
-    &quot;defaultValues&quot;: {
-        ...
-    },
-    &quot;services&quot;: [
-        ...
-    ],
-    &quot;clientConfigs&quot;: [
-        ...
-    ]
+  &quot;schemaUrl&quot;: &quot;/schema&quot;,
+  &quot;chartingSchemesUrl&quot;: &quot;/charting-schemes&quot;,
+  &quot;defaultValues&quot;: {
+    ...
+  },
+  &quot;services&quot;: [
+    ...
+  ],
+  &quot;clientConfigs&quot;: [
+    ...
+  ]
 }
 </code></pre><h2 id="connector-schema-short-names">Connector schema short names</h2>
-<p>All connector schemas have a short name that is displayed to analysts
-in i2 Analyst&#39;s Notebook Premium when they interact with entity and link types
-from that schema. The short name of a connector schema can
-be configured in two ways:</p>
+<p>All connector schemas have a short name that is displayed to analysts in i2 Analyst&#39;s Notebook Premium when they interact with entity and link types from that schema. The short name of a connector schema can be configured in two ways:</p>
 <ul>
-<li>The connector can specify the short name the configuration that is returned
-from its configuration endpoint.</li>
-<li>You can specify the short name of the schema when defining the
-connector in the i2 Analyze topology (<code>topology.xml</code>).</li>
+<li>The connector can specify the short name of the configuration that is returned from its configuration endpoint.</li>
+<li>You can specify the short name of the schema when defining the connector in the i2 Analyze topology (<code>topology.xml</code>).</li>
 </ul>
-<p>The short name that is supplied in the i2 Analyze topology takes precedence over the
-one supplied in the connector configuration. If a short name is
-not specified in either location, then the ID of the connector in the i2 Analyze topology is used.</p>
-<h3 id="specifying-the-schema-short-name-in-the-connector-configuration">Specifying the schema short name in the connector configuration</h3>
-<p>To specify the short name in the configuration that is returned from the configuration endpoint, use the <code>schemaShortName</code> field of the <code>ConnectorConfig</code> object. For example:</p>
+<p>The short name that is supplied in the topology takes precedence over the one supplied in the connector configuration. If a short name is not specified in either location, then the identifier of the connector in the topology is used.</p>
+<h3 id="connector-configuration">Connector configuration</h3>
+<p>To specify the short name in the return value from the configuration endpoint, use the <code>schemaShortName</code> field of the <code>ConnectorConfig</code> object. For example:</p>
 <pre><code class="lang-json">{
-    &quot;schemaUrl&quot;: &quot;/schema&quot;,
-    &quot;chartingSchemesUrl&quot;: &quot;/chartingschemes&quot;,
-    &quot;schemaShortName&quot;: &quot;Social Media&quot;,
-    &quot;defaultValues&quot;: {
-        ...
-    },
-    &quot;services&quot;: [
-        ...
-    ],
-    &quot;clientConfigs&quot;: [
-        ...
-    ]
+  &quot;schemaUrl&quot;: &quot;/schema&quot;,
+  &quot;chartingSchemesUrl&quot;: &quot;/chartingschemes&quot;,
+  &quot;schemaShortName&quot;: &quot;Social Media&quot;,
+  &quot;defaultValues&quot;: {
+    ...
+  },
+  &quot;services&quot;: [
+    ...
+  ],
+  &quot;clientConfigs&quot;: [
+    ...
+  ]
 }
 </code></pre><p>For more information about the <code>ConnectorConfig</code> object, see the
-<a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
-<h3 id="specifying-the-short-name-in-the-i2-analyze-topology">Specifying the short name in the i2 Analyze topology</h3>
-<p>To specify the short name in the i2 Analyze topology, use the <code>schema-short-name</code> attribute of the <code>connector</code> element. For example:</p>
-<pre><code class="lang-xml">&lt;connector id=&quot;example-connector&quot; name=&quot;Example Connector&quot; base-url=&quot;http://localhost:3700/&quot; schema-short-name=&quot;Social Media&quot; /&gt;
+<a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
+<h3 id="i2-analyze-topology">i2 Analyze topology</h3>
+<p>To specify the short name in the i2 Analyze topology, use the <code>schema-short-name</code> attribute of the <code>&lt;connector&gt;</code> element. For example:</p>
+<pre><code class="lang-xml">&lt;connector id=&quot;example-connector&quot;
+           name=&quot;Example Connector&quot;
+           base-url=&quot;http://localhost:3700/&quot;
+           schema-short-name=&quot;Social Media&quot;/&gt;
 </code></pre></article>
           </div>
           
@@ -176,7 +162,7 @@ not specified in either location, then the ID of the connector in the i2 Analyze
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

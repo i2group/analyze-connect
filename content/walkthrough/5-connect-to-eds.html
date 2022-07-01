@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -113,25 +113,7 @@ final String url = &quot;?$limit={limitValue}&quot;;
 // see what is returned
 // TODO: Remove this since it&#39;s just for debugging
 System.out.println(socrataClient.get(url, String.class, params));
-</code></pre><h4 id="nodejs">Node.js</h4>
-<p>Look at the version of code in the <code>stage3/nypd-connector</code> directory. This includes:</p>
-<ul>
-<li>Changes to <code>acquire.js</code> route</li>
-<li>A new <code>socrata-config.js</code> file</li>
-<li>A new <code>socrata-data-service.js</code> file</li>
-</ul>
-<p><code>socrata-config.js</code> is where the NYPD Complaint Dataset API resource and the Socrata token are defined.</p>
-<pre><code class="lang-js">module.exports = {
-  url: &quot;https://data.cityofnewyork.us/resource/7x9x-zpz6.json&quot;,
-  token: &quot;SET YOUR TOKEN&quot;
-};
-</code></pre><p><code>socrata-data-service.js</code> contains functions to query NYPD Complaint Dataset.
-The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data.
-By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.</p>
-<pre><code class="lang-js">const URL = `${socrata.url}?$$app_token=${socrata.token}&amp;$limit=${limitValue}`;
-</code></pre><p>Open the code from the <code>stage3/nypd-connector</code> in VSCode, or any IDE of your choice,  and start the connector.
-You need to map the data received into entities and links and return them to i2 Analyze.</p>
-<h4 id="python">Python</h4>
+</code></pre><h4 id="python">Python</h4>
 <p>Look at the version of code in the <code>stage3/nypd-connector</code> directory. Changes have been made to <code>controller.py</code> and there is now an additional resource file: <code>application.yml</code>. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>controller.py</code>.</p>
 <p>In <code>application.yml</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.token</code> key.</p>
 <pre><code class="lang-yaml">socrata:
@@ -152,7 +134,7 @@ x = requests.get(request_url, headers = { &#39;X-App-Token&#39;: api_token })
 </code></pre><h4 id="optional-verify-the-data">(Optional) Verify the data</h4>
 <p>It&#39;s worth testing that you are successfully querying the data and returning results. Print the returned value to the console and check that it matches with the data you see when you make a request to the acquire endpoint via Postman.</p>
 <h3 id="marshal-the-data-to-objects">Marshal the data to objects</h3>
-<p>To make it easier to create entities and links using the data retrieved, you can create a class (Java or Python) or JavaScript object (Node.js) to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serializes the incoming data into a collection of these objects.</p>
+<p>To make it easier to create entities and links using the data retrieved, you can create a class to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serializes the incoming data into a collection of these objects.</p>
 <p>Note that in Java, there exists a library which makes this process much easier: <code>jackson-annotations</code>.</p>
 <p>You might want to add source references to the entities and links that are returned by your connector. This allows users trace the source of the data represented by those entities and links. For information on adding source references, see <a href="../miscellaneous/source-references.html">here</a>.</p>
 <h4 id="optional-verify-your-marshalling-function">(Optional) Verify your marshalling function</h4>
@@ -187,7 +169,7 @@ x = requests.get(request_url, headers = { &#39;X-App-Token&#39;: api_token })
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

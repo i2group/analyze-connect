@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="seeded-search">Seeded search</h1>
 
-<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, select an entity in Analyst&#39;s Notebook Premium and open &quot;External Search&quot;.</p>
+<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst&#39;s Notebook Premium and open &quot;External Search&quot;.</p>
 <p>Again, if you face any issues during this task, remember to consult the
 <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <h2 id="configuration">Configuration</h2>
@@ -90,8 +90,8 @@
   &quot;services&quot;: [
     {
       &quot;id&quot;: &quot;nypd-find-like-this-complaint-service&quot;,
-      &quot;name&quot;: &quot;NYPD Connector: Find like this Complaint&quot;,
-      &quot;description&quot;: &quot;A service which finds a similar complaint&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Find like this complaint&quot;,
+      &quot;description&quot;: &quot;A service that finds a similar complaint.&quot;,
       &quot;clientConfigType&quot;: &quot;NONE&quot;,
       &quot;acquireUrl&quot;: &quot;/find-like-this-complaint&quot;,
       &quot;seedConstraints&quot;: {
@@ -112,7 +112,7 @@
     {
       &quot;id&quot;: &quot;nypd-expand-service&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Expand&quot;,
-      &quot;description&quot;: &quot;A service which executes an Expand operation on a seed&quot;,
+      &quot;description&quot;: &quot;A service that executes an expand operation on a seed.&quot;,
       &quot;clientConfigType&quot;: &quot;NONE&quot;,
       &quot;acquireUrl&quot;: &quot;/expand&quot;,
       &quot;seedConstraints&quot;: {
@@ -165,21 +165,6 @@ already defined a new service.</li>
 of the new method in <code>ConnectorController</code> if copying the files completely.</li>
 <li>Notice how the endpoint is defined in the <code>ConnectorController</code> class.</li>
 </ul>
-<h4 id="nodejs">Node.js</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-provided. This includes:<ul>
-<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
-already defined a new service.</li>
-<li>Changes to <code>acquire</code> route to reflect changes in <code>config.json</code></li>
-<li>Changes to <code>socrata-data-service.js</code> file to have all the functions needed for <code>acquire</code> route</li>
-</ul>
-</li>
-<li>Open the code from the <code>stage5/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.</li>
-<li>You will need to implement functions defined in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.</li>
-</ul>
 <h4 id="python">Python</h4>
 <p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
 add the corresponding endpoint in the connector.</p>
@@ -197,14 +182,14 @@ of the new method in <code>controller.py</code> if copying the files completely.
 <li>Notice how the endpoint is defined in the <code>controller.py</code> class.</li>
 </ul>
 <h3 id="access-seeds">Access seeds</h3>
-<p>You will need to manipulate a seed passed into the request according to the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">SPI</a> and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.</p>
+<p>You will need to manipulate a seed passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.</p>
 <h3 id="filter-data-based-on-seed">Filter data based on seed</h3>
 <p>How you will use the seed depends on what you are trying to achieve.</p>
 <h4 id="find-like-this-seeded-search">Find Like This seeded search</h4>
 <ul>
 <li>A <code>Find Like This</code> query looks at the property values of a selected record and searches for data in the external source that has the same or similar property values.</li>
 <li>For this service you will need to filter out your entities based on the matching properties of the seed entity that can be accessed via <code>request.payload.seeds.entities.get(0)</code>.</li>
-<li><strong><em>NOTE</em></strong>: Do not return the entity that was passed as the <code>seed</code>.</li>
+<li><strong>Note:</strong> Do not return the entity that was passed as the <code>seed</code>.</li>
 </ul>
 <h4 id="expand-seeded-search">Expand seeded search</h4>
 <ul>
@@ -213,6 +198,7 @@ of the new method in <code>controller.py</code> if copying the files completely.
 <li>Finally, you need to make sure that the link is pointing to the <code>seedId</code>.</li>
 <li>To do that, you will need to change <code>toEndId</code> or <code>fromEndId</code> to the <code>seedId</code> that can be accessed via <code>request.payload.seeds.entities.get(0).sourceIds.get(0).key.get(2)</code>.</li>
 </ul>
+<p>For more information about these and other uses for seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="run-your-query">Run your query</h2>
 <p>Update connectors&#39; configuration by running:</p>
 <ul>
@@ -249,7 +235,7 @@ you have not already), which will configure your changes to the topology.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

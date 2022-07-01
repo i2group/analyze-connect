@@ -1,0 +1,159 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Supporting seeds </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Supporting seeds ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="supporting-seeds">Supporting seeds</h1>
+
+<p>If you configure a connector&#39;s services to enable it, users can run queries with seed records that enable or change their functionality. Your implementations of the acquire endpoint receive identity and property data from selected records that you can use to drive operations against the external data source.</p>
+<p>The behavior of a query that supports parameters is modified by values that users specify when they run it. The behavior of a query that supports seeds is modified by the records that a user selects. Seeded queries generally fall into one of a handful of categories:</p>
+<ul>
+<li><p>A &quot;find like this&quot; query looks at the property values of a selected record and searches for data in the external source that has the same or similar property values.</p>
+</li>
+<li><p>A &quot;get latest&quot; query uses the identifying information of a selected record to look for the same data in the external source, with the aim of updating the record.</p>
+</li>
+<li><p>An &quot;expand&quot; query uses the identifying information of a selected record to search for data in the external source that is connected to that record.</p>
+</li>
+<li><p>A &quot;find path&quot; query receives the identifying information for exactly two selected records and searches for a path that connects those records in the external source.</p>
+</li>
+</ul>
+<p>To indicate that a particular service supports seeds, you add a <code>seedConstraints</code> object to its definition in your response from the configuration (or user configuration) endpoint. An empty object indicates that the service supports any number of <em>entity</em> seeds. To change this behavior, and for more control over the constraints, you can populate the object. The REST SPI documentation for the configuration endpoint describes its structure:</p>
+<pre><code class="lang-json">&quot;seedConstraints&quot;: {
+  &quot;connectorIds&quot;: [&quot;&quot;],
+  &quot;min&quot;: 0,
+  &quot;max&quot;: 0,
+  &quot;seedTypes&quot;: {
+    &quot;allowedTypes&quot;: &quot;&quot;,
+    &quot;itemTypes&quot;: [
+      {
+        &quot;id&quot;: &quot;&quot;,
+        &quot;min&quot;: 0,
+        &quot;max&quot;: 0,
+        &quot;typeLocation&quot;: &quot;&quot;
+      }
+    ]
+  }
+}
+</code></pre><p>A service can specify which records it accepts as seeds by restricting the connectors they came from. It can also set boundaries on the number of seed records it accepts, regardless of their type. A service can specify whether entity or link records are allowed as seeds (entity records are the default), and then restrict the range to a subset of that group. It can also set boundaries on the number of seeds, on a per-type basis.</p>
+<p>If you configure the constraints so that requests must contain at least one seed of each permitted item type, then the service <em>requires</em> seeds. Users cannot run the service without an appropriate selection. Otherwise, your implementation of the acquire endpoint must support requests that might or might not contain seed information.</p>
+<p>When the i2 Connect gateway calls your acquire endpoint to perform a seeded query, it includes a payload that contains identifiers and property values for all seeds. For information about the structure of the payload, see the REST SPI documentation for the <code>request</code> parameter of the acquire endpoint.</p>
+<p>In outline, the procedure for supporting seeded queries in one of your services is to start by adding seed constraints to its configuration. Clients then interpret the configuration and present the queries to users. When users run a query, your implementation of the acquire endpoint receives seeds that you can use to guide your response.</p>
+<ol>
+<li><p>Decide what kind of seeded operation you want to perform, and its implications for the service.</p>
+<p>For an &quot;expand&quot; query, for example, you might accept a fairly large number of entities of any type as seeds. For &quot;find like this&quot;, the seed is more likely to be a single record of a specific type.</p>
+</li>
+<li><p>Add a <code>seedConstraints</code> object that reflects the requirements of the query, to the response from the configuration (or user configuration) endpoint.</p>
+</li>
+<li><p>Implement the acquire endpoint for your service.</p>
+<p>If at least one of the constraints does not specify a minimum record count, the endpoint might be called with or without seeds. The REST SPI documentation for the acquire endpoint describes the structure of the seed data.</p>
+<p><strong>Important:</strong> For &quot;get latest&quot; and &quot;expand&quot; queries, it is common for seed records also to appear in the results. In that case, you must ensure that the <code>id</code> of the outgoing record matches the <code>seedId</code> of the incoming record. In an &quot;expand&quot; query, for example, you can identify a seed as being one end of a link in the response by setting the <code>fromEndId</code> of the link to the <code>seedId</code>.</p>
+</li>
+<li><p>Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration. Then, connect to the server with a client, log in as a user who can see the query, and ensure that the service is working properly. </p>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

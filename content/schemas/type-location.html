@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Type Location </title>
+    <title>Type location </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Type Location ">
+    <meta name="title" content="Type location ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,40 +77,40 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="type-location">Type Location</h1>
+<h1 id="type-location">Type location</h1>
 
 <p>The type location of an item type used by a connector indicates where - between the Information Store schema, the gateway schema used by the connector, or its own connector schema - the item type is defined.</p>
-<p>With the introduction of gateway and connector schemas, it has become important for i2 Analyze to determine the origin of item types. It is possible for two schemas to have item types with the same item type ID; in which case, the gateway will attempt to infer the type location by looking in the following order:</p>
+<p>With the introduction of gateway and connector schemas, it has become important for i2 Analyze to determine the origin of item types. It is possible for two schemas to have item types with the same identifier, in which case  the gateway will infer the type location by looking in the following order:</p>
 <ol>
 <li>The connector&#39;s own schema</li>
 <li>The gateway schema used by the connector</li>
 <li>The Information Store schema</li>
 </ol>
 <p>A connector can explicitly specify the type locations for item types to avoid ambiguity and ensure that the desired item type from the appropriate schema is used.</p>
-<h3 id="default-type-locations">Default Type Locations</h3>
+<h2 id="default-type-locations">Default type locations</h2>
 <p>You can specify the default type location for all entities and links returned from the connector in the <code>defaultValues</code> field of the connector configuration as follows:</p>
 <pre><code class="lang-json">{
   &quot;defaultValues&quot;: {
-    &quot;entityTypeLocation&quot;: &quot;[LOCATION]&quot;,
-    &quot;linkTypeLocation&quot;: &quot;[LOCATION]&quot;
+    &quot;entityTypeLocation&quot;: &quot;&lt;LOCATION&gt;&quot;,
+    &quot;linkTypeLocation&quot;: &quot;&lt;LOCATION&gt;&quot;
   },
   &quot;services&quot;: {
     /* ... */
   }
 }
-</code></pre><p>Legal values for <code>[LOCATION]</code> are as follows:</p>
+</code></pre><p>Legal values for <code>&lt;LOCATION&gt;</code> are as follows:</p>
 <ul>
-<li><code>INFOSTORE</code> - Indicates that the item type returned is from the Information Store schema.</li>
-<li><code>GATEWAY</code> - Indicates that the item type returned is from the gateway schema used by the connector.</li>
-<li><code>CONNECTOR</code> - Indicates that the item type returned is from the connector&#39;s own schema.</li>
+<li><code>INFOSTORE</code> - The Information Store schema.</li>
+<li><code>GATEWAY</code> - The gateway schema used by the connector.</li>
+<li><code>CONNECTOR</code> - The connector&#39;s own schema.</li>
 </ul>
-<h3 id="result-item-type-locations">Result Item Type Locations</h3>
+<h2 id="type-locations-for-results">Type locations for results</h2>
 <p>A service&#39;s <code>resultItemTypeIds</code> property specifies the item types expected to be returned from the service. It also provides type location overrides for specific item types using the following structure:</p>
 <pre><code class="lang-json">{
   &quot;&lt;LOCATION&gt;&quot;: [&quot;TYPEID1&quot;, &quot;TYPEID2&quot;, /* ... */ ]
 }
-</code></pre><p>Where <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code> or <code>CONNECTOR</code>.</p>
-<p>Since a service can use item types from all three type locations, all three type locations can be specified. For example, a service which returns entity type <code>ET1</code> from the Information Store schema, <code>ET2</code> the gateway schema and <code>ET3</code> from a connector schema will look like the following:</p>
+</code></pre><p>Again, <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code>, or <code>CONNECTOR</code>.</p>
+<p>Since a service can use item types from all three type locations, all three type locations can be specified. For example, a service that returns records with entity type <code>ET1</code> from the Information Store schema, <code>ET2</code> from the gateway schema, and <code>ET3</code> from a connector schema, will look like the following:</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
     {
@@ -123,9 +123,9 @@
     }
   ]
 }
-</code></pre><p>Specifying type locations in this way will override the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
-<h3 id="type-locations-for-seed-constraints">Type Locations for Seed Constraints</h3>
-<p>It is also possible to specify the type locations of seed items by including <code>typeLocation</code> attributes for each allowed item type of a service&#39;s seed constraint definition. This is shown as follows:</p>
+</code></pre><p>Specifying type locations in this way overrides the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
+<h2 id="type-locations-for-seed-constraints">Type locations for seed constraints</h2>
+<p>It is also possible to specify the type locations of seed records by including <code>typeLocation</code> attributes for each allowed item type of a service&#39;s seed constraint definition. This is shown as follows:</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
     {
@@ -179,7 +179,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

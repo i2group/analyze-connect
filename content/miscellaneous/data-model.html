@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>The i2 Analyze data model </title>
+    <title>Property value data formats </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="The i2 Analyze data model ">
+    <meta name="title" content="Property value data formats ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,104 +77,114 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="the-i2-analyze-data-model">The i2 Analyze data model</h1>
+<h1 id="property-value-data-formats">Property value data formats</h1>
 
-<p>All the properties defined in a schema, of both entites and links, have what is
-called a logical type. This defines the kind of data that a property represents
-and the format of it. Some properties, for example, respresent numerical data,
-whereas others represent textual data. Furthermore, of those properties
-representing numerical data, some will be integer-valued, whereas others will
-have floating-point values. We use logical types to make these distinctions, and
-there are fifteen of them:</p>
+<p>All the property types defined in a schema specify a <em>logical type</em> that controls the kind of data that properties of that type contain. For example, some properties contain numerical data while others contain strings. Furthermore, of the properties that contain numerical data, some contain integers while others contain floating-point values.</p>
+<p>To see the logical type of a particular property type, open the schema in i2 Analyze Schema Designer and select it in the left-hand pane. You&#39;ll see its logical type along as well as its identifier, name, and description. </p>
+<p>When you specify default values during connector configuration, or you return entities and links to i2 Analyze from a connector, you must ensure that the property values you assign align with the logical types. The following descriptions provide examples of data that is valid for each of the supported logical types.</p>
+<h2 id="singlelinestring">SINGLE_LINE_STRING</h2>
+<p>Single-line strings can be up to 250 bytes long, and can be further limited by the schema.</p>
+<pre><code>&quot;This is a single-line string.&quot;
+</code></pre><h2 id="multiplelinestring">MULTIPLE_LINE_STRING</h2>
+<p>Multiple-line strings can be up to 32K bytes long, and can be further limited by the schema.</p>
+<pre><code>&quot;This is a multiple-line string.&quot;
+</code></pre><h2 id="date">DATE</h2>
+<p>Date values must be in the ISO 6801 format &quot;YYYY-MM-DD&quot;. Also, values must be in the range from 1753-01-01 to 9999-12-30.</p>
+<pre><code>&quot;2021-11-30&quot;
+</code></pre><h2 id="time">TIME</h2>
+<p>Time values must be in the ISO 6801 format &quot;hh:mm:ss&quot;. Seconds are optional, but hours and minutes are not. Greater precision than seconds is not supported.</p>
+<pre><code>&quot;23:59:59&quot;
+</code></pre><h2 id="dateandtime">DATE_AND_TIME</h2>
+<p>Four pieces of information are required to specify a particular point in time:</p>
 <ul>
-<li>SINGLE_LINE_STRING</li>
-<li>MULTIPLE_LINE_STRING</li>
-<li>DATE</li>
-<li>TIME</li>
-<li>DATE_AND_TIME</li>
-<li>BOOLEAN</li>
-<li>INTEGER</li>
-<li>DOUBLE</li>
-<li>DECIMAL</li>
-<li>DOCUMENT*</li>
-<li>XML*</li>
-<li>PICTURE*</li>
-<li>SELECTED_FROM</li>
-<li>SUGGESTED_FROM</li>
-<li>GEOSPATIAL</li>
+<li>The date</li>
+<li>The time as it would appear on a clock</li>
+<li>The time zone in which the point in time is observed</li>
+<li>If the point in time occurs during the hour that is repeated when clocks are turned back to end Daylight Saving Time, whether to use the first or second occurence of this time.</li>
 </ul>
-<p><em>The i2 Connect gateway **does not</em>* support the returning of properties with
-logical type XML, DOCUMENT or PICTURE.</p>
-<p>To see the logical type of a property, open the schema in IBM i2 Analyze Schema
-Designer and click on a property in the left-hand pane. You should see its
-logical type, along with its ID, name, and description. </p>
-<p>When returning entities and links to i2 Analyze from a connector, we must ensure
-that the property values we assign align with the logical type of those
-properties. For example, the i2 Analyze server would complain if we tried to
-assign the value &quot;forty-two&quot; to a property representing the age of a person,
-that has logical type INTEGER. &quot;forty-two&quot; is a string and should perhaps be
-changed to 42. See examples below of valid data for each of the valid logical
-types.</p>
-<h2 id="examples">Examples</h2>
-<table>
-<thead>
-<tr>
-<th>Logical Type</th>
-<th>Example(s)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>SINGLE_LINE_STRING</td>
-<td><code>&quot;Up to 250 bytes of UTF-8 characters&quot;</code></td>
-</tr>
-<tr>
-<td>MULTIPLE_LINE_STRING</td>
-<td><code>&quot;Up to 32700 bytes of UTF-8 characters&quot;</code></td>
-</tr>
-<tr>
-<td>DATE</td>
-<td><code>&quot;2019-11-18&quot;</code></td>
-</tr>
-<tr>
-<td>TIME</td>
-<td><code>&quot;16:34:11&quot;</code> or <code>&quot;16:34&quot;</code>. Seconds are optional, but hours and minutes are not. Greater precision than seconds is not supported.</td>
-</tr>
-<tr>
-<td>DATE_AND_TIME</td>
-<td>Four pieces of information are required to specify a particular point in time: <ul><li>The date</li><li>The time as it would appear on a clock</li><li>The time zone in which the point in time is observed</li><li>Daylight Saving Time: If the point in time occurs during the hour that is repeated when clocks are turned back to end Daylight Saving Time, whether to use the first or second occurence of this time.</li></ul> There are two ways of providing this information.<ol><li>Provide just the date and time, in which case the time zone is taken to be the default time zone defined in the connector configuration (or UTC). The value must be specified as a string conforming to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> with at least minute-precision and up to millisecond-precision. For example:<ul><li><code>&quot;2019-10-29T14:23:55&quot;</code></li><li><code>&quot;2019-10-29T14:23:55.1&quot;</code></li><li><code>&quot;2019-10-29T14:23:55.123&quot;</code></li></ul></li><li>Provide all four pieces of information in the form <code>{&quot;localDateAndTime&quot;: &quot;2019-10-29T14:23:55.487&quot;, &quot;timeZoneId&quot;: &quot;Australia/Perth&quot;, &quot;isDST&quot;: true}</code>, where:<ul><li><code>localDateAndTime</code> is a timestamp string conforming to <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> as above, again with at least minute-precision and up to millisecond-precision.</li><li><code>timeZoneId</code> specifies the time zone in which the moment of time is observed. For a list of valid time zone IDs, see the <a href="https://www.iana.org/time-zones">IANA Time Zone Database</a>.</li><li><code>isDST</code> is used to specify which occurence of the repeated hour to use if the point in time occurs when the clocks turn back at the end of Daylight Saving Time. To use the first, set it to <code>true</code>; to use the second, set it to <code>false</code>.</li></ul></li></ol></td>
-</tr>
-<tr>
-<td>BOOLEAN</td>
-<td><code>true</code> or <code>false</code></td>
-</tr>
-<tr>
-<td>INTEGER</td>
-<td><code>42</code>, <code>-9812</code></td>
-</tr>
-<tr>
-<td>DOUBLE</td>
-<td><code>-213.89763</code>, <code>0.00083</code></td>
-</tr>
-<tr>
-<td>DECIMAL</td>
-<td><code>99.9999</code> (maximum of four digits after decimal point)</td>
-</tr>
-<tr>
-<td>SELECTED_FROM</td>
-<td><code>&quot;Red&quot;</code>, <code>&quot;Green&quot;</code>, or <code>&quot;Blue&quot;</code> if choosing from a set of colors, for example.</td>
-</tr>
-<tr>
-<td>SUGGESTED_FROM</td>
-<td><code>&quot;Blue-ish green&quot;</code>, if you need to be more specific than the suggested options.</td>
-</tr>
-<tr>
-<td>GEOSPATIAL</td>
-<td><code>{&quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [11.1, 12.2]}</code>, where the coordinates are latitude and longitude.</td>
-</tr>
-</tbody>
-</table>
-</article>
+<p>There are two ways to return values with the <code>DATE_AND_TIME</code> logical type. You can use an ISO 8601 string <em>without</em> a time zone; or a date-and-time JSON object that explicitly defines the time zone.</p>
+<p>When you use the ISO 8601 format, the value must be specified as a string with at least minute-precision and up to millisecond-precision. The time zone is taken from the <code>timeZoneId</code> that&#39;s defined in <code>defaultValues</code> in the connector configuration. (If no default is present, the time zone is set to UTC.)</p>
+<pre><code>&quot;2021-12-30T23:59:59&quot;
+</code></pre><p>or</p>
+<pre><code>&quot;2021-12-30T23:59:59.999&quot;
+</code></pre><p>Alternatively, a JSON object must contain three fields:</p>
+<ul>
+<li><code>localDateAndTime</code> is a string that conforms to ISO 8601 as above, again with at least minute-precision and up to millisecond-precision.</li>
+<li><code>timeZoneId</code> specifies the time zone in which the moment of time is observed. For a list of valid time zone identifiers, see the IANA Time Zone Database.</li>
+<li><code>isDST</code> specifies which occurrence of the repeated hour to use if the point in time occurs when the clocks turn back at the end of Daylight Saving Time. To use the first, set it to <code>true</code>; to use the second, set it to <code>false</code>.</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;localDateAndTime&quot;: &quot;2021-12-30T23:59:59.999&quot;,
+  &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+  &quot;isDST&quot;: false
+}
+</code></pre><h2 id="boolean">BOOLEAN</h2>
+<p>Boolean values must be be either <code>true</code> or <code>false</code>.</p>
+<pre><code>true
+</code></pre><p>or</p>
+<pre><code>false
+</code></pre><h2 id="integer">INTEGER</h2>
+<p>Integer values must be in the range from -2147483648 to 2147483647.</p>
+<pre><code>2147483647
+</code></pre><h2 id="double">DOUBLE</h2>
+<p>Double values must be in the range from 4.94065645841246544e-324d to 1.79769313486231570e+308d.</p>
+<pre><code>4.94065645841246544e-324d
+</code></pre><h2 id="decimal">DECIMAL</h2>
+<p>Decimal values are <em>strings</em> that contain up to 18 digits before the decimal separator, and up to 4 digits after it. There can be a leading minus sign, but no exponent (e) notation.</p>
+<pre><code>&quot;-123456789012345678.1234&quot;
+</code></pre><h2 id="selectedfrom">SELECTED_FROM</h2>
+<p>Selected-from string values must match a permitted value that the schema or a form condition defines.</p>
+<pre><code>&quot;This is a selected-from string.&quot;
+</code></pre><h2 id="suggestedfrom">SUGGESTED_FROM</h2>
+<p>Suggested-from string values must match a permitted value that a form condition defines when you use them as default values, but are otherwise unrestricted.</p>
+<pre><code>&quot;This is a suggested-from string.&quot;
+</code></pre><h2 id="geospatial">GEOSPATIAL</h2>
+<p>Geospatial values must be formatted as GeoJSON points, as described at <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2">https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2</a>.</p>
+<p>The first element in the <code>coordinates</code> array is longitude, and must be a decimal between -180.0 and 180.0. The second element is latitude and must be a decimal between -90.0 and 90.0.</p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;Point&quot;,
+  &quot;coordinates&quot;: [1.0, 2.0]
+}
+</code></pre><h2 id="geospatialarea">GEOSPATIAL_AREA</h2>
+<p><strong>Important:</strong> Values of type <code>GEOSPATIAL_AREA</code> are valid for use in connector configuration, but <em>not</em> in the data that you return from a connector.</p>
+<p>Geospatial area values must be formatted as GeoJSON feature collections, as described at <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.3">https://datatracker.ietf.org/doc/html/rfc7946#section-3.3</a>. Foreign members are allowed.</p>
+<p>The <code>geometry</code> must be of type <code>Polygon</code> or <code>MultiPolygon</code>, both of which must contain at least four coordinates, where the first coordinate matches the last.</p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;FeatureCollection&quot;,
+  &quot;features&quot;: [
+    {
+      &quot;type&quot;: &quot;Feature&quot;,
+      &quot;geometry&quot;: {
+        &quot;type&quot;: &quot;MultiPolygon&quot;,
+        &quot;coordinates&quot;: [
+          [
+            [
+              [1.0, 2.0],
+              [3.0, 4.0],
+              [5.0, 6.0],
+              [1.0, 2.0]
+            ]
+          ]
+        ]
+      }
+    },
+    {
+      &quot;type&quot;: &quot;Feature&quot;,
+      &quot;geometry&quot;: {
+        &quot;type&quot;: &quot;Polygon&quot;,
+        &quot;coordinates&quot;: [
+          [
+            [1.0, 2.0],
+            [3.0, 4.0],
+            [5.0, 6.0],
+            [1.0, 2.0]
+          ]
+        ]
+      }
+    }
+  ]
+}
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">
@@ -194,7 +204,7 @@ types.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

@@ -1,0 +1,156 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Supporting authentication </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Supporting authentication ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="supporting-authentication">Supporting authentication</h1>
+
+<p>Many of the data sources that users might want to query through a connector require authentication. For example, some sources require a username-password combination, while others need the caller to provide an API key. The i2 Connect gateway supports asking users for credentials on behalf of an i2 Connect service, and management of authenticated connections during a user session.</p>
+<p>To enable authentication, a connector must specify in its configuration which of its services require authentication. If a user makes a request for an authenticated service without previously providing credentials, the gateway&#39;s response prompts the client to display a login dialog. When the user provides valid credentials, the gateway caches a token in memory that allows further requests to succeed.</p>
+<p><img src="images/i2connect_auth.svg" alt="Activity diagram for authentication in i2 Connect services"></p>
+<p>Configuring a service to require authentication is similar to configuring it to take parameters. In the response from the connector&#39;s configuration endpoint, you define a form that prompts the user for credentials. To support the interactions that the i2 Connect gateway expects, you must implement a login method on he connector that validates the user&#39;s credentials. You must also implement the token-handling behavior on any affected service endpoint.</p>
+<p><strong>Note:</strong> Although both can function as ways of controlling access to i2 Connect services, supporting authentication is orthogonal to supporting user-specific configuration. Typically, user-specific configuration affects the availability (or functionality) of a service according to rules set by the i2 Analyze server, while authentication controls users&#39; ability to use a service according to rules set by the service itself.</p>
+<ol>
+<li><p>In your response from the configuration (or user configuration) endpoint, write the service definition so that it contains an <code>authConfigId</code>.</p>
+<p>This identifier links to an authentication configuration elsewhere in the response. In some circumstances, you might use the same authentication configuration for more than one service.</p>
+</li>
+<li><p>Add an <code>authConfigs</code> array to the response, and within it an authentication configuration object whose <code>id</code> matches the identifier that you specified in Step 1.</p>
+<p>This object contains all the information that the i2 Connect gateway needs to get credentials from the user and call an authentication endpoint on the connector.</p>
+<p>For example:</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: &quot;authConfig1&quot;,
+  &quot;loginUrl&quot;: &quot;/login/userpass&quot;,
+  &quot;form&quot;: {
+    &quot;description&quot;: &quot;This service requires a username and a password.&quot;,
+    &quot;fields&quot;: [
+      {
+        &quot;id&quot;: &quot;username&quot;,
+        &quot;label&quot;: &quot;Username&quot;,
+        &quot;type&quot;: &quot;text&quot;
+      },
+      {
+        &quot;id&quot;: &quot;password&quot;,
+        &quot;label&quot;: &quot;Password&quot;,
+        &quot;type&quot;: &quot;password&quot;
+      }
+    ]
+  }
+}
+</code></pre></li>
+<li><p>Create the endpoint at the <code>loginUrl</code> that is defined in the authentication configuration.</p>
+<p>The syntax of this POST method is straightforward: it receives the credentials that the user provides, and (on success) responds with a token for subsequent requests to use. The detail of generating the token depends on the nature of the service. For example, you might be passing the credentials to an external provider, or implementing the authentication yourself in the service code.</p>
+<p>If authentication fails, the endpoint must instead respond with an object that complies with RFC 7807. For an example of doing so, see the file named <code>ExternalConnectorDataService.java</code> in the <code>connector/auth</code> sample project.</p>
+</li>
+<li><p>Adapt any endpoint that requires authentication (for example, the acquire, delete, or results endpoints) to use the token mechanism.</p>
+<p>The implementations should expect requests to include an authorization header containing a token that was originally returned by the authentication endpoint, in the form <code>Authorization: Bearer</code> <i><code>token</code></i>.</p>
+<p>If the token is valid, processing of the request should proceed normally. If the token is not valid, the endpoint must respond in the same way as the authentication endpoint. The user is then required to re-authenticate with the service.</p>
+</li>
+<li><p>Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration. Connect to the server with a client that supports external searches, and verify that the connector and its services behave in the way you expect.</p>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

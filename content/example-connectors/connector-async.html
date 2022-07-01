@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Asynchronous Services </title>
+    <title>Asynchronous services </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Asynchronous Services ">
+    <meta name="title" content="Asynchronous services ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,9 +77,9 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="asynchronous-services">Asynchronous Services</h1>
+<h1 id="asynchronous-services">Asynchronous services</h1>
 
-<p>The Async connector demonstrates the ability for a connector service to query data asynchronously. Asynchronous queries allow you to run multiple queries concurrently, and allow long running queries to persist after the user logs out. The example connector connects to a JSON file that is populated with sample data (people and their friends) and marshals the data into entities, links and properties.</p>
+<p>The Async connector demonstrates the ability for a connector service to query data asynchronously. Introduced with i2 Analyze 4.3.3, asynchronous queries allow you to run multiple queries concurrently, and allow long-running queries to persist after the user logs out. The example connector connects to a JSON file that is populated with sample data (people and their friends) and marshals the data into entities, links and properties.</p>
 <p>There are a number of fields in the dataset:</p>
 <table>
 <thead>
@@ -126,7 +126,7 @@
 <h2 id="data-model">Data model</h2>
 <p>The Async schema is modelled on the fields of the <code>people.json</code> data source which can be found in <code>async\async-connector\src\main\resources</code>. Each entry in the <code>people</code> object is represented by a <code>Person</code> entity and a <code>Friends With</code> link to their friends alongside the properties that are extracted from each field.</p>
 <p>The schema (and charting schemes) for the Async connector are in the <code>schema</code> directory of this repository.</p>
-<h4 id="entity-person">Entity: Person</h4>
+<h3 id="entity-person">Entity: Person</h3>
 <p>Represents a person in the <code>people</code> object.</p>
 <p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
 <table>
@@ -165,7 +165,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="link">Link</h4>
+<h3 id="link">Link</h3>
 <p>Establishes a connection between two Person entities.</p>
 <table>
 <thead>
@@ -240,7 +240,7 @@
 </code></pre><h3 id="2-implementing-the-acquire-endpoint">2. Implementing the acquire endpoint</h3>
 <p><strong>This endpoint starts an asynchronous query to fetch data from the service in the specified query resource.</strong></p>
 <p>If the service in question also specifies the <strong>validateUrl</strong> property, then the gateway uses the <strong>validateUrl</strong> endpoint before it uses the <strong>queriesResource</strong> endpoint.</p>
-<p>This service calls the POST method on the <code>{queriesResource}</code> endpoint and takes in a request parameter. It is a payload that the service can interpret to modify its behaviour. The service can have one of three types of client configuration:</p>
+<p>This service calls the POST method on the <code>/ASYNC_SERVICE_URL</code> endpoint and takes in a request parameter. It is a payload that the service can interpret to modify its behaviour. The service can have one of three types of client configuration:</p>
 <ul>
 <li>&#39;NONE&#39; - the payload never contains conditions.</li>
 <li>&#39;FORM&#39; - it contains conditions that have a fixed structure.</li>
@@ -251,17 +251,17 @@
 <h3 id="3-implementing-the-status-endpoint">3. Implementing the status endpoint</h3>
 <p><strong>This endpoint fetches the status of the specified asynchronous query from the specified queries resource.</strong></p>
 <p>After a client starts an asynchronous query, it uses polling to determine its progress. The client polls the i2 Connect gateway, and the gateway calls through to the connector to retrieve its status.</p>
-<p>This service calls the GET method on the <code>{queriesResource}/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to identify the current state of the query. The response must contain one of three <strong>state</strong> values that indicate the status of the query: &#39;STARTED&#39;, &#39;SUCCEEDED&#39;, or &#39;FAILED&#39;. The response can also contain a series of <strong>substatuses</strong> that report progress from the underlying data source. The four valid types of substatus are &#39;INFORMATION&#39;, &#39;WARNING&#39;, &#39;ERROR&#39;, and &#39;SUCCESS&#39;.</p>
+<p>This service calls the GET method on the <code>/ASYNC_SERVICE_URL/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to identify the current state of the query. The response must contain one of three <strong>state</strong> values that indicate the status of the query: &#39;STARTED&#39;, &#39;SUCCEEDED&#39;, or &#39;FAILED&#39;. The response can also contain a series of <strong>substatuses</strong> that report progress from the underlying data source. The four valid types of substatus are &#39;INFORMATION&#39;, &#39;WARNING&#39;, &#39;ERROR&#39;, and &#39;SUCCESS&#39;.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncStatusService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncStatus()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h3 id="4-implementing-a-results-endpoint">4. Implementing a results endpoint</h3>
 <p><strong>This endpoint fetches the results of the specified asynchronous query from the specified queries resource.</strong></p>
 <p>Clients can attempt to retrieve results only from an asynchronous query whose state is &#39;SUCCEEDED&#39;. An attempt to fetch results from a query in any other state must fail.</p>
-<p>This service calls the GET method on the <code>{queriesResource}/{queryId}/results</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to fetch the results of the successful query. The structure of the response is identical to the response from a synchronous query.</p>
+<p>This service calls the GET method on the <code>/ASYNC_SERVICE_URL/{queryId}/results</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to fetch the results of the successful query. The structure of the response is identical to the response from a synchronous query.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncResultsService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncResults()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h3 id="5-implementing-a-delete-endpoint">5. Implementing a delete endpoint</h3>
 <p><strong>This endpoint deletes the specified asynchronous query from the specified queries resource when it is no longer needed.</strong></p>
 <p>The i2 Connect gateway calls the DELETE method when a query has succeeded, been cancelled, or failed. A connector can respond to the call by cleaning up any resources associated with processing the query.</p>
-<p>This service calls the DELETE method on the <code>{queriesResource}/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to cancel the query and delete the <code>queryId</code>. The response must be returned with the <code>queryId</code> removed.</p>
+<p>This service calls the DELETE method on the <code>/ASYNC_SERVICE_URL/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to cancel the query and delete the <code>queryId</code>. The response must be returned with the <code>queryId</code> removed.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncDeleteService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncDelete()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h2 id="setup">Setup</h2>
 <p>These instructions are for setting up and running the Async connector. The solution uses a client configuration of type FORM to demonstrate the use of an async query. The <code>duration</code> condition is used to demonstrate the time taken for a long running query to be executed.</p>
@@ -333,7 +333,7 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

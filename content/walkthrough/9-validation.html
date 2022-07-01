@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -80,7 +80,7 @@
 <h1 id="validation">Validation</h1>
 
 <p>You can validate requests at the gateway to ensure they are in the correct form before sending them to the respective service.</p>
-<p>Consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if needed during this task.</p>
+<p>For some more general information about when to validate requests, see <a href="../workflow/validation.html">Supporting validation</a>. You can also consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if needed during this task.</p>
 <h2 id="client-side-validation">Client-side validation</h2>
 <p>Validation can be performed on the client for simple input checks before sending a request to the gateway, such as ensuring the presence of values for mandatory fields, or verifying that input values are in the correct format.</p>
 <p>Client-side validation is configured via the connector&#39;s configuration in the same way as parameterized searches. Below is an example configuration for validating that input values for the &#39;Offence&#39; field start with two letters and two numbers:</p>
@@ -100,7 +100,7 @@
 }
 </code></pre><p>The <code>mandatory</code> property in the <code>config.json</code> file specifies whether a field is required or not.</p>
 <p>The <code>extraStringValidation</code> property property allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule.</p>
-<p>You can find out more on accepted condition properties by looking at the <code>/{configurationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
+<p>You can find out more on accepted condition properties by looking at the <code>/CONFIGURATION_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h2 id="server-side-validation">Server-side validation</h2>
 <p>Validation can be performed on the server for more complex inputs.</p>
 <p>For example, if there are 3 input fields and you require at least one to be set but they are otherwise optional. In your connector, you can check that the user has defined at least one condition in the request.</p>
@@ -110,7 +110,7 @@
 <pre><code class="lang-json">{
     &quot;id&quot;: &quot;nypd-search-service&quot;,
     &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
-    &quot;description&quot;: &quot;A service for conditional searches&quot;,
+    &quot;description&quot;: &quot;A service for conditional searches.&quot;,
     &quot;clientConfigType&quot;: &quot;FORM&quot;,
     &quot;clientConfigId&quot;: &quot;searchForm&quot;,
     &quot;acquireUrl&quot;: &quot;/search&quot;,
@@ -127,7 +127,7 @@
     &quot;errorMessage&quot;: &quot;This is the error message displayed.&quot;
 }
 </code></pre><p>When the i2 Connect gateway receives a non-null <code>errorMessage</code>, it does not subsequently send a request to the acquire endpoint.</p>
-<p>More information can be found looking at the <code>/{validationUrl}</code> endpoint definition in the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">i2 Connect gateway REST SPI</a>.</p>
+<p>More information can be found looking at the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="3-reload-the-i2-connect-gateway">3. Reload the i2 Connect gateway</h3>
 <p>Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>
 </article>
@@ -150,7 +150,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

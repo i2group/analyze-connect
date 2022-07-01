@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -122,7 +122,7 @@
 <h2 id="data-model">Data model</h2>
 <p>The ERI schema models the Emergency Response Incidents Dataset by using all seven fields. Each row of data can be represented by two entities (Incident and Location) and a single link between them (Located At) alongside properties extracted from each field.</p>
 <p>The schema (and charting schemes) for the ERI connector can be found in the <code>schema</code> directory of this repository.</p>
-<h4 id="entity-incident">Entity: Incident</h4>
+<h3 id="entity-incident">Entity: Incident</h3>
 <p>Represents a reported incident.</p>
 <p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
 <table>
@@ -168,7 +168,7 @@
 </table>
 <p><strong>\</strong>* The possible values for Incident Type are: <em>Administration, Aviation, Fire, HazMat, Law Enforcement, Marine,
 Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other</em>.</p>
-<h4 id="entity-location">Entity: Location</h4>
+<h3 id="entity-location">Entity: Location</h3>
 <p>Represents the location at which the incident occurred.</p>
 <table>
 <thead>
@@ -196,7 +196,7 @@ Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other
 </tr>
 </tbody>
 </table>
-<h4 id="link">Link</h4>
+<h3 id="link">Link</h3>
 <p>Associates an incident with the location at which it is reported to have occurred.</p>
 <table>
 <thead>
@@ -287,7 +287,7 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

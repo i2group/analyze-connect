@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Modifying and testing </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Modifying and testing ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="modifying-and-testing">Modifying and testing</h1>
+
+<p>A connector to an external data source is defined by the information that the i2 Connect gateway retrieves from its configuration endpoints. To add a connector, or when you modify an existing one, you must arrange for the gateway to reload the information for all the connectors in the topology.</p>
+<p>A connector that has only a configuration endpoint and an acquire endpoint is simple, but entirely functional. When you have a connector in this state, you can verify that many of the most important mechanisms are working correctly. In general, to enable faster test and development cycles, add new connectors to a running instance of i2 Analyze as soon as you can.</p>
+<p>The i2 Connect gateway maintains a cache of configuration information that it provides to clients on request. Depending on the stage of development of your connector, you can use different approaches to make the gateway update its cache:</p>
+<ul>
+<li><p>If you add or edit a <code>&lt;connector&gt;</code> element in the topology file, then you must redeploy and restart the i2 Analyze server.</p>
+</li>
+<li><p>If you modify a connector so that the response from its configuration endpoint changes - when you add a validate endpoint, for example - you do not need to redeploy the server. Instead, you can either run the <code>restartLiberty</code> task from the deployment toolkit, or use the i2 Connect gateway&#39;s reload endpoint.</p>
+<p> <strong>Note:</strong> For a connector that supports user-specific configuration, the i2 Connect gateway maintains per-user caches of configuration information. Using the reload endpoint clears the caches for all users. The per-user caches are not re-created until a user makes a new request to the connector.</p>
+</li>
+</ul>
+<p>Regardless of how you update the gateway&#39;s cache of connector configuration information, the effect for clients and their users is the same. When a client next asks for a list of the services that it can use, any changes that you made are reflected in the list.</p>
+<p>To run <code>restartLiberty</code>, you can use the same technique as for any other deployment toolkit task. This section describes how to use the reload endpoint, and then explains some ways to diagnose problems with a new or updated connector.</p>
+<p>The reload endpoint supports the POST method, which you can call through a command-line tool such as <code>postman</code> or <code>curl</code>. The endpoint requires authentication, which means that you must log in to the server and retrieve a cookie before you can POST to reload.</p>
+<ol>
+<li><p>The following steps describe how to use curl to reload the connectors:</p>
+<ol>
+<li><p>If the curl utility is not available on your server, download it from the project website at <a href="https://curl.haxx.se/download.html">https://curl.haxx.se/download.html</a>.</p>
+</li>
+<li><p>Open a command window and use <code>curl</code> to log in to the i2 Analyze server and retrieve an authorization cookie:</p>
+<pre><code>curl -i --cookie-jar cookie.txt
+     -d j_username=user_name
+     -d j_password=password
+     http://host_name:host_port/context_root/j_security_check
+</code></pre><p>This command connects to the specified i2 Analyze server as the specified user, retrieves the authentication cookie, and saves it to a local file named <code>cookie.txt</code>.</p>
+</li>
+<li><p>Use <code>curl</code> a second time to call the POST method on the reload endpoint:</p>
+<pre><code>curl -i --cookie cookie.txt
+     -X POST http://host_name:host_port/context_root/api/v1/connectors/reload
+</code></pre><p>This command causes the i2 Connect gateway to reload configuration information from all the connectors that the topology included when it was last deployed. Clients receive updated information about the connectors when they next connect to i2 Analyze.</p>
+</li>
+</ol>
+</li>
+<li><p>After you reload the connectors (or restart the server), click <strong>Preview services</strong> in the server admin console to check that users will see your changes in their lists of queries.</p>
+<p>If you do not see your changes, different symptoms imply different causes:</p>
+<ul>
+<li><p>If a query does not appear in the list at all, then the problem might lie with either the implementation of the configuration endpoint, or the <code>&lt;connector&gt;</code> element in the <code>topology.xml</code> file.</p>
+<p>If the connector supports user-specific configuration, there might be a problem with the <em>user</em> configuration endpoint, or you might be logged in as a user whose configuration does not list the query in question.</p>
+</li>
+<li><p>If a query is in the list but marked as unavailable, then the cause of the problem is either the implementation of the acquire endpoint, or the specification of that endpoint in the response from the configuration endpoint.</p>
+</li>
+<li><p>If the displayed information about a query is faulty or incomplete, look again at the definition of the corresponding service in the response from the configuration or user configuration endpoint.</p>
+</li>
+</ul>
+</li>
+<li><p>Provided that the queries due to new or modified connectors appear correctly, you can open a client, run them, and view the results that they return.</p>
+</li>
+</ol>
+<p>After you test that your connector meets your requirements, you might choose to secure the connector in your deployment. You can control user access to the connector, and secure the connection between the connector and gateway.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

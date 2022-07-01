@@ -1,0 +1,1701 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "i2 Connect Gateway REST SPI",
+        "description": "This documentation describes the server programming interface that you must implement when you write a connector to an external data source. The use of ALL_CAPS in resource paths indicates template values that you must substitute with real ones.\n\nAs well as reading the content here, you can click **Download OpenAPI spec** to retrieve the SPI specification in JSON format.\n\n## Endpoint discovery\n\nClients discover the URLs of connector endpoints through a combination of the topology file for the deployment and your connector code. At startup, the i2 Connect gateway makes a POST request to the configuration endpoint, which it discovers from the topology file: The base comes from the **base-url** attribute of the **&lt;connector&gt;** element, while CONFIGURATION_URL itself defaults to **/config** unless you specify otherwise.\n\nFor example, if the **base-url** is http://localhost:3700, then the request comes to http://localhost:3700/config.\n\nYour response from the configuration endpoint can contain information about one or more services. Each service can provide a query for a synchronous or an asynchronous operation, as well as an optional validation method and optional authentication constraints.",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "/"
+        }
+    ],
+    "tags": [
+        {
+            "name": "Async Query",
+            "description": "Implement these methods to submit an asynchronous query to a data source, to report on its progress, and to retrieve results on completion."
+        },
+        {
+            "name": "Authentication",
+            "description": "Implement this method to perform authentication on behalf of a service that you configured to require it."
+        },
+        {
+            "name": "Configuration",
+            "description": "Implement these methods to provide the i2 Analyze gateway with information about your connector and its services."
+        },
+        {
+            "name": "Query",
+            "description": "Implement these methods to query and retrieve results from a data source in response to a request from a client."
+        }
+    ],
+    "paths": {
+        "/ASYNC_SERVICE_URL": {
+            "post": {
+                "tags": [
+                    "Async Query"
+                ],
+                "summary": "Start an asynchronous query to fetch data from a service",
+                "description": "When a client queries an external data source, the i2 Analyze server calls the gateway, and the i2 Connect gateway contacts the connector, passing the payload that the client provided. By default, the gateway prefixes ASYNC_SERVICE_URL with the base URL from the topology.\n\nThe other requests that ASYNC_SERVICE_URL supports provide ways to determine the status of a started asynchronous query, and to fetch its results upon success.\n\nIf the service in question also specifies the **validateUrl** property, then the gateway uses the VALIDATE_URL endpoint before it uses ASYNC_SERVICE_URL.\n\nThe response must contain a query ID that the client can use in subsequent requests to retrieve further information.",
+                "operationId": "acquireAsync",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A payload that the service can interpret to modify its behavior.\n\nIf the service has a client configuration of type 'NONE', the payload never contains conditions. For type 'FORM', it contains conditions that have a fixed structure. For a 'CUSTOM' client configuration, the contents of the **conditions** object are free-form.\n\nThe client configuration type has no effect on whether the request payload contains seed record data. When it does, the **seeds** object includes summary item type information in the following format:\n\n```json\n\"allItemTypes\": [\n  {\n    \"displayName\": \"\",\n    \"typeId\": \"ET5\",\n    \"typeLocation\": \"INFOSTORE\",\n    \"semanticTypeId\": \"\",\n    \"propertyTypes\": {\n      \"PT1\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      },\n      \"PT2\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      }\n    }\n  }\n]\n```\n\nAn implementation of the endpoint can choose to act upon the information in the **allItemTypes** array, or to ignore it and use only the contents of **entities** and **links**.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DaodRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "The POST method completed successfully and the query was started.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AsyncQueryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to start the query."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/ASYNC_SERVICE_URL/{queryId}": {
+            "get": {
+                "tags": [
+                    "Async Query"
+                ],
+                "summary": "Fetch the status of the specified asynchronous query",
+                "description": "After a client starts an asynchronous query, it uses polling to determine its progress. The client polls the i2 Connect gateway, and the gateway calls connector to retrieve its status.\n\nThe response must contain one of three **state** values that indicate the status of the query: 'STARTED', 'SUCCEEDED', or 'FAILED'.\n\nThe response can also contain a series of **substatuses** that report progress from the underlying data source. The four valid substatus types are 'INFORMATION', 'WARNING', 'ERROR', and 'SUCCESS'.",
+                "operationId": "status",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/QueryId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The GET method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AsyncQueryStatus"
+                                }
+                            }
+                        }
+                    },
+                    "304": {
+                        "description": "There are no changes to the status of the query."
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to determine the status of the query."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Async Query"
+                ],
+                "summary": "Delete the specified asynchronous query when it is no longer needed",
+                "description": "The i2 Connect gateway calls the DELETE method when a query has succeeded, been canceled, or failed. A connector can take the call as a cue to clean up any resources associated with processing the query.",
+                "operationId": "delete",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/QueryId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "The DELETE method completed successfully."
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to delete the query."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/ASYNC_SERVICE_URL/{queryId}/results": {
+            "get": {
+                "tags": [
+                    "Async Query"
+                ],
+                "summary": "Fetch the results of the specified asynchronous query",
+                "description": "Clients can attempt to retrieve results only from an asynchronous query whose state is 'SUCCEEDED'. An attempt to fetch results from a query in any other state must fail.\n\nThe structure of the response is identical to the response from an ordinary query.",
+                "operationId": "results",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/QueryId"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The GET method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/I2ConnectData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to retrieve the results of the query."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/AUTH_LOGIN_URL": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Log in to a service by passing the specified credentials",
+                "description": "When a service is configured to require authentication, the i2 Connect gateway uses its login endpoint, passing the credentials that a user provided.\n\nIf authentication succeeds, the response contains a token that the gateway uses in calls to other service endpoints. If it fails, the response contains information in RFC 7807 format that the gateway can use to provide information to the client.\n\nAny endpoints that are configured to require authentication receive an `Authorization` header in the form **Bearer _token_**, where _token_ was returned from this endpoint following a successful authentication attempt.",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "requestBody": {
+                    "description": "The credentials for authenticating with the external data source, as defined in the authentication config for the service. For example, if the config is like this:\n\n```\n\"fields\": [\n  {\n    \"id\": \"username\",\n    \"label\": \"Username\",\n    \"type\": \"text\"\n  },\n  {\n    \"id\": \"password\",\n    \"label\": \"Password\",\n    \"type\": \"password\",\n  }\n]\n```\n\nThen the **credentials** object might be like this:\n\n```\n{\n  \"username\": \"Imogen\",\n  \"password\": \"thisismypassword\"\n}\n```",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "The POST method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AuthResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/CONFIGURATION_URL": {
+            "get": {
+                "tags": [
+                    "Configuration"
+                ],
+                "summary": "Fetch configuration information from a connector",
+                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. By default, the gateway uses the endpoint `{baseURL}/config`, but you can specify a different one in the definition.\n\n**Important:** For a connector that supports user-specific configuration, the response must contain the **userConfigUrl** field, in which case only the **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** fields are also valid. The connector must provide all other configuration information in response to requests on the USER_CONFIGURATION_URL endpoint.\n\nWhen the response contains them, for client configurations of type 'FORM', the **config** object must have the following general structure:\n\n```json\n\"config\": {\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"conditions\": [\n        {\n          \"id\": \"\",\n          \"label\": \"\",\n          \"description\": \"\",\n          \"mandatory\": false,\n          \"logicalType\": \"\",\n          \"defaultValue\": \"\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nThe **sections** array can contain multiple objects, and each section has a **conditions** array that can also contain multiple objects.\n\nWithin each condition, **id** must be unique, while the client displays **label** and **description** to users to explain what the condition does. **mandatory** determines whether users must provide a value for the condition, **defaultValue** allows you to pre-populate the condition with a value, and **logicalType** determines what kind of value it is and how you must format it. For the format rules, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html).\n\nSome logical types allow you to specify validation that the client must enforce on any value that the user provides.\n\nWhen **logicalType** is 'DOUBLE' or 'INTEGER', you can add **minValue** and **maxValue** fields to the condition to constrain the numeric range.\n\nWhen **logicalType** is 'SINGLE_LINE_STRING' or 'MULTI_LINE_STRING', you can add two objects to the condition that constrain the length or the contents of the string:\n\n```json\n\"maxStringLength\": {\n  \"size\": 0,\n  // Defaults to \"uf16codeunits\" if not specified\n  // The other legitimate value is \"utf8bytes\"\n  \"units\": \"\"\n}\n\n\"extraStringValidation\": {\n  // A regular expression that the value must match\n  \"regex\": \"\",\n  // A message that explains the extra validation to users\n  \"message\": \"\"\n}\n```\n\nWhen **logicalType** is 'SUGGESTED_FROM', you can add a **possibleValues** array to the condition. (See below.)\n\nWhen **logicalType** is 'SELECTED_FROM', you _must_ add a **possibleValues** array to the condition:\n\n```json\n\"possibleValues\": [\n  {\n    \"value\": \"\",\n    \"displayName\": \"\"\n  }\n]\n```\n\nEach object in **possibleValues** must have a **value** field that contains the value to be sent back when the client uses the service. If present, the client can display the value in **displayName** to users in place of the **value** itself.\n\nWhen **logicalType** is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no additional validation is possible.",
+                "operationId": "config",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The GET method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ConnectorConfig"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "The connector failed to provide configuration information."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/SYNC_SERVICE_URL": {
+            "post": {
+                "tags": [
+                    "Query"
+                ],
+                "summary": "Fetch data from the service",
+                "description": "When a client queries an external data source, the i2 Analyze server calls the gateway, and the i2 Connect gateway contacts the connector, passing the payload that the client provided. By default, the gateway prefixes SYNC_SERVICE_URL with the base URL from the topology.\n\nIf the service in question also specifies the **validateUrl** property, then the gateway uses the VALIDATE_URL endpoint before it uses SYNC_SERVICE_URL.\n\nIn the response, the **properties** maps that appear in the contents of the **entities** and **links** arrays must have the following general structure:\n\n```json\n\"properties\": {\n  \"PT1\": false,\n  \"PT2\": 0,\n  \"PT3\": \"\",\n  \"PT4\": {\n    \"localDateAndTime\": \"\",\n    \"timeZoneId\": \"\",\n    \"isDST\": false\n  },\n  \"PT5\": {\n    \"type\": \"\",\n    \"coordinates\": [\n      0,\n      0,\n      0\n    ]\n  }\n}\n```\n\nIn the example, **PT1**, **PT2**, **PT3**, **PT4**, and **PT5** are valid property types that belong to the entity or link type that was specified in **typeId**. **PT1** has the 'BOOLEAN' logical type, and **PT2** has one of the numeric logical types. **PT3** might have any of the others, although there are extra rules about 'DATE_AND_TIME' and 'GEOSPATIAL' properties that are reflected in **PT4** and **PT5**.\n\nFor complete information about how to format values for all the logical types that i2 Analyze supports, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html).",
+                "operationId": "acquire",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A payload that the service can interpret to modify its behavior.\n\nIf the service has a client configuration of type 'NONE', the payload never contains conditions. For type 'FORM', it contains conditions that have a fixed structure. For a 'CUSTOM' client configuration, the contents of the **conditions** object are free-form.\n\nThe client configuration type has no effect on whether the request payload contains seed record data. When it does, the **seeds** object includes summary item type information in the following format:\n\n```json\n\"allItemTypes\": [\n  {\n    \"displayName\": \"\",\n    \"typeId\": \"ET5\",\n    \"typeLocation\": \"INFOSTORE\",\n    \"semanticTypeId\": \"\",\n    \"propertyTypes\": {\n      \"PT1\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      },\n      \"PT2\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      }\n    }\n  }\n]\n```\n\nAn implementation of the endpoint can choose to act upon the information in the **allItemTypes** array, or to ignore it and use only the contents of **entities** and **links**.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DaodRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "The POST method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/I2ConnectData"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to process the request for data."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/USER_CONFIGURATION_URL": {
+            "get": {
+                "tags": [
+                    "Configuration"
+                ],
+                "summary": "Fetch the user-specific configuration information for the current user",
+                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. If the configuration contains the **userConfigUrl** field, the i2 Connect gateway uses its value as the URL for accessing this endpoint.\n\nFor a connector that supports user-specific configuration, the fields in the response replace the identically named fields in the response from the CONFIGURATION_URL endpoint.",
+                "operationId": "userConfig",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The GET method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserConnectorConfig"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "The connector failed to provide configuration information."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        },
+        "/VALIDATE_URL": {
+            "post": {
+                "tags": [
+                    "Query",
+                    "Async Query"
+                ],
+                "summary": "Validate a request for data from a service",
+                "description": "The i2 Connect gateway uses the VALIDATE_URL endpoint in two places: when a client makes a direct request, and immediately before it uses the SYNC_SERVICE_URL or ASYNC_SERVICE_URL endpoint. By default, the gateway prefixes VALIDATE_URL with the base URL from the topology.\n\nIf validation fails in front of an attempt to acquire data, the gateway does not continue with the attempt.",
+                "operationId": "validate",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/I2-Spi-Versions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Authorization"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Command-Access-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Display-Name"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Security-Permissions"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Groups"
+                    },
+                    {
+                        "$ref": "#/components/parameters/Accept-Language"
+                    }
+                ],
+                "requestBody": {
+                    "description": "A payload that the service can interpret to modify its behavior.\n\nIf the service has a client configuration of type 'NONE', the payload never contains conditions. For type 'FORM', it contains conditions that have a fixed structure. For a 'CUSTOM' client configuration, the contents of the **conditions** object are free-form.\n\nThe client configuration type has no effect on whether the request payload contains seed record data. When it does, the **seeds** object includes summary item type information in the following format:\n\n```json\n\"allItemTypes\": [\n  {\n    \"displayName\": \"\",\n    \"typeId\": \"ET5\",\n    \"typeLocation\": \"INFOSTORE\",\n    \"semanticTypeId\": \"\",\n    \"propertyTypes\": {\n      \"PT1\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      },\n      \"PT2\": {\n        \"semanticTypeId\": \"\",\n        \"displayName\": \"\",\n        \"logicalType\": \"\"\n      }\n    }\n  }\n]\n```\n\nIf you implement the VALIDATE_URL endpoint, you can use the contents of the **allItemTypes** array in the request to improve the message in the response.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DaodRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "The POST method completed successfully.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PayloadValidationResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "$ref": "#/components/responses/AuthenticationRequiredResponse"
+                    },
+                    "500": {
+                        "description": "The connector failed to validate the request for data."
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.0"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "1.0"
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Async": {
+                "type": "object",
+                "properties": {
+                    "pollingIntervalInSeconds": {
+                        "type": "integer",
+                        "description": "The recommended interval at which clients should poll endpoints for changes.",
+                        "format": "int32"
+                    },
+                    "queriesResource": {
+                        "type": "string",
+                        "description": "The base URL of the endpoints for the request mechanism to use."
+                    }
+                },
+                "description": "Indicates that queries are asynchronous, and provides configuration settings. If this is present, then **acquireUrl** must not be present."
+            },
+            "AsyncQueryResponse": {
+                "type": "object",
+                "properties": {
+                    "queryId": {
+                        "type": "string",
+                        "description": "The identifier of the query."
+                    }
+                },
+                "description": "The result of successfully starting an asynchronous query."
+            },
+            "AsyncQueryStatus": {
+                "type": "object",
+                "properties": {
+                    "errorMessage": {
+                        "type": "string",
+                        "description": "An error message that explains why a query is in the 'FAILED' state."
+                    },
+                    "state": {
+                        "type": "string",
+                        "description": "The state of a query.",
+                        "enum": [
+                            "STARTED",
+                            "SUCCEEDED",
+                            "FAILED"
+                        ]
+                    },
+                    "substatuses": {
+                        "type": "array",
+                        "description": "More detailed information about the progress of a query.",
+                        "items": {
+                            "$ref": "#/components/schemas/AsyncQuerySubstatus"
+                        }
+                    },
+                    "propertyBag": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        },
+                        "description": "A store for additional information about the status of a query that can be used by custom clients."
+                    }
+                },
+                "description": "Information about the progress of an asynchronous query."
+            },
+            "AsyncQuerySubstatus": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "description": "A progress message."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the message.",
+                        "enum": [
+                            "INFORMATION",
+                            "WARNING",
+                            "ERROR",
+                            "SUCCESS"
+                        ]
+                    }
+                },
+                "description": "A message about the progress of an asynchronous query, which might be displayed to users."
+            },
+            "AuthConfig": {
+                "required": [
+                    "form",
+                    "id",
+                    "loginUrl"
+                ],
+                "type": "object",
+                "properties": {
+                    "form": {
+                        "description": "The form that the client displays so that users can provide credentials.",
+                        "$ref": "#/components/schemas/AuthConfigForm"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the authentication configuration."
+                    },
+                    "loginUrl": {
+                        "type": "string",
+                        "description": "The URL for the endpoint that provides authentication functionality."
+                    }
+                },
+                "description": "Information about how to authenticate the users of a connector."
+            },
+            "AuthConfigForm": {
+                "required": [
+                    "description",
+                    "fields"
+                ],
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the form and its fields, to be displayed to users."
+                    },
+                    "fields": {
+                        "type": "array",
+                        "description": "The fields for the form.",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthConfigFormField"
+                        }
+                    }
+                },
+                "description": "A form that users complete with their credentials."
+            },
+            "AuthConfigFormField": {
+                "required": [
+                    "id",
+                    "label",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the field."
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "The field label, to be displayed to users."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the field, which can be either 'text' or 'password'."
+                    }
+                },
+                "description": "A field in an authentication form."
+            },
+            "AuthResponse": {
+                "required": [
+                    "token"
+                ],
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "A token that can authenticate the caller in future requests to any service that uses the same authentication config."
+                    }
+                },
+                "description": "The result of successful user authentication."
+            },
+            "ClientConfig": {
+                "required": [
+                    "config",
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "config": {
+                        "type": "object",
+                        "description": "The client configuration itself."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the client configuration."
+                    },
+                    "type": {
+                        "description": "The type of the client configuration.",
+                        "$ref": "#/components/schemas/ClientConfigType"
+                    }
+                },
+                "description": "An indication of how a client should interact with the service."
+            },
+            "ClientConfigType": {
+                "type": "string",
+                "description": "The type of the client configuration.",
+                "enum": [
+                    "CUSTOM",
+                    "FORM",
+                    "NONE"
+                ]
+            },
+            "ConnectorConfig": {
+                "description": "Complete information about a connector for the i2 Connect gateway.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "version": {
+                                "pattern": "\\d+\\.\\d+",
+                                "type": "string",
+                                "description": "The minimum SPI version that the connector requires. If no value is specified, the server assumes that the connector requires version `1.0`."
+                            },
+                            "chartingSchemesUrl": {
+                                "type": "string",
+                                "description": "The URL from which to retrieve a charting scheme for the connector, which can be absolute or relative to its base URL. No value means that there is no charting scheme."
+                            },
+                            "gatewaySchema": {
+                                "type": "string",
+                                "description": "The short name of the gateway schema whose types the connector uses, or no value if the connector does not use a gateway schema. The topology for the deployment can override the gateway schema specified here."
+                            },
+                            "schemaShortName": {
+                                "type": "string",
+                                "description": "The short name for the connector schema, or no value when there is no connector schema. The topology for the deployment can override the name specified here."
+                            },
+                            "schemaUrl": {
+                                "type": "string",
+                                "description": "The URL from which to retrieve a schema for the connector, which can be absolute or relative to its base URL. No value means that there is no schema."
+                            },
+                            "userConfigUrl": {
+                                "type": "string",
+                                "description": "The URL from which to retrieve user-specific configuration settings, which can be absolute or relative to the connector's base URL. No value means that there is no user-specific configuration.\n\nWhen this field is present and populated, **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** can also be present, but no other fields are valid."
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/ConnectorConfigBase"
+                    }
+                ]
+            },
+            "ConnectorConfigBase": {
+                "type": "object",
+                "properties": {
+                    "defaultValues": {
+                        "description": "Default values to apply to data retrieved by the services on the connector. This field is not valid when **userConfigUrl** is present and populated.",
+                        "$ref": "#/components/schemas/ConnectorDefaultValues"
+                    },
+                    "services": {
+                        "type": "array",
+                        "description": "The services available on the connector. This field is not valid when **userConfigUrl** is present and populated.",
+                        "items": {
+                            "$ref": "#/components/schemas/Service"
+                        }
+                    },
+                    "authConfigs": {
+                        "type": "array",
+                        "description": "The authentication configurations that the services on the connector use. This field is not valid when **userConfigUrl** is present and populated.",
+                        "items": {
+                            "$ref": "#/components/schemas/AuthConfig"
+                        }
+                    },
+                    "clientConfigs": {
+                        "type": "array",
+                        "description": "The client configurations that the services on the connector use. This field is not valid when **userConfigUrl** is present and populated.",
+                        "items": {
+                            "$ref": "#/components/schemas/ClientConfig"
+                        }
+                    }
+                },
+                "description": "Information about the services that a connector provides."
+            },
+            "ConnectorDefaultValues": {
+                "type": "object",
+                "properties": {
+                    "entityTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the default entity type to apply to retrieved data."
+                    },
+                    "entityTypeLocation": {
+                        "description": "The schema that defines **entityTypeId**, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
+                        "$ref": "#/components/schemas/SchemaTypeLocation"
+                    },
+                    "linkDirection": {
+                        "description": "The default link direction to apply to retrieved data, which can be 'NONE', 'WITH', 'AGAINST', or 'BOTH'.",
+                        "$ref": "#/components/schemas/LinkDirection"
+                    },
+                    "linkTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the default link type to apply to retrieved data."
+                    },
+                    "linkTypeLocation": {
+                        "description": "The schema that defines **linkTypeId**, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
+                        "$ref": "#/components/schemas/SchemaTypeLocation"
+                    },
+                    "resultIdsPersistent": {
+                        "type": "boolean",
+                        "description": "The default indicator of whether identifiers for the same retrieved data are (**true**) or are not (**false**) persistent from one set of results to the next."
+                    },
+                    "timeZoneId": {
+                        "type": "string",
+                        "description": "The identifier of the default time zone to apply to retrieved data, which itself defaults to UTC if no value is specified."
+                    }
+                },
+                "description": "Settings for clients to apply to the data they receive, if the data does not indicate otherwise."
+            },
+            "ConnectorSeedConstraintItemType": {
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the item type."
+                    },
+                    "max": {
+                        "type": "integer",
+                        "description": "The maximum number of seed records of this type.",
+                        "format": "int32"
+                    },
+                    "min": {
+                        "type": "integer",
+                        "description": "The minimum number of seed records of this type.",
+                        "format": "int32"
+                    },
+                    "typeLocation": {
+                        "description": "The schema that defines the item type, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
+                        "$ref": "#/components/schemas/SchemaTypeLocation"
+                    }
+                },
+                "description": "A seed constraint that is based on the item type of seed records."
+            },
+            "ConnectorSeedConstraints": {
+                "type": "object",
+                "properties": {
+                    "connectorIds": {
+                        "type": "array",
+                        "description": "The identifiers of the connectors from which seed records can originate.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "max": {
+                        "type": "integer",
+                        "description": "The maximum number of seed records that users must specify.",
+                        "format": "int32"
+                    },
+                    "min": {
+                        "type": "integer",
+                        "description": "The minimum number of seed records that users must specify.",
+                        "format": "int32"
+                    },
+                    "seedTypes": {
+                        "$ref": "#/components/schemas/ConnectorSeedTypes"
+                    }
+                },
+                "description": "The constraints on the seeds that users can specify, or null if the service does not support seeds."
+            },
+            "ConnectorSeedTypes": {
+                "type": "object",
+                "properties": {
+                    "allowedTypes": {
+                        "type": "string",
+                        "description": "The subset of item types by which a seed record can be constrained.",
+                        "enum": [
+                            "ENTITY",
+                            "LINK"
+                        ]
+                    },
+                    "itemTypes": {
+                        "type": "array",
+                        "description": "The item type constraints, which are limited to the subset in **allowedTypes**.",
+                        "items": {
+                            "$ref": "#/components/schemas/ConnectorSeedConstraintItemType"
+                        }
+                    }
+                },
+                "description": "The item types that records must have in order to be used as seeds."
+            },
+            "DaodRequest": {
+                "required": [
+                    "payload"
+                ],
+                "type": "object",
+                "properties": {
+                    "payload": {
+                        "$ref": "#/components/schemas/DaodRequestPayload"
+                    }
+                },
+                "description": "A search request that a service receives from a client."
+            },
+            "DaodRequestCondition": {
+                "required": [
+                    "id",
+                    "logicalType",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the condition, as specified in the client configuration for the service."
+                    },
+                    "logicalType": {
+                        "description": "The logical type of the value in the condition.",
+                        "$ref": "#/components/schemas/LogicalType"
+                    },
+                    "value": {
+                        "type": "object",
+                        "description": "The value that a user supplied for the condition, which must be formatted correctly for its logical type. For the format rules, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html)."
+                    }
+                },
+                "description": "A condition in a search request."
+            },
+            "DaodRequestPayload": {
+                "type": "object",
+                "properties": {
+                    "conditions": {
+                        "type": "array",
+                        "description": "If the service uses a client configuration of type 'FORM', the conditions that a user has specified to refine their query.",
+                        "items": {
+                            "$ref": "#/components/schemas/DaodRequestCondition"
+                        }
+                    },
+                    "seeds": {
+                        "$ref": "#/components/schemas/DaodSeeds"
+                    }
+                },
+                "description": "A custom payload that an i2 Connect service can use to determine what data to retrieve from a connected source."
+            },
+            "DaodSeedEntityData": {
+                "description": "The data from an entity record to be used as a seed in a search operation.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "typeLocation": {
+                                "description": "The location of the type definition for the record identified by **seedId**, which can be 'INFOSTORE', 'GATEWAY', 'CONNECTOR', or 'OTHER'.",
+                                "$ref": "#/components/schemas/TypeLocation"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/DaodSeedItemData"
+                    }
+                ]
+            },
+            "DaodSeedItemData": {
+                "required": [
+                    "seedId",
+                    "sourceIds",
+                    "typeId"
+                ],
+                "type": "object",
+                "properties": {
+                    "sourceIds": {
+                        "type": "array",
+                        "description": "The source identifiers of a seed record.",
+                        "items": {
+                            "$ref": "#/components/schemas/SeedSourceIdentifier"
+                        }
+                    },
+                    "seedId": {
+                        "type": "string",
+                        "description": "The identifier of a seed record. If the seed was provided by Analyst's Notebook Premium or i2 Notebook Web, this is an i2 Analyze record identifier."
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "description": "The type identifier of the record identified by **seedId**."
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "The label of the record identified by **seedId**."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        },
+                        "description": "The property data of the record identified by **seedId**."
+                    },
+                    "accessDimensionValues": {
+                        "type": "array",
+                        "description": "The security dimension values of the record identified by **seedId**.",
+                        "items": {
+                            "$ref": "#/components/schemas/SecurityDimensionAndValues"
+                        }
+                    },
+                    "extensions": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        },
+                        "description": "Free-form, custom information for the record identified by **seedId**."
+                    }
+                },
+                "description": "Data from a record to be used as a seed in a search operation."
+            },
+            "DaodSeedLinkData": {
+                "description": "The data from a link record to be used as a seed in a search operation.",
+                "allOf": [
+                    {
+                        "required": [
+                            "fromEndId",
+                            "fromEndTypeId",
+                            "linkDirection",
+                            "toEndId",
+                            "toEndTypeId"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "fromEndId": {
+                                "type": "object",
+                                "description": "The identifier of the record at the 'from' end of the link record identified by **seedId**."
+                            },
+                            "fromEndTypeId": {
+                                "type": "string",
+                                "description": "The type identifier of the record at the 'from' end of the link record identified by **seedId**."
+                            },
+                            "linkDirection": {
+                                "description": "The direction of the link record identified by **seedId**, which overrides any default setting.",
+                                "$ref": "#/components/schemas/LinkDirection"
+                            },
+                            "toEndId": {
+                                "type": "object",
+                                "description": "The identifier of the record at the 'to' end of the link record identified by **seedId**."
+                            },
+                            "toEndTypeId": {
+                                "type": "string",
+                                "description": "The type identifier of the record at the 'to' end of the link record identified by **seedId**."
+                            },
+                            "typeLocation": {
+                                "description": "The location of the type definition for the record identified by **seedId**.",
+                                "$ref": "#/components/schemas/TypeLocation"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/DaodSeedItemData"
+                    }
+                ]
+            },
+            "DaodSeeds": {
+                "type": "object",
+                "properties": {
+                    "allItemTypes": {
+                        "type": "array",
+                        "description": "Schema information for the item types of the records that contributed to the data in **entities** and **links**, which might come from different schemas.",
+                        "items": {
+                            "$ref": "#/components/schemas/ItemType"
+                        }
+                    },
+                    "entities": {
+                        "type": "array",
+                        "description": "Data from the entity records that were specified as seeds for the request.",
+                        "items": {
+                            "$ref": "#/components/schemas/DaodSeedEntityData"
+                        }
+                    },
+                    "itemTypes": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/ItemType"
+                        },
+                        "description": "Schema information for the item types of the records that contributed to the data in **entities** and **links**, keyed by item type identifier.",
+                        "deprecated": true
+                    },
+                    "links": {
+                        "type": "array",
+                        "description": "Data from the link records that were specified as seeds for the request.",
+                        "items": {
+                            "$ref": "#/components/schemas/DaodSeedLinkData"
+                        }
+                    }
+                },
+                "description": "If the service supports being seeded by existing i2 Analyze records, the data from those records for it to use."
+            },
+            "EntityDataIdentifier": {
+                "type": "object",
+                "description": "The identifier of the data for a record in its source.\n\nIf the record was a seed in the request, then this contains the seed identifier in string form. If the record is from the Information Store, then this contains the record identifier. Alternatively, the value can be a source identifier.",
+                "oneOf": [
+                    {
+                        "type": "string"
+                    },
+                    {
+                        "$ref": "#/components/schemas/EntityDataIdentifierSourceId"
+                    },
+                    {
+                        "$ref": "#/components/schemas/InfoStoreIdentifier"
+                    }
+                ]
+            },
+            "EntityDataIdentifierSourceId": {
+                "required": [
+                    "sourceId"
+                ],
+                "type": "object",
+                "properties": {
+                    "sourceId": {
+                        "description": "The source identifier.",
+                        "$ref": "#/components/schemas/SourceIdentifier"
+                    }
+                },
+                "description": "A source identifier being used to identify an entity or a link."
+            },
+            "I2ConnectData": {
+                "type": "object",
+                "properties": {
+                    "entities": {
+                        "type": "array",
+                        "description": "The entity data returned from a connector.",
+                        "items": {
+                            "$ref": "#/components/schemas/I2ConnectEntityData"
+                        }
+                    },
+                    "errorMessage": {
+                        "type": "string",
+                        "description": "An error message that might be displayed to users."
+                    },
+                    "links": {
+                        "type": "array",
+                        "description": "The link data returned from a connector.",
+                        "items": {
+                            "$ref": "#/components/schemas/I2ConnectLinkData"
+                        }
+                    }
+                },
+                "description": "The results of a request for data to an i2 Connect service."
+            },
+            "I2ConnectEntityData": {
+                "required": [
+                    "id"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "$ref": "#/components/schemas/EntityDataIdentifier"
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "object"
+                        },
+                        "description": "The property data for a record."
+                    },
+                    "sourceReference": {
+                        "$ref": "#/components/schemas/SourceReference"
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "description": "The type identifier for a record."
+                    },
+                    "typeLocation": {
+                        "description": "The location of the schema in which **typeId** is defined. If absent, the gateway searches for the type in the connector schema, the associated gateway schema, and the Information Store schema in that order.",
+                        "$ref": "#/components/schemas/SchemaTypeLocation"
+                    },
+                    "version": {
+                        "type": "integer",
+                        "description": "The version of the record.",
+                        "format": "int64"
+                    }
+                },
+                "description": "An entity in the results of a request for data to an i2 Connect service."
+            },
+            "I2ConnectLinkData": {
+                "description": "A link in the results of a request for data to an i2 Connect service.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "fromEndId": {
+                                "description": "The identifier of the data for the record at the 'from' end of the link.",
+                                "$ref": "#/components/schemas/EntityDataIdentifier"
+                            },
+                            "toEndId": {
+                                "description": "The identifier of the data for the record at the 'to' end of the link.",
+                                "$ref": "#/components/schemas/EntityDataIdentifier"
+                            },
+                            "linkDirection": {
+                                "description": "The direction for the link record, which overrides any default setting.",
+                                "$ref": "#/components/schemas/LinkDirection"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/I2ConnectEntityData"
+                    }
+                ]
+            },
+            "InfoStoreIdentifier": {
+                "required": [
+                    "infoStoreRecordId"
+                ],
+                "type": "object",
+                "properties": {
+                    "infoStoreRecordId": {
+                        "type": "string",
+                        "description": "The record identifier of an Information Store record."
+                    }
+                },
+                "description": "The identifier of a record in the Information Store.",
+                "example": {
+                    "infoStoreRecordId": "record_identifier"
+                }
+            },
+            "ItemType": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string",
+                        "description": "The display name for this item type."
+                    },
+                    "propertyTypes": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "$ref": "#/components/schemas/PropertyType"
+                        },
+                        "description": "The property types of this item type."
+                    },
+                    "semanticTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the semantic type for this item type."
+                    },
+                    "typeId": {
+                        "type": "string",
+                        "description": "The identifier of this item type."
+                    },
+                    "typeLocation": {
+                        "description": "The schema in which this item type is defined.",
+                        "$ref": "#/components/schemas/TypeLocation"
+                    }
+                },
+                "description": "An item type from an i2 Analyze schema."
+            },
+            "LinkDirection": {
+                "type": "string",
+                "description": "The logical direction of this link, expressed relative to its 'from' and 'to' ends.",
+                "enum": [
+                    "NONE",
+                    "WITH",
+                    "AGAINST",
+                    "BOTH"
+                ]
+            },
+            "LogicalType": {
+                "type": "string",
+                "description": "The logical type of a value.",
+                "enum": [
+                    "SINGLE_LINE_STRING",
+                    "MULTIPLE_LINE_STRING",
+                    "DATE",
+                    "TIME",
+                    "DATE_AND_TIME",
+                    "BOOLEAN",
+                    "INTEGER",
+                    "DOUBLE",
+                    "DECIMAL",
+                    "SELECTED_FROM",
+                    "SUGGESTED_FROM",
+                    "GEOSPATIAL"
+                ]
+            },
+            "PayloadValidationResponse": {
+                "type": "object",
+                "properties": {
+                    "errorMessage": {
+                        "type": "string",
+                        "description": "An error message that might be displayed to users."
+                    }
+                },
+                "description": "The result of validating the contents of a request for data."
+            },
+            "ProblemDetails": {
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "type": "string",
+                        "description": "Additional detail about the problem, specific to this instance of it. This information might also be displayed to the user in the form of an error message."
+                    },
+                    "instance": {
+                        "type": "string",
+                        "description": "A URL for a resource specific to this instance of the problem. The URL can be absolute or relative to the path of the i2 Connect service."
+                    },
+                    "status": {
+                        "type": "integer",
+                        "description": "The HTTP status code returned by the i2 Connect service.",
+                        "format": "int32"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the problem, which might be displayed to the user."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "A URL for a resource that describes the type of the problem. If the problem is that the service requires authentication, this field must be set to `urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb`, which triggers the i2 Connect gateway to prompt the user for credentials."
+                    }
+                },
+                "description": "The contents of the result of a failed HTTP request."
+            },
+            "PropertyType": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string",
+                        "description": "The display name for this property type."
+                    },
+                    "logicalType": {
+                        "description": "The logical type of the value of a property with his property type.",
+                        "$ref": "#/components/schemas/LogicalType"
+                    },
+                    "semanticTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the semantic type for this property type."
+                    }
+                },
+                "description": "A property type of an item type from an i2 Analyze schema."
+            },
+            "SchemaTypeLocation": {
+                "type": "string",
+                "description": "The schema in which an item type is defined.",
+                "enum": [
+                    "CONNECTOR",
+                    "GATEWAY",
+                    "INFOSTORE"
+                ]
+            },
+            "SecurityDimensionAndValues": {
+                "type": "object",
+                "properties": {
+                    "dimensionId": {
+                        "type": "string",
+                        "description": "The identifier of the security dimension that has the values in **ids**."
+                    },
+                    "ids": {
+                        "uniqueItems": true,
+                        "type": "array",
+                        "description": "The identifiers of values in the security dimension with **dimensionId**.",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "description": "A set of values from a particular security dimension."
+            },
+            "SeedSourceIdentifier": {
+                "required": [
+                    "key",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "itemTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the item type of the record that has this source identifier.\n\n**Deprecated:** This field will be removed in a future release. Use the owning record's **typeId** instead. Do not rely on the value of this field if it is set.",
+                        "deprecated": true
+                    },
+                    "key": {
+                        "type": "array",
+                        "description": "Values that together identify some data in its original source.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of this source identifier."
+                    }
+                },
+                "description": "A source identifier in use as a seed identifier."
+            },
+            "Service": {
+                "required": [
+                    "clientConfigType",
+                    "id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "acquireUrl": {
+                        "type": "string",
+                        "description": "The URL for the endpoint that provides result data from the service. If this is present, then **async** must not be present."
+                    },
+                    "async": {
+                        "$ref": "#/components/schemas/Async"
+                    },
+                    "authConfigId": {
+                        "type": "string",
+                        "description": "The identifier of the authentication configuration for the service."
+                    },
+                    "clientConfigId": {
+                        "type": "string",
+                        "description": "The identifier of the client configuration for the service, if the type is not 'NONE'."
+                    },
+                    "clientConfigType": {
+                        "description": "The type of the client configuration for the service.",
+                        "$ref": "#/components/schemas/ClientConfigType"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the service, which might be displayed to users."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the service."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the service, which might be displayed to users."
+                    },
+                    "resultIdsPersistent": {
+                        "type": "boolean",
+                        "description": "**true** if identifiers for the same data retrieved from the service are persistent from one set of results to the next; **false** otherwise."
+                    },
+                    "resultItemTypeIds": {
+                        "type": "object",
+                        "description": "The identifiers of the item types that can appear in results from the service, in a map with the following structure: **{\"_LOCATION_\": [\"_TYPEID1_\", \"_TYPEID2_\", ...], ...}**.\n\nHere, _LOCATION_ indicates which schema the item type is defined in. Legal values are 'INFOSTORE', 'GATEWAY', and 'CONNECTOR'. If a service uses types from all three locations, the map has three elements."
+                    },
+                    "seedConstraints": {
+                        "$ref": "#/components/schemas/ConnectorSeedConstraints"
+                    },
+                    "validateUrl": {
+                        "type": "string",
+                        "description": "The URL for the endpoint that validates requests for data from the service."
+                    }
+                },
+                "description": "A service that a connector for the i2 Connect gateway makes available."
+            },
+            "SourceIdentifier": {
+                "required": [
+                    "key",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "key": {
+                        "type": "array",
+                        "description": "Values that together identify some data in its original source.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of this source identifier."
+                    }
+                },
+                "description": "A source identifier."
+            },
+            "SourceReference": {
+                "required": [
+                    "source"
+                ],
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "$ref": "#/components/schemas/SourceReferenceInfo"
+                    }
+                },
+                "description": "A source reference for a record."
+            },
+            "SourceReferenceInfo": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "description": {
+                        "type": "string",
+                        "description": "The description of a source."
+                    },
+                    "image": {
+                        "type": "string",
+                        "description": "The URL of an image of a source."
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "The location of a source, which might be a URL."
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of a source."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of a source."
+                    }
+                },
+                "description": "The information that the source reference contains."
+            },
+            "TypeLocation": {
+                "type": "string",
+                "description": "The schema in which the item type is defined.",
+                "enum": [
+                    "CONNECTOR",
+                    "GATEWAY",
+                    "INFOSTORE",
+                    "OTHER"
+                ]
+            },
+            "UserConnectorConfig": {
+                "description": "User-specific information about the services that a connector provides.",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/ConnectorConfigBase"
+                    }
+                ]
+            }
+        },
+        "responses": {
+            "AuthenticationRequiredResponse": {
+                "description": "Authentication failed because the token was missing or not valid.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ProblemDetails"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "Accept-Language": {
+                "name": "Accept-Language",
+                "in": "header",
+                "description": "A string that contains a list of the languages that the client can understand, [as described here](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept-Language).",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "Authorization": {
+                "name": "Authorization",
+                "in": "header",
+                "description": "If the service requires authentication, a string in the form **Bearer _token_**, where _token_ was previously returned by the service following a successful authentication attempt.",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "I2-Command-Access-Permissions": {
+                "name": "I2-Command-Access-Permissions",
+                "in": "header",
+                "description": "A Base64-encoded JSON structure that contains the current user's command access control permissions. For example: `[\"i2:ChartsUpload\",\"i2:ChartsRead\",...]`",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "I2-Display-Name": {
+                "name": "I2-Display-Name",
+                "in": "header",
+                "description": "A string that contains the current user's display name.",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "I2-Principal": {
+                "name": "I2-Principal",
+                "in": "header",
+                "description": "A string that contains the current user's principal name.",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "I2-Security-Permissions": {
+                "name": "I2-Security-Permissions",
+                "in": "header",
+                "description": "A Base64-encoded JSON structure that contains the current user's security permissions. For example:\n\n```json\n[{\n  \"dimension\":\"SD-SL\",\n  \"permissions\":[{\n    \"dimensionValue\":\"CON\",\n    \"level\":\"UPDATE\"\n  },\n  {\n    \"dimensionValue\":\"UC\",\n    \"level\":\"UPDATE\"\n  }]\n},\n{\n  \"dimension\":\"SD-SC\",\n  \"permissions\":[{\n    \"dimensionValue\":\"HI\",\n    \"level\":\"UPDATE\"\n  },\n  {\n    \"dimensionValue\":\"OSI\",\n    \"level\":\"UPDATE\"\n  }]\n}]\n```",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "I2-Spi-Versions": {
+                "name": "I2-Spi-Versions",
+                "in": "header",
+                "description": "The latest SPI versions that the i2 Connect gateway supports. For example: `1.6,2.5,3.11`.",
+                "schema": {
+                    "type": "array",
+                    "items": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "I2-User-Groups": {
+                "name": "I2-User-Groups",
+                "in": "header",
+                "description": "A Base64-encoded JSON structure that contains the current user's security group membership details. For example: `[\"Analyst\",\"Administrator\",\"Clerk\",...]`.",
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "QueryId": {
+                "name": "queryId",
+                "in": "path",
+                "description": "The identifier of a query.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Implementing config </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Implementing config ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="implementing-config">Implementing config</h1>
+
+<p>The configuration endpoint of a connector must respond to requests from the i2 Connect gateway with information about the schemas that the connector uses and the services that it provides. In some more complex connectors, the configuration endpoint can indicate in its response that more information is available from other endpoints.</p>
+<p><strong>Note:</strong> Starting with version 4.4.0 of i2 Analyze, a connector can tell the gateway what version of the SPI it needs to use. If the response from your configuration endpoint does not indicate the version, the gateway assumes that the connector uses version 1.0 of the SPI. For more details, see <a href="../miscellaneous/spi-version.html">SPI version negotiation</a>.</p>
+<p>When the i2 Analyze server starts, the i2 Connect gateway sends a request to the configuration endpoint. The response that your connector sends back provides information to the gateway that includes a list of what services are available. i2 Analyze caches this information and provides it to clients when they connect.</p>
+<p><strong>Note:</strong> Some connectors support <a href="../example-connectors/user-configuration.html">user-specific configuration</a>, where different users see different views of the services that the connector exposes. In those circumstances, a static list of services is not appropriate. Instead, the configuration endpoint provides the location of the <em>user configuration endpoint</em>, which provides per-user information about the connector&#39;s services.</p>
+<p>The simplest possible service does not behave differently for different users, does not support seeds, and does not require users to provide parameters. As a result, it does not require the client to display user input controls. In that case, the structure that you return from the configuration endpoint must contain only two objects:</p>
+<ul>
+<li><p>The <code>defaultValues</code> object.</p>
+<p>Within the <code>defaultValues</code> object, you must specify the time zone for the i2 Connect gateway to apply to any retrieved value that does not specify its own time zone. There are also some optional settings:</p>
+<ul>
+<li><p>You can specify a direction for any retrieved link that does not specify its own direction.</p>
+</li>
+<li><p>You can specify the identifiers and locations of the entity and link types that the i2 Connect gateway applies to records if a service does not indicate the types of data that it can retrieve.</p>
+</li>
+<li><p>You can provide a default setting for whether the data identifiers that the connector returns are persistent from one call to the next.</p>
+<p><strong>Note:</strong> If you do not indicate whether these identifiers are persistent here or in the <code>services</code> array, the gateway assumes that the identifiers are <em>not</em> persistent.</p>
+</li>
+</ul>
+</li>
+<li><p>The <code>services</code> array.</p>
+<p>The <code>services</code> array must contain information for at least one synchronous or asynchronous service. The information must include a unique identifier and a name for the service. It must also specify whether the service requires a client UI, and the URL of the acquire or queriesResource endpoint.</p>
+</li>
+</ul>
+<p>First, construct the <code>defaultValues</code> object:</p>
+<ol>
+<li><p>Determine the time zone that is most likely to apply to any temporal data in the source that the services in this connector query.</p>
+</li>
+<li><p>Find the identifier of the time zone in the IANA Time Zone Database, and arrange for the response from the endpoint to include the identifier in its <code>defaultValues</code> object.</p>
+<p>For example:</p>
+<pre><code class="lang-json">{
+  &quot;defaultValues&quot;: {
+    &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+    ...
+  },
+  &quot;services&quot;: [
+    ...
+  ]
+}
+</code></pre><p><strong>Note:</strong> You can also retrieve a list of supported time zones from the GET method on the i2 Analyze server&#39;s <code>/api/v1/core/temporal/timezones</code> REST endpoint.</p>
+</li>
+<li><p>If the source contains only a few types, and if you intend the connector eventually to have many services that run different queries, then consider adding an <code>entityTypeId</code> and a <code>linkTypeId</code> to the <code>defaultValues</code> object.</p>
+<p>It is more common to specify what types of record a query might retrieve on a per-service than on a connector-wide basis. However, if you do not supply default types here, then every service must supply types individually.</p>
+<p>The gateway searches for the types that you supply here in the connector schema, the gateway schema, and the Information Store schema. To specify exactly where the types are defined, you can add <code>entityTypeLocation</code> and <code>linkTypeLocation</code> properties.</p>
+</li>
+<li><p>If you know that the source will always attach the same identifier to the same piece of retrieved information, add the <code>resultIdsPersistent</code> field to the <code>defaultValues</code> object and set its value to <code>true</code>.</p>
+<p>The effect of the field depends on your deployment of i2 Analyze:</p>
+<ul>
+<li><p>If the deployment contains only the i2 Connect gateway, then setting <code>&quot;resultIdsPersistent&quot;: true</code> prevents duplication when the same record is returned twice from the same connector. Each time the record is sent to a chart, it replaces the existing version.</p>
+</li>
+<li><p>In other scenarios (if the deployment also contains the Information Store, or if you set <code>&quot;resultIdsPersistent&quot;: false</code>), records can be duplicated on the chart unless you configure source identifier matching in the match rules.</p>
+</li>
+</ul>
+<p><strong>Note:</strong> The <code>resultIdsPersistent</code> field is also valid at the per-service level, where its value overrides any connector-wide setting.</p>
+</li>
+</ol>
+<p>Then, add an object to the <code>services</code> array:</p>
+<ol>
+<li><p>To the <code>services</code> array, add a <code>service</code> object that has an <code>id</code> and a <code>name</code>. It is common to include a <code>description</code> and populate the <code>resultItemTypeIds</code> array as well, although neither is mandatory.</p>
+<p>For example:</p>
+<pre><code class="lang-json">{
+  &quot;defaultValues&quot;: {
+    &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+    &quot;resultIdsPersistent&quot;: true
+  },
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;nypd-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Get all&quot;,
+      &quot;description&quot;: &quot;A service that retrieves all data&quot;,
+      &quot;resultItemTypeIds&quot;: {
+        &quot;INFOSTORE&quot;: [&quot;ET1&quot;, &quot;ET2&quot;, &quot;ET3&quot;, &quot;LT1&quot;, &quot;LT2&quot;, &quot;LT3&quot;]
+      },
+      ...
+    }
+  ]
+}
+</code></pre></li>
+<li><p>For a service whose query does not allow callers to provide parameters, you can set the <code>clientConfigType</code> to <code>NONE</code>.</p>
+<pre><code class="lang-json">{
+  &quot;defaultValues&quot;: {
+    &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+    &quot;resultIdsPersistent&quot;: true
+  },
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;nypd-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Get all&quot;,
+      &quot;description&quot;: &quot;A service that retrieves all data&quot;,
+      &quot;resultItemTypeIds&quot;: {
+        &quot;INFOSTORE&quot;: [&quot;ET1&quot;, &quot;ET2&quot;, &quot;ET3&quot;, &quot;LT1&quot;, &quot;LT2&quot;, &quot;LT3&quot;]
+      },
+      &quot;clientConfigType&quot;: &quot;NONE&quot;,
+      ...
+    }
+  ]
+}
+</code></pre><p>If you later add parameters to the query, you can allow users to specify them by changing the value to <code>FORM</code> and providing the identifier of a client configuration in <code>clientConfigId</code>.</p>
+<p>If you later add support for seeds, you must add a <code>seedConstraints</code> object to the service.</p>
+</li>
+<li><p>Finally, for a synchronous service, set the <code>acquireUrl</code> of the service to the URL where you intend to host the acquire endpoint.</p>
+<pre><code class="lang-json">{
+  &quot;defaultValues&quot;: {
+    &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+    &quot;resultIdsPersistent&quot;: true
+  },
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;nypd-service&quot;,
+      &quot;name&quot;: &quot;NYPD Connector: Get all&quot;,
+      &quot;description&quot;: &quot;A service that retrieves all data&quot;,
+      &quot;resultItemTypeIds&quot;: {
+        &quot;INFOSTORE&quot;: [&quot;ET1&quot;, &quot;ET2&quot;, &quot;ET3&quot;, &quot;LT1&quot;, &quot;LT2&quot;, &quot;LT3&quot;]
+      },
+      &quot;clientConfigType&quot;: &quot;NONE&quot;,
+      &quot;acquireUrl&quot;: &quot;/all&quot;
+    }
+  ]
+}
+</code></pre></li>
+</ol>
+<p>This JSON structure represents (almost) the simplest response that you can send from the configuration endpoint of a connector. It contains the definition of one simple service. In order for the i2 Connect gateway to retrieve that definition, you must add details of the connector to the i2 Analyze deployment topology.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

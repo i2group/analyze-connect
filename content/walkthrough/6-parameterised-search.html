@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="parameterized-search">Parameterized search</h1>
 
-<p>A parameterized search passes defined conditions that you can use to drive your searches.</p>
+<p>A parameterized search passes defined conditions that you can use to drive your searches. For more general information about enabling parameterized searches, see <a href="../workflow/parameters.html">Supporting parameters</a>.</p>
 <p>If you have any problems during this task, remember to consult the
 <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <h2 id="configuration">Configuration</h2>
@@ -92,7 +92,7 @@
     {
       &quot;id&quot;: &quot;nypd-search-service&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
-      &quot;description&quot;: &quot;A service for conditional searches&quot;,
+      &quot;description&quot;: &quot;A service for conditional searches.&quot;,
       &quot;clientConfigType&quot;: &quot;FORM&quot;,
       &quot;clientConfigId&quot;: &quot;searchForm&quot;,
       &quot;acquireUrl&quot;: &quot;/search&quot;
@@ -128,7 +128,7 @@
     }
   ]
 }
-</code></pre><p>For more information on client configuration, refer to the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=source-implementing-configuration-endpoint">IBM Documentation</a>.</p>
+</code></pre><p>For more information on client configuration, refer to the <a href="../workflow/config.html">development workflow documentation</a>.</p>
 <h3 id="test-search-fields">Test search fields</h3>
 <p>Check that your fields work in Analyst&#39;s Notebook Premium, you need to tell i2 Analyze to reload it&#39;s
 connectors&#39; configurations, run:</p>
@@ -161,20 +161,6 @@ new method in <code>ConnectorController</code>.</li>
 <li>Look at how the endpoint is defined in the <code>ConnectorController</code> class and think about how you should implement
 this service.</li>
 </ul>
-<h4 id="nodejs">Node.js</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
-directory provided. This includes:<ul>
-<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
-in case you have not already defined a new service</li>
-<li>A new <code>validate</code> route</li>
-<li>A new <code>/search</code> endpoint in the <code>acquire</code> route</li>
-</ul>
-</li>
-<li>Open the code from the <code>stage4/nypd-connector</code> in VSCode, or any IDE of your choice, and start the connector.</li>
-<li>You will need to implement <code>findComplaint</code> function in <code>socrata-data-service.js</code> file and fix all TODO&#39;s.</li>
-</ul>
 <h4 id="python">Python</h4>
 <p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
 <ul>
@@ -193,7 +179,7 @@ new method in <code>controller.py</code>.</li>
 this service.</li>
 </ul>
 <h3 id="access-conditions">Access conditions</h3>
-<p>You will need to parse the conditions passed in the request according to the <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=sources-i2-connect-gateway-rest-spi-reference">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
+<p>You will need to parse the conditions passed in the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
 <p>You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the <code>DaodRequest</code> model in the SPI. The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>
 <h3 id="filter-data-by-conditions">Filter data by conditions</h3>
 <p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the datasource match the parameters given by the user in the form.</p>
@@ -233,7 +219,7 @@ you have not already), which will configure your changes to the topology. Then:<
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

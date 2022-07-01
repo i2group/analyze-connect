@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Secrets Management </title>
+    <title>Authentication </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Secrets Management ">
+    <meta name="title" content="Authentication ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,12 +77,12 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="secrets-management">Secrets Management</h1>
+<h1 id="authentication">Authentication</h1>
 
-<p>The Auth connector demonstrates the ability to configure authentication for individual services on a connector. A connector service can be configured to require a user&#39;s credentials before initiating a query, be it synchronous or asynchronous. This mechanism enables connectors to authenticate users with third-party services.</p>
-<p>Much like client configurations, you can define resuable authentication configurations which can be shared across services in the connector configuration. These are groups of form fields which the user will fill in with their credentials in order to authenticate.</p>
-<p>Once a user authenticates with a service using a specific authentication configuration, the user will be able to query all services which use the same authentication configuration.</p>
-<blockquote><p><strong>Note</strong>: Connector service authentication is completely separate from Liberty&#39;s user authentication. Connector service authentication is mananged on the connector domain and controls access to connector services. Liberty&#39;s user authentication is managed by the i2 Analyze server, controlling access to the i2 Connect gateway.</p>
+<p>The Auth connector demonstrates the ability to configure authentication for individual services on a connector. Since i2 Analyze version 4.3.4, you can configure a connector service to require a user&#39;s credentials before initiating a query, be it synchronous or asynchronous. This mechanism enables connectors to authenticate users with third-party services.</p>
+<p>Similar to client configurations, you can define reusable authentication configurations that can be shared across services in the connector configuration. These are groups of form fields that the user fills in with their credentials in order to authenticate.</p>
+<p>After a user authenticates with a service using a specific authentication configuration, the user is able to query all services that use the same authentication configuration.</p>
+<blockquote><p><strong>Note</strong>: Connector service authentication is completely separate from Liberty&#39;s user authentication. Connector service authentication is managed on the connector domain and controls access to connector services. Liberty&#39;s user authentication is managed by the i2 Analyze server, controlling access to the i2 Connect gateway.</p>
 </blockquote>
 <h2 id="configuring-authentication-for-a-synchronous-service">Configuring authentication for a synchronous service</h2>
 <p>The following are the steps required to successfully set up authentication for a synchronous service.</p>
@@ -161,7 +161,7 @@
 </code></pre><p>You cannot assign multiple authentication configurations to a single service. But you can assign the same authentication configuration to multiple services.</p>
 <h3 id="3-implementing-the-login-endpoint">3. Implementing the login endpoint</h3>
 <p>The login endpoint is called when the user submits their credentials for a service using an authentication configuration.</p>
-<p>Here, the submitted credentials should be checked to ensure they are valid. If they are, the login endpoint should generate a authorization token string and include that in the response body like so:</p>
+<p>Here, the submitted credentials should be checked to ensure they are valid. If they are, the login endpoint should generate an authorization token string and include that in the response body like so:</p>
 <pre><code class="lang-json">{
   token: &quot;authorization-token-string&quot;
 }
@@ -191,14 +191,14 @@
 <h2 id="configuring-authentication-for-an-asynchronous-service">Configuring authentication for an asynchronous service</h2>
 <p>If you are not familiar with setting up and using asynchronous services on a connector, refer to the <a href="connector-async.html">Async connector</a>.</p>
 <p>Similarly to <a href="#configuring-authentication-for-a-synchronous-service">configuring authentication for a synchronous service</a>, an authentication configuration needs be defined and assigned to the asynchronous service you want to configure authentication for in the connector configuration.</p>
-<p>To ensure requests to an asynchronous service are made by an authenticated user, all the query endpoints must validate the contents of the <code>Authorization</code> header, similarly to how an <a href="#4-implementing-authentication-validation-on-endpoints">acquire endpoint is configured for authentication</a>. This includes the:</p>
+<p>To ensure requests to an asynchronous service are made by an authenticated user, all the query endpoints must validate the contents of the <code>Authorization</code> header, similarly to how an acquire endpoint is configured for authentication. This includes the:</p>
 <ul>
 <li><a href="connector-async.html#2-implementing-the-acquire-endpoint">Async acquire</a> endpoint</li>
 <li><a href="connector-async.html#3-implementing-the-status-endpoint">Status</a> endpoint</li>
-<li><a href="connector-async.html#4-implementing-the-results-endpoint">Results</a> endpoint</li>
+<li><a href="connector-async.html#4-implementing-a-results-endpoint">Results</a> endpoint</li>
 </ul>
 <p>This is because, even after launching the asynchronous query, it is possible for the token to expire or otherwise become invalidated while the query is running. In which case, the connector should respond with a <code>401</code> and <code>ProblemDetails</code> body to the gateway to indicate that the user needs to reauthenticate before the query can continue. In such events, the client would request for the user to re-input credentials before the running query resumes or a completed query displays results.</p>
-<p>The <a href="./TODO">Delete</a> endpoint can also validate the authentication token provided although this is not strictly necessary.</p>
+<p>The Delete endpoint can also validate the authentication token provided although this is not strictly necessary.</p>
 <h2 id="setup">Setup</h2>
 <p>These instructions are for setting up and running the Auth connector.</p>
 <p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> or <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploying i2 Analyze with the Information Store and the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
@@ -265,7 +265,7 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

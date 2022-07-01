@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Admin user interface </title>
+    <title>Writing a query </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Admin user interface ">
+    <meta name="title" content="Writing a query ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../styles/docfx.css">
     <link rel="stylesheet" href="../../styles/main.css">
     <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -59,7 +59,14 @@
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        <div class="article row grid">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
           <div class="col-md-10">
           
           <div class="subnav navbar navbar-default">
@@ -70,41 +77,23 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="admin-user-interface">Admin user interface</h1>
+<h1 id="writing-a-query">Writing a query</h1>
 
-<p>The admin user interface enables you to reload the gateway, preview configured services on the gateway, and configure schema mappings from a web browser.</p>
-<p>To access the admin user interface, the user that you log in as must be a member of a user group that has the <strong>i2:Administrator</strong> command access control permission.</p>
-<h2 id="verify-that-your-user-is-an-administrator">Verify that your user is an Administrator</h2>
-<p>Check that your user has the <strong>i2:Administrator</strong> command access control
-permission when using the example deployment:</p>
-<ol>
-<li><p>Check that the <strong>Administrator</strong> user group in the <code>example-command-access-control.xml</code> file in
-<code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code> 
- has the <code>i2:Administrator</code> permission:</p>
-<pre><code class="lang-xml">&lt;CommandAccessPermissions UserGroup=&quot;Administrator&quot;&gt;
-    &lt;Permission Value=&quot;i2:Administrator&quot; /&gt;
-&lt;/CommandAccessPermissions&gt;
-</code></pre></li>
-<li><p>Check that your user belongs to the <strong>Administrator</strong> group in the <code>user.registry.xml</code> file in
-<code>i2analyze\deploy\wlp\usr\shared\config</code>:</p>
-<p> For example, if the name of the user is &quot;Jenny&quot;, you should have the
- following:</p>
-<pre><code class="lang-xml">&lt;group name=&quot;Administrator&quot;&gt;
-    &lt;member name=&quot;Jenny&quot;/&gt;
-&lt;/group&gt;
-</code></pre><p> If this does not exist, add your user to the Administrator user group to
- reflect the snippet above.</p>
+<p>All connectors contain at least one <em>service</em> that retrieves information from an external source. By starting with a service that runs a simple query, you can focus on aspects such as the REST endpoint implementations and data structures that are common to all services.</p>
+<p>As you create a connector to an external source, writing a query that does not require parameters makes early testing and development easier. Not only does it simplify the connector, but also it simplifies running the query from the client.</p>
+<p>No fixed set of steps for retrieving data from external data sources exists, but some of your choices can make later tasks easier. Whatever the source, your initial aim is to generate a small set of representative data.</p>
+<ul>
+<li><p>If the source allows it, begin by writing a tightly bound query. Or, if your source comprises one or more text files, try to abbreviate them.</p>
+<p>At the start of the process, large volumes of data can be distracting.</p>
 </li>
-</ol>
-<h2 id="deploy-with-changes">Deploy with changes</h2>
-<p>If you&#39;ve had to make changes to the <code>example-command-access-control.xml</code>
-file above redeploy and restart the Liberty server.</p>
-<pre><code>setup -t deployLiberty
-setup -t startLiberty
-</code></pre><h2 id="check-access-to-admin-user-interface">Check access to admin user interface</h2>
-<p>In a web browser, go to <code>&lt;i2-Analyze-URL&gt;/admin</code> and check that you can access the admin user interface using your login details. Here, <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment. For example, this might be <code>http://localhost:9082/opaldaod/admin</code>.</p>
-<h2 id="more-information">More information</h2>
-<p>For more information about command access control, see <a href="https://docs.i2group.com/analyze/controlling_access.html">Controlling access to features</a>.</p>
+<li><p>If you can, make the query retrieve data for entities and links.</p>
+<p>Creating the data structures that represent linked entities is an important part of connector development.</p>
+</li>
+<li><p>Try to generate a data set that has most of the types that the external source contains.</p>
+<p>No matter how complex your queries eventually become, the code to process data into the right shape for i2 Analyze is unlikely to change.</p>
+</li>
+</ul>
+<p>When you implement an acquire endpoint, you can call the query that you developed here directly from that code. Alternatively, during development, you might decide to run the query and save the results in a file.</p>
 </article>
           </div>
           

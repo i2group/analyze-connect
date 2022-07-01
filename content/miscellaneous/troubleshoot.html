@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -83,14 +83,14 @@
 connector and how to solve them. They are categorized by the stage of
 development in which they may arise.</p>
 <p>If you come across a problem that is not covered below, please raise an issue
-<a href="https://github.com/IBM-i2/Analyze-Connect/issues">here</a>.</p>
+<a href="https://github.com/i2group/analyze-connect/issues">here</a>.</p>
 <h2 id="where-to-check-for-errors">Where to check for errors</h2>
 <h3 id="log-files">Log files</h3>
 <p>The i2 Analyze server logs can be found in the
 <code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\</code> directory.</p>
 <ul>
 <li><code>console.log</code> is the main server log file.</li>
-<li><code>opal-services-daod\IBM_i2_Analysis_Repository.log</code> is where errors with your
+<li><code>opal-services-daod\i2_Analysis_Repository.log</code> is where errors with your
 connector configuration and/or data will appear.</li>
 </ul>
 <h2 id="connector-configuration-errors">Connector configuration errors</h2>
@@ -103,7 +103,7 @@ given in the i2 Analyze <code>topology.xml</code> file (in the
 then you need to check the implementation of your config endpoint and that you
 have assigned to it the correct URL path. This should be the base URL suffixed with
 &quot;/config&quot;.</p>
-<h3 id="some-queries-are-not-configured-correctly-contact-your-system-administrator">&quot;Some queries are not configured correctly. Contact your system administrator.‬&quot;</h3>
+<h3 id="some-queries-are-not-configured-correctly-contact-your-system-administrator">&quot;Some queries are not configured correctly. Contact your system administrator.&quot;</h3>
 <p><img src="images/queries-not-configured-correctly.png" alt="Some queries are not configured correctly"></p>
 <p>You will see this in the External Searches window if there is a problem with
 your connector configuration. Clicking <strong>DETAILS</strong> will provide more information.
@@ -115,7 +115,7 @@ definition</li>
 insecure. You will see this because i2 Analyze and your connector communicate
 via HTTP. In a production environment, you should secure this connection by
 using HTTPS. This is beyond the scope of this guide, but is covered in the
-<a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=analyze-client-authenticated-ssl-i2-connect-gateway">IBM Documentation</a>.</li>
+<a href="https://docs.i2group.com/analyze/t_connect_security.html">i2 product documentation</a>.</li>
 </ul>
 <h2 id="errors-running-connector-services">Errors running connector services</h2>
 <h3 id="failed-to-open-the-selected-query-contact-your-system-administrator">&quot;Failed to open the selected query. Contact your system administrator&quot;</h3>
@@ -125,7 +125,7 @@ connector via External Searches in Analysts&#39;s Notebook Premium, there are a
 number of potential causes. To understand what went wrong:</p>
 <ol>
 <li>Look at the log file:
-<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\IBM_i2_Analysis_Repository.log</code></li>
+<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\i2_Analysis_Repository.log</code></li>
 <li><p>You should see at the bottom a more detailed description of the error that occurred.
 You will most likely see an error message starting with the following:</p>
 <pre><code class="lang-shell">d484-4e04-97d5-86e771fed434  - Validation error while retrieving a record.
@@ -166,7 +166,7 @@ each logical type.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Supporting parameters </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Supporting parameters ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="supporting-parameters">Supporting parameters</h1>
+
+<p>In nearly all real situations, users want to be able to customize the queries that they can run against an external data source. To make that possible, you must configure the service to present parameters to its users. In your implementation of the acquire endpoint, you can act on the values that they specify.</p>
+<p>To support parameters in a service, you add a set of conditions for which users can supply values. In a connector that supports user-specific configuration, you can even arrange for the same service to support different parameters, depending on who is using it.</p>
+<p>For example, in a query for people, you might allow users to search for particular names or characteristics. In a &quot;find path&quot; seeded query, you might allow users to specify how long the path can be - and you might vary the limit according to the user&#39;s group membership.</p>
+<p><strong>Note:</strong> A significant difference between visual query and external searches is that in the latter, conditions are not bound to property types. A condition in a service can be anything that you can process usefully in your implementation.</p>
+<p>To add parameters to a service, you add a <em>client configuration</em> to its definition that describes how each condition is presented to users. The REST SPI for the configuration endpoint describes the structure of <code>clientConfig</code> objects, which look like this outline:</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: &quot;&quot;,
+  &quot;config&quot;: {
+    &quot;sections&quot;: [
+      {
+        &quot;title&quot;: &quot;&quot;,
+        &quot;conditions&quot;: [
+          {
+            &quot;id&quot;: &quot;&quot;,
+            &quot;label&quot;: &quot;&quot;,
+            &quot;description&quot;: &quot;&quot;,
+            &quot;mandatory&quot;: false,
+            &quot;logicalType&quot;: &quot;&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre><p>The client configuration is responsible for the appearance of the conditions that users see, and the restrictions on the values they can provide. As well as controlling the types of conditions, and specifying whether supplying a value is mandatory, you can add further validation that is appropriate to their type. For more information about this kind of validation, see the REST SPI documentation for the configuration endpoint.</p>
+<p>When a user opens a query that supports parameters, they see a form that displays your conditions. When they provide values and run the query, your implementation of the acquire endpoint receives a payload that contains those values. You can write the implementation to act on those values in any way that makes sense for your data source.</p>
+<p>Like many other aspects of developing a connector, supporting parameters means changing your implementations of the configuration (or user configuration) and acquire endpoints.</p>
+<ol>
+<li><p>In your response from the configuration endpoint, write or modify the service definition so that its <code>clientConfigType</code> is &quot;FORM&quot;, and add a <code>clientConfigId</code>.</p>
+<p>This identifier links to a client configuration elsewhere in the response. In some circumstances, it might be appropriate to use the same client configuration for more than one service.</p>
+</li>
+<li><p>Add a <code>clientConfigs</code> array to the response, and within it a client configuration object whose <code>id</code> matches the identifier that you specified in Step 1.</p>
+</li>
+<li><p>Add your conditions to the client configuration.</p>
+<p>To begin with, you might consider leaving out validation checks in the interests of getting a working implementation quickly.</p>
+</li>
+<li><p>Add code to your implementation of the acquire endpoint that unpacks the condition values from the payload.</p>
+<p>You can then use those values to affect the query that you perform against the external source.</p>
+</li>
+<li><p>Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration.</p>
+<p>You can now test the code and make sure that it does what you expect.</p>
+</li>
+<li><p>Return to the response from the configuration endpoint, edit the condition descriptions, and add client-side validation to improve the user experience.</p>
+</li>
+<li><p>Restart or reload again, and ensure that the validation has your intended effect. </p>
+</li>
+</ol>
+<p>The validation that you can specify in the response from the configuration endpoint is performed by the client, and applies to values in isolation. If your service (and your users) might benefit from some more complex validation, consider adding a validate endpoint.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

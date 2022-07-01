@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Source References </title>
+    <title>Source references </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Source References ">
+    <meta name="title" content="Source references ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,42 +77,72 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="source-references">Source References</h1>
+<h1 id="source-references">Source references</h1>
 
-<p>You might want to include source references in entity and link data to preserve the route back to the external source. Entity and link objects support the inclusion of source reference objects.</p>
-<p>The structure of a source reference object is as follows:</p>
+<p>Source references can provide users with rich information about where the data they see in i2 Analyze records came from. By adding source references to the record data that a service returns, you enable extra functionality in the client, including the ability to associate and view images with your records.</p>
+<p>Source references provide up to five pieces of information about the source of an i2 Analyze record:</p>
+<ul>
+<li>The <em>type</em> of the source that data in the record came from</li>
+<li>The <em>name</em> of the source</li>
+<li>A <em>description</em> of the source</li>
+<li>The <em>location</em> of the source, which might be a URL</li>
+<li>An <em>image</em> of the source, which might also be an image for the record</li>
+</ul>
+<p>When you return source reference information from a service, only the name is mandatory.</p>
+<p>To add source references to the record data that your service returns to clients, you must arrange to include a <code>sourceReference</code> object as a peer of the <code>properties</code> object in your response from the acquire endpoint.</p>
+<ol>
+<li><p>In your code that generates responses from the acquire endpoint, add at least the following extra content:</p>
 <pre><code class="lang-json">{
-    &quot;id&quot;: String,
+  ...
+  &quot;properties&quot;: {
+    ...
+  },
+  &quot;sourceReference&quot;: {
     &quot;source&quot;: {
-        &quot;name&quot;: String,
-        &quot;type&quot;: String,
-        &quot;description&quot;: String,
-        &quot;location&quot;: String,
-        &quot;image&quot;: String
-    },
-    &quot;userModifiable&quot;: Boolean
-}
-</code></pre><p>At version 4.3.3 of i2 Analyze, the <code>id</code> field must be present, but its value is ignored and you can set it to an empty string (<code>&quot;&quot;</code>). The <code>source</code> object must also be present, with at least its <code>name</code> field populated.</p>
-<h4 id="example">Example</h4>
-<p>The following JSON object shows how a source reference fits into the structure of an entity object:</p>
-<pre><code class="lang-json">{
-    &quot;id&quot;: &quot;123&quot;,
-    &quot;typeId&quot;: &quot;ET1&quot;,
-    &quot;version&quot;: 1,
-    &quot;properties&quot;: {
-        &quot;PT16&quot;: &quot;MANHATTAN&quot;
-    },
-    &quot;sourceReference&quot;: {
-        &quot;id&quot;: &quot;&quot;,
-        &quot;source&quot;: {
-            &quot;name&quot;: &quot;Source Dataset&quot;,
-            &quot;type&quot;: &quot;Open source data&quot;,
-            &quot;description&quot;: &quot;A source reference to the corresponding record from the dataset.&quot;,
-            &quot;location&quot;: &quot;https://data.cityofnewyork.us/resource/7x9x-zpz6.json?$where=cmplnt_num=123456789&quot;,
-            &quot;image&quot;: &quot;https://github.ibm.com/ibmi2/Analyze-Connect/tree/master/docs/images/nypd-dataset-webpage.png?raw=true&quot;
-        },
-        &quot;userModifiable&quot;: false
+      &quot;name&quot;: &quot;source_name&quot;
     }
+  },
+  ...
+}
+</code></pre></li>
+<li><p>To give users the best experience, add a type and a description for your source that align with the definitions in the source reference schema for the deployment:</p>
+<pre><code class="lang-json">  ...
+  &quot;sourceReference&quot;: {
+    &quot;source&quot;: {
+      &quot;name&quot;: &quot;source_name&quot;,
+      &quot;type&quot;: &quot;source_type&quot;,
+      &quot;description&quot;: &quot;source_description&quot;
+    }
+  },
+  ...
+</code></pre></li>
+<li><p>If the data in the external source has associated images, you can arrange for users to see an image for a record when they view it by adding an <code>image</code> field to the <code>source</code> object:</p>
+<pre><code class="lang-json">    &quot;source&quot;: {
+      ...
+      &quot;image&quot;: &quot;image_url&quot;
+    }
+</code></pre><p>You can similarly include the location of the source in the source reference by adding a <code>location</code> field and setting it to either a URL or a text description.</p>
+</li>
+</ol>
+<p>Completing these steps in your service code means that source references are present in the records that users retrieve and view. Source references are optional, so you can control whether to include them for all records, or just for records of particular types. Finally, source references have the same features in entity and link records, so you do not need to write different code for those two cases.</p>
+<h2 id="example">Example</h2>
+<p>The following JSON structure provides an example of an entity object that contains a source reference:</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: &quot;123&quot;,
+  &quot;typeId&quot;: &quot;ET1&quot;,
+  &quot;version&quot;: 1,
+  &quot;properties&quot;: {
+    &quot;PT16&quot;: &quot;MANHATTAN&quot;
+  },
+  &quot;sourceReference&quot;: {
+    &quot;source&quot;: {
+      &quot;name&quot;: &quot;Source Dataset&quot;,
+      &quot;type&quot;: &quot;Open source data&quot;,
+      &quot;description&quot;: &quot;A source reference to the corresponding record from the dataset.&quot;,
+      &quot;location&quot;: &quot;https://data.cityofnewyork.us/resource/7x9x-zpz6.json?$where=cmplnt_num=123456789&quot;,
+      &quot;image&quot;: &quot;https://github.com/i2group/analyze-connect/blob/gh-pages/content/schemas/images/nypd-dataset-webpage.png?raw=true&quot;
+    }
+  }
 }
 </code></pre></article>
           </div>
@@ -134,7 +164,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

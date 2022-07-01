@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Source identifiers </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Source identifiers ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="source-identifiers">Source identifiers</h1>
+
+<p>In all versions of i2 Analyze, the ETL pipeline requires you to provide origin identifiers for incoming records through the ingestion mappings that you write. Starting from i2 Analyze 4.3.5, developers of connectors for i2 Connect and plug-ins for i2 Analyst&#39;s Notebook Premium can explicitly provide source identifiers for the records that they create.</p>
+<p><strong>Note:</strong> For high-level descriptions of source identifiers and origin identifiers (and the differences between them), see <a href="https://docs.i2group.com/analyze/data_model_identifiers_is.html">Identifiers in i2 Analyze records</a>.</p>
+<p>When you attach recognizable identifiers to the records that you create in connector code, you enable services to perform operations based on those identifiers. You also enable i2 Analyze clients and servers to perform matching on records that have a shared source.</p>
+<p>The rules that govern the structure and contents of source identifiers are similar to - but not the same as - the rules for origin identifiers. Similar to their definitions, the rules for source identifiers are sometimes less restrictive than those for origin identifiers.</p>
+<h2 id="the-structure-of-a-source-identifier">The structure of a source identifier</h2>
+<p>A source identifier contains a <em>type</em> and a <em>key</em>. If a source identifier is attached to a record that is subsequently uploaded to the Information Store, then the identifier is stored with that record in the database. As a result, there are limits on how much information types and keys can store.</p>
+<h3 id="type">type</h3>
+<p>The <em>type</em> of a source identifier allows the services in an i2 Analyze deployment to determine whether the source identifier is &quot;known&quot; to them - that is, that they can understand the key.</p>
+<p>The value of the type element does not have to be meaningful, but should be unique to your services so that you avoid clashes with any third-party services you might use.</p>
+<ul>
+<li><p>The length of the source identifier&#39;s type must not exceed 200 bytes, which is equivalent to 100 2-byte Unicode characters.</p>
+</li>
+<li><p>The following types are reserved and must not be used (case-insensitive):</p>
+<ul>
+<li><code>OI.IS</code></li>
+<li><code>OI.DAOD</code></li>
+<li><code>OI.ANB</code></li>
+<li>Anything starting with <code>i2.</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="key">key</h3>
+<p>The <em>key</em> of a source identifier is an array containing the information necessary to reference the data in its source. The pieces of information that you use to make up the key differ depending on the source of the data.</p>
+<ul>
+<li><p>The total length of the source identifier&#39;s key must not exceed 692 bytes, which is equivalent to 346 2-byte Unicode characters.</p>
+</li>
+<li><p>The key is stored as a serialized JSON array, so additional characters appear alongside the actual key elements: two characters are required for the array braces, and two quotes are required for each element, with commas as separators between elements.</p>
+<p> In other words, a key with <code>N</code> elements requires <code>3N + 1</code> characters of overhead. For example, the total length of <code>[&quot;a&quot;,&quot;bc&quot;,&quot;defg&quot;]</code> is 17 characters, while <code>[&quot;a,bc,defg&quot;]</code> is 13 characters. Also, if some special characters are present in a key element, they must be escaped for storage. For example, <code>&quot;</code> becomes <code>\&quot;</code>, which further increases the size of the key.</p>
+</li>
+</ul>
+<h2 id="using-source-identifiers">Using source identifiers</h2>
+<p>When a service receives a seed record, it can inspect the source identifiers to find out whether a known type is present. If it is, then the key can be used to retrieve or match information from the source system.</p>
+<p>When records are returned from external sources, the client can match them against other records by using the source identifiers (if source identifier matching is enabled in the match rules with <code>enableSourceIdentifierMatching=&quot;true&quot;</code>). Also, if source identifier matching is configured in the system match rules, then source identifiers provided through i2 Connect or Analyst&#39;s Notebook Premium can be matched against the origin identifiers of records in the Information Store.</p>
+<p>In both cases, source identifier matches occur when record item types match <em>and</em> the type and keys of the identifiers are an exact (case-sensitive) match.</p>
+<p><strong>Note:</strong> After upgrading to i2 Analyze 4.3.5 from a previous release, if you want to match against the origin identifiers of already ingested records, you must build a new match index.</p>
+<h2 id="limitations">Limitations</h2>
+<p>There is a limit on the number of unique source identifiers that you can add to a record in the Information Store. The default limit is 50, but you can modify it by adding <code>MaxSourceIdentifiersPerRecord=N</code> (where <code>N</code> is a positive integer) to the <code>DiscoServerSettingsCommon.properties</code> file.</p>
+<p>Origin identifiers are not stored in chart records. As a result, they are not present as source identifiers on seeds that are sent to connectors or Analyst&#39;s Notebook Premium plug-ins. Only those source identifiers that have been added to records through the same mechanisms are present.</p>
+<p>Connectors that specify source identifiers are API-compatible with older versions of the i2 Connect gateway and Analyst&#39;s Notebook Premium, but those products will not recognize new source identifiers as such. Rather, they will be treated as ordinary identifiers or ignored. To use source identifiers to their full potential, upgrade all products to the latest release at your earliest opportunity.</p>
+<h2 id="example">Example</h2>
+<p>This example is based on the NYPD connector. When the external data source is queried, source identifiers are built and attached as the identifier of the data for the record, rather than using the unique identifier from the dataset. This arrangement allows the <code>find-like-this-complaint</code> service to extract the relevant information and use it in the query parameters.</p>
+<h3 id="build-a-source-identifier">Build a source identifier</h3>
+<p>To build a source identifier, you must provide the values for its <code>type</code> and <code>key</code> fields:</p>
+<ul>
+<li>For the type, you need a unique value that you can use to identify <em>your</em> source identifiers. You can use the value to filter out any other source identifiers that are also attached to the seeds, such as system-generated source identifiers.</li>
+<li>For the key, populate an array with information that can be used to build the query in the service. Then, using the source identifier type and key, assign it to the entity&#39;s identifier property.</li>
+</ul>
+<p>In the following Java and Python examples, the <code>type</code> is assigned the value <code>NYPD</code>. The key is built using the values of the <code>law_cat_cd</code>, <code>addr_pct_cd</code> and <code>cmplnt_num</code> columns of the NYPD Complaint Data dataset.</p>
+<h4 id="java-example">Java example</h4>
+<p>In the <code>ItemFactory.java</code> file in the sample solution directory for the NYPD connector, update the <code>createComplaint</code> method with the following code: </p>
+<pre><code class="lang-java">final EntityData complaint = new EntityData();
+
+if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
+  final SourceId sourceId = new SourceId();
+  sourceId.type = &quot;NYPD&quot;;
+  sourceId.key = Arrays.asList(entry.offenceLevel, String.valueOf(entry.precinctCode), entry.complaintNum);
+
+  complaint.id = Collections.singletonMap(&quot;sourceId&quot;, sourceId);
+} else {
+  complaint.id = &quot;COMP&quot; + entry.complaintNum;
+}
+</code></pre><h4 id="python-example">Python example</h4>
+<p>In the <code>classes.py</code> file in the sample solution directory for the NYPD connector, define a global function to build the source identifiers: </p>
+<pre><code class="lang-python">def generate_source_identifier(entry):
+    return {
+        &#39;sourceId&#39;: {
+            &#39;type&#39;: &#39;NYPD&#39;,
+            &#39;key&#39;: [entry.get(&#39;law_cat_cd&#39;), entry.get(&#39;addr_pct_cd&#39;), entry.get(&#39;cmplnt_num&#39;)]
+        }
+    }
+</code></pre><p>Then, on the <code>id</code> property in the <code>Complaint</code> class, replace the call to the method <code>get_id(base, entry)</code> with <code>generate_source_identifier(entry)</code>:</p>
+<pre><code class="lang-python">class Complaint(Entity):
+    &quot;&quot;&quot;
+    A base class for Complaint entities.
+
+    Attributes:
+        entry (dict): One record from the external datasource.
+    &quot;&quot;&quot;
+    def __init__(self, entry):
+        id = generate_source_identifier(entry)
+</code></pre><h3 id="update-the-find-like-this-complaint-service">Update the find-like-this-complaint service</h3>
+<p>To <em>use</em> the source identifiers that are now attached to the seeds, you need to extract and filter the <code>sourceIds</code> to find the ones with the <code>type</code> that you created. You can use the <code>key</code> of those source identifiers in your query parameters to the service.</p>
+<p>In the following Java and Python examples, the source identifiers are filtered down to those whose <code>type</code> property contains the value <code>NYPD</code>. Their <code>key</code> values are then used to populate the request parameters. Instead of the existing parameters, which searched for matching records with the same level of offense, the request is updated to search for matching records with the same level of offense <em>within the same precinct</em>.</p>
+<h4 id="java-example-1">Java example</h4>
+<p>In the <code>ExternalConnectorDataService.java</code> file in the sample solution directory for the NYPD connector, update the <code>findLikeThisComplaint</code> method with the following code: </p>
+<pre><code class="lang-java">final List&lt;SourceId&gt; sourceIds = seed.sourceIds;
+
+// filter out system generated source ids
+final List&lt;SourceId&gt; nypdSourceIds = sourceIds
+    .stream()
+    .filter(sourceId -&gt; sourceId.type.equals(&quot;NYPD&quot;))
+    .collect(Collectors.toList());
+
+if (nypdSourceIds.isEmpty()) {
+  return new ConnectorResponse();
+}
+
+final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+params.put(&quot;limitValue&quot;, 50);
+params.put(&quot;lawCategory&quot;, nypdSourceIds.get(0).key.get(0)); // Level of offence
+params.put(&quot;precinctCode&quot;, nypdSourceIds.get(0).key.get(1)); // Precinct code
+
+final String url = LIMIT_PARAM + &quot;&amp;$where=law_cat_cd=&#39;{lawCategory}&#39;&amp;addr_pct_cd=&#39;{precinctCode}&#39;&quot;;
+</code></pre><h4 id="python-example-1">Python example</h4>
+<p>In the <code>service.py</code> file in the sample solution directory for the NYPD connector, update the <code>impl_find_like_this_complaint</code> method with the following code: </p>
+<pre><code class="lang-python">    if seeds:
+        sourceIds = seeds[&#39;entities&#39;][0][&#39;sourceIds&#39;]
+        nypdSourceIds = []
+
+        # filter out system generated source ids
+        for sourceId in sourceIds:
+            if sourceId[&#39;type&#39;] == &#39;NYPD&#39;:
+                nypdSourceIds.append(sourceId)
+
+        if not nypdSourceIds:
+            return response
+
+        params = f&quot;&amp;$where=law_cat_cd=&#39;{nypdSourceIds[0][&#39;key&#39;][0]}&#39;&amp;addr_pct_cd=&#39;{nypdSourceIds[0][&#39;key&#39;][1]}&#39;&quot;
+
+        records = query_external_datasource(params)
+        response = marshal(records, type_ids[&#39;complaint&#39;], False)
+</code></pre></article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running the connector via the command-line </title>
+    <title>Development workflow </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Running the connector via the command-line ">
+    <meta name="title" content="Development workflow ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,21 +77,10 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="running-the-connector-via-the-command-line">Running the connector via the command-line</h1>
+<h1 id="development-workflow">Development workflow</h1>
 
-<p>To run your connector from the command-line:</p>
-<ol>
-<li>Open the command-line.</li>
-<li>Navigate to the root directory of the project.</li>
-<li><p>Install all dependencies for the project by running:</p>
-<pre><code class="lang-shell">npm install
-</code></pre></li>
-<li><p>Start the connector by running:</p>
-<pre><code class="lang-shell">npm start
-</code></pre></li>
-<li><p>To stop the connector press <code>CTRL + C</code>.</p>
-</li>
-</ol>
+<p>To create a connector, you need a data source to query, and a server that supports REST endpoints to query it from. On that foundation, you can build the functionality that takes requests from the i2 Connect gateway, retrieves data from the source, and returns it to the gateway in a shape that is ready for conversion to i2 Analyze records.</p>
+<p>The easiest approach to writing a connector is to start by transferring data from the external source to the i2 Analyze server - and then to the client - with as few complications as possible. When you have that mechanism, you can use it as a base from which to develop the more complex services that you want to implement.</p>
 </article>
           </div>
           
@@ -112,7 +101,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

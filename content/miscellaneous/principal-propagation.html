@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Principal Propagation </title>
+    <title>Custom HTTP headers </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Principal Propagation ">
+    <meta name="title" content="Custom HTTP headers ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,9 +77,9 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="principal-propagation">Principal Propagation</h1>
+<h1 id="custom-http-headers">Custom HTTP headers</h1>
 
-<p>i2 Analyze contains an extension point that enables you to return additional headers to any connectors from the i2 Connect gateway. The extension point requires you to write an implementation of <code>IConnectorRequestModifier.java</code>. The implementation must be packaged into a JAR file and deployed to i2 Analyze. The following example demonstrates how to use Maven to do this and how to configure i2Analyze to use your implementation.</p>
+<p>Starting at version 4.3.3, i2 Analyze contains an extension point that enables you to return additional headers to any connectors from the i2 Connect gateway. The extension point requires you to write an implementation of <code>IConnectorRequestModifier.java</code>. The implementation must be packaged into a JAR file and deployed to i2 Analyze. The following example demonstrates how to use Maven to do this and how to configure i2 Analyze to use your implementation.</p>
 <h2 id="overview">Overview</h2>
 <p>For i2 Analyze to use your implementation, complete the following tasks:</p>
 <ol>
@@ -92,14 +92,14 @@
 <li>Java installed</li>
 </ul>
 <h2 id="the-principal-propagation-project">The principal propagation project</h2>
-<p>Update the value of the <code>&lt;toolkitLocation&gt;</code> element in the <code>principal-propagation/pom.xml</code> file to reference the installation location of i2Analyze. For example:</p>
-<pre><code class="lang-xml">&lt;toolkitLocation&gt;C:\IBM\i2analyze&lt;/toolkitLocation&gt;
+<p>Update the value of the <code>&lt;toolkitLocation&gt;</code> element in the <code>principal-propagation/pom.xml</code> file to reference the installation location of i2 Analyze. For example:</p>
+<pre><code class="lang-xml">&lt;toolkitLocation&gt;C:\i2\i2analyze&lt;/toolkitLocation&gt;
 </code></pre><p>This location is used by Maven to locate the JAR files to pull into the local Maven repository and where to place the packaged JAR file that contains your implementation.</p>
 <p>To set up the Maven environment, open a terminal in the <code>principal-propagation</code> directory.</p>
-<h4 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies:</h4>
+<h3 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies:</h3>
 <pre><code class="lang-shell">mvnw initialize
 </code></pre><p>This pulls in JAR files from the i2 Analyze deployment toolkit into your local Maven repository.</p>
-<h4 id="2-compile-and-install-the-project">2. Compile and install the project:</h4>
+<h3 id="2-compile-and-install-the-project">2. Compile and install the project:</h3>
 <pre><code class="lang-shell">mvnw clean install
 </code></pre><p>At this point, you could start editing the implementation in <code>principal-propagation/src/main/java/com/i2group/example/PrincipalPropagation.java</code>. For the example implementation, do not make any changes.</p>
 <h2 id="deploy-the-principal-propagation-implementation">Deploy the principal propagation implementation</h2>
@@ -107,8 +107,8 @@
 <p>Open a terminal in the <code>principal-propagation</code> directory and run the following command:</p>
 <pre><code class="lang-shell">mvnw package
 </code></pre><p>The Maven <code>package</code> command creates a JAR file from the <code>PrincipalPropagation.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
-<h2 id="configuring-i2analyze">Configuring i2Analyze</h2>
-<p>For i2Analyze to use the <code>PrincipalPropagation.jar</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
+<h2 id="configuring-i2-analyze">Configuring i2 Analyze</h2>
+<p>For i2 Analyze to use the <code>PrincipalPropagation.jar</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
 <p>Add the following line to the end of the <code>toolkit/configuration/fragments/opal-services/WEB-INF/classes/DiscoServerSettingsCommon.properties</code> file:</p>
 <pre><code class="lang-properties">ConnectorRequestModifier=com.i2group.example.PrincipalPropagation
 </code></pre><h2 id="redeploy-and-restart-liberty">Redeploy and restart Liberty</h2>
@@ -145,7 +145,7 @@ Accept-Language: en-gb
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

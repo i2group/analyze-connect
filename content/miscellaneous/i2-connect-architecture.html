@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>System architecture with the i2 Connect gateway </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="System architecture with the i2 Connect gateway ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="system-architecture-with-the-i2-connect-gateway">System architecture with the i2 Connect gateway</h1>
+
+<p>The simplest possible deployment of i2 Analyze that uses connectors to access an external data source has four parts. The client, in this case Analyst&#39;s Notebook® Premium, communicates with a deployment of i2 Analyze that includes the i2 Connect gateway. The gateway manages at least one connector, which in turn exchanges data with an external source.</p>
+<h2 id="system-interactions">System interactions</h2>
+<p>The following diagram represents the deployment that is described in the introduction, and the interactions that take place between each part.</p>
+<p><img src="images/i2connect_arch.svg" alt="i2 Connect architecture"></p>
+<p>The diagram also identifies five of the REST endpoints that connectors can implement and use:</p>
+<h3 id="configuration-endpoint">Configuration endpoint</h3>
+<p>The gateway sends a request to the mandatory configuration endpoint to gather information about the services that the connector supports. All connectors have at least one service, and it is a service that implements the validate and acquire endpoints.</p>
+<p><strong>Note:</strong> For connectors whose services present modified behavior to different users, the information is split between two endpoints: this one, and the user-specific configuration endpoint.</p>
+<h3 id="schema-endpoint">Schema endpoint</h3>
+<p>The schema endpoint is optional, and so is where you implement it. If a connector returns results whose types are not in the Information Store schema or a gateway schema, you can provide a connector schema that define those types. The configuration specifies whether and where a connector schema is available.</p>
+<h3 id="charting-scheme-endpoint">Charting scheme endpoint</h3>
+<p>The charting scheme endpoint is optional, and closely associated with the schema endpoint. A connector configuration that specifies a schema endpoint also specifies a charting scheme endpoint.</p>
+<h3 id="validate-endpoint">Validate endpoint</h3>
+<p>The validate endpoint is optional. If the configuration endpoint says that a particular service supports it, then the gateway sends a request to the validation endpoint immediately before a request to the acquire endpoint. The purpose of the validate endpoint is to test whether a request is reasonable before it is run.</p>
+<h3 id="acquire-endpoint">Acquire endpoint</h3>
+<p>The acquire endpoint is mandatory for all services that provide synchronous querying. During a synchronous query, the gateway sends a request to the acquire endpoint that tells the service to query the external source. The service receives data back from the source and places it into the response that it returns to the gateway.</p>
+<p><strong>Note:</strong> For services that provide asynchronous queries, the query resource endpoint is mandatory instead of the acquire endpoint.</p>
+<h2 id="interaction-sequence">Interaction sequence</h2>
+<p>The interaction between the i2 Connect gateway and the other parts of an i2 Analyze deployment takes place in three distinct phases, labeled 1, 2, and 3 in the diagram.</p>
+<ol>
+<li><p>When i2 Analyze starts up, the i2 Connect gateway sends a request to the configuration endpoint of every connector that is listed in the topology. It caches the information that it receives in response.</p>
+<p>If the configuration for any of the connectors specifies schema and charting scheme endpoints, the gateway sends requests to retrieve the connector schemas and charting schemes from those endpoints.</p>
+<p><strong>Note:</strong> You can also force the gateway to repeat this process while i2 Analyze is running. The gateway implements the reload endpoint, whose POST method you can call after you change the configuration of a connector.</p>
+</li>
+<li><p>When a client connects to i2 Analyze, the latter gets the cached information from the gateway and returns it to the client. The client can then present the queries that the services implement to users, and help users to provide valid parameters and seeds to those queries where appropriate.</p>
+<p><strong>Note:</strong> For connectors that implement the user-specific configuration endpoint, i2 Analyze sends a request to it with information about the connecting user at this stage, to retrieve the remainder of the configuration information.</p>
+</li>
+<li><p>When a user runs a synchronous query, i2 Analyze passes it to the gateway for processing. The gateway packages the query into a request to the acquire endpoint on the service in question, preceded by a request to the validate endpoint if the service supports it.</p>
+<p>On receiving the response from the acquire endpoint, the gateway converts the data that it contains into results that i2 Analyze can ultimately return to the client.</p>
+</li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation (2022).
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

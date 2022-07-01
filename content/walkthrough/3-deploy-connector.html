@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -165,7 +165,7 @@ connector, as shown below. This is because the connector doesn&#39;t exist yet!<
 <p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The
 application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
 <p>In a development environment, you can ignore this warning. It appears because i2 Analyze and your connector are communicating via HTTP rather than HTTPS.</p>
-<p><strong>In a production environment, you should secure this connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://www.ibm.com/docs/en/i2-analyze/latest?topic=analyze-client-authenticated-ssl-i2-connect-gateway">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
+<p><strong>In a production environment, you should secure this connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://docs.i2group.com/analyze/t_connect_security.html">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
 <h2 id="deploying-the-connector">Deploying the connector</h2>
 <p>Now that i2 Analyze is expecting a connector, you had better create one! For the
 purposes of this guide, an example Spring Boot application is provided.</p>
@@ -183,32 +183,11 @@ in VSCode or the IDE of your choice.</p>
 <li><p>Code: a simple Spring Boot application</p>
 </li>
 </ul>
-<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-and how to execute them. The <code>application.properties</code> file defines the
+<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available and how to execute them. For more information on providing this configuration, see <a href="../workflow/config.html">Implementing config</a>.</p>
+<p>The <code>application.properties</code> file defines the
 server port. In later walkthroughs, it also defines the resource URL and the API token required to connect to the resource.</p>
 </li>
 <li><p>Start the connector. See <a href="../example-connectors/run-java.html">running example connectors in Java</a>.</p>
-</li>
-</ol>
-<h4 id="nodejs">Node.js</h4>
-<ol>
-<li><p>Open the example starting code from the <code>connector/nypd/node/stage1/nypd-connector</code> folder in VSCode,
-or the IDE of your choice.</p>
-</li>
-<li><p>Have a look at the contents:</p>
-<ul>
-<li><p>Resources: <code>public/json/config.json</code></p>
-</li>
-<li><p>Code: a simple Express application</p>
-</li>
-</ul>
-<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-and how to execute them. The <code>app.js</code> file is where the <code>CONTEXT_ROOT</code> and
-all the connector&#39;s endpoints are defined (for now, just the <code>/config</code>
-endpoint). The <code>routes</code> folder is where all defined routes are implemented
-(for now, only the <code>config</code> route).</p>
-</li>
-<li><p>Start the connector through the <a href="../example-connectors/run-node.html">command line</a>.</p>
 </li>
 </ol>
 <h4 id="python">Python</h4>
@@ -224,8 +203,7 @@ in VSCode or the IDE of your choice.</p>
 <li><p>Code: a simple Flask application.</p>
 </li>
 </ul>
-<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available
-and how to execute them.</p>
+<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available and how to execute them. For more information on providing this configuration, see <a href="../workflow/config.html">Implementing config</a>.</p>
 </li>
 <li><p>Start the connector through the <a href="../example-connectors/run-python.html">command line</a>.</p>
 </li>
@@ -298,7 +276,7 @@ your connector from Analyst&#39;s Notebook Premium.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

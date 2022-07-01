@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Migrating from schema fragments </title>
+    <title>Schema types </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Migrating from schema fragments ">
+    <meta name="title" content="Schema types ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -77,55 +77,53 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="migrating-from-schema-fragments">Migrating from schema fragments</h1>
+<h1 id="schema-types">Schema types</h1>
 
-<p>Before the introduction of <a href="connector-schema.html">connector</a> and <a href="gateway-schema.html">gateway
-schemas</a> in i2 Analyze 4.3.3, schema fragments were supported
-on standalone DAOD deployments. Schema fragments are a mechanism used to extend
-an i2 Analyze schema to incorporate new types from external data sources. They
-are combined with the deployed schema on server start-up.</p>
-<p>Similarly to the way connector schemas are retrieved now, schema fragments are
-provided via endpoints defined in the connector configuration so that they are
-made available to the server.</p>
-<h2 id="updating-the-schema-fragments">Updating the schema fragments</h2>
-<p>Schema fragments have a slightly different syntax to that of full schemas.
-Because of that, you will first need to create a new schema using the same
-entity and link types from your schema fragment. The easiest way to do this
-would be through the use of the <strong>i2 Analyze Schema Designer</strong>.</p>
-<h2 id="migrating-to-a-connector-schema">Migrating to a connector schema</h2>
-<p>Configuring a <a href="connector-schema.html">connector schema</a> is very similar to
-configuring schema fragments. Supplying the <code>schemaUrl</code> (and, optionally, the
-<code>chartingSchemesUrl</code>) endpoints in the connector configuration works in the same
-fashion.</p>
-<p>Just like with schema fragments, it is easiest, but not mandatory, to implement
-these endpoints on the server which hosts the connector that uses them. As such,
-the URLs can be either absolute or relative to the connector&#39;s base URL.</p>
-<h3 id="using-short-names">Using short names</h3>
-<p>An important distinction to note is the presence of <a href="connector-schema.html#connector-schema-short-names">schema short
-names</a>, names which are
-displayed to analysts when viewing entity and link types so that they can
-identify which schema an item type belongs to. If you do not want the schema
-short name to default to the ID of the connector, it is necessary to explicitly
-specify the short name in either <a href="connector-schema.html#connector-configuration">the connector
-configuration</a>
-or <a href="connector-schema.html#i2-analyze-topology">the i2 Analyze
-topology</a>.</p>
-<h2 id="migrating-to-a-gateway-schema">Migrating to a gateway schema</h2>
-<p>Migrating from using schema fragments to using a <a href="gateway-schema.html">gateway
-schema</a> requires more changes. Carry out the
-following instructions:</p>
+<p>The data that you retrieve from an external source through the i2 Connect gateway must have entity and link types that are defined somewhere in the i2 Analyze deployment. If none of the existing schemas contains types that correspond with the external data, then you must extend or write a new schema as part of connector development.</p>
+<p>There are two ways to add types to an existing deployment of i2 Analyze:</p>
+<ul>
+<li><p>Add the new entity, link, and property types directly to one of the deployed schemas in the usual way. Additive changes to schemas are always allowed.</p>
+</li>
+<li><p>Create a gateway or connector schema (along with an accompanying charting scheme), and define the new item types in that schema.</p>
+</li>
+</ul>
+<p>Choosing which approach to use depends on your aims:</p>
+<ul>
+<li><p>Adding types to the Information Store schema makes them immediately and permanently available throughout the i2 Analyze deployment. Users can upload records that they retrieve from the external source to the Information Store without any further intervention.</p>
+</li>
+<li><p>Especially in a deployment that does not include the Information Store, adding types to an existing gateway schema has some of the same benefits. The new types appear at familiar locations in the Analyst&#39;s Notebook Premium user interface, and they become available to future connectors.</p>
+</li>
+<li><p>A key reason for creating a gateway schema to contain your new types is when you are creating a library of connectors that provide access to a particular source. The types in the gateway schema can be shared by all the connectors, and you can provide the gateway schema alongside the connectors if you need to distribute them.</p>
+</li>
+<li><p>Creating a connector schema provides the highest level of flexibility. You can add the connector with its schema to any i2 Analyze deployment that includes the i2 Connect gateway. And you can make modifications to the connector schema without affecting the other schemas. But by its nature, this approach is also the least well integrated with the rest of the deployment.</p>
+</li>
+<li><p>If you decide to extend one of the deployed schemas, you can do so in the same way that you would add types for any other reason:</p>
 <ol>
-<li><p>Remove schema fragment configuration</p>
-<p>First, remove the <code>schemaUrl</code> (and <code>chartingSchemesUrl</code> if it exists) definitions from the connector configuration. Leaving these properties in will have the connector believe that the specified endpoints are for retrieving a connector schema.</p>
+<li><p>Open the XML file that contains the deployed schema in Schema Designer.</p>
 </li>
-<li><p>Configure the gateway schema</p>
-<p>Follow the steps to <a href="gateway-schema.html#configuring-a-gateway-schema">configure a gateway schema</a>. Unlike short names for connector schemas, all gateway schemas must have a short name specified.</p>
+<li><p>Add entity and link types (or property types) to the schema that correspond to data from the external source.</p>
 </li>
-<li><p>Assign a connector to a gateway schema</p>
-<p>Follow the steps to <a href="gateway-schema.html#assigning-a-gateway-schema-to-a-connector">assign a gateway schema to a connector</a>. This will enable your connector to accept seeds and return item types defined in the gateway schema.</p>
-<p>Using the same schema short name you specified for the gateway, it is necessary to specify the same in <a href="gateway-schema.html#connector-configuration">the connector&#39;s configuration</a> or <a href="gateway-schema.html#i2-analyze-topology">the i2 Analyze topology</a>.</p>
+<li><p>Add configuration for new and modified entity and link types to the charting scheme.</p>
+</li>
+<li><p>Update the deployment with the modified schema and charting scheme.</p>
 </li>
 </ol>
+<p>For more information, see the Schema Designer user guide, and the documentation on modifying the Information Store schema and modifying gateway schemas.</p>
+</li>
+<li><p>If you decide to create a schema, then you still use Schema Designer, but the process is different:</p>
+<ol>
+<li><p>In Schema Designer, select <strong>File &gt; New Schema</strong>.</p>
+</li>
+<li><p>Edit the schema and its charting scheme to add types for the data from the external source, and then save and close the XML files.</p>
+</li>
+<li><p>To deploy a gateway schema, make it (and its charting scheme) available to the deployment toolkit, and then follow the instructions in Adding, removing, and modifying gateway schemas.</p>
+</li>
+<li><p>To deploy a connector schema, arrange for it (and its charting scheme) to be available from endpoints on the server that hosts the connector.</p>
+<p>To complete this approach, you must tell the i2 Connect gateway where to find the endpoints that you created. You provide that information by adding to your implementation of the configuration endpoint.</p>
+</li>
+</ol>
+</li>
+</ul>
 </article>
           </div>
           

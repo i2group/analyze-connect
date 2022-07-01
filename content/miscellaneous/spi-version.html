@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Migrating from schema fragments </title>
+    <title>SPI version negotiation </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Migrating from schema fragments ">
+    <meta name="title" content="SPI version negotiation ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -77,56 +77,60 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="migrating-from-schema-fragments">Migrating from schema fragments</h1>
+<h1 id="spi-version-negotiation">SPI version negotiation</h1>
 
-<p>Before the introduction of <a href="connector-schema.html">connector</a> and <a href="gateway-schema.html">gateway
-schemas</a> in i2 Analyze 4.3.3, schema fragments were supported
-on standalone DAOD deployments. Schema fragments are a mechanism used to extend
-an i2 Analyze schema to incorporate new types from external data sources. They
-are combined with the deployed schema on server start-up.</p>
-<p>Similarly to the way connector schemas are retrieved now, schema fragments are
-provided via endpoints defined in the connector configuration so that they are
-made available to the server.</p>
-<h2 id="updating-the-schema-fragments">Updating the schema fragments</h2>
-<p>Schema fragments have a slightly different syntax to that of full schemas.
-Because of that, you will first need to create a new schema using the same
-entity and link types from your schema fragment. The easiest way to do this
-would be through the use of the <strong>i2 Analyze Schema Designer</strong>.</p>
-<h2 id="migrating-to-a-connector-schema">Migrating to a connector schema</h2>
-<p>Configuring a <a href="connector-schema.html">connector schema</a> is very similar to
-configuring schema fragments. Supplying the <code>schemaUrl</code> (and, optionally, the
-<code>chartingSchemesUrl</code>) endpoints in the connector configuration works in the same
-fashion.</p>
-<p>Just like with schema fragments, it is easiest, but not mandatory, to implement
-these endpoints on the server which hosts the connector that uses them. As such,
-the URLs can be either absolute or relative to the connector&#39;s base URL.</p>
-<h3 id="using-short-names">Using short names</h3>
-<p>An important distinction to note is the presence of <a href="connector-schema.html#connector-schema-short-names">schema short
-names</a>, names which are
-displayed to analysts when viewing entity and link types so that they can
-identify which schema an item type belongs to. If you do not want the schema
-short name to default to the ID of the connector, it is necessary to explicitly
-specify the short name in either <a href="connector-schema.html#connector-configuration">the connector
-configuration</a>
-or <a href="connector-schema.html#i2-analyze-topology">the i2 Analyze
-topology</a>.</p>
-<h2 id="migrating-to-a-gateway-schema">Migrating to a gateway schema</h2>
-<p>Migrating from using schema fragments to using a <a href="gateway-schema.html">gateway
-schema</a> requires more changes. Carry out the
-following instructions:</p>
-<ol>
-<li><p>Remove schema fragment configuration</p>
-<p>First, remove the <code>schemaUrl</code> (and <code>chartingSchemesUrl</code> if it exists) definitions from the connector configuration. Leaving these properties in will have the connector believe that the specified endpoints are for retrieving a connector schema.</p>
-</li>
-<li><p>Configure the gateway schema</p>
-<p>Follow the steps to <a href="gateway-schema.html#configuring-a-gateway-schema">configure a gateway schema</a>. Unlike short names for connector schemas, all gateway schemas must have a short name specified.</p>
-</li>
-<li><p>Assign a connector to a gateway schema</p>
-<p>Follow the steps to <a href="gateway-schema.html#assigning-a-gateway-schema-to-a-connector">assign a gateway schema to a connector</a>. This will enable your connector to accept seeds and return item types defined in the gateway schema.</p>
-<p>Using the same schema short name you specified for the gateway, it is necessary to specify the same in <a href="gateway-schema.html#connector-configuration">the connector&#39;s configuration</a> or <a href="gateway-schema.html#i2-analyze-topology">the i2 Analyze topology</a>.</p>
-</li>
-</ol>
-</article>
+<p>Starting with version 4.4.0 of i2 Analyze, your connectors can negotiate with the gateway to establish a common understanding of which version of the i2 Connect SPI to use.</p>
+<p>By default, the gateway assumes that your connector will use version 1.0 of the SPI. When 1.0 is the correct version for your connector, you don&#39;t need to do anything. If you rely on a later version of the SPI, you can both determine what versions the server supports, and respond with the version that you want to use.</p>
+<h2 id="server-supported-spi-versions">Server-supported SPI versions</h2>
+<p>All HTTP requests to your connector from i2 Analyze version 4.4.0 and above contain a header named <code>I2-Spi-Versions</code>. The value of the header is a comma-separated list of the SPI versions that the server supports.</p>
+<h2 id="connector-specification-of-spi-version">Connector specification of SPI version</h2>
+<p>To specify the SPI version that it wants to use, a connector can add a field named <code>version</code> to its response from the configuration endpoint. For example:</p>
+<pre><code class="lang-json">{
+  &quot;version&quot;: &quot;1.0&quot;,
+  &quot;defaultValues&quot;: {
+    &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+    ...
+  },
+  &quot;services&quot;: [
+    ...
+  ]
+}
+</code></pre><h2 id="java-example">Java example</h2>
+<p>The following code is taken from <code>ConnectorController.java</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
+<pre><code class="lang-java">private static final double CONNECTOR_VERSION = 1.0;
+
+/**
+ * Defines the /config endpoint which acquires the connector configuration data.
+ *
+ * @return The config.json file.
+ */
+@RequestMapping(method = RequestMethod.GET, value = &quot;/config&quot;, produces = APPLICATION_JSON_VALUE)
+public Resource config(@RequestHeader(value = &quot;I2-Spi-Versions&quot;, required = false) List&lt;Double&gt; gatewaySupportedVersions) {
+  System.out.println(&quot;Gateway supported versions: &quot; + gatewaySupportedVersions);
+
+  if (gatewaySupportedVersions.contains(CONNECTOR_VERSION)) {
+    System.out.println(&quot;Loading connector version &quot; + CONNECTOR_VERSION);
+  } else {
+    System.out.print(&quot;The gateway does not support connector version &quot; + CONNECTOR_VERSION);
+  }
+  return configResource;
+}
+</code></pre><h2 id="python-example">Python example</h2>
+<p>The following code is taken from <code>controller.py</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
+<pre><code class="lang-python">connector_version = &#39;1.0&#39;
+
+@controller.route(&#39;/config&#39;)
+def config():
+  gatewaySupportedVersions = request.headers[&#39;I2-Spi-Versions&#39;]
+  print(&#39;Gateway supported versions: &#39; + gatewaySupportedVersions)
+
+  if (connector_version in gatewaySupportedVersions):
+    print(&#39;Loading connector version &#39; + connector_version)
+  else:
+    print(&#39;The gateway does not support connector version &#39; + connector_version)
+
+  return send_from_directory(&#39;static&#39;, &#39;config.json&#39;)
+</code></pre></article>
           </div>
           
           <div class="hidden-sm col-md-2" role="complementary">

@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,8 +79,8 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="user-specific-configuration">User-specific configuration</h1>
 
-<p>User-specific configuration is an advanced feature of i2 Connect that enables a connector to provide different configurations that are customized to specific users or groups of users. With the exception of the schema and the charting scheme (which remain global for a connector), you can customize all elements of connector configuration dynamically.</p>
-<p>A connector can provide user-specific configuration through a separate configuration endpoint, the URL of which you can provide in your response from the standard configuration endpoint. When the user-specific endpoint is called on behalf of an authenticated user, the i2 Connect gateway provides headers that you can use to identify the user making the request:</p>
+<p>Introduced at version 4.3.5 of i2 Analyze, user-specific configuration is an advanced feature of i2 Connect that enables a connector to provide different configurations that are customized to specific users or groups of users. With the exception of the schema and the charting scheme (which remain global for a connector), you can customize all elements of connector configuration dynamically.</p>
+<p>A connector can provide user-specific configuration through a separate <code>/USER_CONFIGURATION_URL</code> endpoint, the URL of which you can provide in your response from the standard <code>/CONFIGURATION_URL</code> endpoint. When an endpoint (excluding the <code>/CONFIGURATION_URL</code> endpoint) is called on behalf of an authenticated user, the i2 Connect gateway provides headers that you can use to identify the user making the request:</p>
 <table>
 <thead>
 <tr>
@@ -123,6 +123,7 @@
 </tr>
 </tbody>
 </table>
+<p><strong>Important:</strong> At version 4.3.5 of i2 Analyze, only the <code>/USER_CONFIGURATION_URL</code> endpoint received these headers. Since version 4.3.5.3, all endpoints except <code>/CONFIGURATION_URL</code> receive them.</p>
 <h2 id="creating-user-specific-configurations">Creating user-specific configurations</h2>
 <p>To implement user-specific configurations for your connector, you must first enable and then provide them.</p>
 <h3 id="enable-user-specific-configurations">Enable user-specific configurations</h3>
@@ -137,10 +138,16 @@
 <li><code>schemaShortName</code></li>
 <li><code>gatewaySchema</code></li>
 </ul>
-<blockquote><p><strong>Important:</strong> As soon as you deploy a connector whose <code>userConfigUrl</code> field is set, the i2 Analyze gateway starts to make requests that contain the above headers, which can contain sensitive information.</p>
-<p>To prevent this behavior, you can add the following property to a settings file:</p>
-<p><code>SendSensitiveHeadersToConnectors=false</code></p>
-<p>This setting effectively disables connectors that employ user-specific configuration, but it might help you to detect a connector that you did not expect to use it.</p>
+<blockquote><p><strong>Important:</strong> You must also instruct the i2 Connect gateway to send the above headers in requests to the connector. The headers can contain sensitive information, so the gateway does not send them by default.</p>
+<p>To add the headers to requests that reach the connector, you must add the <code>send-sensitive-headers</code> attribute to the entry for the connector in the topology file:</p>
+<pre><code>&lt;connectors&gt;
+  &lt;connector id=&quot;...&quot;
+             name=&quot;...&quot;
+             base-url=&quot;...&quot;
+             configuration-url=&quot;...&quot;
+             send-sensitive-headers=&quot;true&quot;/&gt;
+&lt;/connectors&gt;
+</code></pre><p>When the <code>send-sensitive-headers</code> attribute is absent, i2 Analyze behaves as if its value is <code>false</code>.</p>
 </blockquote>
 <h3 id="provide-user-specific-configurations">Provide user-specific configurations</h3>
 <p>The endpoint at the URL specified in the <code>userConfigUrl</code> field must return a configuration response similar to the one that the standard configuration endpoint returns. The user-specific configuration response supports the following fields:</p>
@@ -159,13 +166,13 @@
 <p>Ensure that you have a working deployment of the Java version of the NYPD connector before you continue:</p>
 <ul>
 <li>If you already followed the NYPD connector example using Java, you can use it as your starting point and build on it.</li>
-<li>Otherwise, you can start with the <a href="../../../connector/nypd/java/sample-solution/nypd-connector">sample solution</a> and follow the <a href="../walkthrough/3-deploy-connector.html">deployment instructions</a>.</li>
+<li>Otherwise, you can start with the sample solution (<code>sample-solution/nypd-connector</code>) and follow the <a href="../walkthrough/3-deploy-connector.html">deployment instructions</a>.</li>
 </ul>
 <h3 id="1-add-the-user-specific-example-override">1. Add the user-specific example override</h3>
 <p>This example works by overriding some aspects of the NYPD example connector.</p>
 <ul>
 <li>Make a copy of the sample solution (or your existing NYPD connector example, if you are using it).</li>
-<li><p>Copy the contents of the user configuration <a href="../../../connector/user-config/override">override directory</a> over your copied solution. The differences between the override and the sample solution are:</p>
+<li><p>Copy the contents of the <code>user-config/override</code> directory over your copied solution. The differences between the override and the sample solution are:</p>
 <ul>
 <li><code>ConnectorController.java</code> is modified to return <code>global-config.json</code> as the standard configuration, and to return <code>analyst-config.json</code> and <code>other-config.json</code> for the new, user-specific configurations.</li>
 <li>The existing <code>config.json</code> file is no longer used.</li>
@@ -232,7 +239,7 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

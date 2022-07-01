@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>i2 Connect Example Connectors </title>
+    <title>i2 Connect example connectors </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="i2 Connect Example Connectors ">
+    <meta name="title" content="i2 Connect example connectors ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="images/favicon.png">
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -77,10 +77,11 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="i2-connect-example-connectors">i2 Connect Example Connectors</h1>
+<h1 id="i2-connect-example-connectors">i2 Connect example connectors</h1>
 
+<p>To create a connector, you need a data source to query, and a server that supports REST endpoints to query it from. On that foundation, you can build the functionality that takes requests from the i2 Connect gateway, retrieves data from the source, and returns it to the gateway in a shape that is ready for conversion to i2 Analyze records.</p>
 <h2 id="developing-a-connector-walkthrough">Developing a connector walkthrough</h2>
-<p>The documentation for understanding, deploying and configuring both i2 Analyze and the example connector is divided into the following sections:</p>
+<p>The documentation for understanding, deploying and configuring both i2 Analyze and an example connector is divided into the following sections:</p>
 <ol>
 <li><a href="content/walkthrough/1-schema-design-guide.html">Building an i2 Analyze schema and working with the i2 Connect gateway</a></li>
 <li><a href="content/walkthrough/2-deploy-i2-analyze.html">Deploying i2 Analyze</a></li>
@@ -95,20 +96,20 @@
 <p>Further materials for connector development:</p>
 <ul>
 <li><a href="content/example-connectors/connector-async.html">Asynchronous services</a></li>
-<li><a href="content/example-connectors/connector-auth.html">Secrets management</a></li>
+<li><a href="content/example-connectors/connector-auth.html">Authentication</a></li>
 <li><a href="content/example-connectors/user-configuration.html">User-specific configuration</a></li>
-<li><a href="content/miscellaneous/principal-propagation.html">Principal propagation</a></li>
+<li><a href="content/miscellaneous/principal-propagation.html">Custom HTTP headers</a></li>
 </ul>
 <h3 id="environment-setup">Environment setup</h3>
 <p>The workshop requires the following tools and technologies:</p>
 <ul>
-<li><p><strong>IBM i2 Analyze 4.3.5</strong>: The server that hosts the i2 Connect gateway.</p>
+<li><p><strong>i2 Analyze 4.4.0</strong>: The server that hosts the i2 Connect gateway.</p>
 </li>
-<li><p><strong>IBM i2 Analyst&#39;s Notebook Premium 9.3.1</strong>: The client that provides the user
+<li><p><strong>i2 Analyst&#39;s Notebook Premium 9.4.0</strong>: The client that provides the user
 interface for interacting with your connector. The client displays the
 resulting entity and link records with their properties.</p>
 </li>
-<li><p><strong>IBM i2 Analyze Schema Designer</strong>: The tool that enables you to design and
+<li><p><strong>i2 Analyze Schema Designer</strong>: The tool that enables you to design and
 create your i2 Analyze schema. During installation of Analyst&#39;s Notebook
 Premium, ensure that you also install Schema Designer.</p>
 </li>
@@ -121,15 +122,12 @@ you. Download it <a href="https://code.visualstudio.com/">here</a>.</p>
 requests against REST endpoints. Download Postman
 <a href="https://www.getpostman.com/">here</a>.</p>
 </li>
-<li><p>An application framework dependent on the language who are writing the
+<li><p>An application framework dependent on the language you are writing the
 connector with.</p>
 <ul>
 <li><strong>Java (Spring Boot)</strong>: The connector is written in Java with Spring Boot.
 Spring Boot is a Spring framework with an embedded Tomcat server that makes
 it easy to spin up a web application. No installation is required.</li>
-<li><strong>Node.js (Express)</strong>: The connector is written with in Node with Express.
-Express is the fast, unopinionated, minimalist web framework for Node.js that
-provides a robust set of features for web and mobile applications.</li>
 <li><strong>Python (Flask)</strong>: The Python connector is written and run on a Flask
 application. Flask is a micro web framework which requires no particular
 tools or libraries. No manual installation other than the specified setup
@@ -146,21 +144,21 @@ are a few resources that contain more information about them:</p>
 <li><a href="content/miscellaneous/postman.html">Using Postman</a></li>
 <li>Running the example connectors:<ul>
 <li><a href="content/example-connectors/run-java.html">Java</a></li>
-<li><a href="content/example-connectors/run-node.html">Node.js</a></li>
 <li><a href="content/example-connectors/run-python.html">Python</a></li>
 </ul>
 </li>
+<li><a href="content/miscellaneous/source-identifiers.html">Source identifiers</a></li>
+<li><a href="content/miscellaneous/source-references.html">Source references</a></li>
+<li><a href="content/miscellaneous/spi-version.html">SPI version negotiation</a></li>
 <li><a href="content/miscellaneous/troubleshoot.html">Troubleshooting</a></li>
 </ul>
-<h2 id="flexible-schemas">Flexible schemas</h2>
+<h2 id="schemas-and-schema-types">Schemas and schema types</h2>
 <p>The documentation for understanding and configuring connector schemas, gateway
 schemas, type locations, item type mappings, and item type security is divided into the following sections:</p>
 <ul>
 <li><a href="content/schemas/connector-schema.html">Connector schemas</a></li>
 <li><a href="content/schemas/gateway-schema.html">Gateway schemas</a></li>
 <li><a href="content/schemas/type-location.html">Type location</a></li>
-<li><a href="content/schemas/item-type-mapping.html">Item type mapping</a></li>
-<li><a href="content/schemas/item-type-security.md">Item type security</a></li>
 <li><a href="content/schemas/schema-fragments.html">Migrating from schema fragments</a></li>
 </ul>
 <p>The example connectors used are:</p>
@@ -189,7 +187,7 @@ schemas, type locations, item type mappings, and item type security is divided i
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

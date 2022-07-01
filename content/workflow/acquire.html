@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>i2 Connect gateway REST SPI </title>
+    <title>Implementing acquire </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="i2 Connect gateway REST SPI ">
+    <meta name="title" content="Implementing acquire ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="../../styles/docfx.css">
     <link rel="stylesheet" href="../../styles/main.css">
     <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                IBM <strong>i2 Connect gateway</strong>
+                <strong>i2 Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -76,13 +76,36 @@
               </ul>
             </div>
           </div>
-            <article class="content wrap" id="_content" data-uid="i2 Connect gateway REST SPI/1.0">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="implementing-acquire">Implementing acquire</h1>
 
-<h1 id="i2_Connect_gateway_REST_SPI_1_0" data-uid="i2 Connect gateway REST SPI/1.0" class="text-capitalize text-break">i2 Connect gateway REST SPI</h1>
-  <div class="markdown level0 conceptual"><p>This documentation describes the server programming interface that you must implement when you write a connector to an external data source. Clients discover the URLs of the three connector endpoints through a combination of the topology file for the deployment and your SPI implementation.</p>
-<p>The <strong>{configurationUrl}</strong> comes from the topology file. By default, the i2 Connect gateway makes a POST request to your connector at the URL that you specify in the <strong>base-url</strong> attribute of the <strong><connector></connector></strong> element. If the value is <strong><a href="http://localhost:3700/">http://localhost:3700/</a></strong>, the request comes to <strong><a href="http://localhost:3700/config">http://localhost:3700/config</a></strong>.</p>
-<p>Your response from the <strong>{configurationUrl}</strong> can contain information about one or more services. The information for each service contains, in its <strong>acquireUrl</strong> and (optional) <strong>validateUrl</strong> fields, the URLs of the <strong>{acquireUrl}</strong> and <strong>{validateUrl}</strong> endpoints described here.</p>
-</div>
+<p>In a connector, an acquire endpoint must perform two tasks in succession. Its roles are to retrieve data from an external source, and to return that data to the i2 Connect gateway in a form that the latter can use to create i2 Analyze records.</p>
+<p>When a user runs a synchronous query against an external data source through their client application, the i2 Connect gateway makes a request to the acquire endpoint of the relevant service. The request always has a <em>payload</em> that can contain information (often, parameter values or seed records) that the user provided to the query.</p>
+<p>In general, your implementation of an acquire endpoint uses the contents of the payload to refine the commands that it sends to the external source. If the service that owns the endpoint specified a <code>clientConfigType</code> of <code>FORM</code>, then the identifiers of conditions in the form match the identifiers of conditions in the payload. If the service specified <code>seedConstraints</code>, then the payload contains the property values of seed records.</p>
+<p>For a query with no parameters and no seeds, the payload is empty. You can focus your development effort on making sure that the response from the acquire endpoint meets the requirements of the i2 Connect gateway.</p>
+<p><strong>Note:</strong> It is not possible to follow the same procedure for every different kind of external data source. The following steps do not apply in all cases. Rather, they describe tasks that you are likely to require.</p>
+<ol>
+<li><p>In i2 Analyze Schema Designer, open the schema file that contains the definitions of the i2 Analyze entity, link, and property types that data from the external source must align with.</p>
+</li>
+<li><p>Make a note of the identifiers and logical types of the property types of each of the entity and link types in the retrieved data. Make sure that you know which property types are mandatory.</p>
+</li>
+<li><p>Run the command to retrieve data from the external data source:</p>
+<ol>
+<li><p>If data retrieval from the external source succeeds, store the data in a structure that you can manipulate easily, and continue with the next step in this procedure.</p>
+</li>
+<li><p>If data retrieval from the external source fails, add the optional <code>errorMessage</code> field to the response from the endpoint.</p>
+<p>The <code>errorMessage</code> field contains a string that users of the connector see when a problem occurs. When the field is present (and not empty), the operation fails and any data in the arrays of entities and links is ignored.</p>
+</li>
+</ol>
+</li>
+<li><p>If the data from the external source contains information about links between entities, but the links in the data have no natural identifiers, you must manufacture those identifiers.</p>
+<p>This problem is similar to the one that you face if you prepare data for ingestion into the Information Store.</p>
+</li>
+<li><p>Create the arrays of entity and link data objects that must appear in the response from the acquire endpoint.</p>
+</li>
+<li><p>Populate the arrays according to the descriptions in the SPI documentation, taking care to ensure that you provide values for all mandatory properties. </p>
+</li>
+</ol>
 </article>
           </div>
           
@@ -103,7 +126,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; Copyright IBM Corporation 2021.
+            &copy; N. Harris Computer Corporation (2022).
             
           </div>
         </div>

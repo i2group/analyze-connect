@@ -7,7 +7,7 @@
     {
       "id": "nypd-search-service",
       "name": "NYPD Connector: Search",
-      "description": "A service for conditional searches",
+      "description": "A service for conditional searches.",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search",

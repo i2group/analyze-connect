@@ -9,8 +9,8 @@
   "services": [
     {
       "id": "eri-service",
-      "name": "ERI Connector: All Data",
-      "description": "A service which retrieves all data.",
+      "name": "ERI Connector: All data",
+      "description": "A service that retrieves all data.",
       "clientConfigType": "NONE",
       "acquireUrl": "/all"
     },
@@ -24,8 +24,8 @@
     },
     {
       "id": "eri-find-like-this-incident-service",
-      "name": "ERI Connector: Find-Like-This Incident",
-      "description": "A service which finds a similar incident.",
+      "name": "ERI Connector: Find like this incident",
+      "description": "A service that finds a similar incident.",
       "clientConfigType": "NONE",
       "acquireUrl": "/find-like-this-incident",
       "seedConstraints": {
@@ -46,7 +46,7 @@
     {
       "id": "eri-expand-service",
       "name": "ERI Connector: Expand",
-      "description": "A service which executes an expand operation on a seed",
+      "description": "A service that executes an expand operation on a seed.",
       "clientConfigType": "NONE",
       "acquireUrl": "/expand",
       "seedConstraints": {

@@ -6,7 +6,7 @@ retrieve data from external sources.
 
 In a deployment of i2 Analyze that uses the i2 Connect gateway, a _connector_
 transforms data from an external source into entity and link records that
-conform to an i2 Analyze schema, to be viewed and analyzed in IBM i2 Analyst's
+conform to an i2 Analyze schema, to be viewed and analyzed in i2 Analyst's
 Notebook Premium.
 
 When you implement a connector, you develop _services_ that allow analysts to

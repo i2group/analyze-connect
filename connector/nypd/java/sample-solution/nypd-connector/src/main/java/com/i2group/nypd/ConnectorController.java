@@ -1,15 +1,26 @@
-/********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************/
+/*
+ * MIT License
+ *
+ * © N.Harris Computer Corporation (2022)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.i2group.nypd;
 
@@ -19,12 +30,10 @@ import com.i2group.nypd.rest.transport.request.ConnectorRequest;
 import com.i2group.nypd.rest.transport.request.RequestCondition;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -34,6 +43,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_XML_VALUE;
 @RestController
 public class ConnectorController {
 
+  private static final double CONNECTOR_VERSION = 1.0;
   private final ExternalConnectorDataService connectorDataService;
   @Value("classpath:config.json")
   private Resource configResource;
@@ -58,7 +68,14 @@ public class ConnectorController {
    * @return The config.json file.
    */
   @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
-  public Resource config() {
+  public Resource config(@RequestHeader(value = "I2-Spi-Versions", required = false) List<Double> gatewaySupportedVersions) {
+    System.out.println("Gateway supported versions: " + gatewaySupportedVersions);
+
+    if (gatewaySupportedVersions.contains(CONNECTOR_VERSION)) {
+      System.out.println("Loading connector version " + CONNECTOR_VERSION);
+    } else {
+      System.out.print("The gateway does not support connector version " + CONNECTOR_VERSION);
+    }
     return configResource;
   }
 
@@ -115,15 +132,7 @@ public class ConnectorController {
   @RequestMapping(method = RequestMethod.POST, value = "/search/validate",
       consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   public ValidationResponse searchValidate(@Valid @RequestBody ConnectorRequest request) {
-    final ValidationResponse validationResponse = new ValidationResponse();
-    final List<RequestCondition> conditions = request.payload.conditions;
-    final boolean conditionPresent = conditions.stream()
-        .anyMatch(condition -> condition.value != null);
-
-    if (!conditionPresent) {
-      validationResponse.errorMessage = "At least one search field should have a specified value.";
-    }
-    return validationResponse;
+    return validateSearchForm(request);
   }
 
   /**
@@ -164,5 +173,30 @@ public class ConnectorController {
   public ConnectorResponse expandWithConditionsService(
       @Valid @RequestBody ConnectorRequest request) {
     return connectorDataService.expandWithConditions(request.payload);
+  }
+
+  /**
+   * Defines the /expand-with-conditions/validate endpoint which validates the condition inputs.
+   *
+   * @param request The request containing the payload.
+   * @return A response containing an error message or nothing.
+   */
+  @RequestMapping(method = RequestMethod.POST, value = "/expand-with-conditions/validate",
+      consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+  public ValidationResponse expandWithConditionsValidate(
+      @Valid @RequestBody ConnectorRequest request) {
+    return validateSearchForm(request);
+  }
+
+  private ValidationResponse validateSearchForm(ConnectorRequest request) {
+    final ValidationResponse validationResponse = new ValidationResponse();
+    final List<RequestCondition> conditions = request.payload.conditions;
+    final boolean conditionPresent = conditions.stream()
+        .anyMatch(condition -> condition.value != null);
+
+    if (!conditionPresent) {
+      validationResponse.errorMessage = "At least one search field should have a specified value.";
+    }
+    return validationResponse;
   }
 }

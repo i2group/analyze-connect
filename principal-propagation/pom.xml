@@ -8,7 +8,7 @@
 	<description>A demonstration project for principal propagation.</description>
 	<properties>
 		<java.version>1.8</java.version>
-		<toolkitLocation>C:\IBM\i2analyze</toolkitLocation>
+		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
 	</properties>
 	<dependencies>
 		<dependency>

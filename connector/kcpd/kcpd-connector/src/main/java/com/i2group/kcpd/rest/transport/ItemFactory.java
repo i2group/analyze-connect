@@ -1,15 +1,26 @@
-/********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************/
+/*
+ * MIT License
+ *
+ * © N.Harris Computer Corporation (2022)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.i2group.kcpd.rest.transport;
 
@@ -32,7 +43,7 @@ public class ItemFactory {
    * @return The created report object.
    */
   public static EntityData createReport(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+    HashMap<String, Object> properties = new HashMap<>();
 
     properties.put("PT1", entry.reportNumber);
     properties.put("PT2", entry.reportDate);
@@ -60,7 +71,7 @@ public class ItemFactory {
    * @return The created location object.
    */
   public static EntityData createLocation(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+    HashMap<String, Object> properties = new HashMap<>();
 
     properties.put("PT9", entry.city);
     properties.put("PT10", entry.address);
@@ -87,7 +98,7 @@ public class ItemFactory {
    * @return The created person object.
    */
   public static EntityData createPerson(SocrataResponseData entry) {
-    HashMap<String, Object> properties = new HashMap<String, Object>();
+    HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT13", entry.race);
     properties.put("PT14", entry.sex);
     properties.put("PT15", String.valueOf(entry.age));
@@ -166,7 +177,7 @@ public class ItemFactory {
   }
 
   /**
-   * Creates a arrested link from a single record of data.
+   * Creates an arrested link from a single record of data.
    *
    * @param entry The single record from the dataset.
    * @param report The report from the row of the dataset.
@@ -232,12 +243,11 @@ public class ItemFactory {
    * Generate a valid source reference, querying a link to an item of data using the unique
    * report number.
    *
-   * @param id The ID of the entity or link object.
    * @param reportNum The report number of the record associated with the entity.
    * @return The SourceReference object containing details of the source.
    */
   private static SourceReference generateSourceReference(String reportNum) {
-    SourceInfo source = new SourceInfo();
+    SourceReferenceInfo source = new SourceReferenceInfo();
     source.name = "KCPD Crime Data";
     source.type = "Open source data";
     source.description =
@@ -245,7 +255,6 @@ public class ItemFactory {
     source.location = baseUrl + "?report_no=" + reportNum;
 
     SourceReference reference = new SourceReference();
-    reference.id = "";
     reference.source = source;
 
     return reference;

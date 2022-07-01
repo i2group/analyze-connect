@@ -9,8 +9,8 @@
   "services": [
     {
       "id": "async-acquire-service",
-      "name": "Async Connector: Async Acquire",
-      "description": "An async query that returns all the people and has a default polling interval of 1s.\n\nThe query will also provide a substatus with the query start time",
+      "name": "Async Connector: Async acquire",
+      "description": "An async query that returns all the people and has a default polling interval of 1s.\n\nThe query will also provide a substatus with the query start time.",
       "async": {
         "queriesResource": "/async",
         "pollingIntervalInSeconds": 1

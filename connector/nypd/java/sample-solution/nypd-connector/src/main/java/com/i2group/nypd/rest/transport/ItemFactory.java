@@ -1,15 +1,26 @@
-/********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************/
+/*
+ * MIT License
+ *
+ * © N.Harris Computer Corporation (2022)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.i2group.nypd.rest.transport;
 
@@ -73,7 +84,7 @@ public class ItemFactory {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT15", entry.precinctCode);
     properties.put("PT16", entry.boroName);
-    properties.put("PT18", GeospatialPoint.withCoordinates(entry.latitude, entry.longitude));
+    properties.put("PT18", GeospatialPoint.withCoordinates(entry.longitude, entry.latitude));
 
     final EntityData location = new EntityData();
     location.id = "LOC" + entry.precinctCode + entry.boroName;
@@ -194,7 +205,7 @@ public class ItemFactory {
    * @return The SourceReference object containing details of the source.
    */
   private SourceReference generateSourceReference(String complaintNum) {
-    final SourceInfo source = new SourceInfo();
+    final SourceReferenceInfo source = new SourceReferenceInfo();
     source.name = "NYPD Complaint Dataset";
     source.type = "Open source data";
     source.description =
@@ -208,7 +219,6 @@ public class ItemFactory {
     }
 
     final SourceReference reference = new SourceReference();
-    reference.id = "";
     reference.source = source;
 
     return reference;

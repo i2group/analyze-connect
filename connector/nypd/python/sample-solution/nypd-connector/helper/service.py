@@ -1,15 +1,24 @@
-#********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************
+# MIT License
+#
+# © N.Harris Computer Corporation (2022)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 import yaml
 import json
@@ -115,8 +124,8 @@ def build_params(conditions, base_clause=""):
 
     if conditions:
         for i, condition in enumerate(conditions):
-            params += f"{condition.get('id')} LIKE '%{condition.get('value')}%'"
-            if i < len(conditions) - 1: params += " AND "
+            params += f"{condition.get('id')}='{condition.get('value')}'"
+            if i < len(conditions) - 1: params += "&"
 
     return params
 
@@ -130,13 +139,14 @@ def validate_request(conditions):
     """
     response = { 'errorMessage': None }
 
-    for condition in conditions:
-        id = condition.get('id')
-        value = condition.get('value')
+    conditionPresent = False
 
-        if id == 'law_cat_cd':
-            if len(str(value)) < 3:
-                response['errorMessage'] = "Enter 3 or more characters to search by offence."
+    for condition in conditions:
+        if condition.get('value') is not None:
+            conditionPresent = True
+
+    if not conditionPresent:
+        response['errorMessage'] = "At least one search field should have a specified value."
     
     return response
 
@@ -178,13 +188,7 @@ def impl_expand(seeds, initial_params=""):
     if seeds:
         entity = seeds['entities'][0]
         properties = entity['properties']
-        params = ""
-
-        if entity['typeId'] == type_ids['location']:
-            if not initial_params:
-                params += f"&$where=addr_pct_cd='{properties['PT15']}'"
-            else:
-                params += f"{initial_params} AND addr_pct_cd='{properties['PT15']}'"
+        params = build_expand_parameters(initial_params, entity, properties)
 
         records = query_external_datasource(params)
         response = marshal(records)
@@ -197,3 +201,18 @@ def impl_expand(seeds, initial_params=""):
                 link['fromEndId'] = entity['seedId']
 
     return response
+
+def build_expand_parameters(initial_params, entity, properties):
+    params = ""
+
+    if not initial_params:
+        params += f"&$where="
+    else:
+        params += f"{initial_params}&"
+
+    if entity['typeId'] == type_ids['complaint']:
+        params += f"cmplnt_num='{properties['PT1']}'"
+    if entity['typeId'] == type_ids['location']:
+        params += f"addr_pct_cd='{properties['PT15']}'"
+
+    return params

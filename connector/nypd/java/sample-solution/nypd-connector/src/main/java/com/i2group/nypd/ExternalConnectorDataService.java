@@ -1,15 +1,26 @@
-/********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************/
+/*
+ * MIT License
+ *
+ * © N.Harris Computer Corporation (2022)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 package com.i2group.nypd;
 
@@ -110,7 +121,7 @@ public class ExternalConnectorDataService {
    * @return A response containing the entities and links.
    */
   public ConnectorResponse findLikeThisComplaint(DaodSeeds seeds) {
-    DaodSeedEntityData seed = seeds.entities.get(0);
+    final DaodSeedEntityData seed = seeds.entities.get(0);
 
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
@@ -135,25 +146,12 @@ public class ExternalConnectorDataService {
    */
   public ConnectorResponse expand(DaodSeeds seeds) {
     final DaodSeedEntityData seed = seeds.entities.get(0);
-    String field = "", value = "";
-
-    if (seed.typeId.equals("ET1")) {
-      field = "cmplnt_num";
-      value = seed.properties.get("PT1").toString();
-    } else if (seed.typeId.equals("ET2")) {
-      field = "addr_pct_cd";
-      value = seed.properties.get("PT15").toString();
-    }
-
-    final Map<String, Object> params = new HashMap<>();
-    params.put("limitValue", 50);
-    params.put("field", field);
-    params.put("value", value);
+    final Map<String, Object> params = buildExpandParameters(seed);
 
     final String url = LIMIT_PARAM + "&{field}={value}";
 
     final SocrataResponse socrataResponse = socrataClient.get(url, SocrataResponse.class, params);
-    ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
+    final ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
     return response;
@@ -166,21 +164,8 @@ public class ExternalConnectorDataService {
    * @return A response containing the entities and links.
    */
   public ConnectorResponse expandWithConditions(Payload payload) {
-    DaodSeedEntityData seed = payload.seeds.entities.get(0);
-    String field = "", value = "";
-
-    if (seed.typeId.equals("ET1")) {
-      field = "cmplnt_num";
-      value = seed.properties.get("PT1").toString();
-    } else if (seed.typeId.equals("ET2")) {
-      field = "addr_pct_cd";
-      value = seed.properties.get("PT15").toString();
-    }
-
-    final Map<String, Object> params = new HashMap<>();
-    params.put("field", field);
-    params.put("limitValue", 50);
-    params.put("value", value);
+    final DaodSeedEntityData seed = payload.seeds.entities.get(0);
+    final Map<String, Object> params = buildExpandParameters(seed);
 
     final StringBuilder url = new StringBuilder(LIMIT_PARAM);
     url.append("&{field}={value}");
@@ -197,10 +182,29 @@ public class ExternalConnectorDataService {
     }
 
     final SocrataResponse socrataResponse = socrataClient.get(url.toString(), SocrataResponse.class, params);
-    ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
+    final ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
     return response;
+  }
+
+  private Map<String, Object> buildExpandParameters(DaodSeedEntityData seed) {
+    String field = "";
+    String value = "";
+
+    if (seed.typeId.equals("ET1")) {
+      field = "cmplnt_num";
+      value = seed.properties.get("PT1").toString();
+    } else if (seed.typeId.equals("ET2")) {
+      field = "addr_pct_cd";
+      value = seed.properties.get("PT15").toString();
+    }
+
+    final Map<String, Object> params = new HashMap<>();
+    params.put("limitValue", 50);
+    params.put("field", field);
+    params.put("value", value);
+    return params;
   }
 
   /**
@@ -267,7 +271,7 @@ public class ExternalConnectorDataService {
    */
   private List<LinkData> linkToSeedIds(ConnectorResponse response, DaodSeedEntityData seed) {
     for (LinkData link : response.links) {
-      String sourceId = seed.sourceIds.get(0).key.get(2);
+      final String sourceId = seed.sourceIds.get(0).key.get(2);
       if (link.fromEndId.equals(sourceId)) {
         link.fromEndId = seed.seedId;
       } else if (link.toEndId.equals(sourceId)) {

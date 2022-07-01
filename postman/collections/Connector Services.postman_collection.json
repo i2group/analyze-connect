@@ -311,7 +311,13 @@
 					"name": "Config",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "I2-Spi-Versions",
+								"value": "1.0",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{url}}/config",
 							"host": [

@@ -10,7 +10,7 @@
     {
       "id": "auth-acquire",
       "name": "Auth Connector: Acquire",
-      "description": "A service which retrieves all data. Only authorized access permitted.",
+      "description": "A service that retrieves all data. Only authorized access permitted.",
       "clientConfigType": "NONE",
       "acquireUrl": "/acquire",
       "authConfigId": "authConfig1"
@@ -18,7 +18,7 @@
     {
       "id": "auth-acquire-apikey",
       "name": "Auth Connector: Acquire API Key",
-      "description": "A service which retrieves all data. Only authorized access permitted.",
+      "description": "A service that retrieves all data. Only authorized access permitted.",
       "clientConfigType": "NONE",
       "acquireUrl": "/acquire",
       "authConfigId": "authConfig2"
@@ -26,7 +26,7 @@
     {
       "id": "auth-async-acquire",
       "name": "Auth Connector: Async Acquire",
-      "description": "A service which retrieves all data asynchronously. Only authorized access permitted.",
+      "description": "A service that retrieves all data asynchronously. Only authorized access permitted.",
       "async": {
         "queriesResource": "/async",
         "pollingIntervalInSeconds": 1

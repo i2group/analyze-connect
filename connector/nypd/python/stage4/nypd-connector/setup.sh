@@ -1,9 +1,6 @@
 #!/bin/bash
-# Licensed Materials - Property of IBM
-# 5725-G22
-# (C) Copyright IBM Corp. 2012, 2021 All Rights Reserved.
-# US Government Users Restricted Rights - Use, duplication or
-# disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+# i2, i2 Group, the i2 Group logo, and i2group.com are trademarks of N.Harris Computer Corporation.
+# © N.Harris Computer Corporation (2022)
 
 set -e
 

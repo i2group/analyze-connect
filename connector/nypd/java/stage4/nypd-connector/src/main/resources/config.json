@@ -6,15 +6,15 @@
   "services": [
     {
       "id": "nypd-service",
-      "name": "NYPD Connector: Get All",
-      "description": "A service which retrieves all data",
+      "name": "NYPD Connector: Get all",
+      "description": "A service that retrieves all data.",
       "clientConfigType": "NONE",
       "acquireUrl": "/all"
     },
     {
       "id": "nypd-search-service",
       "name": "NYPD Connector: Search",
-      "description": "A service for conditional searches",
+      "description": "A service for conditional searches.",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search"

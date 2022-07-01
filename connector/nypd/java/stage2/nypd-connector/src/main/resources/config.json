@@ -6,8 +6,8 @@
   "services": [
     {
       "id": "nypd-service",
-      "name": "NYPD Connector: Get All",
-      "description": "A service which retrieves all data",
+      "name": "NYPD Connector: Get all",
+      "description": "A service that retrieves all data.",
       "clientConfigType": "NONE",
       "acquireUrl": "/all"
     }

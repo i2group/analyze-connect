@@ -1,15 +1,24 @@
-#********************************************************************************
-# * Licensed Materials - Property of IBM
-# * (C) Copyright IBM Corporation 2021. All Rights Reserved
-# *
-# * This program and the accompanying materials are made available under the
-# * terms of the Eclipse Public License 2.0 which is available at
-# * http://www.eclipse.org/legal/epl-2.0.
-# *
-# * US Government Users Restricted Rights - Use, duplication or
-# * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-# *
-# ********************************************************************************
+# MIT License
+#
+# © N.Harris Computer Corporation (2022)
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 import yaml
 import os
@@ -86,7 +95,6 @@ class Complaint(Entity):
             'PT9': int(entry.get('ky_cd')) if entry.get('ky_cd') else None,
             'PT10': entry.get('law_cat_cd'),
             'PT11': entry.get('ofns_desc'),
-            'PT12': int(float(entry.get('pd_cd'))) if entry.get('pd_cd') else None,
             'PT13': entry.get('pd_desc'),
             'PT14': entry.get('rpt_dt')[:10] if entry.get('rpt_dt') else None,
             'PT29': entry.get('loc_of_occur_desc') if entry.get('loc_of_occur_desc') else None
@@ -100,18 +108,14 @@ class Location(Entity):
         entry (dict): One record from the external datasource.
     """
     def __init__(self, entry):
-        id = get_id("LOC", entry)
+        precinctCode = entry.get('addr_pct_cd')
+        boroughName = entry.get('boro_nm')
+        id = "LOC"+ precinctCode + boroughName
         super().__init__(id, type_ids['location'], {
-            'PT15': int(entry.get('addr_pct_cd')) if entry.get('addr_pct_cd') else None,
-            'PT16': entry.get('boro_nm'),
-            'PT17': entry.get('hadevelopt'),
-            'PT18': GeospatialPoint(entry.get('latitude'), entry.get('longitude')).__dict__ 
-                    if entry.get('latitude') and entry.get('longitude') else None,
-            'PT19': entry.get('parks_nm'),
-            'PT20': entry.get('patrol_boro'),
-            'PT21': entry.get('prem_typ_desc'),
-            'PT22': entry.get('station_name'),
-            'PT23': int(float(entry.get('transit_district'))) if entry.get('transit_district') else None,
+            'PT15': int(precinctCode) if precinctCode else None,
+            'PT16': boroughName,
+            'PT18': GeospatialPoint(entry.get('longitude'), entry.get('latitude')).__dict__ 
+                    if entry.get('longitude') and entry.get('latitude') else None,
         }, generate_source_ref(entry.get('cmplnt_num')))
 
 class GeospatialPoint:
@@ -120,11 +124,11 @@ class GeospatialPoint:
 
     Attributes:
         type (str): The type of GeoJSON entity. Will always be "Point".
-        coordinates (tuple): Latitude and Longitude.
+        coordinates (tuple): Longitude and Latitude.
     """
-    def __init__(self, latitude, longitude):
+    def __init__(self, longitude, latitude):
         self.type = "Point"
-        self.coordinates = (latitude, longitude)
+        self.coordinates = (longitude, latitude)
 
 class Victim(Entity):
     """
@@ -185,7 +189,6 @@ def get_id(base, entry):
 
 def generate_source_ref(complaint_num):
     return {
-        "id": "",
         'source': {
             'name': "NYPD Complaint Dataset",
             'type': "Open source data",

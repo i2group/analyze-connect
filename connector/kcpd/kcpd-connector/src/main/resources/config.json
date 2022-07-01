@@ -10,14 +10,14 @@
     {
       "id": "kcpd-service",
       "name": "KCPD Connector: Get All",
-      "description": "A service which retrieves all data",
+      "description": "A service that retrieves all data.",
       "clientConfigType": "NONE",
       "acquireUrl": "/all"
     },
     {
       "id": "kcpd-search-service",
       "name": "KCPD Connector: Search",
-      "description": "A service for conditional searches",
+      "description": "A service for conditional searches.",
       "clientConfigType": "FORM",
       "clientConfigId": "searchForm",
       "acquireUrl": "/search",
@@ -45,7 +45,7 @@
     {
       "id": "kcpd-expand-service",
       "name": "KCPD Connector: Expand",
-      "description": "A service which executes an Expand operation on a seed",
+      "description": "A service that executes an expand operation on a seed.",
       "clientConfigType": "NONE",
       "acquireUrl": "/expand",
       "seedConstraints": {

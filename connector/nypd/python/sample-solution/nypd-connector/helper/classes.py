@@ -87,8 +87,8 @@ class Complaint(Entity):
             'PT1': entry.get('cmplnt_num'),
             'PT2': entry.get('cmplnt_fr_dt')[:10] if entry.get('cmplnt_fr_dt') else None,
             'PT3': entry.get('cmplnt_to_dt')[:10] if entry.get('cmplnt_to_dt') else None,
-            'PT4': entry.get('cmplnt_fr_tm'),
-            'PT5': entry.get('cmplnt_to_tm') if entry.get('cmplnt_to_tm') else None,
+            'PT4': sanitizeTime(entry.get('cmplnt_fr_tm')),
+            'PT5': sanitizeTime(entry.get('cmplnt_to_tm')) if entry.get('cmplnt_to_tm') else None,
             'PT6': entry.get('crm_atpt_cptd_cd'),
             'PT7': int(float(entry.get('jurisdiction_code'))) if entry.get('jurisdiction_code') else None,
             'PT8': entry.get('juris_desc'),
@@ -182,6 +182,10 @@ class SuspectOf(Link):
     def __init__(self, entry):
         id = get_id("SO", entry)
         super().__init__("SO" + id, type_ids['suspect_of'], None, generate_source_ref(entry.get('cmplnt_num')))
+
+def sanitizeTime(time):
+    if time.__eq__("(null)"):
+        return None
 
 def get_id(base, entry):
     id = int(entry.get('cmplnt_num'))

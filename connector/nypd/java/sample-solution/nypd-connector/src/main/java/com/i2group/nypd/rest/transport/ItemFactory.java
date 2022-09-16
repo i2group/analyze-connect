@@ -28,6 +28,7 @@ import com.i2group.nypd.rest.externalsource.transport.SocrataResponseData;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.time.LocalTime;
 import java.util.HashMap;
 
 /** Used to generate entity and link objects */
@@ -52,8 +53,8 @@ public class ItemFactory {
     properties.put("PT1", entry.complaintNum);
     properties.put("PT2", entry.complaintStartDate);
     properties.put("PT3", entry.complaintEndDate);
-    properties.put("PT4", entry.complaintStartTime);
-    properties.put("PT5", entry.complaintEndTime);
+    properties.put("PT4", parseStringToTime(entry.complaintStartTime));
+    properties.put("PT5", parseStringToTime(entry.complaintEndTime));
     properties.put("PT6", entry.crimeStatus);
     properties.put("PT7", entry.jurisdictionCode);
     properties.put("PT8", entry.jurisdictionDesc);
@@ -72,6 +73,13 @@ public class ItemFactory {
     complaint.sourceReference = generateSourceReference(entry.complaintNum);
 
     return complaint;
+  }
+
+  private LocalTime parseStringToTime(String time) {
+    if (time.equals("(null)")) {
+      return null;
+    }
+    return LocalTime.parse(time);
   }
 
   /**

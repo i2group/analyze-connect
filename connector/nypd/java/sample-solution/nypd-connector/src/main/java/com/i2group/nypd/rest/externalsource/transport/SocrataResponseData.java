@@ -48,10 +48,10 @@ public class SocrataResponseData {
   public LocalDate complaintEndDate;
 
   @JsonProperty("cmplnt_fr_tm")
-  public LocalTime complaintStartTime;
+  public String complaintStartTime;
 
   @JsonProperty("cmplnt_to_tm")
-  public LocalTime complaintEndTime;
+  public String complaintEndTime;
 
   @JsonProperty("crm_atpt_cptd_cd")
   public String crimeStatus;

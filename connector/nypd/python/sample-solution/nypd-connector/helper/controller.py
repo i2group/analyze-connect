@@ -1,6 +1,6 @@
 # MIT License
 #
-# © N.Harris Computer Corporation (2022)
+# © N.Harris Computer Corporation (2023)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -27,17 +27,25 @@ from helper.service import (query_external_datasource, marshal, build_params,
     impl_expand, impl_find_like_this_complaint, validate_request)
 
 controller = Blueprint('config', __name__)
-connector_version = '1.0'
+connector_major_version = '1'
+connector_minor_version = '0'
 
 @controller.route('/config')
 def config():
-    gatewaySupportedVersions = request.headers['I2-Spi-Versions']
-    print('Gateway supported versions: ' + gatewaySupportedVersions)
+    gateway_supported_versions = request.headers['I2-Spi-Versions']
+    print('Gateway supported versions: ' + gateway_supported_versions)
 
-    if (connector_version in gatewaySupportedVersions):
-        print('Loading connector version ' + connector_version)
-    else:
-        print('The gateway does not support connector version ' + connector_version)
+    for supported_version in gateway_supported_versions.split(','):
+        supported_version_parts = supported_version.split('.')
+        supported_major_version = supported_version_parts[0]
+        supported_minor_version = supported_version_parts[1]
+
+        connector_version = connector_major_version + '.' + connector_minor_version
+
+        if ((connector_major_version == supported_major_version) and (connector_minor_version <= supported_minor_version)):
+            print('The gateway supports connector version ' + connector_version)
+        else:
+            print('The gateway does not support connector version ' + connector_version)
 
     return send_from_directory('static', 'config.json')
 

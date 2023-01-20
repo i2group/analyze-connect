@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ns2:Schema DefaultLabelingSchemeId="8355f4c5-1444-4a2f-b4da-f9374fbd80e6" xmlns:ns2="http://www.i2group.com/Schemas/2011-03-03/ModelSchema">
-  <GradeTypes/>
+<ns2:Schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns3="http://www.i2group.com/Schemas/2011-03-03/ModelSchemaExtension" DefaultLabelingSchemeId="8355f4c5-1444-4a2f-b4da-f9374fbd80e6" xmlns:ns2="http://www.i2group.com/Schemas/2011-03-03/ModelSchema">
+  <GradeTypes />
   <ItemTypes>
     <EntityTypes>
       <EntityType Description="A person" DisplayName="Person" Id="Person" Icon="Person (Shaded Shirt)">
         <PropertyGroupTypes />
         <PropertyTypes>
           <PropertyType Description="" DisplayName="First Name" Id="PER1" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="0" SemanticTypeId="guid4DE7370B-60E5-4EB0-860E-4066D3DFD7B6" MaximumLengthChars="250">
-            <PossibleValues/>
+            <PossibleValues />
           </PropertyType>
-          <PropertyType Description="" DisplayName="Last Name" Id="PER2" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="2" SemanticTypeId="guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB" MaximumLengthChars="250">
-            <PossibleValues/>
+          <PropertyType Description="" DisplayName="Last Name" Id="PER2" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB" MaximumLengthChars="250">
+            <PossibleValues />
           </PropertyType>
-          <PropertyType Description="" DisplayName="Year of Birth" Id="PER3" LogicalType="DATE" Mandatory="false" Position="3" SemanticTypeId="guidFE45F1C4-B198-4111-8123-F42D2CD6419D">
-            <PossibleValues/>
+          <PropertyType Description="" DisplayName="Year of Birth" Id="PER3" LogicalType="DATE" Mandatory="false" Position="2" SemanticTypeId="guidFE45F1C4-B198-4111-8123-F42D2CD6419D">
+            <PossibleValues />
           </PropertyType>
-          <PropertyType Description="Social Security Number" DisplayName="SSN" Id="PER4" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="5" SemanticTypeId="guidF9DA2FC4-4B32-4d42-A178-A238274D4C5D" MaximumLengthChars="250">
-            <PossibleValues/>
+          <PropertyType Description="Social Security Number" DisplayName="SSN" Id="PER4" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="3" SemanticTypeId="guidF9DA2FC4-4B32-4d42-A178-A238274D4C5D" MaximumLengthChars="250">
+            <PossibleValues />
           </PropertyType>
-          <PropertyType Description="" DisplayName="SSN Issued Date and Time" Id="PER5" LogicalType="DATE_AND_TIME" Mandatory="false" Position="6" SemanticTypeId="guid770074b2-0235-4ade-aca0-f64f9d1986f9">
-            <PossibleValues/>
+          <PropertyType Description="" DisplayName="SSN Issued Date and Time" Id="PER5" LogicalType="DATE_AND_TIME" Mandatory="false" Position="4" SemanticTypeId="guid770074b2-0235-4ade-aca0-f64f9d1986f9">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="" DisplayName="Maiden Name" Id="PER6" LogicalType="SINGLE_LINE_STRING" Mandatory="false" Position="5" SemanticTypeId="guid699AD2D5-B30B-4508-9349-0E1AC1FF876C" MaximumLengthChars="250">
+            <PossibleValues />
+          </PropertyType>
+        </PropertyTypes>
+      </EntityType>
+      <EntityType Description="An Analyst's Notebook chart" DisplayName="Analyst's Notebook Chart" Id="CHART" Icon="Anbchart">
+        <PropertyGroupTypes />
+        <PropertyTypes>
+          <PropertyType Description="The name of the chart, which is independent from its file name" DisplayName="Name" Id="CHART1" LogicalType="SINGLE_LINE_STRING" Mandatory="true" Position="0" SemanticTypeId="" MaximumLengthChars="255">
+            <PossibleValues />
+          </PropertyType>
+          <PropertyType Description="A description of the chart" DisplayName="Description" Id="CHART2" LogicalType="MULTIPLE_LINE_STRING" Mandatory="false" Position="1" SemanticTypeId="">
+            <PossibleValues />
           </PropertyType>
         </PropertyTypes>
       </EntityType>
     </EntityTypes>
     <LinkTypes>
-      <LinkType FromTypeIds="Person" ToTypeIds="Person" Description="" DisplayName="Friends With" Id="FriendLink" SemanticTypeId="guid3C07BD39-5F65-4fb0-B87F-5B633BCF9B04">
-        <PropertyGroupTypes/>
-        <PropertyTypes/>
+      <LinkType Description="" DisplayName="Friends With" Id="FriendLink" SemanticTypeId="guid3C07BD39-5F65-4fb0-B87F-5B633BCF9B04" FromTypeIds="Person" ToTypeIds="Person">
+        <PropertyGroupTypes />
+        <PropertyTypes />
       </LinkType>
     </LinkTypes>
   </ItemTypes>
   <Id>b5f2afce-bb7b-4d2c-b1b1-e6e0b9ecea82</Id>
-  <Version>4</Version>
+  <Version>5</Version>
   <SourceInfoMandatoryFields IsDateMandatory="false" IsDescriptionMandatory="false" IsReferenceMandatory="false" IsTypeMandatory="false" />
   <LinkStrengthInfo DefaultLinkStrengthId="f232caa8-cf55-4d9a-8c21-19a55b0447da">
     <LinkStrengths>
@@ -46,17 +60,23 @@
       <LabelDefinitions>
         <LabelDefinition ItemTypeId="Person">
           <LabelParts>
-            <LabelPart Value="PER1" LabelPartType="PROPERTY_TYPE"/>
-            <LabelPart Value=" " LabelPartType="LITERAL"/>
-            <LabelPart Value="PER2" LabelPartType="PROPERTY_TYPE"/>
+            <LabelPart Value="PER1" LabelPartType="PROPERTY_TYPE" />
+            <LabelPart Value=" " LabelPartType="LITERAL" />
+            <LabelPart Value="PER2" LabelPartType="PROPERTY_TYPE" />
           </LabelParts>
         </LabelDefinition>
         <LabelDefinition ItemTypeId="FriendLink">
           <LabelParts>
-            <LabelPart Value="Friends with" LabelPartType="LITERAL"/>
+            <LabelPart Value="Friends with" LabelPartType="LITERAL" />
           </LabelParts>
+        </LabelDefinition>
+        <LabelDefinition ItemTypeId="CHART">
+          <LabelParts />
         </LabelDefinition>
       </LabelDefinitions>
     </LabelingScheme>
   </LabelingSchemes>
+  <SemanticTypeLibrary>
+    <lcx:LibraryCatalogue VersionMajor="1" VersionMinor="18" VersionRelease="27" VersionBuild="60" xmlns:lcx="http://www.i2group.com/Schemas/2001-12-07/LCXSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" LocaleHex="0409" />
+  </SemanticTypeLibrary>
 </ns2:Schema>

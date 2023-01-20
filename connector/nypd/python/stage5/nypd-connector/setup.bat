@@ -1,6 +1,6 @@
 @echo off
 @REM i2, i2 Group, the i2 Group logo, and i2group.com are trademarks of N.Harris Computer Corporation.
-@REM © N.Harris Computer Corporation (2022)
+@REM © N.Harris Computer Corporation (2023)
 
 echo Checking if Python is installed...
 python -V

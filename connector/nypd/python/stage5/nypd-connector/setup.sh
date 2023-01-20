@@ -1,6 +1,6 @@
 #!/bin/bash
 # i2, i2 Group, the i2 Group logo, and i2group.com are trademarks of N.Harris Computer Corporation.
-# © N.Harris Computer Corporation (2022)
+# © N.Harris Computer Corporation (2023)
 
 set -e
 

@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * © N.Harris Computer Corporation (2022)
+ * © N.Harris Computer Corporation (2023)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,4 +31,5 @@ import java.util.List;
  */
 public class Payload {
   public List<RequestCondition> conditions;
+  public DaodSeeds seeds;
 }

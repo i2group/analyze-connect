@@ -1,7 +1,7 @@
 /*
  * MIT License
  *
- * © N.Harris Computer Corporation (2022)
+ * © N.Harris Computer Corporation (2023)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -43,7 +43,8 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_XML_VALUE;
 @RestController
 public class ConnectorController {
 
-  private static final double CONNECTOR_VERSION = 1.0;
+  private static final int CONNECTOR_MAJOR_VERSION = 1;
+  private static final int CONNECTOR_MINOR_VERSION = 0;
   private final ExternalConnectorDataService connectorDataService;
   @Value("classpath:config.json")
   private Resource configResource;
@@ -68,13 +69,20 @@ public class ConnectorController {
    * @return The config.json file.
    */
   @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
-  public Resource config(@RequestHeader(value = "I2-Spi-Versions", required = false) List<Double> gatewaySupportedVersions) {
+  public Resource config(@RequestHeader(value = "I2-Spi-Versions", required = false) List<String> gatewaySupportedVersions) {
     System.out.println("Gateway supported versions: " + gatewaySupportedVersions);
 
-    if (gatewaySupportedVersions.contains(CONNECTOR_VERSION)) {
-      System.out.println("Loading connector version " + CONNECTOR_VERSION);
-    } else {
-      System.out.print("The gateway does not support connector version " + CONNECTOR_VERSION);
+    for (String supportedVersion: gatewaySupportedVersions) {
+      final String[] supportedVersionParts = supportedVersion.split("\\.");
+      final double supportedMajorVersion = Double.parseDouble(supportedVersionParts[0]);
+      final double supportedMinorVersion = Double.parseDouble(supportedVersionParts[1]);
+
+      final String connectorVersion = CONNECTOR_MAJOR_VERSION + "." + CONNECTOR_MINOR_VERSION;
+      if ((CONNECTOR_MAJOR_VERSION == supportedMajorVersion) && (CONNECTOR_MINOR_VERSION <= supportedMinorVersion)) {
+        System.out.print("The gateway supports connector version " + connectorVersion + "\n");
+      } else {
+        System.out.print("The gateway does not support connector version " + connectorVersion + "\n");
+      }
     }
     return configResource;
   }

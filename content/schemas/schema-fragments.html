@@ -79,14 +79,10 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="migrating-from-schema-fragments">Migrating from schema fragments</h1>
 
-<p>Before the introduction of <a href="connector-schema.html">connector</a> and <a href="gateway-schema.html">gateway
-schemas</a> in i2 Analyze 4.3.3, schema fragments were supported
-on standalone DAOD deployments. Schema fragments are a mechanism used to extend
-an i2 Analyze schema to incorporate new types from external data sources. They
-are combined with the deployed schema on server start-up.</p>
-<p>Similarly to the way connector schemas are retrieved now, schema fragments are
-provided via endpoints defined in the connector configuration so that they are
-made available to the server.</p>
+<p>Before the introduction of <a href="connector-schema.html">connector</a> and <a href="gateway-schema.html">gateway schemas</a> in i2 Analyze 4.3.3, schema fragments were supported on deployments with only the i2 Connect gateway.
+Schema fragments are a mechanism used to extend an i2 Analyze schema to incorporate new types from external data sources.
+They are combined with the deployed schema on server start-up.</p>
+<p>Similarly to the way connector schemas are retrieved now, schema fragments are provided via endpoints defined in the connector configuration so that they are made available to the server.</p>
 <h2 id="updating-the-schema-fragments">Updating the schema fragments</h2>
 <p>Schema fragments have a slightly different syntax to that of full schemas.
 Because of that, you will first need to create a new schema using the same
@@ -146,7 +142,7 @@ following instructions:</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

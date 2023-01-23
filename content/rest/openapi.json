@@ -3,7 +3,7 @@
     "info": {
         "title": "i2 Connect Gateway REST SPI",
         "description": "This documentation describes the server programming interface that you must implement when you write a connector to an external data source. The use of ALL_CAPS in resource paths indicates template values that you must substitute with real ones.\n\nAs well as reading the content here, you can click **Download OpenAPI spec** to retrieve the SPI specification in JSON format.\n\n## Endpoint discovery\n\nClients discover the URLs of connector endpoints through a combination of the topology file for the deployment and your connector code. At startup, the i2 Connect gateway makes a POST request to the configuration endpoint, which it discovers from the topology file: The base comes from the **base-url** attribute of the **&lt;connector&gt;** element, while CONFIGURATION_URL itself defaults to **/config** unless you specify otherwise.\n\nFor example, if the **base-url** is http://localhost:3700, then the request comes to http://localhost:3700/config.\n\nYour response from the configuration endpoint can contain information about one or more services. Each service can provide a query for a synchronous or an asynchronous operation, as well as an optional validation method and optional authentication constraints.",
-        "version": "1.0"
+        "version": "1.1"
     },
     "servers": [
         {
@@ -98,7 +98,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -167,7 +167,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             },
@@ -224,7 +224,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -290,7 +290,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -358,7 +358,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -369,7 +369,7 @@
                     "Configuration"
                 ],
                 "summary": "Fetch configuration information from a connector",
-                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. By default, the gateway uses the endpoint `{baseURL}/config`, but you can specify a different one in the definition.\n\n**Important:** For a connector that supports user-specific configuration, the response must contain the **userConfigUrl** field, in which case only the **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** fields are also valid. The connector must provide all other configuration information in response to requests on the USER_CONFIGURATION_URL endpoint.\n\nWhen the response contains them, for client configurations of type 'FORM', the **config** object must have the following general structure:\n\n```json\n\"config\": {\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"conditions\": [\n        {\n          \"id\": \"\",\n          \"label\": \"\",\n          \"description\": \"\",\n          \"mandatory\": false,\n          \"logicalType\": \"\",\n          \"defaultValue\": \"\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nThe **sections** array can contain multiple objects, and each section has a **conditions** array that can also contain multiple objects.\n\nWithin each condition, **id** must be unique, while the client displays **label** and **description** to users to explain what the condition does. **mandatory** determines whether users must provide a value for the condition, **defaultValue** allows you to pre-populate the condition with a value, and **logicalType** determines what kind of value it is and how you must format it. For the format rules, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html).\n\nSome logical types allow you to specify validation that the client must enforce on any value that the user provides.\n\nWhen **logicalType** is 'DOUBLE' or 'INTEGER', you can add **minValue** and **maxValue** fields to the condition to constrain the numeric range.\n\nWhen **logicalType** is 'SINGLE_LINE_STRING' or 'MULTI_LINE_STRING', you can add two objects to the condition that constrain the length or the contents of the string:\n\n```json\n\"maxStringLength\": {\n  \"size\": 0,\n  // Defaults to \"uf16codeunits\" if not specified\n  // The other legitimate value is \"utf8bytes\"\n  \"units\": \"\"\n}\n\n\"extraStringValidation\": {\n  // A regular expression that the value must match\n  \"regex\": \"\",\n  // A message that explains the extra validation to users\n  \"message\": \"\"\n}\n```\n\nWhen **logicalType** is 'SUGGESTED_FROM', you can add a **possibleValues** array to the condition. (See below.)\n\nWhen **logicalType** is 'SELECTED_FROM', you _must_ add a **possibleValues** array to the condition:\n\n```json\n\"possibleValues\": [\n  {\n    \"value\": \"\",\n    \"displayName\": \"\"\n  }\n]\n```\n\nEach object in **possibleValues** must have a **value** field that contains the value to be sent back when the client uses the service. If present, the client can display the value in **displayName** to users in place of the **value** itself.\n\nWhen **logicalType** is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no additional validation is possible.",
+                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. By default, the gateway uses the endpoint `{baseURL}/config`, but you can specify a different one in the definition.\n\n**Important:** For a connector that supports user-specific configuration, the response must contain the **userConfigUrl** field, in which case only the **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** fields are also valid. The connector must provide all other configuration information in response to requests on the USER_CONFIGURATION_URL endpoint.\n\nWhen the response contains them, for client configurations of type 'FORM', the **config** object must have the following general structure:\n\n```json\n\"config\": {\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"conditions\": [\n        {\n          \"id\": \"\",\n          \"label\": \"\",\n          \"description\": \"\",\n          \"mandatory\": false,\n          \"logicalType\": \"\",\n          \"defaultValue\": \"\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nThe **sections** array can contain multiple objects, and each section has a **conditions** array that can also contain multiple objects.\n\nWithin each condition, **id** must be unique, while the client displays **label** and **description** to users to explain what the condition does. **mandatory** determines whether users must provide a value for the condition, **defaultValue** allows you to pre-populate the condition with a value, and **logicalType** determines what kind of value it is and how you must format it. For the format rules, see [Valid formats for i2 Connect data values](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html).\n\nSome logical types allow you to specify validation that the client must enforce on any value that the user provides.\n\nWhen **logicalType** is 'DOUBLE' or 'INTEGER', you can add **minValue** and **maxValue** fields to the condition to constrain the numeric range.\n\nWhen **logicalType** is 'SINGLE_LINE_STRING' or 'MULTI_LINE_STRING', you can add two objects to the condition that constrain the length or the contents of the string:\n\n```json\n\"maxStringLength\": {\n  \"size\": 0,\n  // Defaults to \"uf16codeunits\" if not specified\n  // The other legitimate value is \"utf8bytes\"\n  \"units\": \"\"\n}\n\n\"extraStringValidation\": {\n  // A regular expression that the value must match\n  \"regex\": \"\",\n  // A message that explains the extra validation to users\n  \"message\": \"\"\n}\n```\n\nWhen **logicalType** is 'SUGGESTED_FROM', you can add a **possibleValues** array to the condition. (See below.)\n\nWhen **logicalType** is 'SELECTED_FROM', you _must_ add a **possibleValues** array to the condition:\n\n```json\n\"possibleValues\": [\n  {\n    \"value\": \"\",\n    \"displayName\": \"\"\n  }\n]\n```\n\nEach object in **possibleValues** must have a **value** field that contains the value to be sent back when the client uses the service. If present, the client can display the value in **displayName** to users in place of the **value** itself.\n\nWhen **logicalType** is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no additional validation is possible.",
                 "operationId": "config",
                 "parameters": [
                     {
@@ -397,7 +397,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -408,7 +408,7 @@
                     "Query"
                 ],
                 "summary": "Fetch data from the service",
-                "description": "When a client queries an external data source, the i2 Analyze server calls the gateway, and the i2 Connect gateway contacts the connector, passing the payload that the client provided. By default, the gateway prefixes SYNC_SERVICE_URL with the base URL from the topology.\n\nIf the service in question also specifies the **validateUrl** property, then the gateway uses the VALIDATE_URL endpoint before it uses SYNC_SERVICE_URL.\n\nIn the response, the **properties** maps that appear in the contents of the **entities** and **links** arrays must have the following general structure:\n\n```json\n\"properties\": {\n  \"PT1\": false,\n  \"PT2\": 0,\n  \"PT3\": \"\",\n  \"PT4\": {\n    \"localDateAndTime\": \"\",\n    \"timeZoneId\": \"\",\n    \"isDST\": false\n  },\n  \"PT5\": {\n    \"type\": \"\",\n    \"coordinates\": [\n      0,\n      0,\n      0\n    ]\n  }\n}\n```\n\nIn the example, **PT1**, **PT2**, **PT3**, **PT4**, and **PT5** are valid property types that belong to the entity or link type that was specified in **typeId**. **PT1** has the 'BOOLEAN' logical type, and **PT2** has one of the numeric logical types. **PT3** might have any of the others, although there are extra rules about 'DATE_AND_TIME' and 'GEOSPATIAL' properties that are reflected in **PT4** and **PT5**.\n\nFor complete information about how to format values for all the logical types that i2 Analyze supports, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html).",
+                "description": "When a client queries an external data source, the i2 Analyze server calls the gateway, and the i2 Connect gateway contacts the connector, passing the payload that the client provided. By default, the gateway prefixes SYNC_SERVICE_URL with the base URL from the topology.\n\nIf the service in question also specifies the **validateUrl** property, then the gateway uses the VALIDATE_URL endpoint before it uses SYNC_SERVICE_URL.\n\nIn the response, the **properties** maps that appear in the contents of the **entities** and **links** arrays must have the following general structure:\n\n```json\n\"properties\": {\n  \"PT1\": false,\n  \"PT2\": 0,\n  \"PT3\": \"\",\n  \"PT4\": {\n    \"localDateAndTime\": \"\",\n    \"timeZoneId\": \"\",\n    \"isDST\": false\n  },\n  \"PT5\": {\n    \"type\": \"\",\n    \"coordinates\": [\n      0,\n      0,\n      0\n    ]\n  }\n}\n```\n\nIn the example, **PT1**, **PT2**, **PT3**, **PT4**, and **PT5** are valid property types that belong to the entity or link type that was specified in **typeId**. **PT1** has the 'BOOLEAN' logical type, and **PT2** has one of the numeric logical types. **PT3** might have any of the others, although there are extra rules about 'DATE_AND_TIME' and 'GEOSPATIAL' properties that are reflected in **PT4** and **PT5**.\n\nFor complete information about how to format values for all the logical types that i2 Analyze supports, see [Valid formats for i2 Connect data values](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html).",
                 "operationId": "acquire",
                 "parameters": [
                     {
@@ -471,7 +471,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -528,7 +528,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -603,7 +603,7 @@
                 "x-badges": [
                     {
                         "color": "primary-color",
-                        "label": "1.0"
+                        "label": "Since: 1.0"
                     }
                 ]
             }
@@ -627,6 +627,9 @@
                 "description": "Indicates that queries are asynchronous, and provides configuration settings. If this is present, then **acquireUrl** must not be present."
             },
             "AsyncQueryResponse": {
+                "required": [
+                    "queryId"
+                ],
                 "type": "object",
                 "properties": {
                     "queryId": {
@@ -670,6 +673,10 @@
                 "description": "Information about the progress of an asynchronous query."
             },
             "AsyncQuerySubstatus": {
+                "required": [
+                    "message",
+                    "type"
+                ],
                 "type": "object",
                 "properties": {
                     "message": {
@@ -935,7 +942,7 @@
                 "properties": {
                     "connectorIds": {
                         "type": "array",
-                        "description": "The identifiers of the connectors from which seed records can originate.",
+                        "description": "The identifiers of the connectors from which seed records can originate. This setting is valid when **seedTypes** specifies item type constraints, but not when it specifies semantic constraints.",
                         "items": {
                             "type": "string"
                         }
@@ -956,7 +963,7 @@
                 },
                 "description": "The constraints on the seeds that users can specify, or null if the service does not support seeds."
             },
-            "ConnectorSeedTypes": {
+            "ConnectorSeedItemTypes": {
                 "type": "object",
                 "properties": {
                     "allowedTypes": {
@@ -975,7 +982,79 @@
                         }
                     }
                 },
-                "description": "The item types that records must have in order to be used as seeds."
+                "description": "The item types that records must have in order to be used as seeds.",
+                "x-i2-api": {
+                    "since": "1.1"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    }
+                ]
+            },
+            "ConnectorSeedSemanticPropertyTypes": {
+                "type": "object",
+                "properties": {
+                    "semanticPropertyTypes": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "minItems": 1,
+                            "uniqueItems": true,
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "The identifiers of the semantic property types, in a map with the following structure: **{\"_LABEL_\": [\"_SEMANTICTYPEID1_\", \"_SEMANTICTYPEID2_\", ...], ...}**.\n\nHere, the _LABEL_ is a key for an ANDed group of semantic property type identifiers. Multiple groups are treated as ORed constraints on seed records."
+                    }
+                },
+                "description": "The semantic types of properties that records must have in order to be used as seeds.",
+                "example": {
+                    "semanticPropertyTypes": {
+                        "firstNameAndLastName": [
+                            "guid4DE7370B-60E5-4EB0-860E-4066D3DFD7B6",
+                            "guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB"
+                        ],
+                        "idNumber": [
+                            "guidF9DA2FC4-4B32-4d42-A178-A238274D4C5D"
+                        ]
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.1"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    }
+                ]
+            },
+            "ConnectorSeedTypes": {
+                "type": "object",
+                "description": "The types that to be used as seeds.",
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/ConnectorSeedItemTypes"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ConnectorSeedSemanticPropertyTypes"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.1"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    }
+                ]
             },
             "DaodRequest": {
                 "required": [
@@ -1007,7 +1086,7 @@
                     },
                     "value": {
                         "type": "object",
-                        "description": "The value that a user supplied for the condition, which must be formatted correctly for its logical type. For the format rules, see [Valid formats for i2 Connect data values](https://docs.i2group.com/analyze/i2connect-data-formats.html)."
+                        "description": "The value that a user supplied for the condition, which must be formatted correctly for its logical type. For the format rules, see [Valid formats for i2 Connect data values](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html)."
                     }
                 },
                 "description": "A condition in a search request."
@@ -1171,9 +1250,28 @@
                         "items": {
                             "$ref": "#/components/schemas/DaodSeedLinkData"
                         }
+                    },
+                    "semanticData": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/SemanticSeed"
+                            }
+                        },
+                        "description": "Data from the semantic property types that were specified as seeds for the request.",
+                        "x-i2-api": {
+                            "since": "1.1"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.1"
+                            }
+                        ]
                     }
                 },
-                "description": "If the service supports being seeded by existing i2 Analyze records, the data from those records for it to use."
+                "description": "The data from all the records that are to be used as seeds in a search operation."
             },
             "EntityDataIdentifier": {
                 "type": "object",
@@ -1405,12 +1503,11 @@
                         "description": "The display name for this property type."
                     },
                     "logicalType": {
-                        "description": "The logical type of the value of a property with his property type.",
+                        "description": "The logical type of the value of a property with this property type.",
                         "$ref": "#/components/schemas/LogicalType"
                     },
                     "semanticTypeId": {
-                        "type": "string",
-                        "description": "The identifier of the semantic type for this property type."
+                        "$ref": "#/components/schemas/SemanticTypeIdentifier"
                     }
                 },
                 "description": "A property type of an item type from an i2 Analyze schema."
@@ -1467,6 +1564,81 @@
                     }
                 },
                 "description": "A source identifier in use as a seed identifier."
+            },
+            "SemanticProperty": {
+                "required": [
+                    "logicalType",
+                    "sourceSemanticTypeId",
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "logicalType": {
+                        "description": "The logical type of **value**.",
+                        "$ref": "#/components/schemas/LogicalType"
+                    },
+                    "value": {
+                        "type": "object",
+                        "description": "The property value."
+                    },
+                    "sourceSemanticTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the semantic type in the seed record, which might be a descendant of the type in the constraint."
+                    }
+                },
+                "description": "A property of a semantic seed.",
+                "x-i2-api": {
+                    "since": "1.1"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    }
+                ]
+            },
+            "SemanticSeed": {
+                "required": [
+                    "properties",
+                    "seedId"
+                ],
+                "type": "object",
+                "properties": {
+                    "seedId": {
+                        "type": "string",
+                        "description": "The identifier of the record that contains the semantic property values."
+                    },
+                    "isLink": {
+                        "type": "boolean",
+                        "description": "Indicates whether the record identified in **seedId** is a link.",
+                        "default": false
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "uniqueItems": true,
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/components/schemas/SemanticProperty"
+                            }
+                        },
+                        "description": "A map of property values, keyed by their semantic type GUIDs."
+                    }
+                },
+                "description": "The properties of a record in use as a semantic seed.",
+                "x-i2-api": {
+                    "since": "1.1"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.1"
+                    }
+                ]
+            },
+            "SemanticTypeIdentifier": {
+                "type": "string",
+                "description": "The identifier of the semantic type for this property type."
             },
             "Service": {
                 "required": [

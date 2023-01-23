@@ -81,6 +81,7 @@
 
 <p>Starting with version 4.4.0 of i2 Analyze, your connectors can negotiate with the gateway to establish a common understanding of which version of the i2 Connect SPI to use.</p>
 <p>By default, the gateway assumes that your connector will use version 1.0 of the SPI. When 1.0 is the correct version for your connector, you don&#39;t need to do anything. If you rely on a later version of the SPI, you can both determine what versions the server supports, and respond with the version that you want to use.</p>
+<p>For more information on the differences between SPI versions, refer to the <a href="/docs/index.md#spi-changelog">SPI changelog</a>.</p>
 <h2 id="server-supported-spi-versions">Server-supported SPI versions</h2>
 <p>All HTTP requests to your connector from i2 Analyze version 4.4.0 and above contain a header named <code>I2-Spi-Versions</code>. The value of the header is a comma-separated list of the SPI versions that the server supports.</p>
 <h2 id="connector-specification-of-spi-version">Connector specification of SPI version</h2>
@@ -97,7 +98,8 @@
 }
 </code></pre><h2 id="java-example">Java example</h2>
 <p>The following code is taken from <code>ConnectorController.java</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
-<pre><code class="lang-java">private static final double CONNECTOR_VERSION = 1.0;
+<pre><code class="lang-java">private static final int CONNECTOR_MAJOR_VERSION = 1;
+private static final int CONNECTOR_MINOR_VERSION = 0;
 
 /**
  * Defines the /config endpoint which acquires the connector configuration data.
@@ -105,29 +107,44 @@
  * @return The config.json file.
  */
 @RequestMapping(method = RequestMethod.GET, value = &quot;/config&quot;, produces = APPLICATION_JSON_VALUE)
-public Resource config(@RequestHeader(value = &quot;I2-Spi-Versions&quot;, required = false) List&lt;Double&gt; gatewaySupportedVersions) {
+public Resource config(@RequestHeader(value = &quot;I2-Spi-Versions&quot;, required = false) List&lt;String&gt; gatewaySupportedVersions) {
   System.out.println(&quot;Gateway supported versions: &quot; + gatewaySupportedVersions);
 
-  if (gatewaySupportedVersions.contains(CONNECTOR_VERSION)) {
-    System.out.println(&quot;Loading connector version &quot; + CONNECTOR_VERSION);
-  } else {
-    System.out.print(&quot;The gateway does not support connector version &quot; + CONNECTOR_VERSION);
+  for (String supportedVersion: gatewaySupportedVersions) {
+    final String[] supportedVersionParts = supportedVersion.split(&quot;\\.&quot;);
+    final double supportedMajorVersion = Double.parseDouble(supportedVersionParts[0]);
+    final double supportedMinorVersion = Double.parseDouble(supportedVersionParts[1]);
+
+    final String connectorVersion = CONNECTOR_MAJOR_VERSION + &quot;.&quot; + CONNECTOR_MINOR_VERSION;
+    if ((CONNECTOR_MAJOR_VERSION == supportedMajorVersion) &amp;&amp; (CONNECTOR_MINOR_VERSION &lt;= supportedMinorVersion)) {
+      System.out.print(&quot;The gateway supports connector version &quot; + connectorVersion + &quot;\n&quot;);
+    } else {
+      System.out.print(&quot;The gateway does not support connector version &quot; + connectorVersion + &quot;\n&quot;);
+    }
   }
   return configResource;
 }
 </code></pre><h2 id="python-example">Python example</h2>
 <p>The following code is taken from <code>controller.py</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
-<pre><code class="lang-python">connector_version = &#39;1.0&#39;
+<pre><code class="lang-python">connector_major_version = &#39;1&#39;
+connector_minor_version = &#39;0&#39;
 
 @controller.route(&#39;/config&#39;)
 def config():
-  gatewaySupportedVersions = request.headers[&#39;I2-Spi-Versions&#39;]
-  print(&#39;Gateway supported versions: &#39; + gatewaySupportedVersions)
+  gateway_supported_versions = request.headers[&#39;I2-Spi-Versions&#39;]
+  print(&#39;Gateway supported versions: &#39; + gateway_supported_versions)
 
-  if (connector_version in gatewaySupportedVersions):
-    print(&#39;Loading connector version &#39; + connector_version)
-  else:
-    print(&#39;The gateway does not support connector version &#39; + connector_version)
+  for supported_version in gateway_supported_versions.split(&#39;,&#39;):
+    supported_version_parts = supported_version.split(&#39;.&#39;)
+    supported_major_version = supported_version_parts[0]
+    supported_minor_version = supported_version_parts[1]
+
+    connector_version = connector_major_version + &#39;.&#39; + connector_minor_version
+
+    if ((connector_major_version == supported_major_version) and (connector_minor_version &lt;= supported_minor_version)):
+      print(&#39;The gateway supports connector version &#39; + connector_version)
+    else:
+      print(&#39;The gateway does not support connector version &#39; + connector_version)
 
   return send_from_directory(&#39;static&#39;, &#39;config.json&#39;)
 </code></pre></article>
@@ -150,7 +167,7 @@ def config():
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

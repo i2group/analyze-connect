@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Semantic seeds </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Semantic seeds ">
+    <meta name="generator" content="docfx 2.56.2.0">
+    
+    <link rel="shortcut icon" href="../../images/favicon.png">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <strong>i2 Connect gateway</strong>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list"></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+          
+          <div class="subnav navbar navbar-default">
+            <div class="container hide-when-search" id="breadcrumb">
+              <ul class="breadcrumb">
+                <li></li>
+              </ul>
+            </div>
+          </div>
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="semantic-seeds">Semantic seeds</h1>
+
+<p>The <a href="../walkthrough/7-seeded-search.html">connector development walkthrough</a> describes how to create a service that accepts seed records to drive the searches that it performs. In that example, the records that the service accepts are constrained by their item types.</p>
+<p>Starting from version 4.4.1 of i2 Analyze, you can specify <em>semantic constraints</em> instead of item type constraints, so that:</p>
+<ul>
+<li>A service can accept seed records of any item type, provided that they have properties with particular semantic types (or descendants of those types).</li>
+<li>Where a seed record has more than one property with the same (or a related) semantic type, you can base a search on the values of all such properties.</li>
+</ul>
+<p>This topic describes how to specify semantic constraints. For more information about the uses to which you can put seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
+<h2 id="example">Example</h2>
+<p>This example is based on the <a href="../example-connectors/connector-auth.html#setup"><code>auth-connector</code></a> example, but adds a service that uses a semantic seed constraint. The service uses the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> to examine the seed that it receives in the request, and returns a response containing entities and links whose property values match the values in that seed.</p>
+<h3 id="add-a-new-service">Add a new service</h3>
+<p>The new service will query an external data source (just a text file in this example) for person records that have the same last name as the seed in the request.</p>
+<p>By using a semantic constraint, the service will accept a seed of any type that has a property with the &quot;Person Last Name&quot; semantic type. In addition, since the &quot;Maiden Name&quot; semantic type is a child of &quot;Person Last Name&quot;, the service will also accept a seed with a property of that type.</p>
+<p>In the <code>config.json</code> file that defines the connector, you will need to add the new service to the <code>services</code> array. You will also need to add <code>seedConstraints</code> to define a seeded search, and within it <code>semanticPropertyTypes</code> to define the semantic types of properties that records must have in order to be used as seeds.</p>
+<p>The following code specifies a seed constraint that uses the &quot;Person Last Name&quot; semantic type. (The GUID <code>guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB</code> appears as the identifier of that semantic type in the i2 Semantic Type Library.)</p>
+<pre><code class="lang-json">{
+  &quot;services&quot;: [
+    {
+      &quot;id&quot;: &quot;find-same-last-name&quot;,
+      &quot;name&quot;: &quot;Auth Connector: Find Same Last Name&quot;,
+      &quot;description&quot;: &quot;A service that finds records with the same last name as the seed.&quot;,
+      &quot;clientConfigType&quot;: &quot;NONE&quot;,
+      &quot;acquireUrl&quot;: &quot;/find-same-last-name&quot;,
+      &quot;seedConstraints&quot;: {
+        &quot;min&quot;: 1,
+        &quot;max&quot;: 1,
+        &quot;seedTypes&quot;: {
+          &quot;semanticPropertyTypes&quot;: {
+            &quot;Name constraints&quot;: [
+              &quot;guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB&quot;
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
+</code></pre><p><strong>Note:</strong> When you write your own services with semantic type constraints, you&#39;ll need to find the GUIDs of the semantic property types that you want to use. See <a href="semantic-type-identifiers.html">Semantic type identifiers</a> for more information.</p>
+<h3 id="implement-the-service-endpoint">Implement the service endpoint</h3>
+<p>The service will work by examining the property values of a selected record according to the defined constraints, and searching for data in the external source that has matching values in its properties.</p>
+<p>In code, you can access the semantic properties of the seed record in the request through the <code>request.payload.seeds.semanticData</code> object. The service that you added to <code>config.json</code> specifies an endpoint named <code>/find-same-last-name</code> that you can implement like this, in <code>ConnectorController.java</code>:</p>
+<pre><code class="lang-java">@RequestMapping(method = RequestMethod.POST, value = &quot;/find-same-last-name&quot;,
+    consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+public ResponseEntity&lt;?&gt; findSameLastName(
+    @Valid @RequestBody ConnectorRequest request) {
+  return connectorDataService.findSameName(request.payload.seeds);
+}
+</code></pre><h4 id="access-the-seeds">Access the seeds</h4>
+<p>The <code>findSameName()</code> method needs to examine the seeds passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response that contains entity and link records.</p>
+<p>The <code>DaodRequest</code> object that the service receives for a search that uses semantic seeds might look like the following example.</p>
+<pre><code class="lang-json">{
+  &quot;payload&quot;: {
+    &quot;seeds&quot;: {
+      &quot;entities&quot;: [
+        {
+          &quot;accessDimensionValues&quot;: [], 
+          &quot;extensions&quot;: [],
+          &quot;label&quot;: &quot;&quot;,
+          &quot;properties&quot;: {
+            &quot;PER1&quot;: &quot;Sally&quot;,
+            &quot;PER2&quot;: &quot;Armstrong&quot;,
+            &quot;PER6&quot;: &quot;Hendricks&quot;
+          },
+          &quot;seedId&quot;: &quot;123&quot;,
+          &quot;sourceIds&quot;: [],
+          &quot;typeId&quot;: &quot;Person&quot;
+        }
+      ],
+      &quot;links&quot;: [],
+      &quot;semanticData&quot;: {
+        &quot;Name constraints&quot;: [
+          {
+            &quot;properties&quot;: {
+              &quot;guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB&quot;: [
+                {
+                  &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
+                   &quot;value&quot;: &quot;Armstrong&quot;
+                },
+                {
+                  &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
+                  &quot;value&quot;: &quot;Hendricks&quot;,
+                  &quot;sourceSemanticTypeId&quot;: &quot;guid699AD2D5-B30B-4508-9349-0E1AC1FF876C&quot;
+                }
+              ],
+              &quot;seedId&quot;: &quot;123&quot;,
+              &quot;isLink&quot;: false
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+</code></pre><p>In this example, a single seed with the identifier <code>123</code> was selected on the chart. That seed had values for the <code>Last Name</code> property (PER2) and the <code>Maiden Name</code> property (PER6).</p>
+<p>In the semantic data, the entry with the value <code>Hendricks</code> has a <code>sourceSemanticTypeId</code> value, which means that the containing property does not have the &quot;Person Last Name&quot; semantic type, but rather a descendant of that type - in this case, &quot;Maiden Name&quot;.</p>
+<h4 id="find-data-based-on-the-seed">Find data based on the seed</h4>
+<p>As with any service, how you use the seed data depends on what you want to achieve.</p>
+<p>To perform a search using this seed data, we need to filter the list of records in <code>people.json</code> according to whether they have values of &quot;Hendricks&quot; or &quot;Armstrong&quot; for any properties whose meaning is the same as &quot;last name&quot;.</p>
+<p>In this case, the records in <code>people.json</code> have a property called <code>surname</code>, which we can compare with the contents of the seed data. Add this implementation of the <code>findSameName()</code> method to the <code>ExternalConnectorDataService.java</code> file:</p>
+<pre><code class="lang-java">public ResponseEntity&lt;?&gt; findSameName(DaodSeeds seed) {
+  final Set&lt;Object&gt; nameValues = new HashSet&lt;&gt;();
+  final List&lt;SemanticSeed&gt; nameConstraintSemanticProperties =
+      seed.semanticData.get(&quot;Name constraints&quot;);
+  for (SemanticSeed semanticData : nameConstraintSemanticProperties) {
+    for (Set&lt;SemanticProperty&gt; constraintSemanticProperties :
+        semanticData.properties.values()) {
+      nameValues.addAll(constraintSemanticProperties.stream().map(constraint -&gt; constraint.value).collect(Collectors.toList()));
+    }
+  }
+  final List&lt;Person&gt; people = retrievePeopleData();
+
+  // Remove any people that do not match the name constraint values
+  people.removeIf(p -&gt; !nameValues.contains(p.surname));
+  final ConnectorResponse acquireResponse = marshalItemsFromResponse(people);
+  return ResponseEntity.status(200).body(acquireResponse);
+}
+</code></pre><p>Only one of the people in <code>people.json</code> has the <code>surname</code> &quot;Armstrong&quot; or &quot;Hendricks&quot;, and so for this example the response should just contain the following data:</p>
+<pre><code class="lang-json">{
+  &quot;entities&quot;: [
+    {
+      &quot;typeId&quot;: &quot;Person&quot;,
+      &quot;id&quot;: &quot;21bbe625-c8da-4461-a8a0-f7c89aa85889&quot;,
+      &quot;version&quot;: 1,
+      &quot;properties&quot;: {
+         &quot;PER2&quot; : &quot;Armstrong&quot;,
+         &quot;PER1&quot; : &quot;Bryce&quot;,
+         &quot;PER4&quot; : &quot;00453474&quot;,
+         &quot;PER3&quot; : &quot;1971-04-29&quot;,
+         &quot;PER5&quot; : &quot;1976-10-23T13:30:00.409&quot;
+      }
+    }
+  ],
+  &quot;links&quot;: []
+}
+</code></pre><h2 id="run-the-query">Run the query</h2>
+<p>To make it possible for users to run the new query, update the <code>auth-connector</code>&#39;s configuration:</p>
+<pre><code class="lang-sh">setup -t updateConnectorsConfiguration
+</code></pre><p>Then, use the <a href="../workflow/testing.html#i2-analyze-server-admin-console">Admin Console</a> to reload the updated configuration by clicking <strong>Reload gateway</strong> to reflect your changes in the topology.</p>
+<p><strong>Note:</strong> If you want to reload the connector configuration through Postman, you must add the <code>SEMANTIC_SEARCH</code> capability to the request&#39;s query parameter. If the value is not present, information about this service is excluded from the response.</p>
+<p>Now, you can use the new query:</p>
+<ol>
+<li>Open the Analyst&#39;s Notebook Premium desktop client.</li>
+<li>Select a record on the chart that has a value for the &quot;Family Name&quot; or &quot;Maiden Name&quot; property (or for both).</li>
+<li>Click &quot;External Search&quot;.</li>
+<li>Select the new &quot;Find Same Last Name&quot; query, and run it.</li>
+</ol>
+<p>The list of records that you see in the results should include all the &quot;people&quot; from the <code>people.json</code> file whose surname matches either the family name or the maiden name of the record that you originally selected.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &copy; N. Harris Computer Corporation.
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

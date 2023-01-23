@@ -111,25 +111,20 @@ list of environments near the top right of the window.</p>
 <p>This authenticates your Jenny user, and generates the session token to permit subsequent API requests.</p>
 <h3 id="api">API</h3>
 <p>After generating the token, test that you can use the i2 Analyze endpoints.</p>
-<h4 id="get-all-valid-timezones">Get all valid timezones</h4>
+<h4 id="get-all-valid-time-zoneshttpsdocsi2groupcomanalyzepublic-rest-apihtmlget-apiv1coretemporaltimezones"><a href="https://docs.i2group.com/analyze/public-rest-api.html#get-/api/v1/core/temporal/timezones">Get all valid time zones</a></h4>
 <ol>
 <li>In the <code>i2 Analyze</code> collection, open the <code>Core</code> folder.</li>
 <li>Run the <code>Timezones</code> request.</li>
 </ol>
-<p>You should see that i2 Analyze returns all valid timezones.</p>
-<h4 id="get-all-connectors">Get all connectors</h4>
-<ol>
-<li>In the <code>i2 Analyze</code> collection, open the <code>Connectors</code> folder.</li>
-<li>Run the <code>Connectors</code> request.</li>
-</ol>
-<p>You should see that i2 Analyze returns a JSON response containing a list of all configured connectors.</p>
-<h4 id="reload-connectors-configuration">Reload connectors configuration</h4>
+<p>You should see that i2 Analyze returns all valid time zones.</p>
+<h4 id="reload-connectors-configurationhttpsdocsi2groupcomanalyzepublic-rest-apihtmlpost-apiv1gatewayreload"><a href="https://docs.i2group.com/analyze/public-rest-api.html#post-/api/v1/gateway/reload">Reload connectors configuration</a></h4>
 <ol>
 <li>In the <code>i2 Analyze</code> collection, open the <code>Gateway</code> folder.</li>
+<li>If your connector has a service that defines semantic seed constraints, add the <code>SEMANTIC_SEARCH</code> capability to the request&#39;s query parameter. If the value is not present, information about that service is excluded from the response.</li>
 <li>Run the <code>Reload</code> request.</li>
 </ol>
 <p>You should see that i2 Analyze returns its connectors configuration.</p>
-<h4 id="reload-live-configuration">Reload live configuration</h4>
+<h4 id="reload-live-configurationhttpsdocsi2groupcomanalyzepublic-rest-apihtmlpost-apiv1adminconfigreload"><a href="https://docs.i2group.com/analyze/public-rest-api.html#post-/api/v1/admin/config/reload">Reload live configuration</a></h4>
 <ol>
 <li>Ensure you are <a href="#authentication">authenticated</a> as the <code>Administrator</code> user (Jenny).</li>
 <li>In the <code>i2 Analyze</code> collection, open the <code>Admin</code> folder.</li>
@@ -205,7 +200,7 @@ list of environments near the top right of the window.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

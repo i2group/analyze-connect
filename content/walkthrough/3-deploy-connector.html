@@ -114,61 +114,46 @@ For example:</p>
   &lt;/war&gt;
 &lt;/wars&gt;
 </code></pre></li>
-<li><p>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here, add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, and <code>base-url</code> attributes. Choose whatever <code>id</code> and <code>name</code> you like, but set the <code>base-url</code> to <code>http://localhost:9081/</code>. If the schema is configured as a gateway schema, also add a <code>gateway-schema</code> attribute and set it to the schema short name. For example:</p>
+<li><p>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here, add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, and <code>base-url</code> attributes. Choose whatever <code>id</code> and <code>name</code> you like, but set the <code>base-url</code> to <code>http://localhost:9081/</code>. For example:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
   &lt;connectors&gt;
-    &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
+    &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre></li>
+</code></pre><p><strong>Note:</strong> If the schema is configured as a gateway schema, also add a <code>gateway-schema</code> attribute and set it to the schema short name.</p>
+</li>
 </ol>
 <h3 id="reload-the-i2-analyze-configuration">Reload the i2 Analyze configuration</h3>
-<p>For these changes to take effect, you need to update the i2 Analyze connectors
-configuration and use Postman to make the server reload it.</p>
+<p>For these changes to take effect, you need to update the i2 Analyze connectors configuration and use the Admin Console to reload it.</p>
 <ol>
 <li><p>Navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:</p>
 <pre><code>setup -t updateConnectorsConfiguration
 </code></pre></li>
-<li><p>Open <a href="../miscellaneous/postman.html">Postman</a> and run the <code>Form Based Login</code> request to
-authenticate as the default user in i2 Analyze.</p>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p>For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
 </li>
-<li>Call the POST method on the <code>reload</code> endpoint to enact your changes to the topology.</li>
+<li>If you are prompted to log in, enter the credentials for your default user. 
+If you added an example user, both username and password will be <code>Jenny</code>.</li>
+<li>Click <strong>Reload gateway</strong> to enact your changes to the topology.</li>
 </ol>
-<h3 id="use-postman-to-verify-the-changes">Use Postman to verify the changes</h3>
-<p>To confirm that you have successfully added a connector to the topology, you can
-send an HTTP GET request to the i2 Analyze server. Although you don&#39;t yet
-have a running connector, this ensures that you have configured i2 Analyze so that it
-can find the one you will soon create.</p>
-<ul>
-<li>Open Postman and call GET on the <code>connectors</code> endpoint.</li>
-</ul>
-<p>In the response, the <code>connectors</code> array includes an entry that corresponds to
-the connector you just defined. However, there is also an error with a message
-saying that i2 Analyze failed to retrieve configuration information for your
-connector, as shown below. This is because the connector doesn&#39;t exist yet!</p>
-<pre><code class="lang-json">{
-    &quot;connectors&quot;: [
-        {
-            ...
-            &quot;messages&quot;: [
-                {
-                    &quot;message&quot;: &quot;Failed to retrieve configuration information for the connector with identifier &#39;nypd-connector&#39; from the URL &#39;http://localhost:9081/config&#39;.&quot;,
-                    &quot;level&quot;: &quot;ERROR&quot;
-                }
-            ]
-        }
-    ]
-}
-</code></pre><h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
-<p>You might also see the following warning message in the Postman response:</p>
-<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The
-application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
-<p>In a development environment, you can ignore this warning. It appears because i2 Analyze and your connector are communicating via HTTP rather than HTTPS.</p>
+<h3 id="verify-the-connector-configuration">Verify the connector configuration</h3>
+<p>To confirm that you successfully added a connector to the topology, you can view the status of your connectors using the Admin Console.
+Although you don&#39;t yet have a running connector, you can test that you have configured i2 Analyze so that it can find the one you will soon create.</p>
+<p>In the <strong>Connectors</strong> section, you can see a list of connectors that you deployed to your i2 Analyze server, and their respective statuses. 
+For the <code>nypd-connector</code>, there is an error with a message saying that i2 Analyze failed to retrieve configuration information for your connector, as shown below.
+This is because the connector doesn&#39;t exist yet!</p>
+<p><img src="images/admin-ui-config-error.png" alt="Admin user interface"></p>
+<h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
+<p>You might also see the following warning message in the Admin Console:</p>
+<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
+<p>In a development environment, you can ignore this warning. 
+It appears because i2 Analyze and your connector are communicating via HTTP rather than HTTPS.</p>
 <p><strong>In a production environment, you should secure this connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://docs.i2group.com/analyze/t_connect_security.html">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
 <h2 id="deploying-the-connector">Deploying the connector</h2>
-<p>Now that i2 Analyze is expecting a connector, you had better create one! For the
-purposes of this guide, an example Spring Boot application is provided.</p>
+<p>Now that i2 Analyze is expecting a connector, you had better create one!
+For the purposes of this guide, an example Spring Boot application is provided.</p>
 <h3 id="set-up-the-example-starting-point">Set up the example starting point</h3>
 <h4 id="java">Java</h4>
 <ol>
@@ -216,43 +201,20 @@ endpoint and look at the output. It matches the contents of the <code>config.jso
 file that you set up earlier.</li>
 </ul>
 <h3 id="update-the-i2-analyze-connectors-configuration">Update the i2 Analyze connectors configuration</h3>
-<p>Now that you have a connector running, you need to tell i2 Analyze to reload its
-connector configurations.</p>
-<ol>
-<li>Run <code>setup -t updateConnectorsConfiguration</code>.</li>
-<li>Call the POST method on the <code>reload</code> endpoint to configure your changes to
-the topology.</li>
-</ol>
-<h3 id="view-the-i2-analyze-connectors-configurations-in-postman">View the i2 Analyze connectors configurations in Postman</h3>
+<p>Now that you have a connector running, you need to tell i2 Analyze to reload its connector configurations.</p>
 <ul>
-<li>Exactly as before, open Postman and call GET on the <code>connectors</code> endpoint.</li>
+<li>In the Admin Console, click <strong>Reload gateway</strong> to configure your changes.</li>
 </ul>
-<p>You no longer have the &quot;Failed to retrieve configuration&quot; error, but it has
-been replaced by two others:</p>
-<pre><code class="lang-json">{
-   &quot;connectors&quot;: [
-      {
-         ...
-         &quot;messages&quot;: [
-            {
-               &quot;message&quot;: &quot;The connector with identifier &#39;nypd-connector&#39; has no defined services.&quot;,
-               &quot;level&quot;: &quot;ERROR&quot;
-            },
-            {
-               &quot;message&quot;: &quot;The configuration for the connector with identifier &#39;nypd-connector&#39; specifies a default time zone identifier that is not valid: dodgy-timezone.&quot;,
-               &quot;level&quot;: &quot;ERROR&quot;
-            }
-         ]
-      }
-   ]
-}
-</code></pre><h3 id="investigate-in-analysts-notebook-premium">Investigate in Analyst&#39;s Notebook Premium</h3>
+<p>You can see that the &quot;Failed to retrieve configuration&quot; error has been replaced by two other errors.</p>
+<p><img src="images/admin-ui-service-error.png" alt="Admin user interface"></p>
+<h3 id="investigate-in-analysts-notebook-premium">Investigate in Analyst&#39;s Notebook Premium</h3>
 <p>Before you fix these issues, take a look at what happens when you try to use
 your connector from Analyst&#39;s Notebook Premium.</p>
 <ol>
 <li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server.</li>
 <li>In the top ribbon, click the <strong>External Searches</strong> button.</li>
-<li>Notice the banner at the top of the resulting window that says &quot;Some queries are not configured correctly&quot;. This is because there are errors in your configuration, as shown when you called the <code>connectors</code> endpoint from Postman earlier.</li>
+<li>Notice the banner at the top of the resulting window that says &quot;Some queries are not configured correctly&quot;.
+This is because there are errors in your configuration, as shown in the Admin Console.</li>
 </ol>
 <h2 id="adding-a-service">Adding a service</h2>
 <p>To enable the use of the connector, you must resolve all the errors displayed in the connector messages. One of the errors is caused by the connector not having any services. The next step is therefore to <a href="4-add-service.html">define and implement a service</a>.</p>
@@ -276,7 +238,7 @@ your connector from Analyst&#39;s Notebook Premium.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

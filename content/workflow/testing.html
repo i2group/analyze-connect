@@ -91,9 +91,13 @@
 </ul>
 <p>Regardless of how you update the gateway&#39;s cache of connector configuration information, the effect for clients and their users is the same. When a client next asks for a list of the services that it can use, any changes that you made are reflected in the list.</p>
 <p>To run <code>restartLiberty</code>, you can use the same technique as for any other deployment toolkit task. This section describes how to use the reload endpoint, and then explains some ways to diagnose problems with a new or updated connector.</p>
-<p>The reload endpoint supports the POST method, which you can call through a command-line tool such as <code>postman</code> or <code>curl</code>. The endpoint requires authentication, which means that you must log in to the server and retrieve a cookie before you can POST to reload.</p>
+<p>The reload endpoint supports the POST method, which you can call through a command-line tool such as <code>postman</code> or <code>curl</code>, or through the <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
 <ol>
-<li><p>The following steps describe how to use curl to reload the connectors:</p>
+<li><p>To trigger the reload endpoint, you can use one of the following options:</p>
+<ul>
+<li><h4 id="curl">Curl</h4>
+<p>The endpoint requires authentication, which means that you must log in to the server and retrieve a cookie before you can POST to reload. 
+The following steps describe how to use curl to reload the connectors:</p>
 <ol>
 <li><p>If the curl utility is not available on your server, download it from the project website at <a href="https://curl.haxx.se/download.html">https://curl.haxx.se/download.html</a>.</p>
 </li>
@@ -111,7 +115,26 @@
 </li>
 </ol>
 </li>
-<li><p>After you reload the connectors (or restart the server), click <strong>Preview services</strong> in the server admin console to check that users will see your changes in their lists of queries.</p>
+<li><h4 id="postman">Postman</h4>
+<p>To use Postman to reload the connectors, follow the steps described <a href="../miscellaneous/postman.html#reload-connectors-configurationhttpsdocsi2groupcomanalyzepublic-rest-apihtmlpost-apiv1gatewayreload">here</a>.</p>
+</li>
+<li><h4 id="i2-analyze-server-admin-console">i2 Analyze Server Admin Console</h4>
+<p>The following steps describe how to use the Admin Console to reload the connectors:</p>
+<ol>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user. 
+If you added an example user, both username and password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to reload your connectors.</p>
+</li>
+</ol>
+<p>For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+</ul>
+</li>
+<li><p>After you reload the connectors (or restart the server), click <strong>Preview services</strong> in the Admin Console to check that users will see your changes in their lists of queries.</p>
 <p>If you do not see your changes, different symptoms imply different causes:</p>
 <ul>
 <li><p>If a query does not appear in the list at all, then the problem might lie with either the implementation of the configuration endpoint, or the <code>&lt;connector&gt;</code> element in the <code>topology.xml</code> file.</p>
@@ -147,7 +170,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

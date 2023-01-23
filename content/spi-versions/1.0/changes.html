@@ -5,19 +5,19 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Writing a query </title>
+    <title>Changelog for i2 Analyze REST SPI 1.0 </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Writing a query ">
+    <meta name="title" content="Changelog for i2 Analyze REST SPI 1.0 ">
     <meta name="generator" content="docfx 2.56.2.0">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    <link rel="shortcut icon" href="../../../images/favicon.png">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../../guidetoc/toc.html">
     
-    <meta property="docfx:rel" content="../../">
+    <meta property="docfx:rel" content="../../../">
     
   </head>
   <body data-spy="scroll" data-target="#affix" data-offset="120">
@@ -34,7 +34,7 @@
                 <span class="icon-bar"></span>
               </button>
               
-              <a class="navbar-brand" href="../../index.html">
+              <a class="navbar-brand" href="../../../index.html">
                 <strong>i2 Connect gateway</strong>
               </a>
             </div>
@@ -77,23 +77,23 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="writing-a-query">Writing a query</h1>
+<h1 id="changelog-for-i2-analyze-rest-spi-10">Changelog for i2 Analyze REST SPI 1.0</h1>
 
-<p>All connectors contain at least one <em>service</em> that retrieves information from an external source. By starting with a service that runs a simple query, you can focus on aspects such as the REST endpoint implementations and data structures that are common to all services.</p>
-<p>As you create a connector to an external source, writing a query that does not require parameters makes early testing and development easier. Not only does it simplify the connector, but also it simplifies running the query from the client.</p>
-<p>No fixed set of steps for retrieving data from external data sources exists, but some of your choices can make later tasks easier. Whatever the source, your initial aim is to generate a small set of representative data.</p>
+<p>Version 1.0 is the first public release of the i2 Analyze REST SPI.
+As such, all endpoints and schemas are new at this version of the SPI.</p>
+<h2 id="added">Added</h2>
+<p>The following endpoints are new and fully supported at this version of the i2 Analyze REST SPI:</p>
 <ul>
-<li><p>If the source allows it, begin by writing a tightly bound query. Or, if your source comprises one or more text files, try to abbreviate them.</p>
-<p>At the start of the process, large volumes of data can be distracting.</p>
-</li>
-<li><p>If you can, make the query retrieve data for entities and links.</p>
-<p>Creating the data structures that represent linked entities is an important part of connector development.</p>
-</li>
-<li><p>Try to generate a data set that has most of the types that the external source contains.</p>
-<p>No matter how complex your queries eventually become, the code to process data into the right shape for i2 Analyze is unlikely to change.</p>
-</li>
+<li>Endpoints for retrieving the configuration information from each connector</li>
+<li>Endpoints for running synchronous queries</li>
+<li>Endpoints for running <a href="../../example-connectors/connector-async.html">asynchronous queries</a></li>
+<li>An endpoint to <a href="../../example-connectors/connector-auth.html">authenticate users with third-party services</a></li>
+<li>An endpoint for <a href="../../walkthrough/9-validation.html">validating a request</a></li>
 </ul>
-<p>When you implement an acquire endpoint, you can call the query that you developed here directly from that code. Alternatively, during development, you might decide to run the query and save the results in a file.</p>
+<h2 id="modified">Modified</h2>
+<p>N/A</p>
+<h2 id="removed">Removed</h2>
+<p>N/A</p>
 </article>
           </div>
           
@@ -121,8 +121,8 @@
       </footer>
     </div>
     
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
-    <script type="text/javascript" src="../../styles/docfx.js"></script>
-    <script type="text/javascript" src="../../styles/main.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
   </body>
 </html>

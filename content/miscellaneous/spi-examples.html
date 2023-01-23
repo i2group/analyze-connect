@@ -393,12 +393,10 @@ like this:</p>
     &quot;seeds&quot;: {}
   }
 }
-</code></pre><p>The request searches for Person entities where the Age Group property is equal
-to &quot;18-24&quot;. In the implementation of the parameterized search service, you would
-filter through the data and find entities which satisfy the request
-requirements, i.e. have <code>typeId</code> equal to <code>&quot;ET3&quot;</code> and have the Age Group
-property <code>PT26</code> equal to <code>&quot;18-24&quot;</code>. The response, from the example request
-above, would look like this:</p>
+</code></pre><p>The request searches for Person entities where the Age Group property is equal to &quot;18-24&quot;.
+In the implementation of the parameterized search service, you would filter through the data and find entities which satisfy the request
+requirements, i.e. have <code>typeId</code> equal to <code>&quot;ET3&quot;</code> and have the Age Group property <code>PT26</code> equal to <code>&quot;18-24&quot;</code>.
+The response, from the example request above, would look like this:</p>
 <pre><code class="lang-json">{
   &quot;entities&quot;: [
     {
@@ -425,20 +423,18 @@ above, would look like this:</p>
   &quot;links&quot;: []
 }
 </code></pre><h2 id="seeded-search">Seeded search</h2>
-<p>Seeded searches take as input a set of entities and links that a user already
-has on their chart and uses this information when finding results.</p>
-<p><img src="images/seed-example.png" alt="Seed Example"></p>
-<p>The example operations to go over are:</p>
+<p>Seeded searches take as input a set of entities and links that a user already has on their chart and use this information when finding results.
+The types of seeded search operations that the following examples cover are:</p>
 <ul>
-<li>Find-Like-This, where a user is able to select a single entity and search for
-other entities of the same type with similar properties; and</li>
-<li>Expand, where a user can select an entity on their chart and search for all
-other entities that are connected to it by a link, and all those entities and
-links will be returned.</li>
+<li><p>&quot;Find like this&quot;, where a user is able to select a single entity and search for other entities of the same type with similar properties.</p>
+</li>
+<li><p>&quot;Expand&quot;, where a user can select an entity on their chart and search for all other entities that are connected to it by a link, and all those entities and links will be returned.</p>
+</li>
 </ul>
-<h3 id="find-like-this">Find-Like-This</h3>
-<p>A <code>DaodRequest</code> received by the connector for a Find-Like-This search on the
-example data could look something like the following:</p>
+<p><strong>Note:</strong> The requests in these examples do not include data from semantic seeds.
+For an example of a request that does contain such data, see <a href="property-semantic-search.html">Semantic seeds</a>.</p>
+<h3 id="find-like-this">Find like this</h3>
+<p>A <code>DaodRequest</code> received by the connector for a &quot;find like this&quot; search on the example data could look something like the following:</p>
 <pre><code class="lang-json">{
   &quot;payload&quot;: {
     &quot;conditions&quot;: {},
@@ -469,14 +465,12 @@ example data could look something like the following:</p>
     }
   }
 }
-</code></pre><p>You can deduce which of the entities the <code>DaodSeedEntity</code> in this request
-corresponds to by looking at the key in the <code>sourceIds</code> field. The third element
-of this list gives us the ID we have assigned the entity in our connector,
-<code>&quot;person-D&quot;</code>. You also have its type ID <code>&quot;ET3&quot;</code>, so it is a Person entity. Have a look
-at the data above and find this entity.</p>
-<p>To perform a Find-Like-This search using this seed entity, you need only use its
-properties. We can filter through our list of entities for those which have
-<code>typeId</code> equal to <code>&quot;ET3&quot;</code> (are Person entities) and have the properties:</p>
+</code></pre><p>You can deduce which of the entities the <code>DaodSeedEntity</code> in this request corresponds to by looking at the key in the <code>sourceIds</code> field.
+The third element of this list gives us the ID we have assigned the entity in our connector, <code>&quot;person-D&quot;</code>.
+You also have its type ID <code>&quot;ET3&quot;</code>, so it is a Person entity.
+Have a look at the data above and find this entity.</p>
+<p>To perform a &quot;find like this&quot; search using this seed entity, you need only use its properties.
+We can filter through our list of entities for those which have <code>typeId</code> equal to <code>&quot;ET3&quot;</code> (are Person entities) and have the properties:</p>
 <ul>
 <li><code>PT26</code> equal to <code>&quot;F&quot;</code>, i.e. they are female;</li>
 <li><code>PT27</code> equal to <code>&quot;White&quot;</code>, i.e. they are a white female; and</li>
@@ -499,8 +493,7 @@ properties. We can filter through our list of entities for those which have
   &quot;links&quot;: []
 }
 </code></pre><h3 id="expand">Expand</h3>
-<p>A <code>DaodRequest</code> received by the connector for an Expand service might look like
-this:</p>
+<p>A <code>DaodRequest</code> received by the connector for an &quot;expand&quot; search might look like this:</p>
 <pre><code class="lang-json">{
   &quot;payload&quot;: {
     &quot;conditions&quot;: {},
@@ -529,22 +522,20 @@ this:</p>
     }
   }
 }
-</code></pre><p>Again, you can deduce which of our entities the <code>DaodSeedEntity</code> corresponds to by
-looking at the <code>sourceIds</code>. The <code>id</code> of the entity in question is <code>&quot;complaint-1&quot;</code> and it
-has <code>typeID</code> equal to <code>&quot;ET1&quot;</code>, so it is a complaint. Look at the example data above
-and find which entity you are expanding. What would you expect an Expand operation to
-return?</p>
+</code></pre><p>Again, you can deduce which of our entities the <code>DaodSeedEntity</code> corresponds to by looking at the <code>sourceIds</code>.
+The <code>id</code> of the entity in question is <code>&quot;complaint-1&quot;</code> and it has <code>typeID</code> equal to <code>&quot;ET1&quot;</code>, so it is a complaint.
+Look at the example data above and find which entity you are expanding.
+What would you expect an Expand operation to return?</p>
 <p>To perform an Expand operation with this entity as the seed, you need to:</p>
 <ol>
-<li>Find all links connected to the corresponding entity. This means going
-through all the links and finding those with a <code>fromEndId</code> or a <code>toEndId</code>
-equal to the <code>id</code> of the entity, <code>&quot;person-D&quot;</code>.</li>
-<li>Find all entities at the other end of these links. This can be done by using
-the <code>fromEndId</code>s and <code>toEndId</code>s of the links found in step 1 - just use the
-end ID that does not correspond to the seed entity.</li>
+<li><p>Find all links connected to the corresponding entity.
+This means going through all the links and finding those with a <code>fromEndId</code> or a <code>toEndId</code> equal to the <code>id</code> of the entity, <code>&quot;person-D&quot;</code>.</p>
+</li>
+<li><p>Find all entities at the other end of these links.
+This can be done by using the <code>fromEndId</code>s and <code>toEndId</code>s of the links found in step 1 - just use the end ID that does not correspond to the seed entity.</p>
+</li>
 </ol>
-<p>If returning these entities and links as-is, along with the entity corresponding
-to the seed, you would respond with:</p>
+<p>If returning these entities and links as-is, along with the entity corresponding to the seed, you would respond with:</p>
 <pre><code class="lang-json">{
   &quot;entities&quot;: [
     {
@@ -614,12 +605,8 @@ to the seed, you would respond with:</p>
 </code></pre><p>When copying these results to a chart, the seed entity would be duplicated
 along with all its links and connected entities that may already be on the
 chart which would all be connected to the duplicate.</p>
-<p>Depending on how you want the service to function, you might prefer to have the
-returned items connected to the entity that you selected on the chart rather than
-to a duplicate. In this case, you need to change all <code>id</code>, <code>fromEndId</code> and
-<code>toEndId</code> fields that refer to the ID of the seed entity (in this case &quot;complaint-1&quot;) to
-<code>seedId</code> of the <code>DaodSeedEntity</code> in the request, i.e.
-<code>&quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;</code>.</p>
+<p>Depending on how you want the service to function, you might prefer to have the returned items connected to the entity that you selected on the chart rather than to a duplicate.
+In this case, you need to change all <code>id</code>, <code>fromEndId</code> and <code>toEndId</code> fields that refer to the ID of the seed entity (in this case &quot;complaint-1&quot;) to <code>seedId</code> of the <code>DaodSeedEntity</code> in the request, i.e. <code>&quot;1e756171-fb3c-40a4-b7c5-5c537fbf0adc&quot;</code>.</p>
 <p>In this case, you would return the following response:</p>
 <pre><code class="lang-json">{
   &quot;entities&quot;: [
@@ -699,7 +686,7 @@ to a duplicate. In this case, you need to change all <code>id</code>, <code>from
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

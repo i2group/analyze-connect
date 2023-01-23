@@ -79,53 +79,48 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="troubleshooting-guide">Troubleshooting guide</h1>
 
-<p>This is a list of common issues you may face during the development of your
-connector and how to solve them. They are categorized by the stage of
-development in which they may arise.</p>
-<p>If you come across a problem that is not covered below, please raise an issue
-<a href="https://github.com/i2group/analyze-connect/issues">here</a>.</p>
+<p>This is a list of common issues you may face during the development of your connector and how to solve them.
+They are categorized by the stage of development in which they may arise.</p>
+<p>If you come across a problem that is not covered below, please raise an issue <a href="https://github.com/i2group/analyze-connect/issues">here</a>.</p>
 <h2 id="where-to-check-for-errors">Where to check for errors</h2>
 <h3 id="log-files">Log files</h3>
-<p>The i2 Analyze server logs can be found in the
-<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\</code> directory.</p>
+<p>The i2 Analyze server logs can be found in the <code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\</code> directory.</p>
 <ul>
 <li><code>console.log</code> is the main server log file.</li>
-<li><code>opal-services-daod\i2_Analysis_Repository.log</code> is where errors with your
-connector configuration and/or data will appear.</li>
+<li><code>opal-services-daod\i2_Analysis_Repository.log</code> is where errors with your connector configuration and/or data will appear.</li>
 </ul>
 <h2 id="connector-configuration-errors">Connector configuration errors</h2>
 <h3 id="failed-to-retrieve-configuration-information-for-the-connector-with-identifier-connectorid-from-the-url-url">&quot;Failed to retrieve configuration information for the connector with identifier &#39;&lt;CONNECTOR_ID>&#39; from the URL &#39;&lt;URL>&#39;&quot;</h3>
-<p>You will see this in the output when running <code>setup -t start</code> if i2 Analyze fails to
-retrieve your connector&#39;s configuration from its config endpoint. Check that
-the base URL printed here is correct. If not, update the connector base url
-given in the i2 Analyze <code>topology.xml</code> file (in the
-<code>i2analyze\toolkit\configuration\environment</code> directory). If the URL is correct,
-then you need to check the implementation of your config endpoint and that you
-have assigned to it the correct URL path. This should be the base URL suffixed with
-&quot;/config&quot;.</p>
+<p>You will see this in the output when running <code>setup -t start</code> if i2 Analyze fails to retrieve your connector&#39;s configuration from its config endpoint.
+Check that the base URL printed here is correct.
+If not, update the connector base url given in the i2 Analyze <code>topology.xml</code> file (in the <code>i2analyze\toolkit\configuration\environment</code> directory).
+If the URL is correct, then you need to check the implementation of your config endpoint and that you have assigned to it the correct URL path.
+This should be the base URL suffixed with &quot;/config&quot;.</p>
+<h3 id="the-service--specifies-an-unknown-semantic-property-type-identifier--the-identifier-must-be-present-in-the-core-semantic-type-library-or-in-the-semantic-types-that-connector-or-gateway-schemas-define-or-in-the-information-store-schema-if-present">&quot;The service [...] specifies an unknown semantic property type identifier [...]. The identifier must be present in the core semantic type library, or in the semantic types that connector or gateway schemas define, or in the Information Store schema (if present).&quot;</h3>
+<p>You will see this in the output when running <code>setup -t start</code> if your connector includes a service that specifies semantic seed constraints, and the server detects a problem with the semantic type identifiers that the service uses.</p>
+<p>During connector development, the message usually means that you made a mistake when you added the identifier to the service configuration - a copy-and-paste error, or something similar. The detail in the message will suggest the solution.</p>
+<p>If you see the message during deployment of a connector to a production system, it is more likely that the version of the i2 Semantic Type Library on the i2 Analyze server is older than the version that was used during development.
+In this situation, you must update the server with the latest version of the i2 Semantic Type Library.</p>
 <h3 id="some-queries-are-not-configured-correctly-contact-your-system-administrator">&quot;Some queries are not configured correctly. Contact your system administrator.&quot;</h3>
 <p><img src="images/queries-not-configured-correctly.png" alt="Some queries are not configured correctly"></p>
-<p>You will see this in the External Searches window if there is a problem with
-your connector configuration. Clicking <strong>DETAILS</strong> will provide more information.
+<p>You will see this in the External Searches window if there is a problem with your connector configuration.
+Clicking <strong>DETAILS</strong> will provide more information.
 Problems might include:</p>
 <ul>
-<li>no <code>acquireUrl</code> defined for a service: make sure you define one in the service
-definition</li>
-<li>The application is communicating with the connector through a protocol that is
-insecure. You will see this because i2 Analyze and your connector communicate
-via HTTP. In a production environment, you should secure this connection by
-using HTTPS. This is beyond the scope of this guide, but is covered in the
-<a href="https://docs.i2group.com/analyze/t_connect_security.html">i2 product documentation</a>.</li>
+<li>No <code>acquireUrl</code> defined for a service: make sure you define one in the service definition</li>
+<li><p>The application is communicating with the connector through a protocol that is insecure.
+You will see this because i2 Analyze and your connector communicate via HTTP.</p>
+<p>In a production environment, you should secure this connection by using HTTPS.
+This is beyond the scope of this guide, but is covered in the <a href="https://docs.i2group.com/analyze/t_connect_security.html">i2 product documentation</a>.</p>
+</li>
 </ul>
 <h2 id="errors-running-connector-services">Errors running connector services</h2>
 <h3 id="failed-to-open-the-selected-query-contact-your-system-administrator">&quot;Failed to open the selected query. Contact your system administrator&quot;</h3>
 <p><img src="images/failed-to-open-query.png" alt="Failed to open the selected query"></p>
-<p>If you see the above error message when trying to run a query defined by your
-connector via External Searches in Analysts&#39;s Notebook Premium, there are a
-number of potential causes. To understand what went wrong:</p>
+<p>If you see the above error message when trying to run a query defined by your connector via External Searches in Analysts&#39;s Notebook Premium, there are a number of potential causes.
+To understand what went wrong:</p>
 <ol>
-<li>Look at the log file:
-<code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\i2_Analysis_Repository.log</code></li>
+<li>Look at the log file: <code>i2analyze\deploy\wlp\usr\servers\opal-server\logs\opal-services-daod\i2_Analysis_Repository.log</code></li>
 <li><p>You should see at the bottom a more detailed description of the error that occurred.
 You will most likely see an error message starting with the following:</p>
 <pre><code class="lang-shell">d484-4e04-97d5-86e771fed434  - Validation error while retrieving a record.
@@ -135,17 +130,12 @@ Examples and their solutions are given below.</p>
 </li>
 </ol>
 <h4 id="the-schema-does-not-contain-an-entitya-linka-property-with-identifier-typeid">&quot;The schema does not contain an entity/a link/a property with identifier &#39;&lt;TYPE_ID>&#39;&quot;</h4>
-<p>This means you have supplied an entity or link with a <code>typeId</code> that does not
-exist in your schema. Check that the <code>typeId</code> you supplied is not a typo.</p>
+<p>This means you have supplied an entity or link with a <code>typeId</code> that does not exist in your schema.
+Check that the <code>typeId</code> you supplied is not a typo.</p>
 <h4 id="the-value-propertyvalue-is-not-valid-for-the-property-type-with-identifier-typeid-the-value-propertyvalue-is-incompatible-with-the-logicaltype-data-type">&quot;The value &#39;&lt;PROPERTY_VALUE>&#39; is not valid for the property type with identifier &#39;&lt;TYPE_ID>&#39;. The value &#39;&lt;PROPERTY_VALUE>&#39; is incompatible with the &#39;&lt;LOGICAL_TYPE>&#39; data type.&quot;</h4>
-<p>This means that the property value you supplied is not in the correct format,
-which is defined by the logical type of the property. This is especially common
-when dealing with <code>DATE</code>, <code>TIME</code> and <code>DATETIME</code> properties as it can
-be finicky to ensuring input of such values is in the right format. </p>
-<p>Check that you have
-assigned an appropriate logical type for this property and see the
-<a href="data-model.html">data model examples</a> to understand the required format for
-each logical type.</p>
+<p>This means that the property value you supplied is not in the correct format, which is defined by the logical type of the property.
+This is especially common when dealing with <code>DATE</code>, <code>TIME</code> and <code>DATETIME</code> properties. </p>
+<p>Check that you have assigned an appropriate logical type for this property and see the <a href="data-model.html">data model examples</a> to understand the required format for each logical type.</p>
 </article>
           </div>
           
@@ -166,7 +156,7 @@ each logical type.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

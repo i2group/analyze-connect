@@ -99,13 +99,14 @@
 <li><a href="content/example-connectors/connector-auth.html">Authentication</a></li>
 <li><a href="content/example-connectors/user-configuration.html">User-specific configuration</a></li>
 <li><a href="content/miscellaneous/principal-propagation.html">Custom HTTP headers</a></li>
+<li><a href="content/miscellaneous/property-semantic-search.html">Semantic seeds</a></li>
 </ul>
 <h3 id="environment-setup">Environment setup</h3>
 <p>The workshop requires the following tools and technologies:</p>
 <ul>
-<li><p><strong>i2 Analyze 4.4.0</strong>: The server that hosts the i2 Connect gateway.</p>
+<li><p><strong>i2 Analyze 4.4.1</strong>: The server that hosts the i2 Connect gateway.</p>
 </li>
-<li><p><strong>i2 Analyst&#39;s Notebook Premium 9.4.0</strong>: The client that provides the user
+<li><p><strong>i2 Analyst&#39;s Notebook Premium 9.4.1</strong>: The client that provides the user
 interface for interacting with your connector. The client displays the
 resulting entity and link records with their properties.</p>
 </li>
@@ -118,9 +119,7 @@ connector. You can use any IDE you like, but the Visual Studio Code Spring
 Boot Dashboard plugin can handle running and redeploying the connector for
 you. Download it <a href="https://code.visualstudio.com/">here</a>.</p>
 </li>
-<li><p><strong>Postman</strong>: An API development tool that you can use to create and execute
-requests against REST endpoints. Download Postman
-<a href="https://www.getpostman.com/">here</a>.</p>
+<li><p><strong>Postman</strong>: An API development tool that you can use to create and execute requests against REST endpoints. Download Postman <a href="https://www.getpostman.com/">here</a>.</p>
 </li>
 <li><p>An application framework dependent on the language you are writing the
 connector with.</p>
@@ -148,6 +147,7 @@ are a few resources that contain more information about them:</p>
 </ul>
 </li>
 <li><a href="content/miscellaneous/source-identifiers.html">Source identifiers</a></li>
+<li><a href="content/miscellaneous/semantic-type-identifiers.html">Semantic type identifiers</a></li>
 <li><a href="content/miscellaneous/source-references.html">Source references</a></li>
 <li><a href="content/miscellaneous/spi-version.html">SPI version negotiation</a></li>
 <li><a href="content/miscellaneous/troubleshoot.html">Troubleshooting</a></li>
@@ -166,6 +166,34 @@ schemas, type locations, item type mappings, and item type security is divided i
 <li><a href="content/example-connectors/connector-nypd.html">NYPD Connector</a></li>
 <li><a href="content/example-connectors/connector-kcpd.html">KCPD Connector</a></li>
 <li><a href="content/example-connectors/connector-eri.html">ERI Connector</a></li>
+</ul>
+<h2 id="spi-version-information">SPI version information</h2>
+<p>New versions of the REST SPI are always released as part of new i2 Analyze releases. Documentation for the latest version of the SPI is available through the <strong>REST SPI</strong> link at the top of the page.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">SPI version 🡆 <br> i2 Analyze version 🡇</th>
+<th style="text-align:center">1.0</th>
+<th style="text-align:center">1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">4.4.0</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">❌</td>
+</tr>
+<tr>
+<td style="text-align:center">4.4.1</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+</tr>
+</tbody>
+</table>
+<h3 id="spi-changelog">SPI changelog</h3>
+<ul>
+<li><a href="content/spi-versions/1.0/changes.html">1.0 changes</a></li>
+<li><a href="content/spi-versions/1.1/changes.html">1.1 changes</a></li>
 </ul>
 </article>
           </div>
@@ -187,7 +215,7 @@ schemas, type locations, item type mappings, and item type security is divided i
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

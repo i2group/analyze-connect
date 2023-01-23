@@ -203,6 +203,21 @@ this type will contain. For example, <strong>Single Line String</strong> or <str
 <li>Select the <strong>Is Mandatory</strong> checkbox if you want to enforce that all
 links have a property of this type.</li>
 </ol>
+<h3 id="adding-semantic-types">Adding semantic types</h3>
+<p>Entity types, link types, and property types can all have <em>semantic types</em> that provide a connection between the model that your schema represents, and its meaning in the real world.</p>
+<p>For example, you might have entity types in your schema called Car and Truck. By giving them both the semantic type &quot;Vehicle&quot;, you create an association between Car records and Truck records - that they are the same kind of thing - that would not otherwise be present in the model.</p>
+<p>Similarly, a Person might have an SSN property type, while a Car (or a Truck) might have a License Plate property type. Both of those are fundamentally identifiers, and you can represent that by giving them both an &quot;Identifier&quot; semantic type.</p>
+<p>Adding semantic types to the entity, link, and property types in your schema improves the analysis that client applications can perform. You can also take this semantic information into account in the connectors that you create.</p>
+<p>i2 provides a standard library of semantic types that you can assign to the types in your schema:</p>
+<ol>
+<li><p>In Schema Designer, for each type, find the <strong>Semantic Type</strong> field and click <strong>Select</strong> to open the Select Semantic Type dialog.</p>
+</li>
+<li><p>Use the tabs in the dialog to browse the library and understand the relationships between the semantic types that it contains.</p>
+</li>
+<li><p>When you&#39;ve found a semantic type that fits your entity, link, or property type, click <strong>Assign</strong> to add it to the schema.</p>
+</li>
+</ol>
+<p>For more information about semantic types and the i2 Semantic Type Library, see the section on <a href="https://docs.i2group.com/analyze/semantic_types.html">Assigning semantic types</a> in the Schema Designer documentation.</p>
 <h3 id="creating-a-charting-scheme">Creating a charting scheme</h3>
 <p>When you have defined all the entity, link, and property types you want to
 model, you must create a charting scheme to determine how items that contain
@@ -354,7 +369,7 @@ files.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

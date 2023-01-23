@@ -91,6 +91,7 @@
 <li><p>A &quot;find path&quot; query receives the identifying information for exactly two selected records and searches for a path that connects those records in the external source.</p>
 </li>
 </ul>
+<h2 id="seed-constraints">Seed constraints</h2>
 <p>To indicate that a particular service supports seeds, you add a <code>seedConstraints</code> object to its definition in your response from the configuration (or user configuration) endpoint. An empty object indicates that the service supports any number of <em>entity</em> seeds. To change this behavior, and for more control over the constraints, you can populate the object. The REST SPI documentation for the configuration endpoint describes its structure:</p>
 <pre><code class="lang-json">&quot;seedConstraints&quot;: {
   &quot;connectorIds&quot;: [&quot;&quot;],
@@ -110,11 +111,25 @@
 }
 </code></pre><p>A service can specify which records it accepts as seeds by restricting the connectors they came from. It can also set boundaries on the number of seed records it accepts, regardless of their type. A service can specify whether entity or link records are allowed as seeds (entity records are the default), and then restrict the range to a subset of that group. It can also set boundaries on the number of seeds, on a per-type basis.</p>
 <p>If you configure the constraints so that requests must contain at least one seed of each permitted item type, then the service <em>requires</em> seeds. Users cannot run the service without an appropriate selection. Otherwise, your implementation of the acquire endpoint must support requests that might or might not contain seed information.</p>
+<h2 id="semantic-seed-constraints">Semantic seed constraints</h2>
+<p>Alternatively, instead of specifying which item types records must have in order to be seeds, a service can specify the <em>semantic</em> types of properties for which a seed record must have a value. In that case, the SPI and the seed constraints look a little bit different:</p>
+<pre><code class="lang-json">&quot;seedConstraints&quot;: {
+  &quot;min&quot;: 0,
+  &quot;max&quot;: 0,
+  &quot;seedTypes&quot;: {
+    &quot;semanticPropertyTypes&quot;: {
+      &quot;semanticPropertyTypeLabel&quot;: [&quot;&quot;]
+    }
+  }
+}
+</code></pre><p>If you configure semantic seeds, then each seed must satisfy the full set of at least one of the semantic property type constraints. Users cannot run the service without an appropriate selection.</p>
+<p><strong>Note:</strong> When you specify a semantic property type as a seed constraint, the service will also accept records with values for <em>descendants</em> of that semantic property type as seeds. In most cases, it&#39;s better to use the most generic semantic type that is reasonable to use as a constraint.</p>
 <p>When the i2 Connect gateway calls your acquire endpoint to perform a seeded query, it includes a payload that contains identifiers and property values for all seeds. For information about the structure of the payload, see the REST SPI documentation for the <code>request</code> parameter of the acquire endpoint.</p>
+<h2 id="creating-a-seeded-query">Creating a seeded query</h2>
 <p>In outline, the procedure for supporting seeded queries in one of your services is to start by adding seed constraints to its configuration. Clients then interpret the configuration and present the queries to users. When users run a query, your implementation of the acquire endpoint receives seeds that you can use to guide your response.</p>
 <ol>
 <li><p>Decide what kind of seeded operation you want to perform, and its implications for the service.</p>
-<p>For an &quot;expand&quot; query, for example, you might accept a fairly large number of entities of any type as seeds. For &quot;find like this&quot;, the seed is more likely to be a single record of a specific type.</p>
+<p>For an &quot;expand&quot; query, for example, you might accept a fairly large number of entities of any type as seeds. For &quot;find like this&quot;, the seed is more likely to be a single record of a specific type, or with a value for a specific semantic property type.</p>
 </li>
 <li><p>Add a <code>seedConstraints</code> object that reflects the requirements of the query, to the response from the configuration (or user configuration) endpoint.</p>
 </li>
@@ -145,7 +160,7 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation (2022).
+            &copy; N. Harris Computer Corporation.
             
           </div>
         </div>

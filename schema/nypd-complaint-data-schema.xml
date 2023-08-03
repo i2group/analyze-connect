@@ -187,10 +187,14 @@
     </LinkStrengths>
   </LinkStrengthInfo>
   <LabelingSchemes>
-    <LabelingScheme Id="LS1" Name="Labeling Scheme 1">
+    <LabelingScheme Id="LS1" Name="Labeling Scheme">
       <LabelDefinitions>
         <LabelDefinition ItemTypeId="ET1">
-          <LabelParts />
+          <LabelParts>
+            <LabelPart Value="Complaint" LabelPartType="LITERAL" />
+            <LabelPart Value=" " LabelPartType="LITERAL" />
+            <LabelPart Value="PT1" LabelPartType="PROPERTY_TYPE" />
+          </LabelParts>
         </LabelDefinition>
         <LabelDefinition ItemTypeId="ET2">
           <LabelParts />

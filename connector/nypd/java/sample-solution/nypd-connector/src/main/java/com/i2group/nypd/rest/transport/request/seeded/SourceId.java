@@ -28,7 +28,6 @@ import java.util.List;
 
 /** The source identifier of a seed record. */
 public class SourceId {
-  public String itemTypeId;
   public List<String> key;
   public String type;
 }

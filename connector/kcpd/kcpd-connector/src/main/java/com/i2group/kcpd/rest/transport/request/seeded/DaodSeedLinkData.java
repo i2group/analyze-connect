@@ -24,7 +24,7 @@
 
 package com.i2group.kcpd.rest.transport.request.seeded;
 
-/** An link selected on the Analyst's Notebook Premium chart. */
+/** A link selected on the Analyst's Notebook Premium chart. */
 public class DaodSeedLinkData extends SeedDataBase {
   public Object fromEndId;
   public String fromEndTypeId;

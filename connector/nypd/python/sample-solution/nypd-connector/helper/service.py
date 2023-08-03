@@ -81,11 +81,13 @@ def marshal(records, types=[], include_links=True):
                 entities.append(complaint)
 
         if not types or type_ids['location'] in types:
-            if entry['addr_pct_cd'] in locations:
-                location = locations[entry['addr_pct_cd']]
+            key = entry.get('addr_pct_cd', '') + entry.get('boro_nm')
+
+            if key in locations:
+                location = locations[key]
             else:
                 location = create_location(entry)
-                locations[entry['addr_pct_cd']] = location
+                locations[key] = location
                 entities.append(location)
             
             if include_links:

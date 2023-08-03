@@ -108,12 +108,12 @@ class Location(Entity):
         entry (dict): One record from the external datasource.
     """
     def __init__(self, entry):
-        precinctCode = entry.get('addr_pct_cd')
-        boroughName = entry.get('boro_nm')
-        id = "LOC"+ precinctCode + boroughName
+        precinct_code = entry.get('addr_pct_cd', '')
+        borough_name = entry.get('boro_nm')
+        id = "LOC"+ precinct_code + borough_name
         super().__init__(id, type_ids['location'], {
-            'PT15': int(precinctCode) if precinctCode else None,
-            'PT16': boroughName,
+            'PT15': int(precinct_code) if precinct_code else None,
+            'PT16': borough_name,
             'PT18': GeospatialPoint(entry.get('longitude'), entry.get('latitude')).__dict__ 
                     if entry.get('longitude') and entry.get('latitude') else None,
         }, generate_source_ref(entry.get('cmplnt_num')))
@@ -188,8 +188,7 @@ def sanitizeTime(time):
         return None
 
 def get_id(base, entry):
-    id = int(entry.get('cmplnt_num'))
-    return base + str(id)
+    return base + entry.get('cmplnt_num')
 
 def generate_source_ref(complaint_num):
     return {

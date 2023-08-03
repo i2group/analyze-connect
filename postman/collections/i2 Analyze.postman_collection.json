@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "1b34bdbb-ad83-4951-bf06-f31366238288",
+		"_postman_id": "2646c32c-99cb-4719-a4a6-bd4ad81276c8",
 		"name": "i2 Analyze",
 		"description": "The External Data Services for the Opal experience.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -137,7 +137,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/{{context-root}}/api/v1/gateway/reload?capabilities=SEMANTIC_SEARCH",
+							"raw": "{{url}}/{{context-root}}/api/v1/gateway/reload?capabilities=SEMANTIC_SEARCH&capabilities=VISUAL_QUERY",
 							"host": [
 								"{{url}}"
 							],
@@ -152,6 +152,10 @@
 								{
 									"key": "capabilities",
 									"value": "SEMANTIC_SEARCH"
+								},
+								{
+									"key": "capabilities",
+									"value": "VISUAL_QUERY"
 								}
 							]
 						}

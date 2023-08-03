@@ -9,27 +9,31 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
+		<toolkitVersion>4.4.2.0</toolkitVersion>
+		<websphereSecurityArtifactVersion>1.1.77</websphereSecurityArtifactVersion>
+		<httpClientArtifactVersion>4.5.13</httpClientArtifactVersion>
+		<httpCoreArtifactVersion>4.4.13</httpCoreArtifactVersion>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.i2group</groupId>
 			<artifactId>Daod</artifactId>
-			<version>4.3.1.0</version>
+			<version>${toolkitVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.ibm.websphere</groupId>
 			<artifactId>security</artifactId>
-			<version>1.1.53</version>
+			<version>${websphereSecurityArtifactVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.i2group</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.12</version>
+			<version>${httpClientArtifactVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.i2group</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.4.13</version>
+			<version>${httpCoreArtifactVersion}</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -46,11 +50,11 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\Daod.jar</file>
+							<file>${toolkitLocation}\toolkit\application\shared\lib\Daod.jar</file>
 							<groupId>com.i2group</groupId>
 							<artifactId>Daod</artifactId>
 							<packaging>jar</packaging>
-							<version>4.3.1.0</version>
+							<version>${toolkitVersion}</version>
 						</configuration>
 					</execution>
 					<execution>
@@ -60,10 +64,10 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\deploy\wlp\lib\com.ibm.websphere.security_1.1.53.jar</file>
+							<file>${toolkitLocation}\deploy\wlp\lib\com.ibm.websphere.security_${websphereSecurityArtifactVersion}.jar</file>
 							<groupId>com.ibm.websphere</groupId>
 							<artifactId>security</artifactId>
-							<version>1.1.53</version>
+							<version>${websphereSecurityArtifactVersion}</version>
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>
@@ -74,10 +78,10 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpcore-4.4.13.jar</file>
+							<file>${toolkitLocation}\toolkit\application\shared\lib\httpcore-${httpCoreArtifactVersion}.jar</file>
 							<groupId>com.i2group</groupId>
 							<artifactId>httpcore</artifactId>
-							<version>4.4.13</version>
+							<version>${httpCoreArtifactVersion}</version>
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>
@@ -88,10 +92,10 @@
 							<goal>install-file</goal>
 						</goals>
 						<configuration>
-							<file>${toolkitLocation}\toolkit\application\targets\opal-services-daod\WEB-INF\lib\httpclient-4.5.12.jar</file>
+							<file>${toolkitLocation}\toolkit\application\shared\lib\httpclient-${httpClientArtifactVersion}.jar</file>
 							<groupId>com.i2group</groupId>
 							<artifactId>httpclient</artifactId>
-							<version>4.5.12</version>
+							<version>${httpClientArtifactVersion}</version>
 							<packaging>jar</packaging>
 						</configuration>
 					</execution>

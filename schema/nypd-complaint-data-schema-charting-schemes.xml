@@ -95,13 +95,5 @@
         </LinkMappings>
       </XmlChartingScheme>
     </ChartingScheme>
-    <ChartingScheme Name="NYPD Charting Scheme Unlabelled">
-      <XmlChartingScheme>
-        <ChartItemAttributes />
-        <ChartItemDataRecordProperties />
-        <EntityMappings />
-        <LinkMappings />
-      </XmlChartingScheme>
-    </ChartingScheme>
   </ChartingSchemes>
 </ChartingSchemeList>

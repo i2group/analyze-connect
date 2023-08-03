@@ -25,7 +25,6 @@
 package com.i2group.nypd.rest.transport.request.seeded;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * An object containing the list of selected entities and links as well as their corresponding items

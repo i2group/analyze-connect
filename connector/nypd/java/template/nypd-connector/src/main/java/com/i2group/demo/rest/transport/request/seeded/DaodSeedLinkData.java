@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport.request.seeded;
 
 /** A link selected on the Analyst's Notebook Premium chart. */
 public class DaodSeedLinkData extends SeedDataBase {

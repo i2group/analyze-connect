@@ -44,7 +44,7 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_XML_VALUE;
 public class ConnectorController {
 
   private static final int CONNECTOR_MAJOR_VERSION = 1;
-  private static final int CONNECTOR_MINOR_VERSION = 0;
+  private static final int CONNECTOR_MINOR_VERSION = 2;
   private final ExternalConnectorDataService connectorDataService;
   @Value("classpath:config.json")
   private Resource configResource;
@@ -70,7 +70,7 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.GET, value = "/config", produces = APPLICATION_JSON_VALUE)
   public Resource config(@RequestHeader(value = "I2-Spi-Versions", required = false) List<String> gatewaySupportedVersions) {
-    System.out.println("Gateway supported versions: " + gatewaySupportedVersions);
+    System.out.println("Latest gateway supported versions: " + gatewaySupportedVersions);
 
     for (String supportedVersion: gatewaySupportedVersions) {
       final String[] supportedVersionParts = supportedVersion.split("\\.");

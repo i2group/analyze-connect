@@ -22,13 +22,17 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport;
 
-/** A link selected on the Analyst's Notebook Premium chart. */
-public class DaodSeedLinkData extends SeedDataBase {
-  public Object fromEndId;
-  public String fromEndTypeId;
-  public Object toEndId;
-  public String toEndTypeId;
-  public String linkDirection;
+import java.util.Map;
+
+/**
+ * Base POJO (Plain Old Java Object) for response data. Defines the base
+ * properties (variables) for entities and links.
+ */
+public abstract class ResponseDataBase {
+  public Object id;
+  public String typeId;
+  public Long version;
+  public Map<String, Object> properties;
 }

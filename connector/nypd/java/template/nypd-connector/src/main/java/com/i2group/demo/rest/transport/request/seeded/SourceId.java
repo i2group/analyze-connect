@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport.request.seeded;
 
-/** A link selected on the Analyst's Notebook Premium chart. */
-public class DaodSeedLinkData extends SeedDataBase {
-  public Object fromEndId;
-  public String fromEndTypeId;
-  public Object toEndId;
-  public String toEndTypeId;
-  public String linkDirection;
+import java.util.List;
+
+/** The source identifier of a seed record. */
+public class SourceId {
+  public List<String> key;
+  public String type;
 }

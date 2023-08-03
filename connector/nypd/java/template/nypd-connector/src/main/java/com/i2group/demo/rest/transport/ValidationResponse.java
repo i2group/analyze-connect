@@ -22,13 +22,12 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport;
 
-/** A link selected on the Analyst's Notebook Premium chart. */
-public class DaodSeedLinkData extends SeedDataBase {
-  public Object fromEndId;
-  public String fromEndTypeId;
-  public Object toEndId;
-  public String toEndTypeId;
-  public String linkDirection;
+/**
+ * Defines a response containing an error message that can be displayed to the user if there is an
+ * issue with validation.
+ */
+public class ValidationResponse {
+  public String errorMessage;
 }

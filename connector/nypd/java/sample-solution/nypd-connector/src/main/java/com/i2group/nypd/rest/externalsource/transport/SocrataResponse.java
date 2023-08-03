@@ -28,5 +28,4 @@ import java.util.ArrayList;
 
 /** Response class for Socrata */
 public class SocrataResponse extends ArrayList<SocrataResponseData> {
-  private static final long serialVersionUID = 4092894751147398807L;
 }

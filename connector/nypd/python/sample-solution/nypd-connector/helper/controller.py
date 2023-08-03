@@ -28,12 +28,12 @@ from helper.service import (query_external_datasource, marshal, build_params,
 
 controller = Blueprint('config', __name__)
 connector_major_version = '1'
-connector_minor_version = '0'
+connector_minor_version = '2'
 
 @controller.route('/config')
 def config():
     gateway_supported_versions = request.headers['I2-Spi-Versions']
-    print('Gateway supported versions: ' + gateway_supported_versions)
+    print('Latest gateway supported versions: ' + gateway_supported_versions)
 
     for supported_version in gateway_supported_versions.split(','):
         supported_version_parts = supported_version.split('.')

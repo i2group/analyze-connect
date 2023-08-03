@@ -1,0 +1,6 @@
+{
+  "defaultValues": {
+    "timeZoneId": "Europe/London",
+    "resultIdsPersistent": true
+  }
+}

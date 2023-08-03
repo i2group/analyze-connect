@@ -22,13 +22,16 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport.request.seeded;
 
-/** A link selected on the Analyst's Notebook Premium chart. */
-public class DaodSeedLinkData extends SeedDataBase {
-  public Object fromEndId;
-  public String fromEndTypeId;
-  public Object toEndId;
-  public String toEndTypeId;
-  public String linkDirection;
+import java.util.List;
+
+/**
+ * An object containing the list of selected entities and links as well as their corresponding items
+ * types as they are selected on the Analyst's Notebook Premium chart.
+ */
+public class DaodSeeds {
+  public List<DaodSeedEntityData> entities;
+  public List<DaodSeedLinkData> links;
+  public List<?> allItemTypes;
 }

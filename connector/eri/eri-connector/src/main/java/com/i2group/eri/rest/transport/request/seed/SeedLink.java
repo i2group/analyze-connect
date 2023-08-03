@@ -27,7 +27,7 @@ package com.i2group.eri.rest.transport.request.seed;
 import com.i2group.eri.rest.transport.response.Link;
 
 /**
- * An link selected on the Analyst's Notebook Premium chart.
+ * A link selected on the Analyst's Notebook Premium chart.
  */
 public class SeedLink extends SeedItem {
     public Object fromEndId;

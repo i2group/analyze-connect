@@ -22,13 +22,11 @@
  * SOFTWARE.
  */
 
-package com.i2group.nypd.rest.transport.request.seeded;
+package com.i2group.demo.rest.transport;
 
-/** A link selected on the Analyst's Notebook Premium chart. */
-public class DaodSeedLinkData extends SeedDataBase {
+/** Link response data. Contains the variables that define each link in the system. */
+public class LinkData extends ResponseDataBase {
   public Object fromEndId;
-  public String fromEndTypeId;
   public Object toEndId;
-  public String toEndTypeId;
   public String linkDirection;
 }

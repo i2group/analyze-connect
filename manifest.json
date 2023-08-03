@@ -1,4 +1,7 @@
 {
+  "sitemap": {
+    "baseUrl": "https://i2group.github.io/analyze-connect/"
+  },
   "homepages": [],
   "source_base_path": "D:/GitProjects/Connect-Examples/docs",
   "xrefmap": "xrefmap.yml",
@@ -18,7 +21,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-async.html",
-          "hash": "CZclNnOqWpBe79BMt/cIBg=="
+          "hash": "WAiemplWSG6A+4aYvsnaEg=="
         }
       },
       "is_incremental": false,
@@ -30,7 +33,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-auth.html",
-          "hash": "pMCH2vjy8KpOQ7jYQ1hvQA=="
+          "hash": "sbeOY6ISH0oIEaxio/48Dg=="
         }
       },
       "is_incremental": false,
@@ -42,7 +45,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-eri.html",
-          "hash": "F/Qb7NfrtBJkmEn5mlryLQ=="
+          "hash": "HNPoxQ6t8iSVqDgqQ63oQw=="
         }
       },
       "is_incremental": false,
@@ -54,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-kcpd.html",
-          "hash": "6JaqtT15/AvolKVSSM2leg=="
+          "hash": "HxzsCIKLPcX7/HD0Ro7ujQ=="
         }
       },
       "is_incremental": false,
@@ -66,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-nypd.html",
-          "hash": "Xcl8nAtCmcrRfa9g7bLkyQ=="
+          "hash": "4DA+veBkF31A2eq6FF/zGA=="
         }
       },
       "is_incremental": false,
@@ -89,7 +92,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/run-java.html",
-          "hash": "T3PxU+J2cfXd58JsEzNsyA=="
+          "hash": "CMaF7RDaRvfrig/HK4ulbQ=="
         }
       },
       "is_incremental": false,
@@ -101,7 +104,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/run-python.html",
-          "hash": "hGeTwBmELzUG2CTqSAq2pQ=="
+          "hash": "0EkGiBv4XDS/JuwjlHFQRw=="
         }
       },
       "is_incremental": false,
@@ -113,7 +116,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/user-configuration.html",
-          "hash": "T1DBTBK/V8gTJQ9K3osatQ=="
+          "hash": "dLZGJ/OfAzzqggvKz8Z1SA=="
         }
       },
       "is_incremental": false,
@@ -125,7 +128,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/data-model.html",
-          "hash": "wooNT3vfi4oVjWowwGNDBw=="
+          "hash": "WsGxmnR2hNj087FoToF8lw=="
         }
       },
       "is_incremental": false,
@@ -137,7 +140,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.html",
-          "hash": "keNF45GYn3sDhuDGzeSWvA=="
+          "hash": "z0Sdp36nfu21/X0CqhEgLg=="
         }
       },
       "is_incremental": false,
@@ -149,7 +152,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/i2-connect-architecture.html",
-          "hash": "AhH40rs56k5uFtDkA+TbsA=="
+          "hash": "hureKil38GJLhxHUuzaDhQ=="
         }
       },
       "is_incremental": false,
@@ -315,7 +318,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/postman.html",
-          "hash": "zdFulM6hy1xKG6ccK2/CHg=="
+          "hash": "cfzDewDV8U40dvMM10Y+pA=="
         }
       },
       "is_incremental": false,
@@ -339,7 +342,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/property-semantic-search.html",
-          "hash": "SMJ2WBrzr4FWyJnI296ADw=="
+          "hash": "yQQtnCjGTTBhOQ5Mq1RDkw=="
         }
       },
       "is_incremental": false,
@@ -363,7 +366,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/source-identifiers.html",
-          "hash": "9rE5mwx5d2w+/GSzkGAcUw=="
+          "hash": "pawcxwzyET09UjvVDuRaIg=="
         }
       },
       "is_incremental": false,
@@ -387,7 +390,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/spi-examples.html",
-          "hash": "V9AHOgrYSHJ9L42iElP7jg=="
+          "hash": "NK1TTs2dYFAbD4Jnb7gOdw=="
         }
       },
       "is_incremental": false,
@@ -399,7 +402,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/spi-version.html",
-          "hash": "vQ91rcfSnQXnYQtzKfi3BA=="
+          "hash": "lN/LHRft6xQIkae5dHphTw=="
         }
       },
       "is_incremental": false,
@@ -456,7 +459,7 @@
       "output": {
         ".html": {
           "relative_path": "content/schemas/connector-schema.html",
-          "hash": "3eyL66T94Iz31nyHrTuq5Q=="
+          "hash": "NyCgUmqlcl97OjGYsX2ESw=="
         }
       },
       "is_incremental": false,
@@ -468,7 +471,7 @@
       "output": {
         ".html": {
           "relative_path": "content/schemas/gateway-schema.html",
-          "hash": "Dh/GVKL0kp6C3pmqMEIJ+A=="
+          "hash": "1a0Pr9dTA5YYgSSOf7j7jA=="
         }
       },
       "is_incremental": false,
@@ -525,7 +528,7 @@
       "output": {
         ".html": {
           "relative_path": "content/schemas/schema-types.html",
-          "hash": "MnJZHzvtQGjUcOo4PjvDKQ=="
+          "hash": "6U9kDF8yp8cNjvPa4PgEyQ=="
         }
       },
       "is_incremental": false,
@@ -537,7 +540,7 @@
       "output": {
         ".html": {
           "relative_path": "content/schemas/type-location.html",
-          "hash": "Wl4lNcDQDMH97YQdrwXFSg=="
+          "hash": "zLiBfAu+RVFZOrY4KUujvg=="
         }
       },
       "is_incremental": false,
@@ -561,7 +564,19 @@
       "output": {
         ".html": {
           "relative_path": "content/spi-versions/1.1/changes.html",
-          "hash": "hQLUF8VGjh9j6AtS0ro5xg=="
+          "hash": "RyR7OzRo/5V214GpSA2PeA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/spi-versions/1.2/changes.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/spi-versions/1.2/changes.html",
+          "hash": "NugmSF8JCEe4uiwRqmYVFQ=="
         }
       },
       "is_incremental": false,
@@ -573,7 +588,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/1-schema-design-guide.html",
-          "hash": "UnLd0RTqjcnVf7tHNdp8nQ=="
+          "hash": "Jrzb5UDuWh97roqao8cNag=="
         }
       },
       "is_incremental": false,
@@ -585,7 +600,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/2-deploy-i2-analyze.html",
-          "hash": "36KrSr0w7RZUF4lFd7deaQ=="
+          "hash": "5r30tPu0d9g59rysOjU+eQ=="
         }
       },
       "is_incremental": false,
@@ -597,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/3-deploy-connector.html",
-          "hash": "gRV4QQc9Ym/fwi/OnKHrHA=="
+          "hash": "DaudiabHxob1620vJ/j9fQ=="
         }
       },
       "is_incremental": false,
@@ -609,7 +624,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/4-add-service.html",
-          "hash": "H4CjJCIm+sfiGZFwizSOkQ=="
+          "hash": "iqHMdPM1+eLbt3XnuSvkAA=="
         }
       },
       "is_incremental": false,
@@ -621,7 +636,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "j+hwRrcoRz96z+ewHZ5pvg=="
+          "hash": "MKGZNRVAcQUkSSLZgA180A=="
         }
       },
       "is_incremental": false,
@@ -633,7 +648,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/6-parameterised-search.html",
-          "hash": "UAS8Kk71uRuIkpdAjzU/Tg=="
+          "hash": "JdmwwPVW5s/D7jF2EpkTzQ=="
         }
       },
       "is_incremental": false,
@@ -645,7 +660,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/7-seeded-search.html",
-          "hash": "TdO68XNuCaFmqKRHLdoxYg=="
+          "hash": "plwZW6lexapgYITwLbyL9g=="
         }
       },
       "is_incremental": false,
@@ -657,7 +672,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/8-seeded-parameterised-search.html",
-          "hash": "rW5LDr85Kf4A0jPcVRvm6Q=="
+          "hash": "EhO6xAwbPr9PdIOpENUe1A=="
         }
       },
       "is_incremental": false,
@@ -669,7 +684,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/9-validation.html",
-          "hash": "E8gBANmzZpRyGM5kiqjgVA=="
+          "hash": "prDpU4v/XvCRPNFSN6SCkA=="
         }
       },
       "is_incremental": false,
@@ -780,7 +795,7 @@
       "output": {
         ".html": {
           "relative_path": "content/workflow/acquire.html",
-          "hash": "QOui8QtCTZg7OMzKVXfUUw=="
+          "hash": "DtW8BRu5n8L2u88zQMdVnQ=="
         }
       },
       "is_incremental": false,
@@ -804,7 +819,7 @@
       "output": {
         ".html": {
           "relative_path": "content/workflow/config.html",
-          "hash": "gKpZ4+x3xpAoL92W2faQng=="
+          "hash": "Rb6rrwovknbTGheR2NCu3Q=="
         }
       },
       "is_incremental": false,
@@ -861,7 +876,7 @@
       "output": {
         ".html": {
           "relative_path": "content/workflow/parameters.html",
-          "hash": "KEFVSsncu/ku0i90rdpNbg=="
+          "hash": "dAiUnAd8eYgVheabQx+TUw=="
         }
       },
       "is_incremental": false,
@@ -897,7 +912,7 @@
       "output": {
         ".html": {
           "relative_path": "content/workflow/testing.html",
-          "hash": "+2TjRmojthuZLbXgT1i3Dw=="
+          "hash": "tMPNO2Nbjz9YM88ZBuWgIw=="
         }
       },
       "is_incremental": false,
@@ -909,7 +924,18 @@
       "output": {
         ".html": {
           "relative_path": "content/workflow/validation.html",
-          "hash": "Vi1gJQrYd0K+D/R4tlZj2w=="
+          "hash": "9pjz5kleScbHIRPNVFKPYA=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Resource",
+      "source_relative_path": "google10fad47ac722edf2.html",
+      "output": {
+        "resource": {
+          "relative_path": "google10fad47ac722edf2.html"
         }
       },
       "is_incremental": false,
@@ -921,7 +947,7 @@
       "output": {
         ".html": {
           "relative_path": "guidetoc/toc.html",
-          "hash": "dr+v2wAxF/8jvWyQsFJLTQ=="
+          "hash": "QHFQnm7+XmP2MxkEyO02mg=="
         }
       },
       "is_incremental": false,
@@ -944,7 +970,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "CG0+UXe0mH+qRDv8ksbLfQ=="
+          "hash": "SOOLyAT4ZAL8sq2CJ4If8A=="
         }
       },
       "is_incremental": false,
@@ -975,8 +1001,8 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 46,
-          "skipped_file_count": 44
+          "total_file_count": 47,
+          "skipped_file_count": 9
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

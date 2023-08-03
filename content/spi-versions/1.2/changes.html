@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Changelog for i2 Analyze REST SPI 1.1 </title>
+    <title>Changelog for i2 Analyze REST SPI 1.2 </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Changelog for i2 Analyze REST SPI 1.1 ">
+    <meta name="title" content="Changelog for i2 Analyze REST SPI 1.2 ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../../images/favicon.png">
@@ -77,52 +77,52 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="changelog-for-i2-analyze-rest-spi-11">Changelog for i2 Analyze REST SPI 1.1</h1>
+<h1 id="changelog-for-i2-analyze-rest-spi-12">Changelog for i2 Analyze REST SPI 1.2</h1>
 
-<p>Version 1.1 contains minor changes to the i2 Analyze REST SPI.</p>
-<p>This version contains new functionality that allows you to create a service that accepts seeds that are constrained by the semantic types of their properties.</p>
-<p>There are also minor changes to some of the fields related to asynchronous query responses.</p>
+<p>Version 1.2 contains minor changes to the i2 Analyze REST SPI.</p>
+<p>This version contains new functionality that allows you to define Visual Query services for your connector.
+Analysts can then interrogate an external source in the same way as they query the Information Store.</p>
+<p>There are also minor changes to the structure of the client configuration in the response that you return from the configuration endpoint.</p>
 <h2 id="added">Added</h2>
 <p>N/A</p>
 <h2 id="modified">Modified</h2>
 <p>The following endpoints were modified at this version of the i2 Analyze REST SPI:</p>
 <ul>
-<li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#post-/ASYNC_SERVICE_URL">/ASYNC_SERVICE_URL</a></p>
-<ul>
-<li><p>A new <code>semanticData</code> field is added to the <code>DaodSeeds</code> request.
-This field provides the ability to use data from the semantic property types that were specified as seeds in the request.</p>
-</li>
-<li><p>The optional <code>queryId</code> field in the <code>AsyncQueryResponse</code> response is now mandatory.</p>
-</li>
-</ul>
-</li>
-<li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#get-/ASYNC_SERVICE_URL/-queryId-">/ASYNC_SERVICE_URL/{queryId}</a></p>
-<ul>
-<li>The optional <code>message</code> and <code>type</code> fields in the <code>AsyncQuerySubstatus</code> response are now mandatory.</li>
-</ul>
-</li>
 <li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#get-/CONFIGURATION_URL">/CONFIGURATION_URL</a></p>
 <ul>
-<li>A service that accepts seed records can now be constrained by <a href="../../miscellaneous/property-semantic-search.html">semantic types</a>.
-Semantic constraints can be specified using the new <code>ConnectorSeedSemanticPropertyTypes</code> object.</li>
+<li><p>The <code>clientConfigType</code> field in the <code>Service</code> object is now deprecated.
+The <code>type</code> field in the <code>ClientConfig</code> object is used instead.</p>
+<ul>
+<li>The <code>type</code> field in the <code>ClientConfig</code> object is now mandatory as a replacement for the deprecated <code>clientConfigType</code> field in the <code>Service</code> object.</li>
 </ul>
 </li>
-<li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#get-/USER_CONFIGURATION_URL">/USER_CONFIGURATION_URL</a></p>
+<li><p>The <code>config</code> field in the <code>ClientConfig</code> object is now defined as one of <code>FormConfig</code>, <code>VisualQueryConfig</code>, or object.</p>
 <ul>
-<li>A service that accepts seed records can now be constrained by <a href="../../miscellaneous/property-semantic-search.html">semantic types</a>.
-Semantic constraints can be specified using the new <code>ConnectorSeedSemanticPropertyTypes</code> object.</li>
+<li><p>The <code>FormConfig</code> object is used to define a form that is presented to users in the client.
+It contains a new <code>mandatory</code> field to indicate whether the form itself is mandatory, even if no conditions in the form are mandatory.</p>
+</li>
+<li><p>The <code>VisualQueryConfig</code> object is used to define the configuration that governs the behavior and content of visual queries.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#post-/ASYNC_SERVICE_URL">/ASYNC_SERVICE_URL</a></p>
+<ul>
+<li>A new <code>visualQuery</code> field is added to the <code>DaodRequestPayload</code> object.
+If the service uses a client configuration of type &#39;VISUAL_QUERY&#39;, this field is populated with the visual query payload to execute.</li>
 </ul>
 </li>
 <li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#post-/SYNC_SERVICE_URL">/SYNC_SERVICE_URL</a></p>
 <ul>
-<li>A new <code>semanticData</code> field is added to the <code>DaodSeeds</code> request.
-This field provides the ability to use data from the semantic property types that were specified as seeds in the request.</li>
+<li>A new <code>visualQuery</code> field is added to the <code>DaodRequestPayload</code> object.
+If the service uses a client configuration of type &#39;VISUAL_QUERY&#39;, this field is populated with the visual query payload to execute.</li>
 </ul>
 </li>
 <li><p><a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html#post-/VALIDATE_URL">/VALIDATE_URL</a></p>
 <ul>
-<li>A new <code>semanticData</code> field is added to the <code>DaodSeeds</code> request.
-This field provides the ability to use data from the semantic property types that were specified as seeds in the request.</li>
+<li>A new <code>visualQuery</code> field is added to the <code>DaodRequestPayload</code> object.
+If the service uses a client configuration of type &#39;VISUAL_QUERY&#39;, this field is populated with the visual query payload to execute.</li>
 </ul>
 </li>
 </ul>

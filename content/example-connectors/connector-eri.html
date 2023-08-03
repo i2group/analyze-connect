@@ -136,7 +136,7 @@
 <tbody>
 <tr>
 <td>Incident Type</td>
-<td>SELECTED_FROM <strong>*</strong></td>
+<td>SELECTED_FROM *</td>
 <td><em>Incident Type</em></td>
 </tr>
 <tr>
@@ -166,7 +166,7 @@
 </tr>
 </tbody>
 </table>
-<p><strong>*</strong> The possible values for Incident Type are: <em>Administration, Aviation, Fire, HazMat, Law Enforcement, Marine,
+<p>* The possible values for Incident Type are: <em>Administration, Aviation, Fire, HazMat, Law Enforcement, Marine,
 Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other</em>.</p>
 <h3 id="entity-location">Entity: Location</h3>
 <p>Represents the location at which the incident occurred.</p>
@@ -215,7 +215,7 @@ Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other
 <h2 id="setup">Setup</h2>
 <p>These instructions are for setting up and running the ERI connector.</p>
 <p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> or <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploying i2 Analyze with the Information Store and the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
-<h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
+<h3 id="1-add-connector-to-topology">1. Add connector to topology</h3>
 <p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the ERI connector:</p>
 <pre><code class="lang-xml">&lt;wars&gt;
   &lt;war ... &gt;
@@ -233,7 +233,7 @@ Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other
     &lt;connector base-url=&quot;http://localhost:9084&quot; name=&quot;ERI Connector&quot; id=&quot;eri-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you&#39;re using the same port as specified in <code>application.properties</code> (<code>9084</code> by default) and that the value of the <code>id</code> attribute is the name as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre><p>Ensure that you are using the same port specified in the <code>eri\eri-connector\src\main\resources\application.properties</code> file in this repository (<code>9084</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the ERI schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
@@ -252,7 +252,7 @@ Medical, Rescue, Structural, Transportation, Utility, Weather</em> and <em>Other
 <li>The ERI <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
 <h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
-<p>In order to query the external datasource, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
+<p>In order to query the external data source, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
 <p>In the ERI connector&#39;s <code>application.properties</code> file at <code>connector\eri\eri-connector\src\main\resources</code>, add your token.</p>
 <pre><code class="lang-properties">server.port=9084
 socrata.url=https://data.cityofnewyork.us/resource/pasr-j7fb.json
@@ -261,11 +261,11 @@ socrata.url=https://data.cityofnewyork.us/resource/pasr-j7fb.json
 socrata.api.token=
 </code></pre><h3 id="4-run-the-eri-connector">4. Run the ERI connector</h3>
 <p>To run the connector, navigate to <code>connector\eri\eri-connector</code> in your terminal and run the application using the following command:</p>
-<pre><code>mvnw spring-boot:run
+<pre><code class="lang-sh">mvnw spring-boot:run
 </code></pre><p>For more information about running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
 <h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
-<pre><code>setup -t deployLiberty
+<pre><code class="lang-sh">setup -t deployLiberty
 setup -t startLiberty
 </code></pre></article>
           </div>

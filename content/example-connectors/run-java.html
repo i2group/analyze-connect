@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Running a Java connector via the command-line </title>
+    <title>Running the Java connector </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Running a Java connector via the command-line ">
+    <meta name="title" content="Running the Java connector ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -77,41 +77,33 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="running-a-java-connector-via-the-command-line">Running a Java connector via the command-line</h1>
+<h1 id="running-the-java-connector">Running the Java connector</h1>
 
-<p>The example Java connector is a simple Spring Boot application. Here&#39;s how to run it
-via the command-line. (You also have the option to run it directly in VSCode.)</p>
-<p>In the project directory (where the mvnw file is), use the commands below to get
-your connector up-and-running. There are two ways to go about this. We recommend
-using the run command, for the reasons detailed below.</p>
-<h2 id="run">Run</h2>
-<p>Use the following command to start the connector and run it until you press
-<code>Ctrl-C</code>. With the Spring Boot Devtools plugin, which we are using in this 
-project, code and resource changes are detected automatically while using this
-command, and the application is automatically restarted. This is incredibly
-useful when making changes, since you can see the results almost
-instantaneously.</p>
+<p>The example Java connectors are developed as Spring Boot applications.
+You can choose to run the connectors through a command prompt or through the Spring Boot Dashboard in VS Code.</p>
+<h2 id="command-prompt">Command prompt</h2>
+<p>In the project directory (where the <code>mvnw</code> file is), use the commands below to get your connector up and running.
+There are two ways to go about this. We recommend using the run command, for the reasons detailed below.</p>
+<p><strong>Note:</strong> If you are using the VS Code terminal, your commands should start with <code>.\mvnw</code> instead of <code>mvnw</code>.</p>
+<h3 id="run">Run</h3>
+<p>The example Java connectors include a Spring Boot dependency that allows for automatic restarts whenever files on the classpath change.
+Use the following command to start the connector in this mode and run it until you press <code>Ctrl-C</code>.</p>
 <pre><code class="lang-shell">mvnw spring-boot:run
-</code></pre><h2 id="start-and-stop">Start and stop</h2>
+</code></pre><h3 id="start-and-stop">Start and stop</h3>
 <p>To start the connector application and return to the command prompt, use:</p>
 <pre><code class="lang-shell">mvnw spring-boot:start
-</code></pre><p>You will then need to stop the connector application manually using</p>
+</code></pre><p>You will then need to stop the connector application manually using:</p>
 <pre><code class="lang-shell">mvnw spring-boot:stop
-</code></pre><h1 id="running-the-connector-in-vs-code">Running the connector in VS Code</h1>
-<p>To run your connector directly from VS Code, ensure you have installed the
-Spring Boot Extension Pack for VSCode, either via the Extensions menu in VSCode,
-or using <a href="https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack">this link</a>
+</code></pre><h2 id="spring-boot-dashboard">Spring Boot Dashboard</h2>
+<p>To run your connector directly through the Spring Boot Dashboard in VS Code, ensure you have installed the Spring Boot Extension Pack, either via the Extensions menu in VS Code, or using <a href="https://marketplace.visualstudio.com/items?itemName=Pivotal.vscode-boot-dev-pack">this link</a>.
 Then, with your project directory open in VS Code:</p>
 <ol>
-<li>There should be a Spring Boot Dashboard panel at the bottom, where the &quot;demo&quot;
-app should appear.</li>
-<li>Right-click on the &#39;demo&#39; app and click Run. The resulting output in the
-debug console should print the URL for the connector</li>
+<li>Select the Spring Boot Dashboard panel icon in the VS Code Activity Bar.</li>
+<li>Under &quot;Apps&quot;, right-click on the name of the app that you want to start and click <strong>Run</strong>.</li>
+<li>The resulting output in the debug console contains the URL for the connector.</li>
 </ol>
-<p>The app automatically restarts whenever files are updated, which helps speed
-up the development/test cycle.</p>
-<p>The screenshot below shows the Spring Boot Dashboard panel with the &quot;demo&quot; app
-appearing where you should expect to see it.</p>
+<p>The app automatically restarts whenever files are updated, which helps speed up the development/test cycle.</p>
+<p>The screenshot below shows the Spring Boot Dashboard panel with the &quot;demo&quot; app appearing where you should expect to see it.</p>
 <p><img src="images/vscode.png" alt="Spring Boot in VS Code"></p>
 </article>
           </div>

@@ -84,119 +84,154 @@
 <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <h3 id="add-a-new-service">Add a new service</h3>
-<p>You will need to add a service for parameterized searches to the services array in the <code>config.json</code>.</p>
-<p>For this service, you need to set the <code>clientConfigType</code>. In this example, you will set the value to be <code>FORM</code> so that you can specify your conditions via fields in a form that will be shown in Analyst&#39;s Notebook Premium.</p>
+<p>To define a parameterized search, the service requires a client configuration.
+Let&#39;s begin by defining a service with a <code>clientConfigId</code> field in <code>config.json</code>.</p>
 <pre><code class="lang-json">{
-  ...
+  &quot;version&quot;: &quot;1.2&quot;,
   &quot;services&quot;: [
     {
       &quot;id&quot;: &quot;nypd-search-service&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
       &quot;description&quot;: &quot;A service for conditional searches.&quot;,
-      &quot;clientConfigType&quot;: &quot;FORM&quot;,
       &quot;clientConfigId&quot;: &quot;searchForm&quot;,
       &quot;acquireUrl&quot;: &quot;/search&quot;
     }
   ]
 }
 </code></pre><h3 id="define-search-fields">Define search fields</h3>
-<p>You will need to define the search fields in a <code>clientConfigs</code> array at the root level of your <code>config.json</code>. For example:</p>
+<p>Since you specified a <code>clientConfigId</code> for the service, you must now define the configuration.</p>
+<ol>
+<li><p>Add a <code>clientConfigs</code> array to the root level of <code>config.json</code> with an entry for the client configuration identifier.
+For example:</p>
 <pre><code class="lang-json">{
-  &quot;defaultValues&quot;: {
-    ...
-  },
-  &quot;services&quot;: [
-    ...
-  ],
-  &quot;clientConfigs&quot;: [
-    {
-      &quot;id&quot;: &quot;searchForm&quot;,
-      &quot;config&quot;: {
-        &quot;sections&quot;: [
-          {
-            &quot;conditions&quot;: [
-              {
-                &quot;id&quot;: &quot;searchTerm&quot;,
-                &quot;label&quot;: &quot;made-up-field (e.g. Complaint Number)&quot;,
-                &quot;mandatory&quot;: false,
-                &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;
-              }
-            ]
-          }
-        ]
+   &quot;version&quot;: &quot;1.2&quot;,
+   &quot;services&quot;: [
+      ...
+   ],
+   &quot;clientConfigs&quot;: [
+      {
+         &quot;id&quot;: &quot;searchForm&quot;
       }
-    }
-  ]
+   ]
 }
-</code></pre><p>For more information on client configuration, refer to the <a href="../workflow/config.html">development workflow documentation</a>.</p>
+</code></pre></li>
+<li><p>Set the <code>type</code> value in the client configuration entry to be <code>FORM</code> so that you can specify your conditions through fields in a form that will be shown in Analyst&#39;s Notebook Premium.</p>
+</li>
+<li><p>To define the search fields for the form, add a form config object as below:</p>
+<pre><code class="lang-json">{
+   &quot;version&quot;: &quot;1.2&quot;,
+   &quot;services&quot;: [
+      ...
+   ],
+   &quot;clientConfigs&quot;: [
+      {
+         &quot;id&quot;: &quot;searchForm&quot;,
+         &quot;type&quot;: &quot;FORM&quot;,
+         &quot;config&quot;: {
+            &quot;sections&quot;: [
+               {
+                  &quot;conditions&quot;: [
+                     {
+                        &quot;id&quot;: &quot;searchTerm&quot;,
+                        &quot;label&quot;: &quot;made-up-field (e.g. Complaint Number)&quot;,
+                        &quot;mandatory&quot;: false,
+                        &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;
+                     }
+                  ]
+               }
+            ]
+         }
+      }
+   ]
+}
+</code></pre></li>
+</ol>
+<p>For more information about client configuration, refer to the <a href="../workflow/config.html">development workflow documentation</a>.</p>
 <h3 id="test-search-fields">Test search fields</h3>
-<p>Check that your fields work in Analyst&#39;s Notebook Premium, you need to tell i2 Analyze to reload it&#39;s
-connectors&#39; configurations, run:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology. You can then:</p>
-<ul>
-<li>Log out and log back into Analyst&#39;s Notebook Premium to see the configuration changes and your newly-defined service.</li>
-<li>Try running it. You should receive an error as your condition fields have been defined but not yet implemented.</li>
-</ul>
+<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook Premium.</p>
+<ol>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
+<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.</p>
+</li>
+<li><p>Try running the query. You should receive an error because your condition fields have been defined but not yet implemented.</p>
+</li>
+</ol>
 <h2 id="implementation">Implementation</h2>
 <p>It&#39;s time to implement these conditions.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
 <h4 id="java">Java</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
-directory provided. This includes:<ul>
-<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
-in case you have not already defined a new service</li>
-<li>Changes to the <code>ConnectorController</code> class</li>
-<li>Some extra REST transport classes</li>
-</ul>
-</li>
-<li>Apply these changes to your code, either manually, or by copying the relevant
-files. If you are copying the files, you may need to change the path of the
-new method in <code>ConnectorController</code>.</li>
-<li>Look at how the endpoint is defined in the <code>ConnectorController</code> class and think about how you should implement
-this service.</li>
-</ul>
+<p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<p>Define the new endpoint in the <code>ConnectorController</code> class as below:</p>
+<pre><code class="lang-java">/**
+* Defines the /search endpoint which retrieves entities and links based on conditions.
+*
+* @param request The request containing the payload.
+* @return The resulting entities and links after a conditional search.
+*/
+@RequestMapping(
+   method = RequestMethod.POST,
+   value = &quot;/search&quot;,
+   consumes = APPLICATION_JSON_VALUE,
+   produces = APPLICATION_JSON_VALUE)
+public ConnectorResponse testSearchService(@Valid @RequestBody ConnectorRequest request) {
+
+   // TODO: Extract request conditions and use in request to Socrata.
+   System.out.println(request);
+   return connectorDataService.retrieveTestDataFromExternalSource(/*search params*/ );
+}
+</code></pre><p>Look at how the endpoint is defined and think about how you should implement this service.</p>
 <h4 id="python">Python</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage4/nypd-connector</code>
-directory provided. This includes:<ul>
-<li>An example <code>config.json</code> with a parameterized search service and search fields defined. This is just a template
-in case you have not already defined a new service</li>
-<li>Changes to the <code>controller.py</code> file</li>
-<li>Some extra REST transport classes</li>
-</ul>
-</li>
-<li>Apply these changes to your code, either manually, or by copying the relevant
-files. If you are copying the files, you may need to change the path of the
-new method in <code>controller.py</code>.</li>
-<li>Look at how the endpoint is defined in the <code>controller.py</code> class and think about how you should implement
-this service.</li>
-</ul>
+<p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<p>Define the new endpoint in the <code>controller.py</code> class as below:</p>
+<pre><code class="lang-python">@controller.route(&#39;/search&#39;, methods=[&#39;POST&#39;])
+def search():
+    &quot;&quot;&quot;
+    Defines the /search endpoint which acquires the 
+    search data (entities and links based on conditions)
+    &quot;&quot;&quot;
+    print(request.json)
+
+    # TODO: Extract request conditions and use in request to Socrata.
+    # Pass conditions into your function.
+
+    return query_external_datasource()
+</code></pre><p>Don&#39;t forget to add the import for <code>request</code>! Your import should look like this:</p>
+<pre><code class="lang-python">from flask import Blueprint, request, send_from_directory
+</code></pre><p>Look at how the endpoint is defined and think about how you should implement this service.</p>
 <h3 id="access-conditions">Access conditions</h3>
-<p>You will need to parse the conditions passed in the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> and return a response containing entities and links. For an example of how your connector may receive requests, and the responses it may return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
-<p>You will need to create basic POJOs to parse the request and access the condition information. To do that please refer to the <code>DaodRequest</code> model in the SPI. The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>
+<p>You will need to parse the conditions passed in the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response containing entities and links.
+The list of conditions can be accessed via <code>request.payload.conditions</code>.</p>
+<p>For an example of how your connector might receive requests, and the responses it might return, you can view some SPI examples <a href="../miscellaneous/spi-examples.html">here</a>.</p>
 <h3 id="filter-data-by-conditions">Filter data by conditions</h3>
-<p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the datasource match the parameters given by the user in the form.</p>
+<p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the data source match the parameters given by the user in the form.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Update the connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology. Then:</p>
+<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook Premium.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook Premium.</li>
-<li>Click on &quot;External Search&quot;.</li>
-<li>Select your parameterized search service.</li>
-<li>Provide a value to the condition field and click &quot;Run&quot;.</li>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
+<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.</p>
+</li>
+<li><p>Select your parameterized search service.</p>
+</li>
+<li><p>Provide a value to the condition field and click <strong>Run</strong>.</p>
+</li>
 </ol>
-<p>You should now see a resulting list of entities that satisfy your condition.</p>
+<p>You should now see a list of result entities that satisfy your condition.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>Now you can implement <a href="7-seeded-search.html">seeded searches</a>.</p>
 </article>

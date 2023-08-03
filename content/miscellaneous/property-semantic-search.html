@@ -86,8 +86,11 @@
 <li>Where a seed record has more than one property with the same (or a related) semantic type, you can base a search on the values of all such properties.</li>
 </ul>
 <p>This topic describes how to specify semantic constraints. For more information about the uses to which you can put seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
-<h2 id="example">Example</h2>
-<p>This example is based on the <a href="../example-connectors/connector-auth.html#setup"><code>auth-connector</code></a> example, but adds a service that uses a semantic seed constraint. The service uses the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> to examine the seed that it receives in the request, and returns a response containing entities and links whose property values match the values in that seed.</p>
+<h2 id="setting-up-an-example-connector">Setting up an example connector</h2>
+<p>This example is based on the <a href="../example-connectors/connector-auth.html#setup"><code>auth-connector</code></a>.
+We&#39;ll extend that example to add a service that uses a semantic seed constraint.
+The service uses the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> to examine the seed that it receives in the request, and returns a response containing entities and links whose property values match the values in that seed.</p>
+<p>Ensure that you have a working deployment of the <code>auth-connector</code> before you continue. You can find instructions for deploying it <a href="../example-connectors/connector-auth.html#setup">here</a>.</p>
 <h3 id="add-a-new-service">Add a new service</h3>
 <p>The new service will query an external data source (just a text file in this example) for person records that have the same last name as the seed in the request.</p>
 <p>By using a semantic constraint, the service will accept a seed of any type that has a property with the &quot;Person Last Name&quot; semantic type. In addition, since the &quot;Maiden Name&quot; semantic type is a child of &quot;Person Last Name&quot;, the service will also accept a seed with a property of that type.</p>
@@ -125,7 +128,9 @@ public ResponseEntity&lt;?&gt; findSameLastName(
     @Valid @RequestBody ConnectorRequest request) {
   return connectorDataService.findSameName(request.payload.seeds);
 }
-</code></pre><h4 id="access-the-seeds">Access the seeds</h4>
+</code></pre><p><strong>Note:</strong> This code does not compile because the <code>findSameName()</code> method is undefined.
+You can ignore this for now, and we will cover the implementation of that method later in this guide.</p>
+<h4 id="access-the-seeds">Access the seeds</h4>
 <p>The <code>findSameName()</code> method needs to examine the seeds passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response that contains entity and link records.</p>
 <p>The <code>DaodRequest</code> object that the service receives for a search that uses semantic seeds might look like the following example.</p>
 <pre><code class="lang-json">{
@@ -212,11 +217,21 @@ public ResponseEntity&lt;?&gt; findSameLastName(
   ],
   &quot;links&quot;: []
 }
-</code></pre><h2 id="run-the-query">Run the query</h2>
-<p>To make it possible for users to run the new query, update the <code>auth-connector</code>&#39;s configuration:</p>
-<pre><code class="lang-sh">setup -t updateConnectorsConfiguration
-</code></pre><p>Then, use the <a href="../workflow/testing.html#i2-analyze-server-admin-console">Admin Console</a> to reload the updated configuration by clicking <strong>Reload gateway</strong> to reflect your changes in the topology.</p>
+</code></pre><h2 id="update-the-i2-connect-gateway">Update the i2 Connect gateway</h2>
+<p>In order for i2 Analyze to recognize these changes, you must reload the i2 Connect gateway.</p>
+<ol>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
+</ol>
 <p><strong>Note:</strong> If you want to reload the connector configuration through Postman, you must add the <code>SEMANTIC_SEARCH</code> capability to the request&#39;s query parameter. If the value is not present, information about this service is excluded from the response.</p>
+<h2 id="run-the-query">Run the query</h2>
 <p>Now, you can use the new query:</p>
 <ol>
 <li>Open the Analyst&#39;s Notebook Premium desktop client.</li>

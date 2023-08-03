@@ -80,19 +80,19 @@
 <h1 id="seeded-search">Seeded search</h1>
 
 <p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst&#39;s Notebook Premium and open &quot;External Search&quot;.</p>
-<p>Again, if you face any issues during this task, remember to consult the
-<a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
+<p>Again, if you face any issues during this task, remember to consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
+<p>For more information on seeded queries, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>You need to configure a service to allow for seeded searches.</p>
 <h3 id="add-a-new-service">Add a new service</h3>
-<p>You will need to add a new service for seeded searches to the services array in the <code>config.json</code>. You will also need to add <code>seedConstraints</code> which define the entities allowed by the seeded search. For example:</p>
+<p>Add two new services for seeded searches to the services array in the <code>config.json</code> file.
+The services should also define the <code>seedConstraints</code> object that controls the entities that are allowed by the seeded search.</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
     {
       &quot;id&quot;: &quot;nypd-find-like-this-complaint-service&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Find like this complaint&quot;,
       &quot;description&quot;: &quot;A service that finds a similar complaint.&quot;,
-      &quot;clientConfigType&quot;: &quot;NONE&quot;,
       &quot;acquireUrl&quot;: &quot;/find-like-this-complaint&quot;,
       &quot;seedConstraints&quot;: {
         &quot;min&quot;: 1,
@@ -113,7 +113,6 @@
       &quot;id&quot;: &quot;nypd-expand-service&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Expand&quot;,
       &quot;description&quot;: &quot;A service that executes an expand operation on a seed.&quot;,
-      &quot;clientConfigType&quot;: &quot;NONE&quot;,
       &quot;acquireUrl&quot;: &quot;/expand&quot;,
       &quot;seedConstraints&quot;: {
         &quot;min&quot;: 1,
@@ -133,56 +132,74 @@
     }
   ]
 }
-</code></pre><h3 id="check-service-in-analysts-notebook-premium">Check service in Analyst&#39;s Notebook Premium</h3>
-<p>Check that your service now appears in the list of defined services in Analyst&#39;s Notebook Premium.</p>
-<p>Update connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology. Then:</p>
-<ul>
-<li>Log out and log back into Analyst&#39;s Notebook Premium to see the configuration changes and your newly-defined service.
-(If the service does not show up, try unchecking the <code>Hide queries whose requirements are not met</code> box).</li>
-<li>Try running it by pre-clicking on an entity. You should receive an error as your seeded search has been defined but not yet implemented.</li>
-</ul>
+</code></pre><p>We will cover these two types of seeded queries later in this topic.
+For now, update the <code>id</code>s of the <code>itemTypes</code> to values that exist in your schema.</p>
+<h3 id="check-service-in-analysts-notebook-premium">Check service in Analyst&#39;s Notebook Premium</h3>
+<p>Reload the connector and check that your services are in the list of defined services in Analyst&#39;s Notebook Premium.</p>
+<ol>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
+<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.  </p>
+</li>
+<li><p>You may notice that you are not able to run any of the new services.
+Since they are seeded services, you must first select a valid seed.
+Run one of the valid services defined in previous topics and copy the entities to the chart.</p>
+</li>
+<li><p>Select one of the entities.
+If the entity type matches the valid seed type defined by the seeded service, that service will become available to execute.</p>
+</li>
+<li><p>Run the seeded service.</p>
+</li>
+</ol>
+<p>You should receive an error as your seeded search has been defined but not yet implemented.</p>
 <h2 id="implementation">Implementation</h2>
-<p>It&#39;s time to implement these conditions.</p>
+<p>It&#39;s time to implement the service.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
 <h4 id="java">Java</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-provided. This includes:<ul>
-<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
-already defined a new service.</li>
-<li>Changes to <code>ConnectorController</code></li>
-<li>Some new REST transport classes</li>
-</ul>
-</li>
-<li>Apply the code changes, either manually or by copying the relevant files over. You may need to change the path
-of the new method in <code>ConnectorController</code> if copying the files completely.</li>
-<li>Notice how the endpoint is defined in the <code>ConnectorController</code> class.</li>
-</ul>
+<p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<p>Define the seeded search endpoint in the <code>ConnectorController</code> class as below:</p>
+<pre><code class="lang-java">/**
+  * Defines the seeded search endpoint which acquires the seeded search data (entities and links
+  * based on seeds)
+  *
+  * @param request The request containing the payload.
+  * @return The resulting entities and links connected to the selected entities.
+  */
+@RequestMapping(
+      method = RequestMethod.POST,
+      value = &quot;SEEDED SEARCH ACQUIRE URL GOES HERE&quot;,
+      consumes = APPLICATION_JSON_VALUE,
+      produces = APPLICATION_JSON_VALUE)
+public ConnectorResponse testSeededSearchService(@Valid @RequestBody ConnectorRequest request) {
+  // TODO: Extract seed information and use it to search
+  System.out.println(request.payload.seeds);
+  return connectorDataService.retrieveTestDataFromExternalSource(/*seeds*/ );
+}
+</code></pre><p>You must update the <code>value</code> field in the <code>@RequestMapping</code> object with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
 <h4 id="python">Python</h4>
-<p>i2 Analyze knows the acquire URL decided on for this service. Now you need to
-add the corresponding endpoint in the connector.</p>
-<ul>
-<li>You have a template to get started with; see the <code>stage5/nypd-connector</code> folder
-provided. This includes:<ul>
-<li>An example <code>config.json</code> with a seeded search service defined. This is just a template in case you have not
-already defined a new service.</li>
-<li>Changes to <code>controller.py</code></li>
-<li>Some new REST transport classes</li>
-</ul>
-</li>
-<li>Apply the code changes, either manually or by copying the relevant files over. You may need to change the path
-of the new method in <code>controller.py</code> if copying the files completely.</li>
-<li>Notice how the endpoint is defined in the <code>controller.py</code> class.</li>
-</ul>
+<p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
+<p>Define the seeded search endpoint in the <code>controller.py</code> class, as below:</p>
+<pre><code class="lang-python">@controller.route(&#39;SEEDED SEARCH ACQUIRE URL GOES HERE&#39;, methods=[&#39;POST&#39;])
+def seeded_search():
+    &quot;&quot;&quot;
+    Defines the seeded search endpoint which acquires the
+    seeded search data (entities and links based on conditions)
+    &quot;&quot;&quot;
+    print(request.json[&#39;payload&#39;][&#39;seeds&#39;])
+
+    # TODO: Extract seeded information and use it to search
+
+    return query_external_datasource()
+</code></pre><p>You must update the <code>@controller.route</code> value with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
 <h3 id="access-seeds">Access seeds</h3>
-<p>You will need to manipulate a seed passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> and return a response containing entities and links. You will also need to create basic POJOs to parse the request and access the seed information.</p>
+<p>You will need to manipulate a seed passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response containing entities and links.</p>
 <h3 id="filter-data-based-on-seed">Filter data based on seed</h3>
 <p>How you will use the seed depends on what you are trying to achieve.</p>
 <h4 id="find-like-this-seeded-search">Find Like This seeded search</h4>
@@ -200,19 +217,20 @@ of the new method in <code>controller.py</code> if copying the files completely.
 </ul>
 <p>For more information about these and other uses for seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Update connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology.</p>
+<p>Run the seeded search service in Analyst&#39;s Notebook Premium.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook Premium.</li>
-<li>Select an entity on the chart.</li>
-<li>Click on &quot;External Search&quot;.</li>
-<li>Click on your seeded search service to run it.</li>
+<li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
+</li>
+<li><p>Open Analyst&#39;s Notebook Premium.</p>
+</li>
+<li><p>Select an entity on the chart.</p>
+</li>
+<li><p>Click &quot;External Search&quot;.</p>
+</li>
+<li><p>Click your seeded search service to run it.</p>
+</li>
 </ol>
-<p>You should now see a resulting list of entities which are connected to the entity you initially selected.</p>
+<p>You should now see a list of result entities that are connected to the entity you initially selected.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>Next, you can combine what you&#39;ve learned from these past two sections to implement <a href="8-seeded-parameterised-search.html">seeded parameterized searches</a>.</p>
 </article>

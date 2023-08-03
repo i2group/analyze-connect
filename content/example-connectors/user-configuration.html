@@ -133,6 +133,7 @@
 }
 </code></pre><p>Here, the <code>userConfigUrl</code> field defines the (relative) URL at which the user specific configuration can be found. When <code>userConfigUrl</code> is present, the only other fields that can appear in the connector&#39;s configuration are:</p>
 <ul>
+<li><code>version</code></li>
 <li><code>schemaUrl</code></li>
 <li><code>chartingSchemesUrl</code></li>
 <li><code>schemaShortName</code></li>
@@ -140,7 +141,7 @@
 </ul>
 <blockquote><p><strong>Important:</strong> You must also instruct the i2 Connect gateway to send the above headers in requests to the connector. The headers can contain sensitive information, so the gateway does not send them by default.</p>
 <p>To add the headers to requests that reach the connector, you must add the <code>send-sensitive-headers</code> attribute to the entry for the connector in the topology file:</p>
-<pre><code>&lt;connectors&gt;
+<pre><code class="lang-xml">&lt;connectors&gt;
   &lt;connector id=&quot;...&quot;
              name=&quot;...&quot;
              base-url=&quot;...&quot;
@@ -174,9 +175,12 @@
 <li>Make a copy of the sample solution (or your existing NYPD connector example, if you are using it).</li>
 <li><p>Copy the contents of the <code>user-config/override</code> directory over your copied solution. The differences between the override and the sample solution are:</p>
 <ul>
-<li><code>ConnectorController.java</code> is modified to return <code>global-config.json</code> as the standard configuration, and to return <code>analyst-config.json</code> and <code>other-config.json</code> for the new, user-specific configurations.</li>
-<li>The existing <code>config.json</code> file is no longer used.</li>
+<li><p><code>ConnectorController.java</code> is modified to return <code>global-config.json</code> as the standard configuration, and to return <code>analyst-config.json</code> and <code>other-config.json</code> for the new, user-specific configurations.</p>
+</li>
+<li><p>The existing <code>config.json</code> file is no longer used.</p>
+</li>
 </ul>
+<p><strong>Note:</strong> The imports used in the modified <code>ConnectorController.java</code> class are based on the sample solution project. You may need to update the imports to point to the correct POJO classes defined in your existing NYPD connector example.</p>
 </li>
 </ul>
 <h3 id="2-start-the-connector">2. Start the connector</h3>
@@ -202,10 +206,10 @@
 <h3 id="4-configure-command-access-control">4. Configure command access control</h3>
 <p>The group names in the command access control file must match the names of user groups in the user registry file. To ensure that users in the <code>Clerk</code> group are able to view the connector, you must update the command access control file.</p>
 <ol>
-<li>Navigate to <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code> and open the <code>example-command-access-control.xml</code> file in a text editor. </li>
+<li>Navigate to <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code> and open the <code>example-command-access-control.xml</code> file in a text editor.</li>
 <li><p>Add the user group specified in the user registry file to the command access control file, and include the permission for the connector. For example:</p>
 <pre><code class="lang-xml">&lt;CommandAccessPermissions UserGroup=&quot;Clerk&quot;&gt;
-    &lt;Permission Value=&quot;i2:Connectors:nypd-connector&quot; /&gt;
+  &lt;Permission Value=&quot;i2:Connectors:nypd-connector&quot; /&gt;
 &lt;/CommandAccessPermissions&gt;
 </code></pre></li>
 </ol>

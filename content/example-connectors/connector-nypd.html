@@ -118,7 +118,7 @@
 <td>Plain Text</td>
 </tr>
 <tr>
-<td><em>CRM_ATPT_CPTD_CD (Crime Atempted-Completed Code)</em></td>
+<td><em>CRM_ATPT_CPTD_CD (Crime Attempted-Completed Code)</em></td>
 <td>Plain Text</td>
 </tr>
 <tr>
@@ -142,7 +142,7 @@
 <td>Plain Text</td>
 </tr>
 <tr>
-<td><em>LOC_OF_OCCUR_DESC (Location of Occurence Description)</em></td>
+<td><em>LOC_OF_OCCUR_DESC (Location of Occurrence Description)</em></td>
 <td>Plain Text</td>
 </tr>
 <tr>
@@ -421,7 +421,7 @@
 <p>These instructions are for setting up and running the NYPD connector.</p>
 <p>If you are not familiar with <a href="../walkthrough/2-deploy-i2-analyze.html">deploying i2 Analyze with the i2 Connect gateway</a> and have not previously done so, you must do so now.</p>
 <p>If you want to configure your connector to use an Information Store schema, you must <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">deploy i2 Analyze with the Information Store and the i2 Connect gateway</a>.</p>
-<h3 id="1-add-connector-to-topology">1. Add connector to topology:</h3>
+<h3 id="1-add-connector-to-topology">1. Add connector to topology</h3>
 <p>In your <code>topology.xml</code> file in <code>toolkit\configuration\environment</code>, add a new <code>&lt;connector-id&gt;</code> element for the NYPD connector:</p>
 <pre><code class="lang-xml">&lt;wars&gt;
   &lt;war ... &gt;
@@ -439,7 +439,7 @@
     &lt;connector base-url=&quot;http://localhost:9081&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you&#39;re using the same port as specified in <code>application.properties</code> (<code>9081</code> by default) and that the value of the <code>id</code> attribute is the name as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre><p>Ensure that you are using the same port specified in the <code>nypd\nypd-connector\src\main\resources\application.properties</code> file in this repository (<code>9081</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the NYPD schema as a connector schema, a gateway schema, or an Information Store schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
@@ -476,14 +476,14 @@ ChartingSchemesResource=nypd-complaint-data-schema-charting-schemes.xml
 <li><code>gatewaySchema</code></li>
 </ul>
 </li>
-<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <em>does not</em> contain the following attributes: <ul>
+<li>The NYPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <em>does not</em> contain the following attributes:<ul>
 <li><code>schema-short-name</code></li>
 <li><code>gateway-schema</code></li>
 </ul>
 </li>
 </ul>
 <h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
-<p>In order to query the external datasource, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
+<p>In order to query the external data source, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
 <p>In the NYPD connector&#39;s <code>application.properties</code> file at <code>connector\nypd\nypd-connector\src\main\resources</code>, add your token.</p>
 <pre><code class="lang-properties">server.port=9081
 socrata.url=https://data.cityofnewyork.us/resource/7x9x-zpz6.json
@@ -492,11 +492,11 @@ socrata.url=https://data.cityofnewyork.us/resource/7x9x-zpz6.json
 socrata.api.token=
 </code></pre><h3 id="3-run-the-nypd-connector">3. Run the NYPD connector</h3>
 <p>To run the connector, navigate to <code>connector\nypd\nypd-connector</code> in your terminal and run the application using the following command:</p>
-<pre><code>mvnw spring-boot:run
+<pre><code class="lang-sh">mvnw spring-boot:run
 </code></pre><p>For more information on running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
 <h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
-<pre><code>setup -t deployLiberty
+<pre><code class="lang-sh">setup -t deployLiberty
 setup -t startLiberty
 </code></pre></article>
           </div>

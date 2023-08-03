@@ -5,9 +5,9 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Connect to an external datasource </title>
+    <title>Connect to an external data source </title>
     <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Connect to an external datasource ">
+    <meta name="title" content="Connect to an external data source ">
     <meta name="generator" content="docfx 2.56.2.0">
     
     <link rel="shortcut icon" href="../../images/favicon.png">
@@ -77,19 +77,19 @@
             </div>
           </div>
             <article class="content wrap" id="_content" data-uid="">
-<h1 id="connect-to-an-external-datasource">Connect to an external datasource</h1>
+<h1 id="connect-to-an-external-data-source">Connect to an external data source</h1>
 
-<p>Here, you will connect to the NYPD Complaint Dataset as your external datasource and marshal the data into entities, links, and properties so that you can return results which can be displayed in Analyst&#39;s Notebook Premium.</p>
+<p>Here, you will connect to the NYPD Complaint Dataset as your external data source and marshal the data into entities, links, and properties so that you can return results which can be displayed in Analyst&#39;s Notebook Premium.</p>
 <p>Again, use the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if you need to.</p>
 <h2 id="create-a-socrata-app-token">Create a Socrata app token</h2>
 <p>You need an app token that will allow you to make unlimited requests to Socrata&#39;s API (within reason). If you don&#39;t use an app token, the APIs will throttle by IP address.</p>
 <ol>
-<li><p>Visit <a href="https://data.cityofnewyork.us/profile/edit/developer_settings">this link</a> to register your account.</p>
+<li><p>Visit <a href="https://data.cityofnewyork.us/signup">this link</a> to register your account.</p>
 </li>
 <li><p>After you log in, navigate to <a href="https://data.cityofnewyork.us/profile/edit/developer_settings">https://data.cityofnewyork.us/profile/edit/developer_settings</a>.</p>
 <p>On subsequent visits, you can reach this page again by following these steps:</p>
 <ol>
-<li><p>Click your name in the top right of the header bar, and then select <strong>Your Profile</strong>.</p>
+<li><p>Click your name in the top right of the header bar, and then select <strong>My Profile</strong>.</p>
 </li>
 <li><p>Click the pencil icon next to the <strong>Your Profile</strong> heading.</p>
 </li>
@@ -101,47 +101,168 @@
 </li>
 </ol>
 <p>If you leave the site for any reason, you can always retrieve your app token again by logging into your account again.</p>
-<h2 id="query-the-external-datasource">Query the external datasource</h2>
+<h2 id="query-the-external-data-source">Query the external data source</h2>
 <h3 id="retrieve-the-raw-data">Retrieve the raw data</h3>
 <h4 id="java">Java</h4>
-<p>Look at the version of code in the <code>stage3/nypd-connector</code> directory. There are changes to <code>ConnectorController</code> and the <code>application.properties</code> file. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>ConnectorController</code>.</p>
-<p>In <code>application.properties</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.api.token</code> key.</p>
-<pre><code class="lang-properties">server.port=9081
-
-# Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+<ol>
+<li><p>To apply the app token to the connector application, we can specify it in the <code>application.properties</code> file. Update the <code>application.properties</code> file to include the following properties:</p>
+<pre><code class="lang-properties"># Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
 socrata.url=
 
 # API Token. Create a Socrata account and create an API Token. Paste it here
 socrata.api.token=
-</code></pre><p>You need to implement the <code>ExternalConnectorDataService</code> and <code>SocrataResponseData</code> classes so that they retrieve data from the NYPD Complaint Dataset and use it to create entities and links to be returned to i2 Analyze. It should not be necessary to modify the example <code>SocrataClient</code>.</p>
+</code></pre><p>Here you should specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment, and your Socrata API Token for the <code>socrata.api.token</code> key.</p>
+</li>
+<li><p>Create a <code>transport</code> folder under the <code>rest\externalsource</code> directory. This will be used to hold the Socrata response classes.</p>
+<pre><code class="lang-text">- rest
+   - externalsource
+      - transport
+      - SocrataClient.java
+</code></pre></li>
+<li><p>Under <code>rest\externalsource\transport</code>, create a file called <code>SocrataResponseData.java</code> and populate it with this:</p>
+<pre><code class="lang-java">package com.i2group.demo.rest.externalsource.transport;
+
+import lombok.ToString;
+
+/**
+* A POJO (Plain Old Java Object) for response objects from Socrata. These represent the fields in
+* the NYPD database.
+*/
+@ToString
+public class SocrataResponseData {
+   // You can map properties using the @JsonProperty(&quot;field_name&quot;) annotation if you want to rename them, 
+   // or directly refer to them to use the transport names.
+   //
+   // The Jackson ObjectMapper can deserialize data into appropriate types in many cases.
+   // For example:
+   // &quot;stringField&quot; : &quot;This is a string&quot; =&gt; public String stringField;
+   // &quot;dateAndTimeField&quot; :&quot;2018-01-12T00:00:00.000&quot; =&gt; public LocalDateTime dateAndTimeField;
+   // &quot;numberField&quot; : 1 =&gt; public int numberField;
+   // &quot;optionalNumberField&quot; : null =&gt; public Integer optionalNumberField;
+
+   // TODO: Add response fields to this class.
+}
+</code></pre><p>This class represents a single object from the Socrata data source.</p>
+</li>
+<li><p>When we make a request to the Socrata data source, the response will contain a list of <code>SocrataResponseData</code>.
+Let&#39;s create a class that represents that!
+In the <code>rest\externalsource\transport</code> directory, create a class called <code>SocrataResponse.java</code> and populate it with this code:</p>
+<pre><code class="lang-java">package com.i2group.demo.rest.externalsource.transport;
+
+import java.util.ArrayList;
+
+/** Response class for Socrata */
+public class SocrataResponse extends ArrayList&lt;SocrataResponseData&gt; {}
+</code></pre></li>
+<li><p>Now we can start to build the request to the external data source.
+In the <code>ExternalConnectorDataService.java</code> class, add a constructor to initialize the <code>SocrataClient</code> class with the Socrata values added in the properties file.</p>
+<pre><code class="lang-java">private final SocrataClient socrataClient;
+
+/**
+   * Constructor used to initialize the Socrata client and factory objects used to retrieve complaint data.
+   *
+   * @param baseUrl The URL of the NYPD complaint dataset.
+   * @param apiToken The API token used to access the NYPD complaint dataset.
+   */
+@Autowired
+public ExternalConnectorDataService(
+      @Value(&quot;${socrata.url}&quot;) String baseUrl, @Value(&quot;${socrata.api.token}&quot;) String apiToken) {
+   socrataClient = new SocrataClient(baseUrl, apiToken);
+}
+</code></pre><p>You&#39;ll notice that the <code>@Value</code> class was not automatically imported. Resolve this by adding the following to the import section:</p>
+<pre><code class="lang-java">import org.springframework.beans.factory.annotation.Value;
+</code></pre></li>
+<li><p>To construct the request to the external source, replace the <code>retrieveTestDataFromExternalSource()</code> method with the following:</p>
+<pre><code class="lang-java">public ConnectorResponse retrieveTestDataFromExternalSource() {
+   final List&lt;EntityData&gt; entities = new ArrayList&lt;&gt;();
+   final List&lt;LinkData&gt; links = new ArrayList&lt;&gt;();
+
+   // TODO: Make request to external source and map data back to your own schema
+
+   // Set some request parameters
+   // See https://dev.socrata.com/docs/queries/ for SODA query params
+   final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+   params.put(&quot;limitValue&quot;, 1); // Only returning 1 entity for the moment. increase when ready
+   final String url = &quot;?$limit={limitValue}&quot;;
+
+   // Make the request and map the whole response body as a string so that you can
+   // see what is returned
+   // TODO: Remove this since it&#39;s just for debugging
+   System.out.println(socrataClient.get(url, String.class, params));
+
+   // Make the request, map the response to an object model and print each object
+   final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
+   response.stream()
+      .forEach(
+         entry -&gt; {
+            // TODO: Map response data to your own object model
+            System.out.println(&quot;item: &quot; + entry);
+         });
+
+   final ConnectorResponse connectorResponse = new ConnectorResponse();
+   connectorResponse.entities = entities;
+   connectorResponse.links = links;
+   return connectorResponse;
+}
+</code></pre></li>
+</ol>
+<p>You need to implement the <code>ExternalConnectorDataService</code> and <code>SocrataResponseData</code> classes so that they retrieve data from the NYPD Complaint Dataset and use it to create entities and links to be returned to i2 Analyze. It should not be necessary to modify the example <code>SocrataClient</code>.</p>
+<p>The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, in <code>ExternalConnectorDataService.retrieveTestDataFromExternalSource()</code>, you must construct a URL with specified parameters (if necessary) to retrieve the data. By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.</p>
+<h4 id="python">Python</h4>
+<ol>
+<li><p>To apply the app token to the connector application, create a file named <code>application.yml</code> under the <code>static</code> directory and add the following contents to the file:</p>
+<pre><code class="lang-yml">socrata:
+   url: # Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+   token: # Replace with Socrata API token
+</code></pre><p>Here you should specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.api.token</code> key.</p>
+</li>
+<li><p>In <code>service.py</code>, add the following imports at the top of the file:</p>
+<pre><code class="lang-python">import yaml
+import requests
+</code></pre></li>
+<li><p>To construct the request to the external source, replace the <code>query_external_datasource()</code> function with the following:</p>
+<pre><code class="lang-python">def query_external_datasource():
+   &quot;&quot;&quot;
+   Builds the request URL and queries the external data source using specified parameters.
+
+   Raises:
+      FileNotFoundError: If the application.yml file does not exist / could not be found.
+   Returns:
+      dict: JSON response containing all records.
+   &quot;&quot;&quot;
+   entities = []
+   links = []
+
+   # TODO: Make request to external source
+
+   with open(&#39;static/application.yml&#39;) as yml_file:
+      config = yaml.safe_load(yml_file)
+
+   base_url = config[&#39;socrata&#39;][&#39;url&#39;]
+   api_token = config[&#39;socrata&#39;][&#39;token&#39;]
+
+   limit = 1 # Only returning 1 entity for the moment. increase when ready
+   # Set some request parameters
+   # See https://dev.socrata.com/docs/queries/ for SODA query params
+   request_url = f&quot;{base_url}?$limit={limit}&quot;
+
+   x = requests.get(request_url, headers = { &#39;X-App-Token&#39;: api_token })
+   records = x.json()
+
+   for entry in records:
+      # TODO: Map response data to your own object model
+      # You can remove the following print line as it&#39;s only for debugging
+      print(entry)
+
+   response = {}
+   response[&#39;entities&#39;] = entities
+   response[&#39;links&#39;] = links
+   return response
+</code></pre></li>
+</ol>
+<p>You need to implement the <code>query_external_datasource</code> function in <code>service.py</code> so that it retrieves data from the NYPD Complaint Dataset and uses it to create entities and links to be returned to i2 Analyze.</p>
 <p>The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data. By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.</p>
-<pre><code class="lang-java">final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
-params.put(&quot;limitValue&quot;, 1); // Only returning 1 entity for the moment. increase when ready
-final String url = &quot;?$limit={limitValue}&quot;;
-
-// Make the request and map the whole response body as a string so that you can
-// see what is returned
-// TODO: Remove this since it&#39;s just for debugging
-System.out.println(socrataClient.get(url, String.class, params));
-</code></pre><h4 id="python">Python</h4>
-<p>Look at the version of code in the <code>stage3/nypd-connector</code> directory. Changes have been made to <code>controller.py</code> and there is now an additional resource file: <code>application.yml</code>. Apply these to your code manually or copy over these two files. If you&#39;re copying them, you may need to change the paths of the endpoints defined in <code>controller.py</code>.</p>
-<p>In <code>application.yml</code> shown below, specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.token</code> key.</p>
-<pre><code class="lang-yaml">socrata:
-  url: https://data.cityofnewyork.us/resource/7x9x-zpz6.json
-  token: # Replace with Socrata API token
-</code></pre><p>You need to implement the <code>query_external_datasource</code> function in <code>service.py</code> so that it retrieves data from the NYPD Complaint Dataset and uses it to create entities and links to be returned to i2 Analyze.</p>
-<p>The dataset can be queried using <strong>SoQL</strong> (Socrata Query Language). To do this, you must construct a URL with specified parameters (if necessary) to retrieve the data. By default, a <code>$limit</code> parameter has been set to the value of <code>1</code> to restrict the number of records retrieved. It&#39;s best to keep this value small to reduce the response time of each request until you are more comfortable with SoQL.</p>
-<pre><code class="lang-python">with open(&#39;static/application.yml&#39;) as yml_file:
-    config = yaml.safe_load(yml_file)
-
-base_url = config[&#39;socrata&#39;][&#39;url&#39;]
-api_token = config[&#39;socrata&#39;][&#39;token&#39;]
-
-limit = 1
-request_url = f&quot;{base_url}?$limit={limit}&quot;
-
-x = requests.get(request_url, headers = { &#39;X-App-Token&#39;: api_token })
-</code></pre><h4 id="optional-verify-the-data">(Optional) Verify the data</h4>
+<h4 id="optional-verify-the-data">(Optional) Verify the data</h4>
 <p>It&#39;s worth testing that you are successfully querying the data and returning results. Print the returned value to the console and check that it matches with the data you see when you make a request to the acquire endpoint via Postman.</p>
 <h3 id="marshal-the-data-to-objects">Marshal the data to objects</h3>
 <p>To make it easier to create entities and links using the data retrieved, you can create a class to represent a single row of the dataset. This will have a field for each of the columns of the data. You can then write a function that serializes the incoming data into a collection of these objects.</p>

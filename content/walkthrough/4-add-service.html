@@ -79,30 +79,38 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="adding-a-service">Adding a service</h1>
 
-<p>In this task, you add a simple service with the minimum configuration required
-for your connector to be valid. For the moment, the service returns to i2
-Analyze some dummy data that you create. Later on, it will retrieve real data
-from the NYPD Complaint Dataset.</p>
-<p>Remember to consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if you face
-any issues.</p>
+<p>In this task, you add a simple service with the minimum configuration required for your connector to be valid. For the moment, the service returns to i2 Analyze some dummy data that you create. Later on, it will retrieve real data from the NYPD Complaint Dataset.</p>
+<p>Remember to consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if you face any issues.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>Before starting, ensure that you have:</p>
 <ul>
 <li><a href="2-deploy-i2-analyze.html">Deployed i2 Analyze with the i2 Connect gateway</a></li>
 <li><a href="3-deploy-connector.html">Configured a basic connector</a></li>
 </ul>
+<h2 id="define-the-spi-version">Define the SPI version</h2>
+<p>Before you define a service, you should determine the SPI version that you want to use.
+By default, the gateway assumes that your connector will use version 1.0 of the SPI.
+However, relying on the default setting causes the warning message that was highlighted in the previous topic.</p>
+<p>To tell i2 Analyze which SPI version the connector wants to use, you must define it in the connector configuration returned by the config endpoint.
+This means editing the <code>config.json</code> file in the <code>resources</code> directory.</p>
+<p>To specify the SPI version, add the <code>version</code> field to the top level of the configuration.
+Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json</code> will look like this:</p>
+<pre><code class="lang-json">{
+   &quot;defaultValues&quot;: {
+      &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+      &quot;resultIdsPersistent&quot;: true
+   },
+   &quot;version&quot;: &quot;1.2&quot;
+}
+</code></pre><p><strong>Note:</strong> For more information about the SPI version, see <a href="../miscellaneous/spi-version.html">SPI version negotiation</a>.</p>
 <h2 id="define-the-service">Define the service</h2>
-<p>To make i2 Analyze aware that your service exists, you must define it in the
-connector configuration returned by the config endpoint. This means editing the
-<code>config.json</code> file in the <code>resources</code> directory.</p>
+<p>Now we can start to define the service.</p>
 <h3 id="add-a-services-array">Add a services array</h3>
 <p>At the top level of the configuration, add a services array:</p>
 <pre><code class="lang-json">{
-  &quot;defaultValues&quot;: {
-     &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
-     &quot;resultIdsPersistent&quot;: true
-  },
-  &quot;services&quot;: []
+   ...
+   &quot;version&quot;: &quot;1.2&quot;,
+   &quot;services&quot;: []
 }
 </code></pre><h3 id="add-a-service">Add a service</h3>
 <p>In the services array, define a service object. The mandatory fields to provide are the following.</p>
@@ -122,167 +130,179 @@ connector configuration returned by the config endpoint. This means editing the
 <td><strong>name</strong></td>
 <td>The name of the service</td>
 </tr>
-<tr>
-<td><strong>acquireUrl</strong></td>
-<td>This specifies the URL for i2 Analyze to use to get data synchronously from the service. If this is present, then <strong>async</strong> must not be present. For more information about the <strong>async</strong> option, see <a href="../example-connectors/connector-async.html">Async Connector</a>.</td>
-</tr>
-<tr>
-<td><strong>clientConfigType</strong></td>
-<td>This specifies the type of interface a user will interact with when using the service, and takes one of the three following values: <ul><li><code>NONE</code> - there is no interface required, the service simply runs and returns whatever data it retrieves</li><li><code>FORM</code> - the user fills in a form to provide the service with extra information that it needs to run. This is used to provide text-search services, for example. </li><li><code>CUSTOM</code> - specifies that a custom client configuration will be used</li></ul>In the case of <code>FORM</code> and <code>CUSTOM</code> client configurations, the specific configuration to be used must be specified by the additional field <code>clientConfigId</code> and there must be a client configuration with the given ID defined in the connector configuration. This will be covered later.</td>
-</tr>
 </tbody>
 </table>
-<p>   It is also common and recommended to add a <code>description</code> field. This appears
-   to users in Analyst&#39;s Notebook Premium, so that it can be used to give more information about what the service does. You should have something like the following.</p>
+<p>To allow i2 Analyze to fetch data synchronously from the service, you should also specify the <code>acquireUrl</code>.</p>
+<p><strong>Note:</strong> If you want the data fetched asynchronously, you must use the <code>async</code> field instead.
+For more information about the <code>async</code> option, see <a href="../example-connectors/connector-async.html">Async Connector</a>.</p>
+<p>It is also common and recommended to add a <code>description</code> field.
+This appears to users in Analyst&#39;s Notebook Premium, where it provides more information about what the service does.
+You should have something like the following.</p>
 <pre><code class="lang-json">{
-  &quot;defaultValues&quot;: {
-     &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
-     &quot;resultIdsPersistent&quot;: true
-  },
-  &quot;services&quot;: [
-     {
-       &quot;id&quot;: &quot;nypd-service&quot;,
-       &quot;name&quot;: &quot;NYPD Connector: Get all&quot;,
-       &quot;description&quot;: &quot;A service that retrieves all data.&quot;,
-       &quot;clientConfigType&quot;: &quot;NONE&quot;,
-       &quot;acquireUrl&quot;: &quot;/all&quot;
-     }
-  ]
+   &quot;defaultValues&quot;: {
+      &quot;timeZoneId&quot;: &quot;Europe/London&quot;,
+      &quot;resultIdsPersistent&quot;: true
+   },
+   &quot;version&quot;: &quot;1.2&quot;,
+   &quot;services&quot;: [
+      {
+         &quot;id&quot;: &quot;nypd-service&quot;,
+         &quot;name&quot;: &quot;NYPD Connector: Get all&quot;,
+         &quot;description&quot;: &quot;A service that retrieves all data.&quot;,
+         &quot;acquireUrl&quot;: &quot;/all&quot;
+      }
+   ]
 }
 </code></pre><p>After defining the service, you must restart your connector. Refer to the following language guides for the steps to take:</p>
 <ul>
 <li><a href="../example-connectors/run-java.html">Java</a></li>
 <li><a href="../example-connectors/run-python.html">Python</a></li>
 </ul>
-<h3 id="update-the-connectors-configuration">Update the connector&#39;s configuration</h3>
-<p>In order for i2 Analyze to recognize these changes, you must reload the connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology.</p>
-<p>If this does not add the relevant changes to Analyst&#39;s Notebook, redeploy:</p>
+<h3 id="update-the-i2-connect-gateway">Update the i2 Connect gateway</h3>
+<p>In order for i2 Analyze to recognize these changes, you must reload the i2 Connect gateway.</p>
 <ol>
-<li><code>setup -t stop</code></li>
-<li><code>setup -t deploy</code></li>
-<li><code>setup -t start</code></li>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
 </ol>
 <h3 id="view-the-service-in-analysts-notebook-premium">View the service in Analyst&#39;s Notebook Premium</h3>
 <p>Now that you have defined a service, you can try to use it.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server. If you
-were already logged in, log out and then back in again.</li>
+<li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server.
+If you were already logged in, log out and then back in again.</li>
 <li>Open External Searches. The service you have defined should appear.</li>
-<li>Try to run it. Although the service is defined, since it has not yet been
-implemented, you should see a red banner appear with the message &quot;The application failed to perform the search operation.&quot;</li>
-<li>To see the full error, look in the <code>i2_Analysis_Repository.log</code> found
-in <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> within the
-<code>i2analyze</code> directory. You should see a 404 (Not Found) Error. This is
-because an endpoint for the <code>acquireUrl</code> defined in the <code>config.json</code> has
-not been implemented.</li>
+<li>Try to run it. Although the service is defined, since it has not yet been implemented, you should see a red banner appear with the message &quot;The application failed to perform the search operation.&quot;</li>
+<li>To see the full error, look in the <code>i2_Analysis_Repository.log</code> found in <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> within the <code>i2analyze</code> directory. You should see a 404 (Not Found) Error. This is because an endpoint for the <code>acquireUrl</code> defined in the <code>config.json</code> has not been implemented.</li>
 </ol>
 <h2 id="implement-the-service">Implement the service</h2>
 <p>Now that i2 Analyze knows to expect the service, you had better create it.</p>
 <h3 id="look-at-the-spi">Look at the SPI</h3>
-<p>The SPI you need to implement is documented
-<a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">here</a>.
-Think about the relevant objects you will need to implement in order to build
-a service that returns a fixed set of entities and links that you will create.</p>
+<p>The SPI you need to implement is documented <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">here</a>.
+Think about the relevant objects you will need to implement in order to build a service that returns a fixed set of entities and links that you will create.</p>
 <h3 id="add-an-acquire-endpoint">Add an acquire endpoint</h3>
-<p>i2 Analyze knows the acquire URL for this service. Now you need to add an
-endpoint for it in the connector.</p>
+<p>i2 Analyze knows the acquire URL for this service.
+Now you need to add an endpoint for it in the connector and return some data.</p>
+<p><strong>Note:</strong> For more information about the acquire endpoint, see <a href="../workflow/acquire.html">Implementing acquire</a>.</p>
 <h4 id="java">Java</h4>
 <ol>
-<li><p>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
-directory. This includes:</p>
-<ul>
-<li><p>an example configuration <code>config.json</code> with a service defined</p>
-</li>
-<li><p>some changes to <code>ConnectorController</code></p>
-</li>
-<li><p>a new class <code>ConnectorDataService</code></p>
-</li>
-<li><p>some REST transport classes.</p>
-</li>
-</ul>
-</li>
-<li><p>Apply these changes to your code, either manually, or by copying the files
-over directly. You may need to change the path of the new method in
-<code>ConnectorController</code> to match the acquireUrl of your service. You need not
-copy the example <code>config.json</code> if you have defined your service correctly.
-You can also just use the directory provided as it is setup to be used straight
-away.</p>
-</li>
-<li><p>Look at how the endpoint is defined in the <code>ConnectorController</code> class and
-the code that produces the response that is returned to i2 Analyze. For information about the acquire endpoint, see <a href="../workflow/acquire.html">Implementing acquire</a>.</p>
-</li>
+<li><p>Before adding the endpoint, we will start by adding a class that demonstrates a connector response.
+Create a new file named <code>ExternalConnectorDataService.java</code> at the same level as <code>ConnectorController.java</code>, and populate it with this code:</p>
+<pre><code class="lang-java">package com.i2group.demo;
+
+import com.i2group.demo.rest.transport.ConnectorResponse;
+import com.i2group.demo.rest.transport.EntityData;
+import com.i2group.demo.rest.transport.LinkData;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ExternalConnectorDataService {
+
+   public ConnectorResponse retrieveTestDataFromExternalSource() {
+      final List&lt;EntityData&gt; entities = new ArrayList&lt;&gt;();
+      final List&lt;LinkData&gt; links = new ArrayList&lt;&gt;();
+
+      // TODO: Populate entity and link lists with some dummy data and see that it is returned to ANBP
+
+      final ConnectorResponse connectorResponse = new ConnectorResponse();
+      connectorResponse.entities = entities;
+      connectorResponse.links = links;
+      return connectorResponse;
+   }
+}
+</code></pre></li>
+<li><p>In the <code>ConnectorController</code> class, create an instance of the <code>ExternalConnectorDataService</code> class by replacing the <code>ConnectorController</code> no-args constructor with the following:</p>
+<pre><code class="lang-java">private final ExternalConnectorDataService connectorDataService;
+
+public ConnectorController(ExternalConnectorDataService connectorDataService) {
+   this.connectorDataService = connectorDataService;
+}
+</code></pre></li>
+<li><p>To add the endpoint, update the <code>ConnectorController</code> to include this method:</p>
+<pre><code class="lang-java">@RequestMapping(
+      method = RequestMethod.POST,
+      value = &quot;/all&quot;,
+      consumes = APPLICATION_JSON_VALUE,
+      produces = APPLICATION_JSON_VALUE)
+public ConnectorResponse testService() {
+   return connectorDataService.retrieveTestDataFromExternalSource();
+}
+</code></pre></li>
 </ol>
 <h4 id="python">Python</h4>
 <ol>
-<li><p>A template has been provided to get started with; see the <code>stage2/nypd-connector</code>
-directory. This includes:</p>
-<ul>
-<li><p>an example configuration <code>config.json</code> with a service defined</p>
-</li>
-<li><p>some additions to <code>controller.py</code></p>
-</li>
-<li><p>a new file for service functions, <code>service.py</code></p>
-</li>
-<li><p>a new file <code>classes.py</code> containing some REST transport classes.</p>
-</li>
-</ul>
-</li>
-<li><p>Apply these changes to your code, either manually, or by copying the files
-over directly. You may need to change the path of the new method in
-<code>controller.py</code> to match the acquireUrl of your service. You need not
-copy the example <code>config.json</code> if you have defined your service correctly.
-You can also just use the directory provided as it is setup to be used straight
-away.</p>
-</li>
-<li><p>Look at how the endpoint is defined in the <code>controller.py</code> class and
-the code that produces the response that is returned to i2 Analyze. For information about the acquire endpoint, see <a href="../workflow/acquire.html">Implementing acquire</a>.</p>
-</li>
+<li><p>Before adding the endpoint, we will start by adding a class that demonstrates a connector response. Create a new file named <code>service.py</code> at the same level as <code>controller.py</code>, and populate it with this code:</p>
+<pre><code class="lang-python">def query_external_datasource():
+   &quot;&quot;&quot;
+   Used to populate entity lists and link lists to return to ANBP.
+
+   Returns:
+      dict: A response with the entities and links.
+   &quot;&quot;&quot;
+   entities = []
+   links = []
+
+   # TODO: Populate entity and link lists with some dummy data and see that
+   # it is returned to ANBP
+
+   response = {}
+   response[&#39;entities&#39;] = entities
+   response[&#39;links&#39;] = links
+   return response
+</code></pre></li>
+<li><p>To add the endpoint, update <code>controller.py</code> to include this import and method:</p>
+<pre><code class="lang-python">from helper.service import query_external_datasource
+
+@controller.route(&#39;/all&#39;, methods=[&#39;POST&#39;])
+def all():
+   return query_external_datasource()
+</code></pre></li>
 </ol>
 <h3 id="test-the-service-in-analysts-notebook-premium">Test the service in Analyst&#39;s Notebook Premium</h3>
 <ol>
-<li>Redeploy the connector. Depending on how you are running the connector, this
-may be done automatically for you when changes are made.</li>
-<li>Re-run the service in  Analyst&#39;s Notebook Premium via the External Searches
-window.</li>
-<li>You should no longer get a 404 Error, but the search will return nothing.</li>
+<li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
+</li>
+<li><p>Re-run the service in Analyst&#39;s Notebook Premium via the External Searches window.</p>
+</li>
+<li><p>You should no longer get a 404 error, but the search will return nothing.</p>
+</li>
 </ol>
 <h3 id="return-some-data">Return some data</h3>
 <h4 id="java-1">Java</h4>
 <ol>
-<li><p>Make changes so that the service returns some entities and links - just
-create some dummy data for now. You will need to complete the implementation
-of the <code>LinkData</code> class provided.</p>
+<li><p>In <code>ExternalConnectorDataService</code>, address the <code>TODO</code> by adding some dummy data.
+Make sure to return entities and links.</p>
 </li>
 <li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
 </li>
 <li><p>If you don&#39;t see what you expect to, or you come across an error,
-investigate the <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
+investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
 </li>
 </ol>
 <h4 id="python-1">Python</h4>
 <ol>
-<li><p>Make changes so that the service returns some entities and links - just
-create some dummy data for now. You will need to complete the implementation
-of the <code>Link</code> class in <code>classes.py</code>. Ensure you are importing the classes into <code>service.py</code>.</p>
+<li><p>In <code>classes.py</code>, address the <code>TODO</code> by adding some dummy data.
+Make sure to return entities and links.
+Ensure you are importing the classes into <code>service.py</code>.</p>
 </li>
 <li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
 </li>
 <li><p>If you don&#39;t see what you expect to, or you come across an error,
-investigate the <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
+investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
 </li>
 </ol>
-<p>It is vital that you return property values
-in the format expected, which is defined by the logical type of each property.
-See the <a href="../miscellaneous/data-model.html">data model examples</a> for examples of each supported
-logical type.</p>
+<p>It is vital that you return property values in the expected format, which is defined by the logical type of each property.
+See the <a href="../miscellaneous/data-model.html">data model examples</a> for examples of each supported logical type.</p>
 <h2 id="querying-data-from-an-external-source">Querying data from an external source</h2>
-<p>Now that you have a basic connector with a working simple service, you can make
-it more useful by <a href="5-connect-to-eds.html">returning real data</a>.</p>
+<p>Now that you have a basic connector with a working simple service, you can make it more useful by <a href="5-connect-to-eds.html">returning real data</a>.</p>
 </article>
           </div>
           

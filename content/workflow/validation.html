@@ -81,7 +81,13 @@
 
 <p>The support in the i2 Connect gateway for queries that take parameters includes the ability to perform relatively simple, client-side validation on the values that users supply. In cases where running a query might fail due to a set of values that are mutually incompatible, you can write an endpoint to perform server-side validation.</p>
 <p>When you write a service definition that includes conditions, you have the option (and sometimes the duty) to include logic that validates the values that users supply for those conditions. For example, you might insist that a string is shorter than a certain length, or that its contents match a particular pattern. If you ask the user to select from a discrete set of values, then you must provide the values for them to select from.</p>
-<p>However, there are other kinds of validation that the mechanism for defining conditions does not support. In particular, you cannot use it to validate values that are reasonable in isolation, but faulty in combination. (For example, dates of birth and death might both contain reasonable values, but it would make no sense to search for individuals where the latter is earlier than the former.)</p>
+<p>However, there are other kinds of validation that the mechanism for defining conditions does not support. In particular, you cannot use it to validate values that are reasonable in isolation, but faulty in combination. For example:</p>
+<ul>
+<li><p>Dates of birth and death might both contain reasonable values, but it would make no sense to search for individuals where the latter is earlier than the former.</p>
+</li>
+<li><p>A service might be defined so that providing a value for any individual condition is optional, but providing a value for at least one of them is mandatory.</p>
+</li>
+</ul>
 <p>If you have an implementation of the acquire endpoint for which it might be useful to perform this kind of validation, you can write a validate endpoint. When your configuration specifies a validate endpoint for a service, the gateway uses it before the acquire endpoint, and passes the same payload. If you decide that validation fails, the request to the acquire endpoint does not happen, and the user sees an error message that you specify.</p>
 <p>To add a validate endpoint to a service:</p>
 <ol>
@@ -96,7 +102,7 @@
 }
 </code></pre><p>When the i2 Connect gateway receives a response that is not empty, it does not then send a request to the acquire endpoint.</p>
 </li>
-<li><p>Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior. </p>
+<li><p>Restart the i2 Analyze server or instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>
 </li>
 </ol>
 </article>

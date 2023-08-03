@@ -83,10 +83,13 @@
 <p>To support parameters in a service, you add a set of conditions for which users can supply values. In a connector that supports user-specific configuration, you can even arrange for the same service to support different parameters, depending on who is using it.</p>
 <p>For example, in a query for people, you might allow users to search for particular names or characteristics. In a &quot;find path&quot; seeded query, you might allow users to specify how long the path can be - and you might vary the limit according to the user&#39;s group membership.</p>
 <p><strong>Note:</strong> A significant difference between visual query and external searches is that in the latter, conditions are not bound to property types. A condition in a service can be anything that you can process usefully in your implementation.</p>
-<p>To add parameters to a service, you add a <em>client configuration</em> to its definition that describes how each condition is presented to users. The REST SPI for the configuration endpoint describes the structure of <code>clientConfig</code> objects, which look like this outline:</p>
+<p>To add parameters to a service, you add a <em>client configuration</em> to its definition that describes how each condition is presented to users.
+The <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">REST SPI</a> for the configuration endpoint describes the structure of <code>clientConfig</code> objects, which look like this outline:</p>
 <pre><code class="lang-json">{
   &quot;id&quot;: &quot;&quot;,
+  &quot;type&quot;: &quot;&quot;,
   &quot;config&quot;: {
+    &quot;mandatory&quot;: false,
     &quot;sections&quot;: [
       {
         &quot;title&quot;: &quot;&quot;,
@@ -108,7 +111,8 @@
 <p>Like many other aspects of developing a connector, supporting parameters means changing your implementations of the configuration (or user configuration) and acquire endpoints.</p>
 <ol>
 <li><p>In your response from the configuration endpoint, write or modify the service definition so that its <code>clientConfigType</code> is &quot;FORM&quot;, and add a <code>clientConfigId</code>.</p>
-<p>This identifier links to a client configuration elsewhere in the response. In some circumstances, it might be appropriate to use the same client configuration for more than one service.</p>
+<p><strong>Important:</strong> From version 1.2 of the SPI, <code>clientConfigType</code> is deprecated. The client configuration <code>type</code> should be defined in the <code>clientConfig</code> object instead.</p>
+<p><code>clientConfigId</code> links to a client configuration elsewhere in the response. In some circumstances, it might be appropriate to use the same client configuration for more than one service.</p>
 </li>
 <li><p>Add a <code>clientConfigs</code> array to the response, and within it a client configuration object whose <code>id</code> matches the identifier that you specified in Step 1.</p>
 </li>
@@ -123,7 +127,7 @@
 </li>
 <li><p>Return to the response from the configuration endpoint, edit the condition descriptions, and add client-side validation to improve the user experience.</p>
 </li>
-<li><p>Restart or reload again, and ensure that the validation has your intended effect. </p>
+<li><p>Restart or reload again, and ensure that the validation has your intended effect.</p>
 </li>
 </ol>
 <p>The validation that you can specify in the response from the configuration endpoint is performed by the client, and applies to values in isolation. If your service (and your users) might benefit from some more complex validation, consider adding a validate endpoint.</p>

@@ -86,8 +86,10 @@
 <p>The simplest possible service does not behave differently for different users, does not support seeds, and does not require users to provide parameters. As a result, it does not require the client to display user input controls. In that case, the structure that you return from the configuration endpoint must contain only two objects:</p>
 <ul>
 <li><p>The <code>defaultValues</code> object.</p>
-<p>Within the <code>defaultValues</code> object, you must specify the time zone for the i2 Connect gateway to apply to any retrieved value that does not specify its own time zone. There are also some optional settings:</p>
+<p>Within the <code>defaultValues</code> object, there are some optional settings that can be included:</p>
 <ul>
+<li><p>You can specify the time zone for the i2 Connect gateway to apply to any retrieved value that does not specify its own time zone. If not specified, the gateway will default to <code>UTC</code>.</p>
+</li>
 <li><p>You can specify a direction for any retrieved link that does not specify its own direction.</p>
 </li>
 <li><p>You can specify the identifiers and locations of the entity and link types that the i2 Connect gateway applies to records if a service does not indicate the types of data that it can retrieve.</p>
@@ -155,7 +157,8 @@
   ]
 }
 </code></pre></li>
-<li><p>For a service whose query does not allow callers to provide parameters, you can set the <code>clientConfigType</code> to <code>NONE</code>.</p>
+<li><p>If you are using SPI version 1.0 or 1.1, then you must set the <code>clientConfigType</code> to <code>NONE</code>.
+The <code>clientConfigType</code> field is not required or supported when using SPI 1.2 or later.</p>
 <pre><code class="lang-json">{
   &quot;defaultValues&quot;: {
     &quot;timeZoneId&quot;: &quot;Europe/London&quot;,

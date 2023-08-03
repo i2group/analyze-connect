@@ -80,12 +80,13 @@
 <h1 id="seeded-parameterized-search">Seeded parameterized search</h1>
 
 <p>Simply put, a seeded parameterized search is a combination of seeded and parameterized searches. This type of search passes information from an entity on the chart to the connector together with conditions that are used to drive searches.</p>
-<p>Should you have any problems during this task, please consult the
-<a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
+<p>Should you have any problems during this task, please consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>You need to configure a service to allow for seeded parameterized searches.</p>
 <h3 id="add-a-new-service">Add a new service</h3>
-<p>You will need to set the <code>clientConfigType</code> and <code>clientConfigId</code> values similar to configuring parameterized search configuration. You will also need to add <code>seedConstraints</code> to define constraints on the seed similar to configuring seeded search. For example:</p>
+<p>You will need to set the <code>clientConfigId</code> value similarly to configuring parameterized search.
+You will also need to add <code>seedConstraints</code> to define constraints on the seed, similar to configuring seeded search.
+For example:</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
     ...
@@ -93,7 +94,6 @@
       &quot;id&quot;: &quot;nypd-expand-with-conditions&quot;,
       &quot;name&quot;: &quot;NYPD Connector: Expand with conditions&quot;,
       &quot;description&quot;: &quot;A service that executes an expand operation on a seed, with conditions.&quot;,
-      &quot;clientConfigType&quot;: &quot;FORM&quot;,
       &quot;clientConfigId&quot;: &quot;expandForm&quot;,
       &quot;acquireUrl&quot;: &quot;/expand-with-conditions&quot;,
       &quot;seedConstraints&quot;: {
@@ -114,7 +114,10 @@
     }
   ]
 }
-</code></pre><p>Optionally, you can also define the type location for the item type with the field <code>typeLocation</code>. This can be used to determine in which schema the item type resides. Possible value are &#39;CONNECTOR&#39;, &#39;GATEWAY&#39; and &#39;INFOSTORE&#39;. The <code>itemTypes</code> object will look like this:</p>
+</code></pre><p>Optionally, you can also define the type location for the item type with the field <code>typeLocation</code>.
+This can be used to determine in which schema the item type resides.
+Possible value are &#39;CONNECTOR&#39;, &#39;GATEWAY&#39; and &#39;INFOSTORE&#39;.
+The <code>itemTypes</code> object will look like this:</p>
 <pre><code class="lang-json">{
   &quot;seedTypes&quot;: {
     ...
@@ -126,24 +129,26 @@
     ]
   }
 }
-</code></pre><p>You will also need to provide a <code>clientConfig</code> with the <code>id</code> set in the service configuration. It should look something like this:</p>
+</code></pre><p>You will also need to provide a <code>clientConfig</code> with the <code>id</code> set to the same value as in the service configuration, and the <code>type</code> defined as <code>FORM</code>.
+It should look something like this:</p>
 <pre><code class="lang-json">{
   ...
   &quot;clientConfigs&quot;: [
     {
       &quot;id&quot;: &quot;expandForm&quot;,
+      &quot;type&quot;: &quot;FORM&quot;,
       &quot;config&quot;: {
-      &quot;sections&quot;: [
-        {
-          &quot;conditions&quot;: [
+        &quot;sections&quot;: [
           {
-            &quot;id&quot;: &quot;made-up-id (e.g. searchBorough)&quot;,
-            &quot;label&quot;: &quot;made-up-field (e.g. Borough)&quot;,
-            &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;
+            &quot;conditions&quot;: [
+              {
+                &quot;id&quot;: &quot;made-up-id (e.g. searchBorough)&quot;,
+                &quot;label&quot;: &quot;made-up-field (e.g. Borough)&quot;,
+                &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;
+              }
+            ]
           }
-          ]
-        }
-      ]
+        ]
       }
     }
   ]
@@ -151,40 +156,51 @@
 </code></pre><p>You can change these <code>conditions</code> to relate to your own schema and what you want to search for.</p>
 <h3 id="check-the-service-in-analysts-notebook-premium">Check the service in Analyst&#39;s Notebook Premium</h3>
 <p>Let&#39;s check that your service now appears in the list of defined services in Analyst&#39;s Notebook Premium.</p>
-<p>Update connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology. Then:</p>
-<ul>
-<li>Log out and log back into Analyst&#39;s Notebook Premium to see the configuration changes and our newly-defined service.</li>
-<li>Try running it. You should receive an error as your seeded parameterized search has been defined but not yet implemented.</li>
-</ul>
+<ol>
+<li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
+For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
+<p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
+</li>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
+</li>
+<li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
+</li>
+<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.  </p>
+</li>
+<li><p>Try running it.
+You should receive an error as your seeded, parameterized search has been defined but not yet implemented.</p>
+</li>
+</ol>
 <h2 id="implementation">Implementation</h2>
-<p>It&#39;s time to implement the seeded parameterized search.</p>
+<p>It&#39;s time to implement the seeded, parameterized search.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
 <p>In the same fashion as the other services you have defined, add an acquire endpoint for this service in your controller file.</p>
 <h3 id="access-conditions-and-seeds">Access conditions and seeds</h3>
-<p>You will need to manipulate the seeds and conditions passed in the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> and return a response containing entities and links. You will need to create basic POJOs to parse the request and access the condition and seed information contained in <code>request.payload</code>.</p>
+<p>You will need to manipulate the seeds and conditions passed in the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response containing entities and links.
+The conditions and seed information can be accessed through <code>request.payload</code>.</p>
 <h3 id="filter-data-based-conditions-and-seeds">Filter data based conditions and seeds</h3>
-<p>An <code>Expand With Conditions</code> query takes an entity as a seed and returns a list of entities and links that are connected to the seed that satisfy the list of conditions provided by the user.
-For this service you will need to find <em>all links</em> connected to the seed entity that also satisfy your <code>conditions</code>. In the example, only links that had been created after the <code>date</code> provided by the user were return. Then you will need to find <em>all entities</em> connected to these links. Finally, you need to make sure that the link is pointing to the <code>seedId</code>. To do that, you will need to change <code>toEndId</code> or <code>fromEndId</code> to the <code>seedId</code> that can be accessed via <code>request.payload.seeds.entities.get(0).sourceIds.get(0).key.get(2)</code>.</p>
+<p>An &quot;Expand With Conditions&quot; query takes an entity as a seed and returns a list of entities and links that are connected to the seed, and that satisfy the list of conditions provided by the user.</p>
+<p>For this service, you will need to find <em>all links</em> connected to the seed entity that also satisfy your <code>conditions</code>. In the example, only links that had been created after the <code>date</code> provided by the user were returned.
+Then, you will need to find <em>all entities</em> connected to these links.</p>
+<p>Finally, you need to make sure that the link is pointing to the <code>seedId</code>.
+To do that, you will need to change <code>toEndId</code> or <code>fromEndId</code> to the <code>seedId</code> that can be accessed through <code>request.payload.seeds.entities.get(0).sourceIds.get(0).key.get(2)</code>.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Update connectors&#39; configuration by running:</p>
-<ul>
-<li><code>setup -t updateConnectorsConfiguration</code></li>
-</ul>
-<p>Use Postman to run the <code>Reload</code> request (running the <code>Form Based Login</code> request if
-you have not already), which will configure your changes to the topology. Then:</p>
 <ol>
-<li>Open Analyst&#39;s Notebook.</li>
-<li>Select an entity on the chart.</li>
-<li>Click on &quot;External Search&quot;.</li>
-<li>Click on your seeded parameterized search service.</li>
-<li>Provide a value to the condition field and click &quot;Run&quot;.</li>
+<li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
+</li>
+<li><p>Open Analyst&#39;s Notebook Premium.</p>
+</li>
+<li><p>Select an entity on the chart.</p>
+</li>
+<li><p>Click on &quot;External Search&quot;.</p>
+</li>
+<li><p>Click on your seeded, parameterized search service.</p>
+</li>
+<li><p>Provide a value to the condition field and click <strong>Run</strong>.</p>
+</li>
 </ol>
-<p>You should now see a resulting list of entities which are connected to the entity you initially selected and also satisfy the conditions you defined.</p>
+<p>You should now see a list of result entities that are connected to the entity you initially selected and also satisfy the conditions you defined.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>Now that you&#39;ve completed this, you can look into <a href="9-validation.html">validating your requests</a>.</p>
 </article>

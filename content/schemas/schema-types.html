@@ -79,25 +79,26 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="schema-types">Schema types</h1>
 
-<p>The data that you retrieve from an external source through the i2 Connect gateway must have entity and link types that are defined somewhere in the i2 Analyze deployment. If none of the existing schemas contains types that correspond with the external data, then you must extend or write a new schema as part of connector development.</p>
-<p>There are two ways to add types to an existing deployment of i2 Analyze:</p>
+<p>The data that you retrieve from an external source through the i2 Connect gateway must have entity and link types that are defined somewhere in the i2 Analyze deployment. If none of the existing schemas contains item or property types that correspond with the external data, then you must extend or write a new schema as part of connector development.</p>
+<p>There are two ways to add item and property types to an existing deployment of i2 Analyze:</p>
 <ul>
 <li><p>Add the new entity, link, and property types directly to one of the deployed schemas in the usual way. Additive changes to schemas are always allowed.</p>
 </li>
-<li><p>Create a gateway or connector schema (along with an accompanying charting scheme), and define the new item types in that schema.</p>
+<li><p>Create a <a href="gateway-schema.html">gateway schema</a> or <a href="connector-schema.html">connector schema</a> (along with an accompanying charting scheme), and define the new item types in that schema.</p>
 </li>
 </ul>
 <p>Choosing which approach to use depends on your aims:</p>
 <ul>
-<li><p>Adding types to the Information Store schema makes them immediately and permanently available throughout the i2 Analyze deployment. Users can upload records that they retrieve from the external source to the Information Store without any further intervention.</p>
+<li><p>Adding item and property types to the Information Store schema makes them immediately and permanently available throughout the i2 Analyze deployment. Users can upload records with the new item types that they retrieve from the external source to the Information Store without any further intervention.</p>
 </li>
-<li><p>Especially in a deployment that does not include the Information Store, adding types to an existing gateway schema has some of the same benefits. The new types appear at familiar locations in the Analyst&#39;s Notebook Premium user interface, and they become available to future connectors.</p>
+<li><p>Especially in a deployment that does not include the Information Store, adding item and property types to an existing gateway schema has some of the same benefits. The new item types appear at familiar locations in the Analyst&#39;s Notebook Premium user interface, and they become available to future connectors.</p>
+<p><strong>Note:</strong> Users cannot upload records in a deployment that does not include the Information Store.</p>
 </li>
-<li><p>A key reason for creating a gateway schema to contain your new types is when you are creating a library of connectors that provide access to a particular source. The types in the gateway schema can be shared by all the connectors, and you can provide the gateway schema alongside the connectors if you need to distribute them.</p>
+<li><p>A key reason for creating a gateway schema to contain your new item types is when you are creating a library of connectors that provide access to a particular source. The item types in the gateway schema can be shared by all the connectors, and you can provide the gateway schema alongside the connectors if you need to distribute them.</p>
 </li>
 <li><p>Creating a connector schema provides the highest level of flexibility. You can add the connector with its schema to any i2 Analyze deployment that includes the i2 Connect gateway. And you can make modifications to the connector schema without affecting the other schemas. But by its nature, this approach is also the least well integrated with the rest of the deployment.</p>
 </li>
-<li><p>If you decide to extend one of the deployed schemas, you can do so in the same way that you would add types for any other reason:</p>
+<li><p>If you decide to extend one of the deployed schemas, you can do so in the same way that you would add item or property types for any other reason:</p>
 <ol>
 <li><p>Open the XML file that contains the deployed schema in Schema Designer.</p>
 </li>
@@ -114,7 +115,7 @@
 <ol>
 <li><p>In Schema Designer, select <strong>File &gt; New Schema</strong>.</p>
 </li>
-<li><p>Edit the schema and its charting scheme to add types for the data from the external source, and then save and close the XML files.</p>
+<li><p>Edit the schema and its charting scheme to add item and property types for the data from the external source, and then save and close the XML files.</p>
 </li>
 <li><p>To deploy a gateway schema, make it (and its charting scheme) available to the deployment toolkit, and then follow the instructions in <a href="https://docs.i2group.com/analyze/adding_removing_modifying_gateway_schemas.html">Adding, removing, modifying gateway schemas</a>.</p>
 </li>

@@ -85,18 +85,18 @@
 <p>Validation can be performed on the client for simple input checks before sending a request to the gateway, such as ensuring the presence of values for mandatory fields, or verifying that input values are in the correct format.</p>
 <p>Client-side validation is configured via the connector&#39;s configuration in the same way as parameterized searches. Below is an example configuration for validating that input values for the &#39;Offence&#39; field start with two letters and two numbers:</p>
 <pre><code class="lang-json">{
-    &quot;conditions&quot;: [
+  &quot;conditions&quot;: [
     {
-        &quot;id&quot;: &quot;searchTerm&quot;,
-        &quot;label&quot;: &quot;Offence&quot;,
-        &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
-        &quot;mandatory&quot;: false,
-        &quot;extraStringValidation&quot;: {
-            &quot;regex&quot;: &quot;[A-Za-z]{2}\\d{2}&quot;,
-            &quot;message&quot;: &quot;Case number must start with 2 letters then 2 numbers&quot;
-        }
+      &quot;id&quot;: &quot;searchTerm&quot;,
+      &quot;label&quot;: &quot;Offence&quot;,
+      &quot;logicalType&quot;: &quot;SINGLE_LINE_STRING&quot;,
+      &quot;mandatory&quot;: false,
+      &quot;extraStringValidation&quot;: {
+        &quot;regex&quot;: &quot;[A-Za-z]{2}\\d{2}&quot;,
+        &quot;message&quot;: &quot;Case number must start with 2 letters then 2 numbers&quot;
+      }
     }
-    ]
+  ]
 }
 </code></pre><p>The <code>mandatory</code> property in the <code>config.json</code> file specifies whether a field is required or not.</p>
 <p>The <code>extraStringValidation</code> property property allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule.</p>
@@ -108,26 +108,57 @@
 <h3 id="1-add-the-validation-endpoint-to-the-connector-configuration">1. Add the validation endpoint to the connector configuration</h3>
 <p>In your connector configuration, add the <code>validateUrl</code> property after the existing <code>acquireUrl</code> property as shown in the snippet below. Set the value to the endpoint where you will implement your server-side validation logic.</p>
 <pre><code class="lang-json">{
-    &quot;id&quot;: &quot;nypd-search-service&quot;,
-    &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
-    &quot;description&quot;: &quot;A service for conditional searches.&quot;,
-    &quot;clientConfigType&quot;: &quot;FORM&quot;,
-    &quot;clientConfigId&quot;: &quot;searchForm&quot;,
-    &quot;acquireUrl&quot;: &quot;/search&quot;,
-    &quot;validateUrl&quot;: &quot;/search/validate&quot;
+  &quot;id&quot;: &quot;nypd-search-service&quot;,
+  &quot;name&quot;: &quot;NYPD Connector: Search&quot;,
+  &quot;description&quot;: &quot;A service for conditional searches.&quot;,
+  &quot;clientConfigId&quot;: &quot;searchForm&quot;,
+  &quot;acquireUrl&quot;: &quot;/search&quot;,
+  &quot;validateUrl&quot;: &quot;/search/validate&quot;
 }
 </code></pre><h3 id="2-implement-the-validation-endpoint">2. Implement the validation endpoint</h3>
 <p>In your code, implement the server-side logic for the validate endpoint using the conditions in the request. The payload that the endpoint receives in the request contains all the same condition and seed information that the acquire endpoint receives.</p>
 <p>If validation succeeds according to your logic, return a 200 response code. The body of the response must either be an empty object or an object containing an <code>errorMessage</code> with a <code>null</code> value. For example:</p>
 <pre><code class="lang-json">{
-    &quot;errorMessage&quot;: null
+  &quot;errorMessage&quot;: null
 }
 </code></pre><p>If it fails, return an object containing an <code>errorMessage</code> with your error message:</p>
 <pre><code class="lang-json">{
-    &quot;errorMessage&quot;: &quot;This is the error message displayed.&quot;
+  &quot;errorMessage&quot;: &quot;This is the error message displayed.&quot;
 }
 </code></pre><p>When the i2 Connect gateway receives a non-null <code>errorMessage</code>, it does not subsequently send a request to the acquire endpoint.</p>
-<p>More information can be found looking at the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
+<p>The following example code provides sample implementations of a validation endpoint in Java and Python.</p>
+<h4 id="java">Java</h4>
+<p>In the <code>ConnectorController.java</code> file, add the following method:</p>
+<pre><code class="lang-java">@RequestMapping(method = RequestMethod.POST, value = &quot;/search/validate&quot;,
+    consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+public ValidationResponse searchValidate(@Valid @RequestBody ConnectorRequest request) {
+  final ValidationResponse validationResponse = new ValidationResponse();
+  final List&lt;RequestCondition&gt; conditions = request.payload.conditions;
+  final boolean conditionPresent = conditions.stream()
+      .anyMatch(condition -&gt; condition.value != null);
+
+  if (!conditionPresent) {
+    validationResponse.errorMessage = &quot;At least one search field should have a specified value.&quot;;
+  }
+  return validationResponse;
+}
+</code></pre><h4 id="python">Python</h4>
+<p>In the <code>controller.py</code> class, add the following function:</p>
+<pre><code class="lang-python">@controller.route(&#39;/search/validate&#39;, methods=[&#39;POST&#39;])
+def search_validate():
+  conditions = request.json[&#39;payload&#39;][&#39;conditions&#39;]
+  response = { &#39;errorMessage&#39;: None }
+  conditionPresent = False
+
+  for condition in conditions:
+      if condition.get(&#39;value&#39;) is not None:
+          conditionPresent = True
+
+  if not conditionPresent:
+      response[&#39;errorMessage&#39;] = &quot;At least one search field should have a specified value.&quot;
+
+  return response
+</code></pre><p>For more information, see the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="3-reload-the-i2-connect-gateway">3. Reload the i2 Connect gateway</h3>
 <p>Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>
 </article>

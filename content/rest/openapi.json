@@ -3,7 +3,7 @@
     "info": {
         "title": "i2 Connect Gateway REST SPI",
         "description": "This documentation describes the server programming interface that you must implement when you write a connector to an external data source. The use of ALL_CAPS in resource paths indicates template values that you must substitute with real ones.\n\nAs well as reading the content here, you can click **Download OpenAPI spec** to retrieve the SPI specification in JSON format.\n\n## Endpoint discovery\n\nClients discover the URLs of connector endpoints through a combination of the topology file for the deployment and your connector code. At startup, the i2 Connect gateway makes a POST request to the configuration endpoint, which it discovers from the topology file: The base comes from the **base-url** attribute of the **&lt;connector&gt;** element, while CONFIGURATION_URL itself defaults to **/config** unless you specify otherwise.\n\nFor example, if the **base-url** is http://localhost:3700, then the request comes to http://localhost:3700/config.\n\nYour response from the configuration endpoint can contain information about one or more services. Each service can provide a query for a synchronous or an asynchronous operation, as well as an optional validation method and optional authentication constraints.",
-        "version": "1.1"
+        "version": "1.2"
     },
     "servers": [
         {
@@ -369,7 +369,7 @@
                     "Configuration"
                 ],
                 "summary": "Fetch configuration information from a connector",
-                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. By default, the gateway uses the endpoint `{baseURL}/config`, but you can specify a different one in the definition.\n\n**Important:** For a connector that supports user-specific configuration, the response must contain the **userConfigUrl** field, in which case only the **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** fields are also valid. The connector must provide all other configuration information in response to requests on the USER_CONFIGURATION_URL endpoint.\n\nWhen the response contains them, for client configurations of type 'FORM', the **config** object must have the following general structure:\n\n```json\n\"config\": {\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"conditions\": [\n        {\n          \"id\": \"\",\n          \"label\": \"\",\n          \"description\": \"\",\n          \"mandatory\": false,\n          \"logicalType\": \"\",\n          \"defaultValue\": \"\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nThe **sections** array can contain multiple objects, and each section has a **conditions** array that can also contain multiple objects.\n\nWithin each condition, **id** must be unique, while the client displays **label** and **description** to users to explain what the condition does. **mandatory** determines whether users must provide a value for the condition, **defaultValue** allows you to pre-populate the condition with a value, and **logicalType** determines what kind of value it is and how you must format it. For the format rules, see [Valid formats for i2 Connect data values](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html).\n\nSome logical types allow you to specify validation that the client must enforce on any value that the user provides.\n\nWhen **logicalType** is 'DOUBLE' or 'INTEGER', you can add **minValue** and **maxValue** fields to the condition to constrain the numeric range.\n\nWhen **logicalType** is 'SINGLE_LINE_STRING' or 'MULTI_LINE_STRING', you can add two objects to the condition that constrain the length or the contents of the string:\n\n```json\n\"maxStringLength\": {\n  \"size\": 0,\n  // Defaults to \"uf16codeunits\" if not specified\n  // The other legitimate value is \"utf8bytes\"\n  \"units\": \"\"\n}\n\n\"extraStringValidation\": {\n  // A regular expression that the value must match\n  \"regex\": \"\",\n  // A message that explains the extra validation to users\n  \"message\": \"\"\n}\n```\n\nWhen **logicalType** is 'SUGGESTED_FROM', you can add a **possibleValues** array to the condition. (See below.)\n\nWhen **logicalType** is 'SELECTED_FROM', you _must_ add a **possibleValues** array to the condition:\n\n```json\n\"possibleValues\": [\n  {\n    \"value\": \"\",\n    \"displayName\": \"\"\n  }\n]\n```\n\nEach object in **possibleValues** must have a **value** field that contains the value to be sent back when the client uses the service. If present, the client can display the value in **displayName** to users in place of the **value** itself.\n\nWhen **logicalType** is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no additional validation is possible.",
+                "description": "At startup, the i2 Connect gateway retrieves configuration information from each connector that is defined in the topology file. By default, the gateway uses the endpoint `{baseURL}/config`, but you can specify a different one in the definition.\n\n**Important:** For a connector that supports user-specific configuration, the response must contain the **userConfigUrl** field, in which case only the **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** fields are also valid. The connector must provide all other configuration information in response to requests on the USER_CONFIGURATION_URL endpoint.\n\nWhen the response contains them, for client configurations of type 'FORM', the **config** object must have the following general structure:\n\n```json\n\"config\": {\n  \"mandatory\": false,\n  \"sections\": [\n    {\n      \"title\": \"\",\n      \"conditions\": [\n        {\n          \"id\": \"\",\n          \"label\": \"\",\n          \"description\": \"\",\n          \"mandatory\": false,\n          \"logicalType\": \"\",\n          \"defaultValue\": \"\"\n        }\n      ]\n    }\n  ]\n}\n```\n\nWithin **config**, **mandatory** determines whether users are forced to view the form, regardless of whether it contains any mandatory conditions. Meanwhile, the **sections** array can contain multiple objects, and each section has a **conditions** array that can also contain multiple objects.\n\nWithin each condition, **id** must be unique, while the client displays **label** and **description** to users to explain what the condition does. **mandatory** determines whether users must provide a value for the condition, **defaultValue** allows you to pre-populate the condition with a value, and **logicalType** determines what kind of value it is and how you must format it. For the format rules, see [Valid formats for i2 Connect data values](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html).\n\nSome logical types allow you to specify validation that the client must enforce on any value that the user provides.\n\nWhen **logicalType** is 'DOUBLE' or 'INTEGER', you can add **minValue** and **maxValue** fields to the condition to constrain the numeric range.\n\nWhen **logicalType** is 'SINGLE_LINE_STRING' or 'MULTIPLE_LINE_STRING', you can add two objects to the condition that constrain the length or the contents of the string:\n\n```json\n\"maxStringLength\": {\n  \"size\": 0,\n  // Defaults to \"uf16codeunits\" if not specified\n  // The other legitimate value is \"utf8bytes\"\n  \"units\": \"\"\n}\n\n\"extraStringValidation\": {\n  // A regular expression that the value must match\n  \"regex\": \"\",\n  // A message that explains the extra validation to users\n  \"message\": \"\"\n}\n```\n\nWhen **logicalType** is 'SUGGESTED_FROM', you can add a **possibleValues** array to the condition. (See below.)\n\nWhen **logicalType** is 'SELECTED_FROM', you _must_ add a **possibleValues** array to the condition:\n\n```json\n\"possibleValues\": [\n  {\n    \"value\": \"\",\n    \"displayName\": \"\"\n  }\n]\n```\n\nEach object in **possibleValues** must have a **value** field that contains the value to be sent back when the client uses the service. If present, the client can display the value in **displayName** to users in place of the **value** itself.\n\nWhen **logicalType** is 'BOOLEAN' or 'GEOSPATIAL' or 'DATE' or 'TIME' or 'DATE_AND_TIME', no additional validation is possible.",
                 "operationId": "config",
                 "parameters": [
                     {
@@ -383,6 +383,272 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ConnectorConfig"
+                                },
+                                "examples": {
+                                    "Simple search service": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaShortName": "Example",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "all-service",
+                                                    "name": "Get all",
+                                                    "description": "A service that retrieves all data.",
+                                                    "acquireUrl": "/all",
+                                                    "resultIdsPersistent": false
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Item type seeded search service": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "search-service",
+                                                    "name": "Search",
+                                                    "description": "A service that runs a seeded search with conditions.",
+                                                    "clientConfigId": "searchForm",
+                                                    "acquireUrl": "/search",
+                                                    "validateUrl": "/search/validate",
+                                                    "seedConstraints": {
+                                                        "connectorIds": [
+                                                            "example-connector"
+                                                        ],
+                                                        "seedTypes": {
+                                                            "allowedTypes": "ENTITY",
+                                                            "itemTypes": [
+                                                                {
+                                                                    "id": "ET1",
+                                                                    "max": 1,
+                                                                    "min": 1,
+                                                                    "typeLocation": "CONNECTOR"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ],
+                                            "clientConfigs": [
+                                                {
+                                                    "id": "searchForm",
+                                                    "type": "FORM",
+                                                    "config": {
+                                                        "mandatory": true,
+                                                        "sections": [
+                                                            {
+                                                                "conditions": [
+                                                                    {
+                                                                        "id": "name",
+                                                                        "label": "Name",
+                                                                        "logicalType": "SINGLE_LINE_STRING",
+                                                                        "maxStringLength": {
+                                                                            "size": 10,
+                                                                            "units": "utf16codeunits"
+                                                                        },
+                                                                        "extraStringValidation": {
+                                                                            "regex": "^a",
+                                                                            "message": "The value must start with 'a'."
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "id": "color",
+                                                                        "label": "Item color",
+                                                                        "mandatory": true,
+                                                                        "logicalType": "SELECTED_FROM",
+                                                                        "possibleValues": [
+                                                                            {
+                                                                                "value": "Red"
+                                                                            },
+                                                                            {
+                                                                                "value": "Blue"
+                                                                            },
+                                                                            {
+                                                                                "value": "Green"
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "id": "duration",
+                                                                        "label": "Duration in seconds",
+                                                                        "mandatory": false,
+                                                                        "logicalType": "INTEGER",
+                                                                        "defaultValue": 10,
+                                                                        "minValue": 0,
+                                                                        "maxValue": 60
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Semantic type seeded search service": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "search-service",
+                                                    "name": "Search",
+                                                    "description": "A service that runs a semantically seeded search.",
+                                                    "acquireUrl": "/search",
+                                                    "seedConstraints": {
+                                                        "min": 1,
+                                                        "max": 1,
+                                                        "seedTypes": {
+                                                            "semanticPropertyTypes": {
+                                                                "firstNameAndLastName": [
+                                                                    "guid4DE7370B-60E5-4EB0-860E-4066D3DFD7B6",
+                                                                    "guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB"
+                                                                ],
+                                                                "idNumber": [
+                                                                    "guidF9DA2FC4-4B32-4d42-A178-A238274D4C5D"
+                                                                ]
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Simple authenticated search service": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "auth-service",
+                                                    "name": "Get all with auth",
+                                                    "description": "A service that retrieves all data. Authorized access only.",
+                                                    "acquireUrl": "/all",
+                                                    "authConfigId": "authConfig"
+                                                }
+                                            ],
+                                            "authConfigs": [
+                                                {
+                                                    "id": "authConfig",
+                                                    "loginUrl": "/login/userpass",
+                                                    "form": {
+                                                        "description": "This service requires a username and password.",
+                                                        "fields": [
+                                                            {
+                                                                "id": "username",
+                                                                "label": "Username",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "id": "password",
+                                                                "label": "Password",
+                                                                "type": "password"
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Simple long-running search service": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "async-service",
+                                                    "name": "Get all",
+                                                    "description": "A service that retrieves all data.",
+                                                    "async": {
+                                                        "queriesResource": "/async",
+                                                        "pollingIntervalInSeconds": 10
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "Visual Query search services": {
+                                        "value": {
+                                            "version": "1.2",
+                                            "chartingSchemesUrl": "/charting-schemes",
+                                            "schemaUrl": "/schema",
+                                            "services": [
+                                                {
+                                                    "id": "vq-service-wildcard",
+                                                    "name": "Visual Query service with wildcard restrictions",
+                                                    "description": "A Visual Query service that prevents using the WILDCARD_PATTERN operator on property type PT1.",
+                                                    "clientConfigId": "vq-config-wildcard",
+                                                    "acquireUrl": "/vq",
+                                                    "validateUrl": "/vq/validate"
+                                                },
+                                                {
+                                                    "id": "vq-service-between",
+                                                    "name": "Visual Query service with between date restrictions",
+                                                    "description": "A Visual Query service that prevents using the BETWEEN operator on DATE aspects of entity type ET1, and excludes ET3 completely.",
+                                                    "clientConfigId": "vq-config-between",
+                                                    "acquireUrl": "/vq"
+                                                }
+                                            ],
+                                            "clientConfigs": [
+                                                {
+                                                    "id": "vq-config-wildcard",
+                                                    "type": "VISUAL_QUERY",
+                                                    "config": {
+                                                        "operatorUsageRules": [
+                                                            {
+                                                                "ruleType": "DENY",
+                                                                "itemTypeId": "ET1",
+                                                                "propertyTypeIds": [
+                                                                    "PT1"
+                                                                ],
+                                                                "operators": [
+                                                                    "WILDCARD_PATTERN"
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "constraints": {
+                                                            "outputSelectionSupported": false,
+                                                            "maximumCountConditions": 1,
+                                                            "maximumQueryLinkCount": 1,
+                                                            "maximumAnyEntityTypeSupported": 1,
+                                                            "maximumAnyLinkTypeSupported": 1
+                                                        }
+                                                    }
+                                                },
+                                                {
+                                                    "id": "vq-config-between",
+                                                    "type": "VISUAL_QUERY",
+                                                    "config": {
+                                                        "operatorUsageRules": [
+                                                            {
+                                                                "ruleType": "DENY",
+                                                                "itemTypeId": "ET1",
+                                                                "operators": [
+                                                                    "BETWEEN"
+                                                                ],
+                                                                "aspects": [
+                                                                    "DATE"
+                                                                ]
+                                                            }
+                                                        ],
+                                                        "paletteItemTypes": {
+                                                            "mode": "DENY",
+                                                            "itemTypeIds": [
+                                                                "ET3"
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -615,13 +881,16 @@
                 "type": "object",
                 "properties": {
                     "pollingIntervalInSeconds": {
+                        "minimum": 1,
                         "type": "integer",
-                        "description": "The recommended interval at which clients should poll endpoints for changes.",
-                        "format": "int32"
+                        "description": "The preferred period with which the i2 Connect gateway should poll endpoints for changes.",
+                        "format": "int32",
+                        "example": 10
                     },
                     "queriesResource": {
                         "type": "string",
-                        "description": "The base URL of the endpoints for the request mechanism to use."
+                        "description": "The base URL of the endpoints for the request mechanism to use.",
+                        "example": "/async"
                     }
                 },
                 "description": "Indicates that queries are asynchronous, and provides configuration settings. If this is present, then **acquireUrl** must not be present."
@@ -710,11 +979,13 @@
                     },
                     "id": {
                         "type": "string",
-                        "description": "The unique identifier of the authentication configuration."
+                        "description": "The unique identifier of the authentication configuration.",
+                        "example": "authConfig"
                     },
                     "loginUrl": {
                         "type": "string",
-                        "description": "The URL for the endpoint that provides authentication functionality."
+                        "description": "The URL for the endpoint that provides authentication functionality.",
+                        "example": "/login/userpass"
                     }
                 },
                 "description": "Information about how to authenticate the users of a connector."
@@ -728,7 +999,8 @@
                 "properties": {
                     "description": {
                         "type": "string",
-                        "description": "A description of the form and its fields, to be displayed to users."
+                        "description": "A description of the form and its fields, to be displayed to users.",
+                        "example": "This service requires an API Key."
                     },
                     "fields": {
                         "type": "array",
@@ -750,15 +1022,18 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "description": "The identifier of the field."
+                        "description": "The identifier of the field.",
+                        "example": "api_token"
                     },
                     "label": {
                         "type": "string",
-                        "description": "The field label, to be displayed to users."
+                        "description": "The field label, to be displayed to users.",
+                        "example": "API Key"
                     },
                     "type": {
                         "type": "string",
-                        "description": "The type of the field, which can be either 'text' or 'password'."
+                        "description": "The type of the field, which can be either 'text' or 'password'.",
+                        "example": "password"
                     }
                 },
                 "description": "A field in an authentication form."
@@ -776,23 +1051,40 @@
                 },
                 "description": "The result of successful user authentication."
             },
+            "BigDecimal": {
+                "type": "number",
+                "description": "[Java BigDecimal](https://docs.oracle.com/javase/8/docs/api/java/math/BigDecimal.html)"
+            },
             "ClientConfig": {
                 "required": [
                     "config",
-                    "id"
+                    "id",
+                    "type"
                 ],
                 "type": "object",
                 "properties": {
                     "config": {
                         "type": "object",
-                        "description": "The client configuration itself."
+                        "description": "The configuration for the client.",
+                        "oneOf": [
+                            {
+                                "$ref": "#/components/schemas/FormConfig"
+                            },
+                            {
+                                "$ref": "#/components/schemas/VisualQueryConfig"
+                            },
+                            {
+                                "type": "object"
+                            }
+                        ]
                     },
                     "id": {
                         "type": "string",
-                        "description": "The unique identifier of the client configuration."
+                        "description": "The unique identifier of the client configuration.",
+                        "example": "searchForm"
                     },
                     "type": {
-                        "description": "The type of the client configuration.",
+                        "description": "The type of the client configuration. Required since 1.2 as a replacement of the deprecated clientConfigType in the service.",
                         "$ref": "#/components/schemas/ClientConfigType"
                     }
                 },
@@ -801,9 +1093,11 @@
             "ClientConfigType": {
                 "type": "string",
                 "description": "The type of the client configuration.",
+                "example": "FORM",
                 "enum": [
                     "CUSTOM",
                     "FORM",
+                    "VISUAL_QUERY",
                     "NONE"
                 ]
             },
@@ -816,27 +1110,33 @@
                             "version": {
                                 "pattern": "\\d+\\.\\d+",
                                 "type": "string",
-                                "description": "The minimum SPI version that the connector requires. If no value is specified, the server assumes that the connector requires version `1.0`."
+                                "description": "The minimum SPI version that the connector requires. If no value is specified, the server assumes that the connector requires version `1.0`.",
+                                "example": "1.0"
                             },
                             "chartingSchemesUrl": {
                                 "type": "string",
-                                "description": "The URL from which to retrieve a charting scheme for the connector, which can be absolute or relative to its base URL. No value means that there is no charting scheme."
+                                "description": "The URL from which to retrieve a charting scheme for the connector, which can be absolute or relative to its base URL. No value means that there is no charting scheme.",
+                                "example": "/charting-schemes"
                             },
                             "gatewaySchema": {
                                 "type": "string",
-                                "description": "The short name of the gateway schema whose types the connector uses, or no value if the connector does not use a gateway schema. The topology for the deployment can override the gateway schema specified here."
+                                "description": "The short name of the gateway schema whose types the connector uses, or no value if the connector does not use a gateway schema. The topology for the deployment can override the gateway schema specified here.",
+                                "example": "Law"
                             },
                             "schemaShortName": {
                                 "type": "string",
-                                "description": "The short name for the connector schema, or no value when there is no connector schema. The topology for the deployment can override the name specified here."
+                                "description": "The short name for the connector schema, or no value when there is no connector schema. The topology for the deployment can override the name specified here.",
+                                "example": "Crime"
                             },
                             "schemaUrl": {
                                 "type": "string",
-                                "description": "The URL from which to retrieve a schema for the connector, which can be absolute or relative to its base URL. No value means that there is no schema."
+                                "description": "The URL from which to retrieve a schema for the connector, which can be absolute or relative to its base URL. No value means that there is no schema.",
+                                "example": "/schema"
                             },
                             "userConfigUrl": {
                                 "type": "string",
-                                "description": "The URL from which to retrieve user-specific configuration settings, which can be absolute or relative to the connector's base URL. No value means that there is no user-specific configuration.\n\nWhen this field is present and populated, **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** can also be present, but no other fields are valid."
+                                "description": "The URL from which to retrieve user-specific configuration settings, which can be absolute or relative to the connector's base URL. No value means that there is no user-specific configuration.\n\nWhen this field is present and populated, **schemaUrl**, **chartingSchemesUrl**, **schemaShortName**, and **gatewaySchema** can also be present, but no other fields are valid.",
+                                "example": "/userconfig"
                             }
                         }
                     },
@@ -881,7 +1181,8 @@
                 "properties": {
                     "entityTypeId": {
                         "type": "string",
-                        "description": "The identifier of the default entity type to apply to retrieved data."
+                        "description": "The identifier of the default entity type to apply to retrieved data.",
+                        "example": "ET1"
                     },
                     "entityTypeLocation": {
                         "description": "The schema that defines **entityTypeId**, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
@@ -893,7 +1194,8 @@
                     },
                     "linkTypeId": {
                         "type": "string",
-                        "description": "The identifier of the default link type to apply to retrieved data."
+                        "description": "The identifier of the default link type to apply to retrieved data.",
+                        "example": "LT1"
                     },
                     "linkTypeLocation": {
                         "description": "The schema that defines **linkTypeId**, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
@@ -901,11 +1203,13 @@
                     },
                     "resultIdsPersistent": {
                         "type": "boolean",
-                        "description": "The default indicator of whether identifiers for the same retrieved data are (**true**) or are not (**false**) persistent from one set of results to the next."
+                        "description": "The default indicator of whether identifiers for the same retrieved data are (**true**) or are not (**false**) persistent from one set of results to the next.",
+                        "example": false
                     },
                     "timeZoneId": {
                         "type": "string",
-                        "description": "The identifier of the default time zone to apply to retrieved data, which itself defaults to UTC if no value is specified."
+                        "description": "The identifier of the default time zone to apply to retrieved data, which itself defaults to UTC if no value is specified.",
+                        "example": "UTC"
                     }
                 },
                 "description": "Settings for clients to apply to the data they receive, if the data does not indicate otherwise."
@@ -918,17 +1222,20 @@
                 "properties": {
                     "id": {
                         "type": "string",
-                        "description": "The identifier of the item type."
+                        "description": "The identifier of the item type.",
+                        "example": "ET1"
                     },
                     "max": {
                         "type": "integer",
                         "description": "The maximum number of seed records of this type.",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "min": {
                         "type": "integer",
                         "description": "The minimum number of seed records of this type.",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "typeLocation": {
                         "description": "The schema that defines the item type, which can be 'CONNECTOR', 'GATEWAY', or 'INFOSTORE'.",
@@ -943,6 +1250,7 @@
                     "connectorIds": {
                         "type": "array",
                         "description": "The identifiers of the connectors from which seed records can originate. This setting is valid when **seedTypes** specifies item type constraints, but not when it specifies semantic constraints.",
+                        "example": "example-connector",
                         "items": {
                             "type": "string"
                         }
@@ -950,12 +1258,14 @@
                     "max": {
                         "type": "integer",
                         "description": "The maximum number of seed records that users must specify.",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "min": {
                         "type": "integer",
                         "description": "The minimum number of seed records that users must specify.",
-                        "format": "int32"
+                        "format": "int32",
+                        "example": 1
                     },
                     "seedTypes": {
                         "$ref": "#/components/schemas/ConnectorSeedTypes"
@@ -969,6 +1279,7 @@
                     "allowedTypes": {
                         "type": "string",
                         "description": "The subset of item types by which a seed record can be constrained.",
+                        "example": "ENTITY",
                         "enum": [
                             "ENTITY",
                             "LINK"
@@ -1082,7 +1393,7 @@
                     },
                     "logicalType": {
                         "description": "The logical type of the value in the condition.",
-                        "$ref": "#/components/schemas/LogicalType"
+                        "$ref": "#/components/schemas/FormLogicalType"
                     },
                     "value": {
                         "type": "object",
@@ -1103,6 +1414,13 @@
                     },
                     "seeds": {
                         "$ref": "#/components/schemas/DaodSeeds"
+                    },
+                    "visualQuery": {
+                        "type": "array",
+                        "description": "If the service uses a client configuration of type 'VISUAL_QUERY', the Visual Query to execute, represented as an array of query items.",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualQueryItem"
+                        }
                     }
                 },
                 "description": "A custom payload that an i2 Connect service can use to determine what data to retrieve from a connected source."
@@ -1241,7 +1559,7 @@
                         "additionalProperties": {
                             "$ref": "#/components/schemas/ItemType"
                         },
-                        "description": "Schema information for the item types of the records that contributed to the data in **entities** and **links**, keyed by item type identifier.",
+                        "description": "Schema information for the item types of the records that contributed to the data in **entities** and **links**, keyed by item type identifier.\n\n**Deprecated:** This field will be removed in a future release. Use the contents of **allItemTypes** instead of this field. Do not rely on the value of this field if it is set.",
                         "deprecated": true
                     },
                     "links": {
@@ -1273,6 +1591,38 @@
                 },
                 "description": "The data from all the records that are to be used as seeds in a search operation."
             },
+            "DateAndTime": {
+                "required": [
+                    "isDST",
+                    "localDateAndTime",
+                    "timeZoneId"
+                ],
+                "type": "object",
+                "properties": {
+                    "isDST": {
+                        "type": "boolean",
+                        "description": "Indicates whether daylight saving time is (**true**) or is not (**false**) in effect for the value in **localDateAndTime**."
+                    },
+                    "localDateAndTime": {
+                        "type": "string",
+                        "description": "The local date and time, formatted as an ISO 8601 string."
+                    },
+                    "timeZoneId": {
+                        "type": "string",
+                        "description": "The ISO 8601 identifier for the time zone of the value in **localDateAndTime**."
+                    }
+                },
+                "description": "A fully qualified date and time, including a time zone.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
             "EntityDataIdentifier": {
                 "type": "object",
                 "description": "The identifier of the data for a record in its source.\n\nIf the record was a seed in the request, then this contains the seed identifier in string form. If the record is from the Information Store, then this contains the record identifier. Alternatively, the value can be a source identifier.",
@@ -1300,6 +1650,457 @@
                     }
                 },
                 "description": "A source identifier being used to identify an entity or a link."
+            },
+            "ExtraStringValidation": {
+                "required": [
+                    "message",
+                    "regex"
+                ],
+                "type": "object",
+                "properties": {
+                    "regex": {
+                        "type": "string",
+                        "description": "A regular expression that further constrains a string value in a condition.",
+                        "example": "^a"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "A message that describes the constraints to a user.",
+                        "example": "The string value must start with 'a'."
+                    }
+                },
+                "description": "A regular expression for extra validation of a string value.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "Feature": {
+                "required": [
+                    "geometry",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of object represented.",
+                        "enum": [
+                            "Feature"
+                        ]
+                    },
+                    "geometry": {
+                        "description": "Contains the geometry of this feature. The value can be null if the feature is unlocated.",
+                        "$ref": "#/components/schemas/Geometry"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The feature identifier."
+                    },
+                    "properties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "string"
+                        },
+                        "description": "Represents a holding object where properties associated to the feature can be added."
+                    }
+                },
+                "description": "A geospatial feature, which can be a point, a polygon, or a multi-polygon.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "FeatureCollection": {
+                "required": [
+                    "features",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of collection represented.",
+                        "enum": [
+                            "FeatureCollection"
+                        ]
+                    },
+                    "features": {
+                        "type": "array",
+                        "description": "A collection of GeoJSON features. The array can be empty if no features are associated with the collection.",
+                        "items": {
+                            "$ref": "#/components/schemas/Feature"
+                        }
+                    }
+                },
+                "description": "A collection of geospatial features.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "FormConfig": {
+                "required": [
+                    "sections"
+                ],
+                "type": "object",
+                "properties": {
+                    "mandatory": {
+                        "type": "boolean",
+                        "description": "Indicates whether the form itself is mandatory, even if no conditions in the form are mandatory.",
+                        "example": false,
+                        "default": false,
+                        "x-i2-api": {
+                            "since": "1.2"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.2"
+                            }
+                        ]
+                    },
+                    "sections": {
+                        "type": "array",
+                        "description": "The sections in the form.",
+                        "items": {
+                            "$ref": "#/components/schemas/FormConfigSection"
+                        }
+                    }
+                },
+                "description": "A form that is presented to users in the client.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "FormConfigCondition": {
+                "required": [
+                    "id",
+                    "label",
+                    "logicalType"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the condition.",
+                        "example": "selection"
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "The label of the condition.",
+                        "example": "Item selection"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the condition, to be displayed to users.",
+                        "example": "This form requires an item selection."
+                    },
+                    "mandatory": {
+                        "type": "boolean",
+                        "description": "Indicates whether the condition is mandatory.",
+                        "example": false,
+                        "default": false
+                    },
+                    "logicalType": {
+                        "description": "The logical type of the value in the condition.",
+                        "$ref": "#/components/schemas/FormLogicalType"
+                    },
+                    "defaultValue": {
+                        "type": "object",
+                        "description": "The default value for the condition, which must be formatted correctly for its logical type. For the format rules, see [Property value data formats](https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html).",
+                        "example": "Item A"
+                    },
+                    "minValue": {
+                        "type": "number",
+                        "description": "The minimum permitted numeric value in the condition, if its logical type is `DOUBLE` or `INTEGER`.",
+                        "example": 1
+                    },
+                    "maxValue": {
+                        "type": "number",
+                        "description": "The maximum permitted numeric value in the condition, if its logical type is `DOUBLE` or `INTEGER`.",
+                        "example": 10
+                    },
+                    "maxStringLength": {
+                        "description": "The maximum length of the value in the condition, if its logical type is `SINGLE_LINE_STRING` or `MULTIPLE_LINE_STRING`.",
+                        "$ref": "#/components/schemas/MaxStringLength"
+                    },
+                    "extraStringValidation": {
+                        "description": "Extra validation for the value in the condition, if its logical type is `SINGLE_LINE_STRING` or `MULTIPLE_LINE_STRING`.",
+                        "$ref": "#/components/schemas/ExtraStringValidation"
+                    },
+                    "possibleValues": {
+                        "type": "array",
+                        "description": "Possible values for the condition, if its logical type is `SELECTED_FROM` or `SUGGESTED_FROM`.",
+                        "items": {
+                            "$ref": "#/components/schemas/PossibleConditionValue"
+                        }
+                    }
+                },
+                "description": "A condition in a form.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "FormConfigSection": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "The title of the section.",
+                        "example": "Section A"
+                    },
+                    "conditions": {
+                        "type": "array",
+                        "description": "The conditions in the section.",
+                        "items": {
+                            "$ref": "#/components/schemas/FormConfigCondition"
+                        }
+                    }
+                },
+                "description": "A section in a form that is presented to users.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "FormLogicalType": {
+                "type": "string",
+                "description": "The logical type of a value that can be used in a form condition.",
+                "example": "SELECTED_FROM",
+                "enum": [
+                    "SINGLE_LINE_STRING",
+                    "MULTIPLE_LINE_STRING",
+                    "DATE",
+                    "TIME",
+                    "DATE_AND_TIME",
+                    "BOOLEAN",
+                    "INTEGER",
+                    "DOUBLE",
+                    "DECIMAL",
+                    "SELECTED_FROM",
+                    "SUGGESTED_FROM",
+                    "GEOSPATIAL",
+                    "GEOSPATIAL_AREA"
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "GeoJSONMultiPolygon": {
+                "description": "The definitions of several polygons in geospace.",
+                "allOf": [
+                    {
+                        "required": [
+                            "coordinates"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "coordinates": {
+                                "minItems": 1,
+                                "type": "array",
+                                "description": "The geospatial coordinates of the vertices of polygons.",
+                                "items": {
+                                    "minItems": 1,
+                                    "type": "array",
+                                    "items": {
+                                        "minItems": 4,
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/GeospatialCoordinate"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Geometry"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "GeoJSONPoint": {
+                "description": "The definition of a point in geospace.",
+                "allOf": [
+                    {
+                        "required": [
+                            "coordinates"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "coordinates": {
+                                "description": "The coordinate that locates the point within a geospatial plane.",
+                                "$ref": "#/components/schemas/GeospatialCoordinate"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Geometry"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "GeoJSONPolygon": {
+                "description": "The definition of a polygon in geospace.",
+                "allOf": [
+                    {
+                        "required": [
+                            "coordinates"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "coordinates": {
+                                "minItems": 1,
+                                "type": "array",
+                                "description": "The geospatial coordinates of the vertices of a polygon.",
+                                "items": {
+                                    "minItems": 4,
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/GeospatialCoordinate"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/Geometry"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "Geometry": {
+                "required": [
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The type of this shape.",
+                        "enum": [
+                            "Point",
+                            "Polygon",
+                            "MultiPolygon"
+                        ]
+                    }
+                },
+                "description": "A point or an area in geospace.",
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "Point": "#/components/schemas/GeoJSONPoint",
+                        "Polygon": "#/components/schemas/GeoJSONPolygon",
+                        "MultiPolygon": "#/components/schemas/GeoJSONMultiPolygon"
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "GeospatialCoordinate": {
+                "maxItems": 3,
+                "minItems": 2,
+                "type": "array",
+                "description": "An array in which the first element represents longitude, the second represents latitude, and the (optional) third represents altitude.",
+                "example": [
+                    "93.27",
+                    "40.78"
+                ],
+                "items": {
+                    "type": "number",
+                    "format": "double"
+                },
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
             },
             "I2ConnectData": {
                 "type": "object",
@@ -1433,6 +2234,7 @@
             "LinkDirection": {
                 "type": "string",
                 "description": "The logical direction of this link, expressed relative to its 'from' and 'to' ends.",
+                "example": "NONE",
                 "enum": [
                     "NONE",
                     "WITH",
@@ -1458,6 +2260,40 @@
                     "GEOSPATIAL"
                 ]
             },
+            "MaxStringLength": {
+                "required": [
+                    "size"
+                ],
+                "type": "object",
+                "properties": {
+                    "size": {
+                        "type": "integer",
+                        "description": "The size of the longest permitted string.",
+                        "format": "int64",
+                        "example": 10
+                    },
+                    "units": {
+                        "type": "string",
+                        "description": "The units in which **size** is interpreted.",
+                        "example": "utf16codeunits",
+                        "enum": [
+                            "utf16codeunits",
+                            "utf8bytes"
+                        ],
+                        "default": "utf16codeunits"
+                    }
+                },
+                "description": "The maximum length of a string in a condition, expressed as a raw size with its units.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
             "PayloadValidationResponse": {
                 "type": "object",
                 "properties": {
@@ -1467,6 +2303,34 @@
                     }
                 },
                 "description": "The result of validating the contents of a request for data."
+            },
+            "PossibleConditionValue": {
+                "required": [
+                    "value"
+                ],
+                "type": "object",
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "description": "A value for a `SELECTED_FROM` or `SUGGESTED_FROM` condition.",
+                        "example": "itemA"
+                    },
+                    "displayName": {
+                        "type": "string",
+                        "description": "The display name of the value, which might be displayed to users in place of the value itself.",
+                        "example": "Item A"
+                    }
+                },
+                "description": "A possible value for use by `SELECTED_FROM` and `SUGGESTED_FROM` conditions.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
             },
             "ProblemDetails": {
                 "type": "object",
@@ -1515,6 +2379,7 @@
             "SchemaTypeLocation": {
                 "type": "string",
                 "description": "The schema in which an item type is defined.",
+                "example": "CONNECTOR",
                 "enum": [
                     "CONNECTOR",
                     "GATEWAY",
@@ -1642,57 +2507,80 @@
             },
             "Service": {
                 "required": [
-                    "clientConfigType",
                     "id",
                     "name"
                 ],
                 "type": "object",
                 "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the service.",
+                        "example": "search-service"
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "The name of the service, which might be displayed to users.",
+                        "example": "Search"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "A description of the service, which might be displayed to users.",
+                        "example": "A service for conditional searches."
+                    },
                     "acquireUrl": {
                         "type": "string",
-                        "description": "The URL for the endpoint that provides result data from the service. If this is present, then **async** must not be present."
+                        "description": "The URL for the endpoint that provides result data from the service. If this is present, then **async** must not be present.",
+                        "example": "/search"
                     },
                     "async": {
                         "$ref": "#/components/schemas/Async"
                     },
                     "authConfigId": {
                         "type": "string",
-                        "description": "The identifier of the authentication configuration for the service."
+                        "description": "The identifier of the authentication configuration for the service.",
+                        "example": "authConfig"
                     },
                     "clientConfigId": {
                         "type": "string",
-                        "description": "The identifier of the client configuration for the service, if the type is not 'NONE'."
+                        "description": "The identifier of the client configuration for the service, if the type is not 'NONE'.",
+                        "example": "searchForm"
                     },
                     "clientConfigType": {
-                        "description": "The type of the client configuration for the service.",
-                        "$ref": "#/components/schemas/ClientConfigType"
-                    },
-                    "description": {
                         "type": "string",
-                        "description": "A description of the service, which might be displayed to users."
-                    },
-                    "id": {
-                        "type": "string",
-                        "description": "The unique identifier of the service."
-                    },
-                    "name": {
-                        "type": "string",
-                        "description": "The name of the service, which might be displayed to users."
+                        "description": "The type of the client configuration for the service.\n\n**Deprecated:** This field will be removed in a future release. Use the type in the clientConfig instead. Do not rely on the value of this field if it is set.",
+                        "example": "FORM",
+                        "deprecated": true,
+                        "enum": [
+                            "CUSTOM",
+                            "FORM",
+                            "NONE"
+                        ]
                     },
                     "resultIdsPersistent": {
                         "type": "boolean",
-                        "description": "**true** if identifiers for the same data retrieved from the service are persistent from one set of results to the next; **false** otherwise."
+                        "description": "**true** if identifiers for the same data retrieved from the service are persistent from one set of results to the next; **false** otherwise.",
+                        "example": false
                     },
                     "resultItemTypeIds": {
                         "type": "object",
-                        "description": "The identifiers of the item types that can appear in results from the service, in a map with the following structure: **{\"_LOCATION_\": [\"_TYPEID1_\", \"_TYPEID2_\", ...], ...}**.\n\nHere, _LOCATION_ indicates which schema the item type is defined in. Legal values are 'INFOSTORE', 'GATEWAY', and 'CONNECTOR'. If a service uses types from all three locations, the map has three elements."
+                        "additionalProperties": {
+                            "uniqueItems": true,
+                            "type": "object"
+                        },
+                        "description": "The identifiers of the item types that can appear in results from the service, in a map with the following structure: **{\"_LOCATION_\": [\"_TYPEID1_\", \"_TYPEID2_\", ...], ...}**.\n\nHere, _LOCATION_ indicates which schema the item type is defined in. Legal values are 'INFOSTORE', 'GATEWAY', and 'CONNECTOR'. If a service uses types from all three locations, the map has three elements.",
+                        "example": {
+                            "CONNECTOR": [
+                                "ET1"
+                            ]
+                        }
                     },
                     "seedConstraints": {
                         "$ref": "#/components/schemas/ConnectorSeedConstraints"
                     },
                     "validateUrl": {
                         "type": "string",
-                        "description": "The URL for the endpoint that validates requests for data from the service."
+                        "description": "The URL for the endpoint that validates requests for data from the service.",
+                        "example": "/search/validate"
                     }
                 },
                 "description": "A service that a connector for the i2 Connect gateway makes available."
@@ -1776,6 +2664,658 @@
                         "$ref": "#/components/schemas/ConnectorConfigBase"
                     }
                 ]
+            },
+            "VisualQueryBooleanCondition": {
+                "description": "A Boolean condition on a query item in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryCondition"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryCondition": {
+                "required": [
+                    "id",
+                    "operator",
+                    "valueType"
+                ],
+                "type": "object",
+                "properties": {
+                    "aspect": {
+                        "$ref": "#/components/schemas/VisualQueryConditionAspect"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the property or metadata type to use in this query condition."
+                    },
+                    "operator": {
+                        "$ref": "#/components/schemas/VisualQueryConditionOperator"
+                    },
+                    "valueType": {
+                        "$ref": "#/components/schemas/VisualQueryConditionValueType"
+                    }
+                },
+                "description": "A condition on a query item in a Visual Query structure.",
+                "discriminator": {
+                    "propertyName": "valueType",
+                    "mapping": {
+                        "STRING": "#/components/schemas/VisualQueryStringCondition",
+                        "NUMBER": "#/components/schemas/VisualQueryNumericCondition",
+                        "BOOLEAN": "#/components/schemas/VisualQueryBooleanCondition",
+                        "DATE_AND_TIME": "#/components/schemas/VisualQueryDateAndTimeCondition",
+                        "GEOSPATIAL": "#/components/schemas/VisualQueryGeospatialCondition"
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryConditionAspect": {
+                "type": "string",
+                "description": "The aspect of the identified property or metadata to use in the Visual Query condition.",
+                "example": "DATE_AND_TIME",
+                "enum": [
+                    "DATE_AND_TIME",
+                    "DATE",
+                    "TIME",
+                    "DAY_OF_MONTH",
+                    "MONTH",
+                    "QUARTER",
+                    "YEAR",
+                    "DAY_OF_WEEK",
+                    "WEEK_OF_YEAR"
+                ]
+            },
+            "VisualQueryConditionOperator": {
+                "type": "string",
+                "description": "The operator to use in the Visual Query condition.\n\nOperations on logical types whose data type is `string` are case-insensitive. In the same context, a sequence of consecutive white space characters is equivalent to a single white space character.\n\nOperations on logical types whose data type is `Calendar` perform their comparisons at the level of milliseconds.\n\nOperations on logical types with other data types proceed as follows:\n\n- For `DECIMAL`, `java.math.BigDecimal#doubleValue()` is used for the comparison\n- For `DOUBLE`, `Double#equals(Object)` is used for the comparison\n- For `INTEGER`, `Integer#equals(Object)` is used for the comparison\n- For `BOOLEAN`, `Boolean#equals(Object)` is used for the comparison",
+                "example": "STARTS_WITH",
+                "enum": [
+                    "STARTS_WITH",
+                    "ENDS_WITH",
+                    "EQUAL_TO",
+                    "NOT_EQUAL_TO",
+                    "GREATER_THAN",
+                    "GREATER_THAN_OR_EQUAL_TO",
+                    "LESS_THAN",
+                    "LESS_THAN_OR_EQUAL_TO",
+                    "BETWEEN",
+                    "CONTAINS",
+                    "WILDCARD_PATTERN",
+                    "NOT_WILDCARD_PATTERN",
+                    "IS_SET",
+                    "IS_NOT_SET",
+                    "IN_GEOSPATIAL_AREA"
+                ]
+            },
+            "VisualQueryConditionValueType": {
+                "type": "string",
+                "description": "The type of the values to use in this query condition.",
+                "enum": [
+                    "STRING",
+                    "NUMBER",
+                    "BOOLEAN",
+                    "DATE_AND_TIME",
+                    "GEOSPATIAL"
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryConfig": {
+                "type": "object",
+                "properties": {
+                    "operatorUsageRules": {
+                        "type": "array",
+                        "description": "The rules that govern the property types and operators that can appear in Visual Query conditions.",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualQueryOperatorUsageRule"
+                        }
+                    },
+                    "constraints": {
+                        "description": "The constraints that apply to Visual Query structures.",
+                        "$ref": "#/components/schemas/VisualQueryConstraints"
+                    },
+                    "paletteItemTypes": {
+                        "description": "The specification of which item types appear in the Visual Query palette.",
+                        "$ref": "#/components/schemas/VisualQueryPaletteItemTypes"
+                    }
+                },
+                "description": "The configuration that governs the behavior and content of Visual Queries.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryConstraints": {
+                "type": "object",
+                "properties": {
+                    "outputSelectionSupported": {
+                        "type": "boolean",
+                        "description": "Indicates whether query items can be marked for output, so that matching records appear in search results. When this is **false**, the connector implementation controls which records appear.",
+                        "example": false,
+                        "default": true
+                    },
+                    "maximumCountConditions": {
+                        "minimum": 0,
+                        "type": "integer",
+                        "description": "The maximum number of query items that can have count conditions.",
+                        "example": 1,
+                        "default": 1
+                    },
+                    "maximumQueryLinkCount": {
+                        "minimum": 0,
+                        "type": "integer",
+                        "description": "The maximum number of query links in a single Visual Query.",
+                        "example": 1
+                    },
+                    "maximumAnyEntityTypeSupported": {
+                        "minimum": 0,
+                        "type": "integer",
+                        "description": "The maximum number of query entities that can have the 'Any' type.",
+                        "example": 1
+                    },
+                    "maximumAnyLinkTypeSupported": {
+                        "minimum": 0,
+                        "type": "integer",
+                        "description": "The maximum number of query links that can have the 'Any' type.",
+                        "example": 1
+                    }
+                },
+                "description": "The constraints that apply to Visual Query structures.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryCountCondition": {
+                "required": [
+                    "operator"
+                ],
+                "type": "object",
+                "properties": {
+                    "operator": {
+                        "$ref": "#/components/schemas/VisualQueryCountConditionOperator"
+                    },
+                    "values": {
+                        "type": "array",
+                        "description": "The values to use in this count condition. Unless **operator** is **BETWEEN**, this array contains exactly one value.",
+                        "items": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    },
+                    "queryItemIds": {
+                        "minItems": 1,
+                        "type": "array",
+                        "description": "The identifiers of the other query items that are bound by this count condition.",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "description": "A count condition on a query item in a Visual Query structure.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryCountConditionOperator": {
+                "type": "string",
+                "description": "The operator in a Visual Query count condition.",
+                "enum": [
+                    "EQUAL_TO",
+                    "BETWEEN",
+                    "GREATER_THAN",
+                    "GREATER_THAN_OR_EQUAL_TO"
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryDateAndTimeCondition": {
+                "description": "A date-and-time condition on a query item in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/DateAndTime"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryCondition"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryEntity": {
+                "description": "A query entity in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "required": [
+                            "position"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "position": {
+                                "description": "The coordinates of the query entity.",
+                                "$ref": "#/components/schemas/VisualQueryEntityPosition"
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryItem"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryEntityPosition": {
+                "required": [
+                    "x",
+                    "y"
+                ],
+                "type": "object",
+                "properties": {
+                    "x": {
+                        "type": "number",
+                        "description": "A coordinate or offset on the x-axis.",
+                        "format": "double"
+                    },
+                    "y": {
+                        "type": "number",
+                        "description": "A coordinate or offset on the y-axis.",
+                        "format": "double"
+                    }
+                },
+                "description": "The position of a query entity in a Visual Query structure.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryGeospatialCondition": {
+                "description": "A geospatial condition on a query item in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/FeatureCollection"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryCondition"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryItem": {
+                "required": [
+                    "id",
+                    "label",
+                    "outputEnabled",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "conditions": {
+                        "type": "array",
+                        "description": "The property conditions for the query item.",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualQueryCondition"
+                        }
+                    },
+                    "countCondition": {
+                        "description": "A condition on a query item such that the search only matches a set of records when the number of records at its position meets the condition.",
+                        "$ref": "#/components/schemas/VisualQueryCountCondition"
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The identifier of the query item within the search structure."
+                    },
+                    "itemTypeIds": {
+                        "type": "array",
+                        "description": "The identifiers of the item types of records that can match the query item.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "The label of the query item in the visual query editor."
+                    },
+                    "outputEnabled": {
+                        "type": "boolean",
+                        "description": "Indicates whether records that match the query item are included in (**true**) or excluded from (**false**) the results."
+                    },
+                    "type": {
+                        "type": "string",
+                        "description": "The type of the query item, which is **QUERY_ENTITY** for a query entity, or **QUERY_LINK** for a query link.",
+                        "enum": [
+                            "QUERY_ENTITY",
+                            "QUERY_LINK"
+                        ]
+                    }
+                },
+                "description": "A query item in a Visual Query structure.",
+                "discriminator": {
+                    "propertyName": "type",
+                    "mapping": {
+                        "QUERY_ENTITY": "#/components/schemas/VisualQueryEntity",
+                        "QUERY_LINK": "#/components/schemas/VisualQueryLink"
+                    }
+                },
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryLink": {
+                "description": "A query link in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "required": [
+                            "fromId",
+                            "toId"
+                        ],
+                        "type": "object",
+                        "properties": {
+                            "direction": {
+                                "$ref": "#/components/schemas/LinkDirection"
+                            },
+                            "fromId": {
+                                "type": "string",
+                                "description": "The identifier of the query entity at the \"from\" end of this query link."
+                            },
+                            "toId": {
+                                "type": "string",
+                                "description": "The identifier of the query entity at the \"to\" end of this query link."
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryItem"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryNumericCondition": {
+                "description": "A numeric condition on a query item in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/BigDecimal"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryCondition"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryOperatorUsageRule": {
+                "required": [
+                    "ruleType"
+                ],
+                "type": "object",
+                "properties": {
+                    "ruleType": {
+                        "type": "string",
+                        "description": "The type of the rule, which determines whether it allows or denies particular conditions.",
+                        "example": "ALLOW",
+                        "enum": [
+                            "DENY",
+                            "ALLOW"
+                        ]
+                    },
+                    "itemTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the query item type that the rule affects.",
+                        "example": "ET1"
+                    },
+                    "propertyTypeIds": {
+                        "type": "array",
+                        "description": "The identifiers of the property types that the rule affects.",
+                        "example": "PT1",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "operators": {
+                        "type": "array",
+                        "description": "The operators that the rule permits or prevents from appearing in conditions.",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualQueryConditionOperator"
+                        }
+                    },
+                    "aspects": {
+                        "type": "array",
+                        "description": "The aspects of the property types that the rule affects.",
+                        "items": {
+                            "$ref": "#/components/schemas/VisualQueryConditionAspect"
+                        }
+                    }
+                },
+                "description": "A rule that governs the property types and operators that can appear in the conditions of a query item.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryPaletteItemTypes": {
+                "required": [
+                    "itemTypeIds",
+                    "mode"
+                ],
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string",
+                        "description": "Indicates whether to allow or deny the identified item types in the palette.",
+                        "example": "ALLOW",
+                        "enum": [
+                            "ALLOW",
+                            "DENY"
+                        ]
+                    },
+                    "itemTypeIds": {
+                        "type": "array",
+                        "description": "The identifiers of the item types that the specification affects.",
+                        "example": "ET1",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "description": "The specification of which item types appear in the Visual Query palette.",
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
+            },
+            "VisualQueryStringCondition": {
+                "description": "A string condition on a query item in a Visual Query structure.",
+                "allOf": [
+                    {
+                        "type": "object",
+                        "properties": {
+                            "values": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "$ref": "#/components/schemas/VisualQueryCondition"
+                    }
+                ],
+                "x-i2-api": {
+                    "since": "1.2"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    },
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.2"
+                    }
+                ]
             }
         },
         "responses": {
@@ -1849,7 +3389,8 @@
                         "type": "number",
                         "format": "double"
                     }
-                }
+                },
+                "example": "1.6,2.5,3.11"
             },
             "I2-User-Groups": {
                 "name": "I2-User-Groups",

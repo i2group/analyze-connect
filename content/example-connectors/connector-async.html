@@ -228,7 +228,7 @@
     {
       &quot;id&quot;: &quot;sample-async-service&quot;,
       &quot;name&quot;: &quot;Sample Connector: Async&quot;,
-      &quot;description&quot;: &quot;A sample service that runs the sevice asynchronously&quot;,
+      &quot;description&quot;: &quot;A sample service that runs the service asynchronously&quot;,
       &quot;async&quot;: {
         &quot;queriesResource&quot;: &quot;/async&quot;,
         &quot;pollingIntervalInSeconds&quot;: 1
@@ -240,7 +240,7 @@
 </code></pre><h3 id="2-implementing-the-acquire-endpoint">2. Implementing the acquire endpoint</h3>
 <p><strong>This endpoint starts an asynchronous query to fetch data from the service in the specified query resource.</strong></p>
 <p>If the service in question also specifies the <strong>validateUrl</strong> property, then the gateway uses the <strong>validateUrl</strong> endpoint before it uses the <strong>queriesResource</strong> endpoint.</p>
-<p>This service calls the POST method on the <code>/ASYNC_SERVICE_URL</code> endpoint and takes in a request parameter. It is a payload that the service can interpret to modify its behaviour. The service can have one of three types of client configuration:</p>
+<p>This service calls the POST method on the <code>/ASYNC_SERVICE_URL</code> endpoint and takes in a request parameter. It is a payload that the service can interpret to modify its behavior. The service can have one of three types of client configuration:</p>
 <ul>
 <li>&#39;NONE&#39; - the payload never contains conditions.</li>
 <li>&#39;FORM&#39; - it contains conditions that have a fixed structure.</li>
@@ -284,7 +284,7 @@
     &lt;connector base-url=&quot;http://localhost:9085&quot; name=&quot;Async Connector&quot; id=&quot;async-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you are using the same port as specified in <code>application.properties</code> (<code>9085</code> by default) and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre><p>Ensure that you are using the same port specified in the <code>async\async-connector\src\main\resources\application.properties</code> file in this repository (<code>9085</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the Async schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>

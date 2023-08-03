@@ -101,7 +101,9 @@
 <ol>
 <li><p>When i2 Analyze starts up, the i2 Connect gateway sends a request to the configuration endpoint of every connector that is listed in the topology. It caches the information that it receives in response.</p>
 <p>If the configuration for any of the connectors specifies schema and charting scheme endpoints, the gateway sends requests to retrieve the connector schemas and charting schemes from those endpoints.</p>
-<p><strong>Note:</strong> You can also force the gateway to repeat this process while i2 Analyze is running. The gateway implements the reload endpoint, whose POST method you can call after you change the configuration of a connector.</p>
+<p><strong>Note:</strong> You can also force the gateway to repeat this process while i2 Analyze is running.
+The gateway implements the reload endpoint, whose POST method you can call after you change the configuration of a connector.
+For more information about the reload endpoint, see <a href="../workflow/testing.html">Modifying and testing</a>.</p>
 </li>
 <li><p>When a client connects to i2 Analyze, the latter gets the cached information from the gateway and returns it to the client. The client can then present the queries that the services implement to users, and help users to provide valid parameters and seeds to those queries where appropriate.</p>
 <p><strong>Note:</strong> For connectors that implement the user-specific configuration endpoint, i2 Analyze sends a request to it with information about the connecting user at this stage, to retrieve the remainder of the configuration information.</p>

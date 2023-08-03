@@ -80,33 +80,33 @@
 <h1 id="property-value-data-formats">Property value data formats</h1>
 
 <p>All the property types defined in a schema specify a <em>logical type</em> that controls the kind of data that properties of that type contain. For example, some properties contain numerical data while others contain strings. Furthermore, of the properties that contain numerical data, some contain integers while others contain floating-point values.</p>
-<p>To see the logical type of a particular property type, open the schema in i2 Analyze Schema Designer and select it in the left-hand pane. You&#39;ll see its logical type along as well as its identifier, name, and description. </p>
+<p>To see the logical type of a particular property type, open the schema in i2 Analyze Schema Designer and select it in the left-hand pane. You&#39;ll see its logical type along as well as its identifier, name, and description.</p>
 <p>When you specify default values during connector configuration, or you return entities and links to i2 Analyze from a connector, you must ensure that the property values you assign align with the logical types. The following descriptions provide examples of data that is valid for each of the supported logical types.</p>
 <h2 id="singlelinestring">SINGLE_LINE_STRING</h2>
 <p>Single-line strings can be up to 250 bytes long, and can be further limited by the schema.</p>
-<pre><code>&quot;This is a single-line string.&quot;
+<pre><code class="lang-text">&quot;This is a single-line string.&quot;
 </code></pre><h2 id="multiplelinestring">MULTIPLE_LINE_STRING</h2>
 <p>Multiple-line strings can be up to 32K bytes long, and can be further limited by the schema.</p>
-<pre><code>&quot;This is a multiple-line string.&quot;
+<pre><code class="lang-text">&quot;This is a multiple-line string.&quot;
 </code></pre><h2 id="date">DATE</h2>
 <p>Date values must be in the ISO 6801 format &quot;YYYY-MM-DD&quot;. Also, values must be in the range from 1753-01-01 to 9999-12-30.</p>
-<pre><code>&quot;2021-11-30&quot;
+<pre><code class="lang-text">&quot;2021-11-30&quot;
 </code></pre><h2 id="time">TIME</h2>
 <p>Time values must be in the ISO 6801 format &quot;hh:mm:ss&quot;. Seconds are optional, but hours and minutes are not. Greater precision than seconds is not supported.</p>
-<pre><code>&quot;23:59:59&quot;
+<pre><code class="lang-text">&quot;23:59:59&quot;
 </code></pre><h2 id="dateandtime">DATE_AND_TIME</h2>
 <p>Four pieces of information are required to specify a particular point in time:</p>
 <ul>
 <li>The date</li>
 <li>The time as it would appear on a clock</li>
 <li>The time zone in which the point in time is observed</li>
-<li>If the point in time occurs during the hour that is repeated when clocks are turned back to end Daylight Saving Time, whether to use the first or second occurence of this time.</li>
+<li>If the point in time occurs during the hour that is repeated when clocks are turned back to end Daylight Saving Time, whether to use the first or second occurrence of this time.</li>
 </ul>
 <p>There are two ways to return values with the <code>DATE_AND_TIME</code> logical type. You can use an ISO 8601 string <em>without</em> a time zone; or a date-and-time JSON object that explicitly defines the time zone.</p>
 <p>When you use the ISO 8601 format, the value must be specified as a string with at least minute-precision and up to millisecond-precision. The time zone is taken from the <code>timeZoneId</code> that&#39;s defined in <code>defaultValues</code> in the connector configuration. (If no default is present, the time zone is set to UTC.)</p>
-<pre><code>&quot;2021-12-30T23:59:59&quot;
+<pre><code class="lang-text">&quot;2021-12-30T23:59:59&quot;
 </code></pre><p>or</p>
-<pre><code>&quot;2021-12-30T23:59:59.999&quot;
+<pre><code class="lang-text">&quot;2021-12-30T23:59:59.999&quot;
 </code></pre><p>Alternatively, a JSON object must contain three fields:</p>
 <ul>
 <li><code>localDateAndTime</code> is a string that conforms to ISO 8601 as above, again with at least minute-precision and up to millisecond-precision.</li>
@@ -120,24 +120,24 @@
 }
 </code></pre><h2 id="boolean">BOOLEAN</h2>
 <p>Boolean values must be be either <code>true</code> or <code>false</code>.</p>
-<pre><code>true
+<pre><code class="lang-text">true
 </code></pre><p>or</p>
-<pre><code>false
+<pre><code class="lang-text">false
 </code></pre><h2 id="integer">INTEGER</h2>
 <p>Integer values must be in the range from -2147483648 to 2147483647.</p>
-<pre><code>2147483647
+<pre><code class="lang-text">2147483647
 </code></pre><h2 id="double">DOUBLE</h2>
 <p>Double values must be in the range from 4.94065645841246544e-324d to 1.79769313486231570e+308d.</p>
-<pre><code>4.94065645841246544e-324d
+<pre><code class="lang-text">4.94065645841246544e-324d
 </code></pre><h2 id="decimal">DECIMAL</h2>
 <p>Decimal values are <em>strings</em> that contain up to 18 digits before the decimal separator, and up to 4 digits after it. There can be a leading minus sign, but no exponent (e) notation.</p>
-<pre><code>&quot;-123456789012345678.1234&quot;
+<pre><code class="lang-text">&quot;-123456789012345678.1234&quot;
 </code></pre><h2 id="selectedfrom">SELECTED_FROM</h2>
 <p>Selected-from string values must match a permitted value that the schema or a form condition defines.</p>
-<pre><code>&quot;This is a selected-from string.&quot;
+<pre><code class="lang-text">&quot;This is a selected-from string.&quot;
 </code></pre><h2 id="suggestedfrom">SUGGESTED_FROM</h2>
 <p>Suggested-from string values must match a permitted value that a form condition defines when you use them as default values, but are otherwise unrestricted.</p>
-<pre><code>&quot;This is a suggested-from string.&quot;
+<pre><code class="lang-text">&quot;This is a suggested-from string.&quot;
 </code></pre><h2 id="geospatial">GEOSPATIAL</h2>
 <p>Geospatial values must be formatted as GeoJSON points, as described at <a href="https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2">https://datatracker.ietf.org/doc/html/rfc7946#section-3.1.2</a>.</p>
 <p>The first element in the <code>coordinates</code> array is longitude, and must be a decimal between -180.0 and 180.0. The second element is latitude and must be a decimal between -90.0 and 90.0.</p>

@@ -171,9 +171,11 @@
 <ul>
 <li>The <code>title</code>; a brief summary of the problem.</li>
 <li>The <code>detail</code>; An explanation specific to the occurrence of the problem.</li>
-<li>The <code>type</code>; a URI reference that identifies the problem type. To indicate the problem is caused by a connector authentication error, this value must be set to:
-<code>urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb</code></li>
-<li>The <code>status</code>; the HTTP response code (usually a <code>401</code>).</li>
+<li><p>The <code>type</code>; a URI reference that identifies the problem type. To indicate the problem is caused by a connector authentication error, this value must be set to:</p>
+<pre><code class="lang-text">urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb
+</code></pre></li>
+<li><p>The <code>status</code>; the HTTP response code (usually a <code>401</code>).</p>
+</li>
 <li>The <code>instance</code>; an optional URI reference which identifies the specific occurrence of the problem, relative to the connector&#39;s base URL. Absolute URLs are also accepted.</li>
 </ul>
 <h3 id="4-implementing-authentication-verification-on-endpoints">4. Implementing authentication verification on endpoints</h3>
@@ -220,7 +222,7 @@
     &lt;connector base-url=&quot;http://localhost:9086&quot; name=&quot;Auth Connector&quot; id=&quot;auth-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you are using the same port as specified in <code>application.properties</code> (<code>9086</code> by default) and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre><p>Ensure that you are using the same port specified in the <code>auth\auth-connector\src\main\resources\application.properties</code> file in this repository (<code>9086</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the Auth schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>

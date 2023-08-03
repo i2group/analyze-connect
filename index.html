@@ -79,7 +79,8 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="i2-connect-example-connectors">i2 Connect example connectors</h1>
 
-<p>To create a connector, you need a data source to query, and a server that supports REST endpoints to query it from. On that foundation, you can build the functionality that takes requests from the i2 Connect gateway, retrieves data from the source, and returns it to the gateway in a shape that is ready for conversion to i2 Analyze records.</p>
+<p>To create a connector, you need a data source to query, and a server that supports REST endpoints to query it from.
+On that foundation, you can build the functionality that takes requests from the i2 Connect gateway, retrieves data from the source, and returns it to the gateway in a shape that is ready for conversion to i2 Analyze records.</p>
 <h2 id="developing-a-connector-walkthrough">Developing a connector walkthrough</h2>
 <p>The documentation for understanding, deploying and configuring both i2 Analyze and an example connector is divided into the following sections:</p>
 <ol>
@@ -104,39 +105,35 @@
 <h3 id="environment-setup">Environment setup</h3>
 <p>The workshop requires the following tools and technologies:</p>
 <ul>
-<li><p><strong>i2 Analyze 4.4.1</strong>: The server that hosts the i2 Connect gateway.</p>
+<li><p><strong>i2 Analyze 4.4.2</strong>: The server that hosts the i2 Connect gateway and provides the i2 Notebook web client for interacting with your connector.</p>
 </li>
-<li><p><strong>i2 Analyst&#39;s Notebook Premium 9.4.1</strong>: The client that provides the user
-interface for interacting with your connector. The client displays the
-resulting entity and link records with their properties.</p>
+<li><p>(Optionally) <strong>i2 Analyst&#39;s Notebook 10 Premium</strong>: The desktop client that provides a user interface for interacting with your connector.</p>
+<p>Both clients can display the resulting entity and link records with their properties.</p>
 </li>
-<li><p><strong>i2 Analyze Schema Designer</strong>: The tool that enables you to design and
-create your i2 Analyze schema. During installation of Analyst&#39;s Notebook
-Premium, ensure that you also install Schema Designer.</p>
+<li><p><strong>i2 Analyze Schema Designer</strong>: The tool that enables you to design and create your i2 Analyze schema.</p>
 </li>
-<li><p><strong>Microsoft Visual Studio Code</strong>: The recommended IDE for developing your
-connector. You can use any IDE you like, but the Visual Studio Code Spring
-Boot Dashboard plugin can handle running and redeploying the connector for
-you. Download it <a href="https://code.visualstudio.com/">here</a>.</p>
+<li><p><strong>Microsoft Visual Studio Code</strong>: The recommended IDE for developing your connector.
+You can use any IDE you like, but VS Code has plugins that we recommend to aid in your connector deployment. Download it <a href="https://code.visualstudio.com/">here</a>.</p>
 </li>
-<li><p><strong>Postman</strong>: An API development tool that you can use to create and execute requests against REST endpoints. Download Postman <a href="https://www.getpostman.com/">here</a>.</p>
+<li><p><strong>Postman</strong>: An API development tool that you can use to create and execute requests against REST endpoints.
+Download Postman <a href="https://www.getpostman.com/">here</a>.</p>
 </li>
 <li><p>An application framework dependent on the language you are writing the
 connector with.</p>
 <ul>
-<li><strong>Java (Spring Boot)</strong>: The connector is written in Java with Spring Boot.
-Spring Boot is a Spring framework with an embedded Tomcat server that makes
-it easy to spin up a web application. No installation is required.</li>
-<li><strong>Python (Flask)</strong>: The Python connector is written and run on a Flask
-application. Flask is a micro web framework which requires no particular
-tools or libraries. No manual installation other than the specified setup
-instructions is required as the Pipfile contains it as a dependency.</li>
+<li><p><strong>Java (Spring Boot)</strong>: The connector is written in Java with Spring Boot.
+Spring Boot is a Spring framework with an embedded Tomcat server that makes it easy to spin up a web application.
+No installation is <em>required</em>, but we recommend the Visual Studio Code Spring Boot Dashboard plugin, which can handle running and redeploying the connector for you.</p>
+</li>
+<li><p><strong>Python (Flask)</strong>: The Python connector is written and run on a Flask application.
+Flask is a micro web framework which requires no particular tools or libraries.
+No manual installation other than the specified setup instructions is required as the Pipfile contains it as a dependency.</p>
+</li>
 </ul>
 </li>
 </ul>
 <h3 id="additional-resources">Additional resources</h3>
-<p>To help you to understand some of the tools and technologies you will use, here
-are a few resources that contain more information about them:</p>
+<p>To help you to understand some of the tools and technologies you will use, here are a few resources that contain more information about them:</p>
 <ul>
 <li><a href="content/miscellaneous/data-model.html">i2 Analyze data model examples</a></li>
 <li><a href="content/miscellaneous/spi-examples.html">Example requests and responses</a></li>
@@ -153,8 +150,7 @@ are a few resources that contain more information about them:</p>
 <li><a href="content/miscellaneous/troubleshoot.html">Troubleshooting</a></li>
 </ul>
 <h2 id="schemas-and-schema-types">Schemas and schema types</h2>
-<p>The documentation for understanding and configuring connector schemas, gateway
-schemas, type locations, item type mappings, and item type security is divided into the following sections:</p>
+<p>The documentation for understanding and configuring connector schemas, gateway schemas, type locations, item type mappings, and item type security is divided into the following sections:</p>
 <ul>
 <li><a href="content/schemas/connector-schema.html">Connector schemas</a></li>
 <li><a href="content/schemas/gateway-schema.html">Gateway schemas</a></li>
@@ -168,13 +164,15 @@ schemas, type locations, item type mappings, and item type security is divided i
 <li><a href="content/example-connectors/connector-eri.html">ERI Connector</a></li>
 </ul>
 <h2 id="spi-version-information">SPI version information</h2>
-<p>New versions of the REST SPI are always released as part of new i2 Analyze releases. Documentation for the latest version of the SPI is available through the <strong>REST SPI</strong> link at the top of the page.</p>
+<p>New versions of the REST SPI are always released as part of new i2 Analyze releases.
+Documentation for the latest version of the SPI is available through the <strong>REST SPI</strong> link at the top of the page.</p>
 <table>
 <thead>
 <tr>
 <th style="text-align:center">SPI version 🡆 <br> i2 Analyze version 🡇</th>
 <th style="text-align:center">1.0</th>
 <th style="text-align:center">1.1</th>
+<th style="text-align:center">1.2</th>
 </tr>
 </thead>
 <tbody>
@@ -182,9 +180,17 @@ schemas, type locations, item type mappings, and item type security is divided i
 <td style="text-align:center">4.4.0</td>
 <td style="text-align:center">✔️</td>
 <td style="text-align:center">❌</td>
+<td style="text-align:center">❌</td>
 </tr>
 <tr>
 <td style="text-align:center">4.4.1</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">✔️</td>
+<td style="text-align:center">❌</td>
+</tr>
+<tr>
+<td style="text-align:center">4.4.2</td>
+<td style="text-align:center">✔️</td>
 <td style="text-align:center">✔️</td>
 <td style="text-align:center">✔️</td>
 </tr>
@@ -194,6 +200,7 @@ schemas, type locations, item type mappings, and item type security is divided i
 <ul>
 <li><a href="content/spi-versions/1.0/changes.html">1.0 changes</a></li>
 <li><a href="content/spi-versions/1.1/changes.html">1.1 changes</a></li>
+<li><a href="content/spi-versions/1.2/changes.html">1.2 changes</a></li>
 </ul>
 </article>
           </div>

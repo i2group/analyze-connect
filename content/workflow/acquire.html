@@ -82,6 +82,7 @@
 <p>In a connector, an acquire endpoint must perform two tasks in succession. Its roles are to retrieve data from an external source, and to return that data to the i2 Connect gateway in a form that the latter can use to create i2 Analyze records.</p>
 <p>When a user runs a synchronous query against an external data source through their client application, the i2 Connect gateway makes a request to the acquire endpoint of the relevant service. The request always has a <em>payload</em> that can contain information (often, parameter values or seed records) that the user provided to the query.</p>
 <p>In general, your implementation of an acquire endpoint uses the contents of the payload to refine the commands that it sends to the external source. If the service that owns the endpoint specified a <code>clientConfigType</code> of <code>FORM</code>, then the identifiers of conditions in the form match the identifiers of conditions in the payload. If the service specified <code>seedConstraints</code>, then the payload contains the property values of seed records.</p>
+<p><strong>Note:</strong> From version 1.2 of the SPI, <code>clientConfigType</code> is deprecated. The client configuration <code>type</code> should be defined in the <code>clientConfig</code> object instead.</p>
 <p>For a query with no parameters and no seeds, the payload is empty. You can focus your development effort on making sure that the response from the acquire endpoint meets the requirements of the i2 Connect gateway.</p>
 <p><strong>Note:</strong> It is not possible to follow the same procedure for every different kind of external data source. The following steps do not apply in all cases. Rather, they describe tasks that you are likely to require.</p>
 <ol>
@@ -103,7 +104,7 @@
 </li>
 <li><p>Create the arrays of entity and link data objects that must appear in the response from the acquire endpoint.</p>
 </li>
-<li><p>Populate the arrays according to the descriptions in the SPI documentation, taking care to ensure that you provide values for all mandatory properties. </p>
+<li><p>Populate the arrays according to the descriptions in the SPI documentation, taking care to ensure that you provide values for all mandatory properties.</p>
 </li>
 </ol>
 </article>

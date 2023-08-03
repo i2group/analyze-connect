@@ -79,108 +79,130 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="deploying-i2-analyze-with-the-information-store-and-the-i2-connect-gateway">Deploying i2 Analyze with the Information Store and the i2 Connect gateway</h1>
 
-<p>This guide walks you through how to deploy i2 Analyze with the Information Store and the i2 Connect gateway. To deploy i2 Analyze with the i2 Connect gateway, see <a href="../walkthrough/2-deploy-i2-analyze.html">this guide</a>.</p>
+<p>This guide walks you through how to deploy i2 Analyze with the Information Store and the i2 Connect gateway, which includes configuring an Information Store schema.</p>
+<p><strong>Note:</strong> If you want to test or make changes to a schema, <a href="../walkthrough/2-deploy-i2-analyze.html">deploy i2 Analyze with the i2 Connect gateway only</a> first.
+When you are happy with the schema, continue with this guide.</p>
 <h2 id="prerequisites">Prerequisites</h2>
 <p>Before you start, ensure that you have:</p>
 <ul>
-<li>installed i2 Analyze, </li>
-<li>installed either <a href="https://docs.i2group.com/analyze/analyze_db2.html">IBM Db2</a> or <a href="https://docs.i2group.com/analyze/analyze_sql.html">Microsoft SQL Server</a>, and</li>
-<li><a href="../walkthrough/1-schema-design-guide.html">defined a schema</a> to model the data.</li>
+<li><p>installed i2 Analyze,</p>
+</li>
+<li><p>installed either <a href="https://docs.i2group.com/analyze/analyze_postgres.html">PostgreSQL</a>, <a href="https://docs.i2group.com/analyze/analyze_db2.html">IBM Db2</a> or <a href="https://docs.i2group.com/analyze/analyze_sql.html">Microsoft SQL Server</a>, and</p>
+</li>
+<li><p><a href="../walkthrough/1-schema-design-guide.html">defined a schema</a> to model the data.</p>
+</li>
 </ul>
 <h2 id="license-acknowledgement">License acknowledgement</h2>
 <ul>
-<li>Open the <code>license_acknowledgement</code> file in your i2 Analyze directory.</li>
-<li>Set the value to <code>ACCEPT</code>. It should now look like this:
-<code>LIC_AGREEMENT = ACCEPT</code></li>
+<li><p>Open the <code>license_acknowledgement</code> file in your i2 Analyze directory.</p>
+</li>
+<li><p>Set the value to <code>ACCEPT</code>. It should now look like this:</p>
+<pre><code class="lang-properties">LIC_AGREEMENT = ACCEPT
+</code></pre></li>
 </ul>
 <h2 id="configuration">Configuration</h2>
 <h3 id="create-the-configuration-directory">Create the configuration directory</h3>
 <ol>
-<li>In your i2 Analyze directory, navigate to
-<code>toolkit\examples\configurations\information-store-daod-opal</code>.</li>
-<li>Copy the <code>configuration</code> directory to the <code>toolkit</code> directory. This provides
-a starting point for a deployment that includes the Information Store and support for the i2 Connect gateway.</li>
+<li><p>In your i2 Analyze directory, navigate to <code>toolkit\examples\configurations\information-store-daod-opal</code>.</p>
+</li>
+<li><p>Copy the <code>configuration</code> directory to the <code>toolkit</code> directory. This provides a starting point for a deployment that includes the Information Store and support for the i2 Connect gateway.</p>
+</li>
 </ol>
 <h3 id="database-management">Database management</h3>
-<p>If you are using IBM Db2 as your chosen database management system, you can skip the following steps, otherwise:</p>
+<p>Depending on your chosen database management system, there are additional steps that you must complete:</p>
+<h4 id="postgresql">PostgreSQL</h4>
 <ol>
-<li>Download the <a href="https://www.microsoft.com/en-us/download/details.aspx?id=58505">Microsoft JDBC Driver 7.4 for SQL Server</a> archive.</li>
-<li>Extract the contents of the download and navigate to <code>sqljdbc_7.4\enu</code>.</li>
-<li>Copy the <code>mssql-jdbc-7.4.1.jre8.jar</code> file to the i2 Analyze <code>toolkit\configuration\environment\common\jdbc-drivers</code> directory.</li>
-<li>Copy the <code>topology.xml</code> file for SQL Server from the <code>toolkit\configuration\examples\topology\sqlserver</code> to the <code>toolkit\configuration\environment</code> directory, overwriting the existing <code>topology.xml</code> file in the destination directory.</li>
+<li><p>Download the latest JDBC driver from <a href="https://jdbc.postgresql.org/">jdbc.postgresql.org</a>. The name of the driver file has the form <code>postgresql-x.y.z.jar</code>.</p>
+</li>
+<li><p>Copy the PostgreSQL JDBC driver file that you downloaded into the <code>toolkit\configuration\environment\common\jdbc-drivers</code> directory.</p>
+</li>
+</ol>
+<h4 id="ibm-db2">IBM Db2</h4>
+<ol>
+<li><p>Copy the example <code>topology.xml</code> file for IBM Db2 from <code>toolkit\configuration\examples\topology\db2</code> to the <code>toolkit\configuration\environment</code> directory.
+Overwrite the existing <code>topology.xml</code> file in the destination directory.</p>
+</li>
+<li><p>If you are using IBM Db2 11.5.6 Fix Pack 0 or later, you might need to update the port number that is used in the <code>topology.xml</code> file.</p>
+<p>By default, i2 Analyze is deployed to connect to Db2 using port 50000. In version 11.5.6 Fix Pack 0 and later, the default port that Db2 uses is changed to 25000. For more information about the ports that Db2 uses, see <a href="https://www.ibm.com/support/pages/db2-db2-server-tcpip-port-numbers">Db2 server TCP/IP port numbers</a>.</p>
+<ol>
+<li><p>Using an XML editor, open the <code>toolkit\configuration\environment\topology.xml</code> file.</p>
+</li>
+<li><p>In the <code>&lt;database&gt;</code> element, set the value of the <code>port-number</code> attribute to <code>25000</code>.</p>
+</li>
+<li><p>Save and close the <code>topology.xml</code> file.</p>
+</li>
+</ol>
+</li>
+</ol>
+<h4 id="sql-server">SQL Server</h4>
+<ol>
+<li><p>Download the latest version of the Microsoft JDBC Driver for SQL Server that&#39;s compatible with your system from <a href="https://learn.microsoft.com/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server">https://learn.microsoft.com/sql/connect/jdbc/download-microsoft-jdbc-driver-for-sql-server</a>.</p>
+</li>
+<li><p>Extract the contents of the download, and locate the file whose name matches the pattern <code>mssql-jdbc-x.y.z.jre11.jar</code>.</p>
+</li>
+<li><p>Copy the SQL Server JDBC driver file that you downloaded into the <code>toolkit\configuration\environment\common\jdbc-drivers</code> directory.</p>
+</li>
+<li><p>Copy the example <code>topology.xml</code> file for SQL Server from the <code>toolkit\configuration\examples\topology\sqlserver</code> to the <code>toolkit\configuration\environment</code> directory.
+Overwrite the existing <code>topology.xml</code> file in the destination directory.</p>
+</li>
 </ol>
 <h3 id="specify-the-credentials-for-deployment">Specify the credentials for deployment</h3>
 <ol>
-<li>Using a text editor, open the
-<code>toolkit\configuration\environment\credentials.properties</code> file.</li>
-<li>Specify a user name and password to use for the database in the <code>db.infostore.user-name</code> and <code>db.infostore.password</code> properties.</li>
-<li>Specify a user name and password to use for the Solr indexes in the
-<code>solr.user-name</code> and <code>solr.password</code> properties.</li>
-<li>Enter the password to encrypt LTPA tokens in the <code>ltpakeys.password</code>
-property.</li>
-<li>Save and close the file.</li>
+<li><p>Using a text editor, open the <code>toolkit\configuration\environment\credentials.properties</code> file.</p>
+</li>
+<li><p>Specify a user name and password to use for the database in the <code>db.infostore.user-name</code> and <code>db.infostore.password</code> properties.</p>
+</li>
+<li><p>Specify a user name and password to use for the Solr indexes in the <code>solr.user-name</code> and <code>solr.password</code> properties.</p>
+</li>
+<li><p>Enter the password to encrypt LTPA tokens in the <code>ltpakeys.password</code> property.</p>
+</li>
+<li><p>Save and close the file.</p>
+</li>
 </ol>
 <h3 id="command-access-control">Command access control</h3>
-<p>To gain access to certain features, including the ability to use Postman to reload
-the connector when making schema changes, you need to copy and modify some files
-in the i2 Analyze deployment:</p>
+<p>To gain access to certain features, including the ability to use Postman to reload the connector when making schema changes, you need to copy and modify some files in the i2 Analyze deployment:</p>
 <ol>
-<li>Navigate to the <code>toolkit\configuration\examples\security-schema</code> directory and
-copy the file named <code>example-command-access-control.xml</code>.</li>
-<li>Navigate to the <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code>
-directory and paste the file from the previous step.</li>
-<li>Open the <code>DiscoServerSettingsCommon.properties</code> file and add the name of file you
-just copied to the <code>CommandAccessControlResource</code> field, including the <code>.xml</code> extension.</li>
-<li>Save and close the properties file.</li>
+<li><p>Navigate to the <code>toolkit\configuration\examples\security-schema</code> directory and copy the file named <code>example-command-access-control.xml</code>.</p>
+</li>
+<li><p>Navigate to the <code>toolkit\configuration\fragments\opal-services\WEB-INF\classes</code> directory and paste the file from the previous step.</p>
+</li>
+<li><p>Open the <code>DiscoServerSettingsCommon.properties</code> file and add the name of file you just copied to the <code>CommandAccessControlResource</code> field, including the <code>.xml</code> extension.</p>
+</li>
+<li><p>Save and close the properties file.</p>
+</li>
 </ol>
 <h3 id="configure-the-schema">Configure the schema</h3>
-<p>To test your schema and use it in Analyst&#39;s Notebook before deploying a
-connector, you can configure it as an Information Store schema. The steps below describe
-this process.</p>
+<p>The steps below describe the process of configuring your schema as an Information Store schema.</p>
 <ol>
-<li>Copy your schema and charting schemes to the
-<code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</li>
-<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same
-directory to point to your schema files by setting the following properties:</p>
+<li><p>Copy your schema and charting schemes to the <code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</p>
+</li>
+<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same directory to point to your schema files by setting the following properties:</p>
 <pre><code class="lang-properties">SchemaResource=schema-filename.xml
 ChartingSchemesResource=charting-schemes-filename.xml
 </code></pre></li>
 </ol>
 <h3 id="configure-the-security-schema">Configure the security schema</h3>
-<p>All i2 Analyze deployments require a security schema, which defines the level of
-access users have to the data in the system. You can learn about the i2 Analyze
-security model in the
-<a href="https://docs.i2group.com/analyze/security_model.html">product documentation</a>
-but, for the purpose of this guide, follow the steps below to use an example
-security schema.</p>
+<p>All i2 Analyze deployments require a security schema, which defines the level of access users have to the data in the system. You can learn about the i2 Analyze security model in the <a href="https://docs.i2group.com/analyze/security_model.html">product documentation</a> but, for the purpose of this guide, follow the steps below to use an example security schema.</p>
 <ol>
-<li>Copy <code>example-dynamic-security-schema.xml</code> from
-<code>toolkit\configuration\examples\security-schema</code> to the
-<code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</li>
-<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same
-directory to point to the security schema by setting the following property:</p>
+<li><p>Copy <code>example-dynamic-security-schema.xml</code> from <code>toolkit\configuration\examples\security-schema</code> to the <code>toolkit\configuration\fragments\common\WEB-INF\classes</code> directory.</p>
+</li>
+<li><p>Update the <code>ApolloServerSettingsMandatory.properties</code> file in the same directory to point to the security schema by setting the following property:</p>
 <pre><code class="lang-properties">DynamicSecuritySchemaResource=example-dynamic-security-schema.xml
 </code></pre></li>
 </ol>
 <h3 id="generate-the-default-configuration">Generate the default configuration</h3>
-<p>For the purposes of this guide, only a basic configuration is required, so you
-can use the default.</p>
+<p>For the purposes of this guide, only a basic configuration is required, so you can use the default.</p>
 <ol>
-<li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
-<li><p>To populate some of the mandatory settings with default values, run:</p>
+<li><p>Open the <code>toolkit\scripts</code> directory in a command prompt.</p>
+</li>
+<li><p>To configure the environment with default property values, run:</p>
 <pre><code class="lang-shell">setup -t generateDefaults
 </code></pre></li>
-<li><p>In the <code>i2analyze</code> directory, navigate to the
-<code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code>
-file in a text editor.</p>
-</li>
-<li>Replace every instance of the <code>host-name</code> tag with the value <code>localhost</code>.
-There will be four to change in total. This will be used to test your
-application in Postman.</li>
 </ol>
 <h2 id="deployment">Deployment</h2>
 <ol>
-<li>Open the <code>toolkit\scripts</code> directory in a command prompt.</li>
+<li><p>Open the <code>toolkit\scripts</code> directory in a command prompt.</p>
+</li>
 <li><p>To deploy i2 Analyze with the configuration you have just created, run</p>
 <pre><code class="lang-shell">setup -t deploy
 </code></pre></li>
@@ -188,28 +210,14 @@ application in Postman.</li>
 <pre><code class="lang-shell">setup -t ensureExampleUserRegistry
 </code></pre></li>
 <li><p>To start i2 Analyze, run</p>
-<pre><code class="lang-shell">setup -t start
+<pre><code class="lang-shell">setup -t startLiberty
 </code></pre></li>
 </ol>
-<p>You can now connect Analyst&#39;s Notebook Premium to i2 Analyze. The output of the
-start command includes the URL to use for the i2 Analyze server.</p>
-<p>This will be the best time to test the schema you created in the previous step, or
-the existing one if you are using the example schema provided. You can open Analyst&#39;s
-Notebook and start to drag/drop entities and links onto your chart, testing different
-charting schemes and seeing what labels appear and how they are formatted. For these
-changes to take effect, you need to update the i2 Analyze connectors
-configuration and run the internal <code>Reload</code> command via Postman.</p>
-<p>First, navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:</p>
-<pre><code class="lang-shell">setup -t updateConnectorsConfiguration
-</code></pre><p>Next you need to open <a href="postman.html">Postman</a>, select the <code>i2 Analyze with InfoStore and Gateway</code> environment and run the <code>Form Based Login</code> request. This will
-authenticate you as the default user in i2 Analyze, then you can run the <code>Reload</code>
-request which will configure your schema changes to the topology. (NOTE: You will need
-to perform a reload command for every iteration of your schema design, otherwise the changes
-will not take effect).</p>
-<p>You now have a running i2 Analyze deployment, if you are happy with your schema you can
-now <a href="../walkthrough/3-deploy-connector.html">deploy a connector</a>. However, if there are changes you wish
-to make to the schema and associated charting schemes, you can run yourself through the
-<a href="../walkthrough/1-schema-design-guide.html">schema design guide</a> again.</p>
+<p>You can now connect Analyst&#39;s Notebook Premium to i2 Analyze. The output of the start command includes the URL to use for the i2 Analyze server.</p>
+<p>In Analyst&#39;s Notebook Premium, create items on the chart to visualize the i2 Analyze schema by using the <strong>Information Store</strong> palette.
+You should also test the different charting schemes and see what labels appear and how they are formatted.</p>
+<p><strong>Note:</strong> If you want to modify a deployed Information Store schema, follow the steps outlined in <a href="https://docs.i2group.com/analyze/modifying_i2analyze_schema.html">this guide</a>.</p>
+<p>You now have a running i2 Analyze deployment. If you are happy with your schema, you can now <a href="../walkthrough/3-deploy-connector.html">deploy a connector</a>.</p>
 </article>
           </div>
           

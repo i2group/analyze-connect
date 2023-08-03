@@ -119,7 +119,7 @@
 <p>Origin identifiers are not stored in chart records. As a result, they are not present as source identifiers on seeds that are sent to connectors or Analyst&#39;s Notebook Premium plug-ins. Only those source identifiers that have been added to records through the same mechanisms are present.</p>
 <p>Connectors that specify source identifiers are API-compatible with older versions of the i2 Connect gateway and Analyst&#39;s Notebook Premium, but those products will not recognize new source identifiers as such. Rather, they will be treated as ordinary identifiers or ignored. To use source identifiers to their full potential, upgrade all products to the latest release at your earliest opportunity.</p>
 <h2 id="example">Example</h2>
-<p>This example is based on the NYPD connector. When the external data source is queried, source identifiers are built and attached as the identifier of the data for the record, rather than using the unique identifier from the dataset. This arrangement allows the <code>find-like-this-complaint</code> service to extract the relevant information and use it in the query parameters.</p>
+<p>This example is based on the NYPD connector sample solution. When the external data source is queried, source identifiers are built and attached as the identifier of the data for the record, rather than using the unique identifier from the dataset. This arrangement allows the <code>find-like-this-complaint</code> service to extract the relevant information and use it in the query parameters.</p>
 <h3 id="build-a-source-identifier">Build a source identifier</h3>
 <p>To build a source identifier, you must provide the values for its <code>type</code> and <code>key</code> fields:</p>
 <ul>
@@ -128,25 +128,27 @@
 </ul>
 <p>In the following Java and Python examples, the <code>type</code> is assigned the value <code>NYPD</code>. The key is built using the values of the <code>law_cat_cd</code>, <code>addr_pct_cd</code> and <code>cmplnt_num</code> columns of the NYPD Complaint Data dataset.</p>
 <h4 id="java-example">Java example</h4>
-<p>In the <code>ItemFactory.java</code> file in the sample solution directory for the NYPD connector, update the <code>createComplaint</code> method with the following code: </p>
-<pre><code class="lang-java">final EntityData complaint = new EntityData();
+<p>In the <code>ItemFactory.java</code> file, define a method to build the source identifiers:</p>
+<pre><code class="lang-java">private Object generateSourceIdentifier(SocrataResponseData entry) {
+  if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
+    final SourceId sourceId = new SourceId();
+    sourceId.type = &quot;NYPD&quot;;
+    sourceId.key = Arrays.asList(entry.offenceLevel, String.valueOf(entry.precinctCode), entry.complaintNum);
 
-if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
-  final SourceId sourceId = new SourceId();
-  sourceId.type = &quot;NYPD&quot;;
-  sourceId.key = Arrays.asList(entry.offenceLevel, String.valueOf(entry.precinctCode), entry.complaintNum);
-
-  complaint.id = Collections.singletonMap(&quot;sourceId&quot;, sourceId);
-} else {
-  complaint.id = &quot;COMP&quot; + entry.complaintNum;
+    return Collections.singletonMap(&quot;sourceId&quot;, sourceId);
+  } else {
+    return &quot;COMP&quot; + entry.complaintNum;
+  }
 }
+</code></pre><p>Then, in the <code>createComplaint()</code> method, set the <code>complaint.id</code> value to call the new method:</p>
+<pre><code class="lang-java">complaint.id = generateSourceIdentifier(entry);
 </code></pre><h4 id="python-example">Python example</h4>
-<p>In the <code>classes.py</code> file in the sample solution directory for the NYPD connector, define a global function to build the source identifiers: </p>
+<p>In the <code>classes.py</code> file, define a global function to build the source identifiers:</p>
 <pre><code class="lang-python">def generate_source_identifier(entry):
     return {
         &#39;sourceId&#39;: {
             &#39;type&#39;: &#39;NYPD&#39;,
-            &#39;key&#39;: [entry.get(&#39;law_cat_cd&#39;), entry.get(&#39;addr_pct_cd&#39;), entry.get(&#39;cmplnt_num&#39;)]
+            &#39;key&#39;: [entry.get(&#39;law_cat_cd&#39;), entry.get(&#39;addr_pct_cd&#39;, &#39;&#39;), entry.get(&#39;cmplnt_num&#39;)]
         }
     }
 </code></pre><p>Then, on the <code>id</code> property in the <code>Complaint</code> class, replace the call to the method <code>get_id(base, entry)</code> with <code>generate_source_identifier(entry)</code>:</p>
@@ -155,7 +157,7 @@ if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
     A base class for Complaint entities.
 
     Attributes:
-        entry (dict): One record from the external datasource.
+        entry (dict): One record from the external data source.
     &quot;&quot;&quot;
     def __init__(self, entry):
         id = generate_source_identifier(entry)
@@ -163,27 +165,37 @@ if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
 <p>To <em>use</em> the source identifiers that are now attached to the seeds, you need to extract and filter the <code>sourceIds</code> to find the ones with the <code>type</code> that you created. You can use the <code>key</code> of those source identifiers in your query parameters to the service.</p>
 <p>In the following Java and Python examples, the source identifiers are filtered down to those whose <code>type</code> property contains the value <code>NYPD</code>. Their <code>key</code> values are then used to populate the request parameters. Instead of the existing parameters, which searched for matching records with the same level of offense, the request is updated to search for matching records with the same level of offense <em>within the same precinct</em>.</p>
 <h4 id="java-example-1">Java example</h4>
-<p>In the <code>ExternalConnectorDataService.java</code> file in the sample solution directory for the NYPD connector, update the <code>findLikeThisComplaint</code> method with the following code: </p>
-<pre><code class="lang-java">final List&lt;SourceId&gt; sourceIds = seed.sourceIds;
+<p>In the <code>ExternalConnectorDataService.java</code> file, replace the <code>findLikeThisComplaint()</code> method with the following:</p>
+<pre><code class="lang-java">public ConnectorResponse findLikeThisComplaint(DaodSeeds seeds) {
+  final DaodSeedEntityData seed = seeds.entities.get(0);
 
-// filter out system generated source ids
-final List&lt;SourceId&gt; nypdSourceIds = sourceIds
-    .stream()
-    .filter(sourceId -&gt; sourceId.type.equals(&quot;NYPD&quot;))
-    .collect(Collectors.toList());
+  final List&lt;SourceId&gt; sourceIds = seed.sourceIds;
 
-if (nypdSourceIds.isEmpty()) {
-  return new ConnectorResponse();
+  // filter out system generated source ids
+  final List&lt;SourceId&gt; nypdSourceIds = sourceIds
+      .stream()
+      .filter(sourceId -&gt; sourceId.type.equals(&quot;NYPD&quot;))
+      .collect(Collectors.toList());
+
+  if (nypdSourceIds.isEmpty()) {
+    return new ConnectorResponse();
+  }
+
+  final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+  params.put(&quot;limitValue&quot;, 50);
+  params.put(&quot;lawCategory&quot;, nypdSourceIds.get(0).key.get(0)); // Level of offence
+  params.put(&quot;precinctCode&quot;, nypdSourceIds.get(0).key.get(1)); // Precinct code
+
+  final String url = LIMIT_PARAM + &quot;&amp;$where=law_cat_cd=&#39;{lawCategory}&#39;&amp;addr_pct_cd=&#39;{precinctCode}&#39;&quot;;
+  final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
+
+  final ConnectorResponse connectorResponse = new ConnectorResponse();
+  connectorResponse.entities = response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
+  connectorResponse.links = Collections.emptyList();
+  return connectorResponse;
 }
-
-final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
-params.put(&quot;limitValue&quot;, 50);
-params.put(&quot;lawCategory&quot;, nypdSourceIds.get(0).key.get(0)); // Level of offence
-params.put(&quot;precinctCode&quot;, nypdSourceIds.get(0).key.get(1)); // Precinct code
-
-final String url = LIMIT_PARAM + &quot;&amp;$where=law_cat_cd=&#39;{lawCategory}&#39;&amp;addr_pct_cd=&#39;{precinctCode}&#39;&quot;;
 </code></pre><h4 id="python-example-1">Python example</h4>
-<p>In the <code>service.py</code> file in the sample solution directory for the NYPD connector, update the <code>impl_find_like_this_complaint</code> method with the following code: </p>
+<p>In the <code>service.py</code> file, update the <code>if seeds:</code> block of code in the <code>impl_find_like_this_complaint()</code> method with the following:</p>
 <pre><code class="lang-python">    if seeds:
         sourceIds = seeds[&#39;entities&#39;][0][&#39;sourceIds&#39;]
         nypdSourceIds = []

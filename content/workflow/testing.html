@@ -95,37 +95,37 @@
 <ol>
 <li><p>To trigger the reload endpoint, you can use one of the following options:</p>
 <ul>
-<li><h4 id="curl">Curl</h4>
-<p>The endpoint requires authentication, which means that you must log in to the server and retrieve a cookie before you can POST to reload. 
+<li><p>Curl</p>
+<p>The endpoint requires authentication, which means that you must log in to the server and retrieve a cookie before you can POST to reload.
 The following steps describe how to use curl to reload the connectors:</p>
 <ol>
 <li><p>If the curl utility is not available on your server, download it from the project website at <a href="https://curl.haxx.se/download.html">https://curl.haxx.se/download.html</a>.</p>
 </li>
 <li><p>Open a command window and use <code>curl</code> to log in to the i2 Analyze server and retrieve an authorization cookie:</p>
-<pre><code>curl -i --cookie-jar cookie.txt
+<pre><code class="lang-shell">curl -i --cookie-jar cookie.txt
      -d j_username=user_name
      -d j_password=password
      http://host_name:host_port/context_root/j_security_check
 </code></pre><p>This command connects to the specified i2 Analyze server as the specified user, retrieves the authentication cookie, and saves it to a local file named <code>cookie.txt</code>.</p>
 </li>
 <li><p>Use <code>curl</code> a second time to call the POST method on the reload endpoint:</p>
-<pre><code>curl -i --cookie cookie.txt
+<pre><code class="lang-shell">curl -i --cookie cookie.txt
      -X POST http://host_name:host_port/context_root/api/v1/connectors/reload
 </code></pre><p>This command causes the i2 Connect gateway to reload configuration information from all the connectors that the topology included when it was last deployed. Clients receive updated information about the connectors when they next connect to i2 Analyze.</p>
 </li>
 </ol>
 </li>
-<li><h4 id="postman">Postman</h4>
-<p>To use Postman to reload the connectors, follow the steps described <a href="../miscellaneous/postman.html#reload-connectors-configurationhttpsdocsi2groupcomanalyzepublic-rest-apihtmlpost-apiv1gatewayreload">here</a>.</p>
+<li><p>Postman</p>
+<p>To use Postman to reload the connectors, follow the steps described <a href="../miscellaneous/postman.html#reload-connectors-configuration">here</a>.</p>
 </li>
-<li><h4 id="i2-analyze-server-admin-console">i2 Analyze Server Admin Console</h4>
+<li><p>i2 Analyze Server Admin Console</p>
 <p>The following steps describe how to use the Admin Console to reload the connectors:</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
 </li>
-<li><p>If you are prompted to log in, enter the credentials for your default user. 
-If you added an example user, both username and password will be <code>Jenny</code>.</p>
+<li><p>If you are prompted to log in, enter the credentials for your default user.
+If you added an example user, the username and the password will be <code>Jenny</code>.</p>
 </li>
 <li><p>Click <strong>Reload gateway</strong> to reload your connectors.</p>
 </li>

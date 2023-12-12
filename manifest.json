@@ -342,7 +342,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/property-semantic-search.html",
-          "hash": "yQQtnCjGTTBhOQ5Mq1RDkw=="
+          "hash": "Trmj4buZAFNofNd7Z8hSsw=="
         }
       },
       "is_incremental": false,
@@ -577,6 +577,18 @@
         ".html": {
           "relative_path": "content/spi-versions/1.2/changes.html",
           "hash": "NugmSF8JCEe4uiwRqmYVFQ=="
+        }
+      },
+      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/spi-versions/1.3/changes.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/spi-versions/1.3/changes.html",
+          "hash": "uy9nRjeOXZ0PS1NDfQSdhw=="
         }
       },
       "is_incremental": false,
@@ -947,7 +959,7 @@
       "output": {
         ".html": {
           "relative_path": "guidetoc/toc.html",
-          "hash": "QHFQnm7+XmP2MxkEyO02mg=="
+          "hash": "DK2TyV7+FW2kX1Q2a5n3SQ=="
         }
       },
       "is_incremental": false,
@@ -970,7 +982,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "SOOLyAT4ZAL8sq2CJ4If8A=="
+          "hash": "8fOq80DQ2rXVU3Zu1gkNzw=="
         }
       },
       "is_incremental": false,
@@ -1001,8 +1013,8 @@
         "ConceptualDocumentProcessor": {
           "can_incremental": true,
           "incrementalPhase": "build",
-          "total_file_count": 47,
-          "skipped_file_count": 9
+          "total_file_count": 48,
+          "skipped_file_count": 45
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

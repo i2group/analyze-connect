@@ -13,7 +13,7 @@
     <artifactId>eri</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>ERI Connector</name>
-    <description>The Emergency Response Incidents connector developed for the i2 Connect Jake Enablement.</description>
+    <description>The Emergency Response Incidents example connector for i2 Connect.</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

@@ -7,12 +7,12 @@
 	<name>Principal Propagation</name>
 	<description>A demonstration project for principal propagation.</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>17</java.version>
 		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
-		<toolkitVersion>4.4.2.0</toolkitVersion>
-		<websphereSecurityArtifactVersion>1.1.77</websphereSecurityArtifactVersion>
+		<toolkitVersion>4.4.3.0</toolkitVersion>
+		<websphereSecurityArtifactVersion>1.1.81</websphereSecurityArtifactVersion>
 		<httpClientArtifactVersion>4.5.13</httpClientArtifactVersion>
-		<httpCoreArtifactVersion>4.4.13</httpCoreArtifactVersion>
+		<httpCoreArtifactVersion>4.4.16</httpCoreArtifactVersion>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -114,10 +114,10 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>6</source>
-					<target>6</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
-		</plugins>    
+		</plugins>
 	</build>
 </project>

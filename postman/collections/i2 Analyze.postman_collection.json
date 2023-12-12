@@ -137,7 +137,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{url}}/{{context-root}}/api/v1/gateway/reload?capabilities=SEMANTIC_SEARCH&capabilities=VISUAL_QUERY",
+							"raw": "{{url}}/{{context-root}}/api/v1/gateway/reload",
 							"host": [
 								"{{url}}"
 							],
@@ -147,16 +147,6 @@
 								"v1",
 								"gateway",
 								"reload"
-							],
-							"query": [
-								{
-									"key": "capabilities",
-									"value": "SEMANTIC_SEARCH"
-								},
-								{
-									"key": "capabilities",
-									"value": "VISUAL_QUERY"
-								}
 							]
 						}
 					},

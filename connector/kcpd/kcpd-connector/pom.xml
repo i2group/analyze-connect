@@ -11,7 +11,7 @@
 	<artifactId>kcpd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>KCPD Connector</name>
-	<description>The KCPD connector developed for the i2 Connect Jake Enablement.</description>
+	<description>The KCPD example connector for i2 Connect.</description>
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>

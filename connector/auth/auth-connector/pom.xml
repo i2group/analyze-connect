@@ -13,7 +13,7 @@
     <artifactId>auth</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Auth Connector</name>
-    <description>The connector demonstrating enabled authorization for connector services developed for the i2 Connect Jake Enablement.</description>
+    <description>The authorization example connector for i2 Connect.</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

@@ -13,7 +13,7 @@
     <artifactId>async</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Async Connector</name>
-    <description>The connector demonstrating the use of asynchronous services developed for the i2 Connect Jake Enablement.</description>
+    <description>The asynchronous services example connector for i2 Connect.</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>

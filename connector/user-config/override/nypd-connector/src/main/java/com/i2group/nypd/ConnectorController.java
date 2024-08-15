@@ -25,11 +25,11 @@
 package com.i2group.nypd;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.i2group.nypd.rest.transport.ConnectorResponse;
-import com.i2group.nypd.rest.transport.ValidationResponse;
-import com.i2group.nypd.rest.transport.request.ConnectorRequest;
-import com.i2group.nypd.rest.transport.request.RequestCondition;
 
+import com.i2group.connector.spi.rest.transport.DaodRequest;
+import com.i2group.connector.spi.rest.transport.DaodRequestCondition;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.PayloadValidationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -152,7 +152,7 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/all", consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse allService() {
+  public I2ConnectData allService() {
     return connectorDataService.retrieveAll();
   }
 
@@ -164,7 +164,7 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/search", consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse searchService(@Valid @RequestBody ConnectorRequest request) {
+  public I2ConnectData searchService(@Valid @RequestBody DaodRequest request) {
     return connectorDataService.search(request.payload.conditions);
   }
 
@@ -176,9 +176,9 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/search/validate",
       consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  public ValidationResponse searchValidate(@Valid @RequestBody ConnectorRequest request) {
-    final ValidationResponse validationResponse = new ValidationResponse();
-    final List<RequestCondition> conditions = request.payload.conditions;
+  public PayloadValidationResponse searchValidate(@Valid @RequestBody DaodRequest request) {
+    final PayloadValidationResponse validationResponse = new PayloadValidationResponse();
+    final List<DaodRequestCondition> conditions = request.payload.conditions;
     final boolean conditionPresent = conditions.stream()
         .anyMatch(condition -> condition.value != null);
 
@@ -197,8 +197,8 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/find-like-this-complaint",
       consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse findLikeThisComplaintService(
-      @Valid @RequestBody ConnectorRequest request) {
+  public I2ConnectData findLikeThisComplaintService(
+      @Valid @RequestBody DaodRequest request) {
     return connectorDataService.findLikeThisComplaint(request.payload.seeds);
   }
 
@@ -210,7 +210,7 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/expand", consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse expandService(@Valid @RequestBody ConnectorRequest request) {
+  public I2ConnectData expandService(@Valid @RequestBody DaodRequest request) {
     return connectorDataService.expand(request.payload.seeds);
   }
 
@@ -223,8 +223,8 @@ public class ConnectorController {
    */
   @RequestMapping(method = RequestMethod.POST, value = "/expand-with-conditions",
       consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse expandWithConditionsService(
-      @Valid @RequestBody ConnectorRequest request) {
+  public I2ConnectData expandWithConditionsService(
+      @Valid @RequestBody DaodRequest request) {
     return connectorDataService.expandWithConditions(request.payload);
   }
 }

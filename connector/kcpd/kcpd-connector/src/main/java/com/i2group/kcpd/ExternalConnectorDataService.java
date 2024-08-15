@@ -24,16 +24,16 @@
 
 package com.i2group.kcpd;
 
+import com.i2group.connector.spi.rest.transport.DaodRequestCondition;
+import com.i2group.connector.spi.rest.transport.DaodSeedEntityData;
+import com.i2group.connector.spi.rest.transport.DaodSeeds;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
 import com.i2group.kcpd.rest.externalsource.SocrataClient;
 import com.i2group.kcpd.rest.externalsource.transport.SocrataResponse;
 import com.i2group.kcpd.rest.externalsource.transport.SocrataResponseData;
-import com.i2group.kcpd.rest.transport.ConnectorResponse;
-import com.i2group.kcpd.rest.transport.EntityData;
 import com.i2group.kcpd.rest.transport.ItemFactory;
-import com.i2group.kcpd.rest.transport.LinkData;
-import com.i2group.kcpd.rest.transport.request.RequestCondition;
-import com.i2group.kcpd.rest.transport.request.seeded.DaodSeedEntityData;
-import com.i2group.kcpd.rest.transport.request.seeded.DaodSeeds;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,7 +67,7 @@ public class ExternalConnectorDataService {
    *
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse retrieveAll() {
+  public I2ConnectData retrieveAll() {
     final Map<String, Object> params = new HashMap<>();
     params.put(LIMIT_FIELD, limitFieldValue);
 
@@ -81,13 +81,13 @@ public class ExternalConnectorDataService {
    * @param conditions The conditions provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse search(List<RequestCondition> conditions) {
+  public I2ConnectData search(List<DaodRequestCondition> conditions) {
     final Map<String, Object> params = new HashMap<>();
     params.put(LIMIT_FIELD, limitFieldValue);
     String url = BASE_URL;
 
     int count = 0;
-    for (RequestCondition condition : conditions) {
+    for (DaodRequestCondition condition : conditions) {
       url += count == 0 ? "&$where=" : " AND ";
       params.put(condition.id, condition.value);
       if (condition.id.equals("offense")) {
@@ -99,7 +99,7 @@ public class ExternalConnectorDataService {
     }
 
     final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
 
     connectorResponse.entities = buildEntities(response);
 
@@ -113,7 +113,7 @@ public class ExternalConnectorDataService {
    * @param seeds The selected entities provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse findLikeThisLocation(DaodSeeds seeds) {
+  public I2ConnectData findLikeThisLocation(DaodSeeds seeds) {
     final DaodSeedEntityData seed = seeds.entities.get(0);
     final Map<String, Object> params = new HashMap<>();
 
@@ -123,7 +123,7 @@ public class ExternalConnectorDataService {
 
     final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities = buildEntities(response);
     return connectorResponse;
   }
@@ -136,7 +136,7 @@ public class ExternalConnectorDataService {
    * @param seeds The selected entities provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse expand(DaodSeeds seeds) {
+  public I2ConnectData expand(DaodSeeds seeds) {
     final DaodSeedEntityData seed = seeds.entities.get(0);
     String field = "", value = "";
 
@@ -155,7 +155,7 @@ public class ExternalConnectorDataService {
     final String url = BASE_URL + "&{field}={value}";
 
     final SocrataResponse socrataResponse = socrataClient.get(url, SocrataResponse.class, params);
-    ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
+    I2ConnectData response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
     return response;
@@ -168,20 +168,20 @@ public class ExternalConnectorDataService {
    * @param response The resulting source records returned from the request.
    * @return The response containing entities and links.
    */
-  private ConnectorResponse marshalItemsFromResponse(SocrataResponse response) {
-    final List<EntityData> entities = new ArrayList<>();
-    final List<LinkData> links = new ArrayList<>();
+  private I2ConnectData marshalItemsFromResponse(SocrataResponse response) {
+    final List<I2ConnectEntityData> entities = new ArrayList<>();
+    final List<I2ConnectLinkData> links = new ArrayList<>();
     final Set<String> personLinks = new HashSet<>();
 
-    final Map<String, EntityData> reports = new HashMap<>();
-    final Map<String, EntityData> locations = new HashMap<>();
-    final Map<String, EntityData> people = new HashMap<>();
-    final Map<String, LinkData> locationLinks = new HashMap<>();
+    final Map<String, I2ConnectEntityData> reports = new HashMap<>();
+    final Map<String, I2ConnectEntityData> locations = new HashMap<>();
+    final Map<String, I2ConnectEntityData> people = new HashMap<>();
+    final Map<String, I2ConnectLinkData> locationLinks = new HashMap<>();
 
     response
         .forEach(
             entry -> {
-              EntityData report;
+              I2ConnectEntityData report;
               String uniqueReport = entry.reportNumber;
               if (reports.containsKey(uniqueReport)) {
                 report = reports.get(uniqueReport);
@@ -191,7 +191,7 @@ public class ExternalConnectorDataService {
                 entities.add(report);
               }
 
-              EntityData location;
+              I2ConnectEntityData location;
               String uniqueLocation = entry.address + entry.zipCode;
               if (locations.containsKey(uniqueLocation)) {
                 location = locations.get(uniqueLocation);
@@ -201,7 +201,7 @@ public class ExternalConnectorDataService {
                 entities.add(location);
               }
 
-              EntityData person;
+              I2ConnectEntityData person;
               String uniquePerson = ItemFactory.buildId(entry);
               if (people.containsKey(uniquePerson)) {
                 person = people.get(uniquePerson);
@@ -211,7 +211,7 @@ public class ExternalConnectorDataService {
                 entities.add(person);
               }
 
-              LinkData locationLink;
+              I2ConnectLinkData locationLink;
               String uniqueLocationLink = entry.reportNumber;
               if (locationLinks.containsKey(uniqueLocationLink)) {
                 locationLink = locationLinks.get(uniqueLocationLink);
@@ -228,13 +228,13 @@ public class ExternalConnectorDataService {
               } 
             });
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities = entities;
     connectorResponse.links = links;
     return connectorResponse;
   }
 
-  private void addLinks(final List<LinkData> links, SocrataResponseData entry, EntityData report, EntityData person) {
+  private void addLinks(final List<I2ConnectLinkData> links, SocrataResponseData entry, I2ConnectEntityData report, I2ConnectEntityData person) {
     List<String> involvementList = Arrays.asList(entry.involvement.split("\\s+"));
 
     involvementList.forEach(involvement -> {
@@ -265,8 +265,8 @@ public class ExternalConnectorDataService {
    * @param seed The selected entity provided by the user via the interface.
    * @return The list of links matched to the corresponding seed identifiers.
    */
-  private List<LinkData> linkToSeedIds(ConnectorResponse response, DaodSeedEntityData seed) {
-    for (LinkData link : response.links) {
+  private List<I2ConnectLinkData> linkToSeedIds(I2ConnectData response, DaodSeedEntityData seed) {
+    for (I2ConnectLinkData link : response.links) {
       String sourceId = seed.sourceIds.get(0).key.get(2);
       if (link.fromEndId.equals(sourceId)) {
         link.fromEndId = seed.seedId;
@@ -277,13 +277,13 @@ public class ExternalConnectorDataService {
     return response.links;
   }
 
-  private List<EntityData> buildEntities(final SocrataResponse response) {
+  private List<I2ConnectEntityData> buildEntities(final SocrataResponse response) {
     List<String> uniqueId = new ArrayList<>();
-    List<EntityData> entities = new ArrayList<>();
+    List<I2ConnectEntityData> entities = new ArrayList<>();
 
     response.forEach(entry -> {
       if (!uniqueId.contains(entry.reportNumber)) {
-        EntityData entity = ItemFactory.createReport(entry);
+        I2ConnectEntityData entity = ItemFactory.createReport(entry);
         entities.add(entity);
         uniqueId.add(entry.reportNumber);
       }

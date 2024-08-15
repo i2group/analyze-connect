@@ -24,16 +24,16 @@
 
 package com.i2group.nypd;
 
+import com.i2group.connector.spi.rest.transport.DaodRequestCondition;
+import com.i2group.connector.spi.rest.transport.DaodRequestPayload;
+import com.i2group.connector.spi.rest.transport.DaodSeedEntityData;
+import com.i2group.connector.spi.rest.transport.DaodSeeds;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
 import com.i2group.nypd.rest.externalsource.SocrataClient;
 import com.i2group.nypd.rest.externalsource.transport.SocrataResponse;
-import com.i2group.nypd.rest.transport.ConnectorResponse;
-import com.i2group.nypd.rest.transport.EntityData;
 import com.i2group.nypd.rest.transport.ItemFactory;
-import com.i2group.nypd.rest.transport.LinkData;
-import com.i2group.nypd.rest.transport.request.Payload;
-import com.i2group.nypd.rest.transport.request.RequestCondition;
-import com.i2group.nypd.rest.transport.request.seeded.DaodSeedEntityData;
-import com.i2group.nypd.rest.transport.request.seeded.DaodSeeds;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -57,7 +57,7 @@ public class ExternalConnectorDataService {
   /**
    * Constructor used to initialise the Socrata client and factory objects used to retrieve
    * complaint data.
-   *  @param baseUrl The URL of the NYPD complaint dataset.
+   * @param baseUrl The URL of the NYPD complaint dataset.
    * @param apiToken The API token used to access the NYPD complaint dataset.
    */
   @Autowired
@@ -74,7 +74,7 @@ public class ExternalConnectorDataService {
    *
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse retrieveAll() {
+  public I2ConnectData retrieveAll() {
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
 
@@ -88,13 +88,13 @@ public class ExternalConnectorDataService {
    * @param conditions The conditions provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse search(List<RequestCondition> conditions) {
+  public I2ConnectData search(List<DaodRequestCondition> conditions) {
     final Map<String, Object> params = new HashMap<>();
     params.put("limitValue", 50);
     final StringBuilder url = new StringBuilder(LIMIT_PARAM);
 
     int count = 0;
-    for (RequestCondition condition : conditions) {
+    for (DaodRequestCondition condition : conditions) {
       params.put(condition.id, condition.value);
       url.append(count == 0 ? "&$where=" : "&")
           .append(condition.id)
@@ -106,7 +106,7 @@ public class ExternalConnectorDataService {
 
     final SocrataResponse response = socrataClient.get(url.toString(), SocrataResponse.class, params);
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities =
         response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
     connectorResponse.links = Collections.emptyList();
@@ -120,7 +120,7 @@ public class ExternalConnectorDataService {
    * @param seeds The selected entities provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse findLikeThisComplaint(DaodSeeds seeds) {
+  public I2ConnectData findLikeThisComplaint(DaodSeeds seeds) {
     final DaodSeedEntityData seed = seeds.entities.get(0);
 
     final Map<String, Object> params = new HashMap<>();
@@ -130,7 +130,7 @@ public class ExternalConnectorDataService {
     final String url = LIMIT_PARAM + "&$where=law_cat_cd='{lawCategory}'";
     final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities =
         response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
     connectorResponse.links = Collections.emptyList();
@@ -144,14 +144,14 @@ public class ExternalConnectorDataService {
    * @param seeds The selected entities provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse expand(DaodSeeds seeds) {
+  public I2ConnectData expand(DaodSeeds seeds) {
     final DaodSeedEntityData seed = seeds.entities.get(0);
     final Map<String, Object> params = buildExpandParameters(seed);
 
     final String url = LIMIT_PARAM + "&{field}={value}";
 
     final SocrataResponse socrataResponse = socrataClient.get(url, SocrataResponse.class, params);
-    final ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
+    final I2ConnectData response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
     return response;
@@ -163,7 +163,7 @@ public class ExternalConnectorDataService {
    * @param payload The payload containing conditions and seeds provided by the user via the interface.
    * @return A response containing the entities and links.
    */
-  public ConnectorResponse expandWithConditions(Payload payload) {
+  public I2ConnectData expandWithConditions(DaodRequestPayload payload) {
     final DaodSeedEntityData seed = payload.seeds.entities.get(0);
     final Map<String, Object> params = buildExpandParameters(seed);
 
@@ -171,7 +171,7 @@ public class ExternalConnectorDataService {
     url.append("&{field}={value}");
 
     int count = 0;
-    for (RequestCondition condition : payload.conditions) {
+    for (DaodRequestCondition condition : payload.conditions) {
       url.append(count == 0 ? "&$where=" : "&");
       params.put(condition.id, condition.value);
       url.append(condition.id)
@@ -182,7 +182,7 @@ public class ExternalConnectorDataService {
     }
 
     final SocrataResponse socrataResponse = socrataClient.get(url.toString(), SocrataResponse.class, params);
-    final ConnectorResponse response = marshalItemsFromResponse(socrataResponse);
+    final I2ConnectData response = marshalItemsFromResponse(socrataResponse);
     response.links = linkToSeedIds(response, seed);
 
     return response;
@@ -214,17 +214,17 @@ public class ExternalConnectorDataService {
    * @param response The resulting source records returned from the request.
    * @return The response containing entities and links.
    */
-  private ConnectorResponse marshalItemsFromResponse(SocrataResponse response) {
-    final List<EntityData> entities = new ArrayList<>();
-    final List<LinkData> links = new ArrayList<>();
+  private I2ConnectData marshalItemsFromResponse(SocrataResponse response) {
+    final List<I2ConnectEntityData> entities = new ArrayList<>();
+    final List<I2ConnectLinkData> links = new ArrayList<>();
 
-    final Map<String, EntityData> complaints = new HashMap<>();
-    final Map<String, EntityData> locations = new HashMap<>();
+    final Map<String, I2ConnectEntityData> complaints = new HashMap<>();
+    final Map<String, I2ConnectEntityData> locations = new HashMap<>();
 
     response
         .forEach(
             entry -> {
-              final EntityData complaint;
+              final I2ConnectEntityData complaint;
               if (complaints.containsKey(entry.complaintNum)) {
                 complaint = complaints.get(entry.complaintNum);
               } else {
@@ -233,7 +233,7 @@ public class ExternalConnectorDataService {
                 entities.add(complaint);
               }
 
-              final EntityData location;
+              final I2ConnectEntityData location;
               final String key = entry.precinctCode + entry.boroName;
               if (locations.containsKey(key)) {
                 location = locations.get(key);
@@ -243,20 +243,20 @@ public class ExternalConnectorDataService {
                 entities.add(location);
               }
 
-              final EntityData suspect = itemFactory.createSuspect(entry);
-              final EntityData victim = itemFactory.createVictim(entry);
+              final I2ConnectEntityData suspect = itemFactory.createSuspect(entry);
+              final I2ConnectEntityData victim = itemFactory.createVictim(entry);
               entities.add(suspect);
               entities.add(victim);
 
-              final LinkData locationLink = itemFactory.createLocationLink(entry, complaint, location);
-              final LinkData suspectLink = itemFactory.createSuspectLink(entry, complaint, suspect);
-              final LinkData victimLink = itemFactory.createVictimLink(entry, complaint, victim);
+              final I2ConnectLinkData locationLink = itemFactory.createLocationLink(entry, complaint, location);
+              final I2ConnectLinkData suspectLink = itemFactory.createSuspectLink(entry, complaint, suspect);
+              final I2ConnectLinkData victimLink = itemFactory.createVictimLink(entry, complaint, victim);
               links.add(locationLink);
               links.add(suspectLink);
               links.add(victimLink);
             });
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities = entities;
     connectorResponse.links = links;
     return connectorResponse;
@@ -269,8 +269,8 @@ public class ExternalConnectorDataService {
    * @param seed The selected entity provided by the user via the interface.
    * @return The list of links matched to the corresponding seed identifiers.
    */
-  private List<LinkData> linkToSeedIds(ConnectorResponse response, DaodSeedEntityData seed) {
-    for (LinkData link : response.links) {
+  private List<I2ConnectLinkData> linkToSeedIds(I2ConnectData response, DaodSeedEntityData seed) {
+    for (I2ConnectLinkData link : response.links) {
       final String sourceId = seed.sourceIds.get(0).key.get(2);
       if (link.fromEndId.equals(sourceId)) {
         link.fromEndId = seed.seedId;

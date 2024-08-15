@@ -21,15 +21,17 @@
 # SOFTWARE.
 
 import yaml
-import json
 import requests
+import logging
+logger = logging.getLogger(__name__)
 
 from helper.classes import type_ids
 from helper.items import (create_complaint, create_location,
-    create_victim, create_suspect, create_location_link,
-    create_victim_link, create_suspect_link)
+                          create_victim, create_suspect, create_location_link,
+                          create_victim_link, create_suspect_link)
+from spi.models.i2_connect_data import I2ConnectData
 
-def query_external_datasource(params = ""):
+def query_external_datasource(params=""):
     """
     Builds the request URL and queries the external datasource using specified parameters.
     
@@ -45,21 +47,23 @@ def query_external_datasource(params = ""):
 
     base_url = config['socrata']['url']
     api_token = config['socrata']['token']
+    if api_token is None:
+        logger.warn('WARNING: apiToken is not specified, requests may be rejected!')
 
     limit = 50
     request_url = f"{base_url}?$limit={limit}{params}"
 
-    x = requests.get(request_url, headers = { 'X-App-Token': api_token })
+    x = requests.get(request_url, headers={'X-App-Token': api_token})
     return x.json()
 
 def marshal(records, types=[], include_links=True):
     """
-    Marshal the data from each record into objects of the defined entitiy
+    Marshal the data from each record into objects of the defined entity
     and link classes. Populate list of entities and links with the derived
     objects.
     
     Args:
-        records (list): The records from the datasource.
+        records (dict): The records from the datasource.
         types (list): List of allowed type IDs to be expected as the result.
         include_links (bool): Indicates whether the results should contain links.
     Returns:
@@ -89,7 +93,7 @@ def marshal(records, types=[], include_links=True):
                 location = create_location(entry)
                 locations[key] = location
                 entities.append(location)
-            
+
             if include_links:
                 link_location = create_location_link(entry, complaint, location)
                 links.append(link_location)
@@ -108,10 +112,11 @@ def marshal(records, types=[], include_links=True):
                 link_suspect = create_suspect_link(entry, suspect, complaint)
                 links.append(link_suspect)
 
-    response = {}
-    response['entities'] = entities
-    response['links'] = links
-    return response
+    response = I2ConnectData(
+        entities=entities,
+        links=links
+    )
+    return response.to_dict()
 
 def build_params(conditions, base_clause=""):
     """
@@ -127,7 +132,8 @@ def build_params(conditions, base_clause=""):
     if conditions:
         for i, condition in enumerate(conditions):
             params += f"{condition.get('id')}='{condition.get('value')}'"
-            if i < len(conditions) - 1: params += "&"
+            if i < len(conditions) - 1:
+                params += "&"
 
     return params
 
@@ -139,18 +145,18 @@ def validate_request(conditions):
     Returns:
         dict: An empty response if successful. Contains a custom error message if not.
     """
-    response = { 'errorMessage': None }
+    response = I2ConnectData()
 
-    conditionPresent = False
+    condition_present = False
 
     for condition in conditions:
         if condition.get('value') is not None:
-            conditionPresent = True
+            condition_present = True
 
-    if not conditionPresent:
-        response['errorMessage'] = "At least one search field should have a specified value."
-    
-    return response
+    if not condition_present:
+        response.error_message = "At least one search field should have a specified value."
+
+    return response.to_dict()
 
 def impl_find_like_this_complaint(seeds):
     """
@@ -171,14 +177,14 @@ def impl_find_like_this_complaint(seeds):
 
         records = query_external_datasource(params)
         response = marshal(records, type_ids['complaint'], False)
-    
+
     return response
 
 def impl_expand(seeds, initial_params=""):
     """
     Retrieves entities and links which are connected to seed.
     An Expand operation takes an entity as a seed and displays the entities and
-    links connnected to that seed.
+    links connected to that seed.
     Args:
         seeds (dict): The seeds passed in from Analyst's Notebook Premium.
         initial_params (str): Parameters that may be passed from conditional search.

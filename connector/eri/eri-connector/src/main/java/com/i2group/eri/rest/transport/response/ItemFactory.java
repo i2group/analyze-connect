@@ -24,10 +24,16 @@
 
 package com.i2group.eri.rest.transport.response;
 
+import com.i2group.connector.spi.rest.transport.GeoJSONPoint;
+import com.i2group.connector.spi.rest.transport.Geometry;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
+import com.i2group.connector.spi.rest.transport.LinkDirection;
 import com.i2group.eri.rest.externalsource.transport.SocrataResponseData;
 import com.i2group.eri.rest.transport.request.IncidentType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +49,7 @@ public class ItemFactory {
      * @param id The identifier for the row of the dataset.
      * @return The created incident object.
      */
-    public static Entity createIncident(SocrataResponseData entry, String id) {
+    public static I2ConnectEntityData createIncident(SocrataResponseData entry, String id) {
         final Map<String, Object> properties = new HashMap<>();
 
         final Matcher matcher = pattern.matcher(entry.incidentType);
@@ -62,7 +68,7 @@ public class ItemFactory {
             }
         }
 
-        final Entity incident = new Entity();
+        final I2ConnectEntityData incident = new I2ConnectEntityData();
         incident.id = "INC" + id;
         incident.typeId = "ET1";
         incident.properties = properties;
@@ -77,18 +83,19 @@ public class ItemFactory {
      * @param id The identifier for the row of the dataset.
      * @return The created location object.
      */
-    public static Entity createLocation(SocrataResponseData entry, String id) {
+    public static I2ConnectEntityData createLocation(SocrataResponseData entry, String id) {
         final Map<String, Object> properties = new HashMap<>();
         properties.put("PT7", entry.borough);
         properties.put("PT8", entry.address);
 
         if (entry.latitude != null) {
-            final Geospatial geospatial = Geospatial.withCoordinates(entry.latitude,
-                entry.longitude);
-            properties.put("PT9", geospatial);
+          final GeoJSONPoint geospatial = new GeoJSONPoint();
+          geospatial.type = Geometry.TypeEnum.POINT;
+          geospatial.coordinates = List.of(entry.longitude, entry.latitude);
+          properties.put("PT9", geospatial);
         }
 
-        final Entity location = new Entity();
+        final I2ConnectEntityData location = new I2ConnectEntityData();
         location.id = "LOC" + id;
         location.typeId = "ET2";
         location.properties = properties;
@@ -104,13 +111,13 @@ public class ItemFactory {
      * @param id The identifier for the row of the dataset.
      * @return The created link object.
      */
-    public static Link createLocationLink(Entity incident, Entity location, int id) {
-        final Link link = new Link();
+    public static I2ConnectLinkData createLocationLink(I2ConnectEntityData incident, I2ConnectEntityData location, int id) {
+        final I2ConnectLinkData link = new I2ConnectLinkData();
         link.id = "LINKLOC" + id;
         link.typeId = "LT1";
         link.fromEndId = incident.id;
         link.toEndId = location.id;
-        link.linkDirection = Link.Direction.WITH;
+        link.linkDirection = LinkDirection.WITH;
         return link;
     }
 }

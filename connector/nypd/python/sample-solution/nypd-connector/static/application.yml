@@ -1,3 +1,4 @@
 socrata:
   url: https://data.cityofnewyork.us/resource/7x9x-zpz6.json
-  token: # Replace with Socrata API token
+  # Replace with Socrata API token
+  token: 

@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 /**
- * A representation of the the fields from the the Emergency Response
+ * A representation of the fields from the Emergency Response
  * Incidents dataset.
  */
 public class SocrataResponseData {
@@ -51,10 +51,10 @@ public class SocrataResponseData {
     public String borough;
 
     @JsonProperty("latitude")
-    public Float latitude;
+    public Double latitude;
 
     @JsonProperty("longitude")
-    public Float longitude;
+    public Double longitude;
 
     public String getIncidentKey() {
         return incidentType;
@@ -67,5 +67,4 @@ public class SocrataResponseData {
     public String getLocationKey() {
         return borough + address;
     }
-
 }

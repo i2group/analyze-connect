@@ -314,7 +314,7 @@
 						"header": [
 							{
 								"key": "I2-Spi-Versions",
-								"value": "1.0",
+								"value": "1.2",
 								"type": "default"
 							}
 						],

@@ -24,12 +24,19 @@
 
 package com.i2group.nypd.rest.transport;
 
+import com.i2group.connector.spi.rest.transport.GeoJSONPoint;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
+import com.i2group.connector.spi.rest.transport.LinkDirection;
+import com.i2group.connector.spi.rest.transport.SourceReference;
+import com.i2group.connector.spi.rest.transport.SourceReferenceInfo;
 import com.i2group.nypd.rest.externalsource.transport.SocrataResponseData;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.HashMap;
+import java.util.List;
 
 /** Used to generate entity and link objects */
 public class ItemFactory {
@@ -48,7 +55,7 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created complaint object.
    */
-  public EntityData createComplaint(SocrataResponseData entry) {
+  public I2ConnectEntityData createComplaint(SocrataResponseData entry) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT1", entry.complaintNum);
     properties.put("PT2", entry.complaintStartDate);
@@ -65,7 +72,7 @@ public class ItemFactory {
     properties.put("PT14", entry.dateReported);
     properties.put("PT29", entry.occurrenceLocation);
 
-    final EntityData complaint = new EntityData();
+    final I2ConnectEntityData complaint = new I2ConnectEntityData();
     complaint.id = "COMP" + entry.complaintNum;
     complaint.typeId = "ET1";
     complaint.version = 1L;
@@ -88,13 +95,16 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created location object.
    */
-  public EntityData createLocation(SocrataResponseData entry) {
+  public I2ConnectEntityData createLocation(SocrataResponseData entry) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT15", entry.precinctCode);
     properties.put("PT16", entry.boroName);
-    properties.put("PT18", GeospatialPoint.withCoordinates(entry.longitude, entry.latitude));
+    final GeoJSONPoint geoJSONPoint = new GeoJSONPoint();
+    geoJSONPoint.type = GeoJSONPoint.TypeEnum.POINT;
+    geoJSONPoint.coordinates = List.of(entry.longitude, entry.latitude);
+    properties.put("PT18", geoJSONPoint);
 
-    final EntityData location = new EntityData();
+    final I2ConnectEntityData location = new I2ConnectEntityData();
     location.id = "LOC" + entry.precinctCode + entry.boroName;
     location.typeId = "ET2";
     location.version = 1L;
@@ -110,13 +120,13 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created suspect object.
    */
-  public EntityData createSuspect(SocrataResponseData entry) {
+  public I2ConnectEntityData createSuspect(SocrataResponseData entry) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT26", entry.suspAge);
     properties.put("PT27", entry.suspRace);
     properties.put("PT28", entry.suspSex);
 
-    final EntityData suspect = new EntityData();
+    final I2ConnectEntityData suspect = new I2ConnectEntityData();
     suspect.id = "SUSP" + entry.complaintNum;
     suspect.typeId = "ET3";
     suspect.version = 1L;
@@ -132,13 +142,13 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created victim object.
    */
-  public EntityData createVictim(SocrataResponseData entry) {
+  public I2ConnectEntityData createVictim(SocrataResponseData entry) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PT26", entry.vicAge);
     properties.put("PT27", entry.vicRace);
     properties.put("PT28", entry.vicSex);
 
-    final EntityData victim = new EntityData();
+    final I2ConnectEntityData victim = new I2ConnectEntityData();
     victim.id = "VIC" + entry.complaintNum;
     victim.typeId = "ET3";
     victim.version = 1L;
@@ -154,14 +164,14 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public LinkData createLocationLink(
-      SocrataResponseData entry, EntityData complaint, EntityData location) {
-    final LinkData locationLink = new LinkData();
+  public I2ConnectLinkData createLocationLink(
+      SocrataResponseData entry, I2ConnectEntityData complaint, I2ConnectEntityData location) {
+    final I2ConnectLinkData locationLink = new I2ConnectLinkData();
     locationLink.id = "LINKLOC" + entry.complaintNum;
     locationLink.typeId = "LT1";
     locationLink.fromEndId = complaint.id;
     locationLink.toEndId = location.id;
-    locationLink.linkDirection = "WITH";
+    locationLink.linkDirection = LinkDirection.WITH;
     locationLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return locationLink;
@@ -173,14 +183,14 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public LinkData createSuspectLink(
-      SocrataResponseData entry, EntityData complaint, EntityData suspect) {
-    final LinkData suspectLink = new LinkData();
+  public I2ConnectLinkData createSuspectLink(
+      SocrataResponseData entry, I2ConnectEntityData complaint, I2ConnectEntityData suspect) {
+    final I2ConnectLinkData suspectLink = new I2ConnectLinkData();
     suspectLink.id = "LINKSUSP" + entry.complaintNum;
     suspectLink.typeId = "LT2";
     suspectLink.fromEndId = suspect.id;
     suspectLink.toEndId = complaint.id;
-    suspectLink.linkDirection = "WITH";
+    suspectLink.linkDirection = LinkDirection.WITH;
     suspectLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return suspectLink;
@@ -192,14 +202,14 @@ public class ItemFactory {
    * @param entry The single record from the dataset.
    * @return The created link object.
    */
-  public LinkData createVictimLink(
-      SocrataResponseData entry, EntityData complaint, EntityData victim) {
-    final LinkData victimLink = new LinkData();
+  public I2ConnectLinkData createVictimLink(
+      SocrataResponseData entry, I2ConnectEntityData complaint, I2ConnectEntityData victim) {
+    final I2ConnectLinkData victimLink = new I2ConnectLinkData();
     victimLink.id = "LINKVIC" + entry.complaintNum;
     victimLink.typeId = "LT3";
     victimLink.fromEndId = victim.id;
     victimLink.toEndId = complaint.id;
-    victimLink.linkDirection = "WITH";
+    victimLink.linkDirection = LinkDirection.WITH;
     victimLink.sourceReference = generateSourceReference(entry.complaintNum);
 
     return victimLink;

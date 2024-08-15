@@ -24,8 +24,8 @@
 
 package com.i2group.eri;
 
-import com.i2group.eri.rest.transport.request.ConnectorRequest;
-import com.i2group.eri.rest.transport.response.ConnectorResponse;
+import com.i2group.connector.spi.rest.transport.DaodRequest;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -99,7 +99,7 @@ public class ConnectorController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/all", consumes =
         APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ConnectorResponse all() {
+    public I2ConnectData all() {
         return connectorDataService.all();
     }
 
@@ -111,7 +111,7 @@ public class ConnectorController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/search", consumes =
         APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ConnectorResponse searchService(@Valid @RequestBody ConnectorRequest request) {
+    public I2ConnectData searchService(@Valid @RequestBody DaodRequest request) {
         return connectorDataService.search(request.payload.conditions);
     }
 
@@ -124,7 +124,7 @@ public class ConnectorController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/find-like-this-incident", consumes =
         APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ConnectorResponse findLikeThis(@Valid @RequestBody ConnectorRequest request) {
+    public I2ConnectData findLikeThis(@Valid @RequestBody DaodRequest request) {
         return connectorDataService.findLikeThisIncident(request.payload.seeds);
     }
 
@@ -136,7 +136,7 @@ public class ConnectorController {
      */
     @RequestMapping(method = RequestMethod.POST, value = "/expand", consumes =
         APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ConnectorResponse expand(@Valid @RequestBody ConnectorRequest request) {
+    public I2ConnectData expand(@Valid @RequestBody DaodRequest request) {
         return connectorDataService.expand(request.payload.seeds);
     }
 }

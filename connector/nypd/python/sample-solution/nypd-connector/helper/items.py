@@ -20,36 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from helper.classes import (Victim, Suspect, Complaint, Location,
-    LocatedAt, VictimOf, SuspectOf)
+from helper.classes import Victim, Suspect, Complaint, Location, LocatedAt, VictimOf, SuspectOf
 
 def create_complaint(entry):
     complaint = Complaint(entry)
-    return complaint.__dict__
+    return complaint.to_dict()
 
 def create_location(entry):
     location = Location(entry)
-    return location.__dict__
+    return location.to_dict()
 
 def create_victim(entry):
     victim = Victim(entry)
-    return victim.__dict__
+    return victim.to_dict()
 
 def create_suspect(entry):
     suspect = Suspect(entry)
-    return suspect.__dict__
+    return suspect.to_dict()
 
 def create_location_link(entry, complaint, location):
-    link = LocatedAt(entry)
-    link.setLink(complaint['id'], location['id'], 'WITH')
-    return link.__dict__
+    link = LocatedAt(entry, complaint['id'], location['id'])
+    return link.to_dict()
 
 def create_victim_link(entry, victim, complaint):
-    link = VictimOf(entry)
-    link.setLink(victim['id'], complaint['id'], 'WITH')
-    return link.__dict__
+    link = VictimOf(entry, victim['id'], complaint['id'])
+    return link.to_dict()
 
 def create_suspect_link(entry, suspect, complaint):
-    link = SuspectOf(entry)
-    link.setLink(suspect['id'], complaint['id'], 'WITH')
-    return link.__dict__
+    link = SuspectOf(entry, suspect['id'], complaint['id'])
+    return link.to_dict()

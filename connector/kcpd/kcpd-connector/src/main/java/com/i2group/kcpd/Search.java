@@ -24,7 +24,7 @@
 
 package com.i2group.kcpd;
 
-import com.i2group.kcpd.rest.transport.request.RequestCondition;
+import com.i2group.connector.spi.rest.transport.DaodRequestCondition;
 
 import java.util.Collection;
 import java.util.Map;
@@ -42,8 +42,8 @@ public class Search {
    * @param conditions Contains queries in the form of conditions provided by the user
    * @return The search conditions as a search
    */
-  public static Search parse(Collection<RequestCondition> conditions) {
-    final Map<String, RequestCondition> asMap =
+  public static Search parse(Collection<DaodRequestCondition> conditions) {
+    final Map<String, DaodRequestCondition> asMap =
         conditions.stream().collect(Collectors.toMap(c -> c.id, c -> c));
     Search search = new Search();
     

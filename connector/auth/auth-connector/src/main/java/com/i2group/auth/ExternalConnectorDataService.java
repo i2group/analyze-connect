@@ -26,11 +26,9 @@ package com.i2group.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.i2group.auth.rest.transport.*;
-import com.i2group.auth.rest.transport.async.AsyncQueryResponse;
-import com.i2group.auth.rest.transport.async.AsyncQuerySubstatus;
-import com.i2group.auth.rest.transport.async.AsyncStatusResponse;
 import com.i2group.auth.rest.transport.auth.*;
-import com.i2group.auth.rest.transport.request.RequestCondition;
+import com.i2group.connector.spi.rest.transport.*;
+import com.i2group.connector.spi.rest.transport.AsyncQueryStatus.StateEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -52,9 +50,9 @@ public class ExternalConnectorDataService {
 
   private final ItemFactory itemFactory;
   private final Resource peopleResource;
-  private final AsyncStatusResponse status = new AsyncStatusResponse();
-  private final Map<String, ConnectorResponse> asyncResponses = new HashMap<>();
-  private final Map<String, AsyncStatusResponse> asyncStatuses = new HashMap<>();
+  private final AsyncQueryStatus status = new AsyncQueryStatus();
+  private final Map<String, I2ConnectData> asyncResponses = new HashMap<>();
+  private final Map<String, AsyncQueryStatus> asyncStatuses = new HashMap<>();
 
   private static final String AUTHENTICATION_REQUIRED_TYPE = "urn:uuid:264caa46-75cb" +
       "-4ac5-891a-11adeb48b6fb";
@@ -107,7 +105,7 @@ public class ExternalConnectorDataService {
       return errorResponse(validationResponse.title, validationResponse.details);
     }
     final List<Person> people = retrievePeopleData();
-    final ConnectorResponse acquireResponse = marshalItemsFromResponse(people);
+    final I2ConnectData acquireResponse = marshalItemsFromResponse(people);
     return ResponseEntity.status(200).body(acquireResponse);
   }
 
@@ -118,7 +116,7 @@ public class ExternalConnectorDataService {
    * @param conditions The asynchronous configuration provided via the interface.
    * @return A response containing the entities and links.
    */
-  public ResponseEntity<?> asyncAcquire(String auth, List<RequestCondition> conditions) {
+  public ResponseEntity<?> asyncAcquire(String auth, List<DaodRequestCondition> conditions) {
     final AuthValidator validationResponse = AuthValidator.validateAuth(auth);
     if (!validationResponse.valid) {
       return errorResponse(validationResponse.title, validationResponse.details);
@@ -132,11 +130,11 @@ public class ExternalConnectorDataService {
     int duration = 10;
     boolean shouldFail = false;
 
-    for (RequestCondition condition : conditions) {
+    for (DaodRequestCondition condition : conditions) {
       if (condition.id.equals("duration")) {
-        duration = Integer.parseInt(condition.value);
+        duration = Integer.parseInt(condition.value.toString());
       } else if (condition.id.equals("shouldFail")) {
-        shouldFail = Boolean.parseBoolean(condition.value);
+        shouldFail = Boolean.parseBoolean(condition.value.toString());
       }
     }
 
@@ -144,18 +142,18 @@ public class ExternalConnectorDataService {
 
     if (shouldFail) {
       asyncQuery.cancel(true);
-      updateStatus(AsyncStatusResponse.State.FAILED, queryResponse.queryId);
+      updateStatus(StateEnum.FAILED, queryResponse.queryId);
     } else {
       asyncQuery = CompletableFuture.runAsync(() -> {
         try {
-          updateStatus(AsyncStatusResponse.State.STARTED, queryResponse.queryId);
+          updateStatus(StateEnum.STARTED, queryResponse.queryId);
           TimeUnit.SECONDS.sleep(customDuration);
 
-          if (!asyncStatuses.get(queryResponse.queryId).state.equals(AsyncStatusResponse.State.FAILED)) {
+          if (!asyncStatuses.get(queryResponse.queryId).state.equals(StateEnum.FAILED)) {
             final List<Person> people = retrievePeopleData();
-            final ConnectorResponse connectorResponse = marshalItemsFromResponse(people);
+            final I2ConnectData connectorResponse = marshalItemsFromResponse(people);
             asyncResponses.put(queryResponse.queryId, connectorResponse);
-            updateStatus(AsyncStatusResponse.State.SUCCEEDED, queryResponse.queryId);
+            updateStatus(StateEnum.SUCCEEDED, queryResponse.queryId);
           }
         } catch (InterruptedException e) {
           throw new IllegalStateException(e);
@@ -179,24 +177,24 @@ public class ExternalConnectorDataService {
       return errorResponse(validationResponse.title, validationResponse.details);
     }
 
-    final AsyncStatusResponse statusResponse = new AsyncStatusResponse();
+    final AsyncQueryStatus statusResponse = new AsyncQueryStatus();
     final AsyncQuerySubstatus substatus = new AsyncQuerySubstatus();
     statusResponse.state = asyncStatuses.get(queryId).state;
 
     switch (statusResponse.state) {
       case STARTED:
-        substatus.type = AsyncQuerySubstatus.Substatus.INFORMATION;
+        substatus.type = AsyncQuerySubstatus.TypeEnum.INFORMATION;
         substatus.message = "Query started - " + startDate;
         statusResponse.substatuses = Collections.singletonList(substatus);
         queryStarted = substatus;
         break;
       case SUCCEEDED:
-        substatus.type = AsyncQuerySubstatus.Substatus.SUCCESS;
+        substatus.type = AsyncQuerySubstatus.TypeEnum.SUCCESS;
         substatus.message = "Query completed - " + new Date();
         statusResponse.substatuses = Arrays.asList(queryStarted, substatus);
         break;
       case FAILED:
-        substatus.type = AsyncQuerySubstatus.Substatus.ERROR;
+        substatus.type = AsyncQuerySubstatus.TypeEnum.ERROR;
         substatus.message = "Query failed - " + startDate;
         statusResponse.substatuses = Collections.singletonList(substatus);
         break;
@@ -229,7 +227,7 @@ public class ExternalConnectorDataService {
    */
   public ResponseEntity<Void> asyncDelete(String queryId) {
     asyncQuery.cancel(true);
-    updateStatus(AsyncStatusResponse.State.FAILED, queryId);
+    updateStatus(StateEnum.FAILED, queryId);
     asyncResponses.remove(queryId);
     return ResponseEntity.noContent().build();
   }
@@ -275,16 +273,16 @@ public class ExternalConnectorDataService {
    * @param people The resulting source records returned from the request.
    * @return The response containing entities and links.
    */
-  private ConnectorResponse marshalItemsFromResponse(List<Person> people) {
-    final List<Entity> entities = new ArrayList<>();
-    final List<Link> links = new ArrayList<>();
+  private I2ConnectData marshalItemsFromResponse(List<Person> people) {
+    final List<I2ConnectEntityData> entities = new ArrayList<>();
+    final List<I2ConnectLinkData> links = new ArrayList<>();
     final Set<String> linkIds = new HashSet<>();
 
-    final Map<String, Entity> seenPeople = new HashMap<>();
+    final Map<String, I2ConnectEntityData> seenPeople = new HashMap<>();
 
     people.forEach(entry -> {
 
-      final Entity person;
+      final I2ConnectEntityData person;
       if (seenPeople.containsKey(entry.id)) {
         person = seenPeople.get(entry.id);
       } else {
@@ -295,7 +293,7 @@ public class ExternalConnectorDataService {
 
       entry.friends.forEach(friendId -> {
         final Person friendPerson = getPersonFromId(people, friendId);
-        final Entity friend;
+        final I2ConnectEntityData friend;
 
         if (friendPerson != null) {
           if (seenPeople.containsKey(friendId)) {
@@ -310,7 +308,7 @@ public class ExternalConnectorDataService {
           final String alternateUniqueId = "LINK-PER" + friend.id + "-FRIEND" + person.id;
 
           if (!linkIds.contains(uniqueId) || !linkIds.contains(alternateUniqueId)) {
-            final Link personLink = itemFactory.createPersonLink(person, friend);
+            final I2ConnectLinkData personLink = itemFactory.createPersonLink(person, friend);
             links.add(personLink);
             linkIds.add(uniqueId);
             linkIds.add(alternateUniqueId);
@@ -319,7 +317,7 @@ public class ExternalConnectorDataService {
       });
     });
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities = entities;
     connectorResponse.links = links;
     return connectorResponse;
@@ -364,7 +362,7 @@ public class ExternalConnectorDataService {
    * @param state The state to update the query with.
    * @param queryId The ID of the query to update.
    */
-  private void updateStatus(AsyncStatusResponse.State state, String queryId) {
+  private void updateStatus(StateEnum state, String queryId) {
     status.state = state;
     asyncStatuses.put(queryId, status);
   }

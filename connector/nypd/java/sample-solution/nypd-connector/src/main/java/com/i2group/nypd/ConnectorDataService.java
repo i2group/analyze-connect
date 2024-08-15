@@ -24,10 +24,11 @@
 
 package com.i2group.nypd;
 
-import com.i2group.nypd.rest.transport.ConnectorResponse;
-import com.i2group.nypd.rest.transport.EntityData;
-import com.i2group.nypd.rest.transport.GeospatialPoint;
-import com.i2group.nypd.rest.transport.LinkData;
+import com.i2group.connector.spi.rest.transport.GeoJSONPoint;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
+import com.i2group.connector.spi.rest.transport.LinkDirection;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -44,9 +45,9 @@ public class ConnectorDataService {
    *
    * @return A response containing entities and links.
    */
-  public ConnectorResponse retrieveTestData() {
-    final List<EntityData> entities = new ArrayList<>();
-    final List<LinkData> links = new ArrayList<>();
+  public I2ConnectData retrieveTestData() {
+    final List<I2ConnectEntityData> entities = new ArrayList<>();
+    final List<I2ConnectLinkData> links = new ArrayList<>();
 
     Map<String, Object> complaintProps = new HashMap<>();
     complaintProps.put("PT1", "660160752"); // Complaint Number (String)
@@ -56,30 +57,33 @@ public class ConnectorDataService {
     Map<String, Object> locationProps = new HashMap<>();
     locationProps.put("PT15", 48); // Precinct Code Number (int)
     locationProps.put("PT16", "BRONX"); // Borough Name (String)
-    locationProps.put("PT18", GeospatialPoint.withCoordinates(-73.924942, 40.8103523));
+    final GeoJSONPoint geoJSONPoint = new GeoJSONPoint();
+    geoJSONPoint.type = GeoJSONPoint.TypeEnum.POINT;
+    geoJSONPoint.coordinates = List.of(-73.924942, 40.8103523);
+    locationProps.put("PT18", geoJSONPoint);
 
-    EntityData complaint = new EntityData();
+    I2ConnectEntityData complaint = new I2ConnectEntityData();
     complaint.id = "COMP001";
     complaint.typeId = "ET1";
     complaint.properties = complaintProps;
 
-    EntityData location = new EntityData();
+    I2ConnectEntityData location = new I2ConnectEntityData();
     location.id = "LOC001";
     location.typeId = "ET2";
     location.properties = locationProps;
 
-    LinkData link = new LinkData();
+    I2ConnectLinkData link = new I2ConnectLinkData();
     link.id = "LOCLINK001";
     link.typeId = "LT1";
     link.fromEndId = complaint.id;
     link.toEndId = location.id;
-    link.linkDirection = "WITH";
+    link.linkDirection = LinkDirection.WITH;
 
     entities.add(complaint);
     entities.add(location);
     links.add(link);
 
-    final ConnectorResponse connectorResponse = new ConnectorResponse();
+    final I2ConnectData connectorResponse = new I2ConnectData();
     connectorResponse.entities = entities;
     connectorResponse.links = links;
     return connectorResponse;

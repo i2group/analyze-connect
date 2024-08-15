@@ -27,8 +27,10 @@ package com.i2group.async.rest.transport;
 import java.io.IOException;
 import java.util.HashMap;
 
-import com.i2group.async.rest.transport.ResponseData.Person;
+import com.i2group.connector.spi.rest.transport.*;
 import org.springframework.core.io.Resource;
+
+import static com.i2group.async.rest.transport.ResponseData.*;
 
 /** Used to generate entity and link objects */
 public class ItemFactory {
@@ -45,7 +47,7 @@ public class ItemFactory {
    * @param person The single record from the dataset.
    * @return The created person object.
    */
-  public EntityData createPerson(Person person) {
+  public I2ConnectEntityData createPerson(Person person) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PER1", person.forename);
     properties.put("PER2", person.surname);
@@ -53,10 +55,10 @@ public class ItemFactory {
     properties.put("PER4", person.ssn);
     properties.put("PER5", person.issuedDateAndTime);
 
-    final EntityData entity = new EntityData();
+    final I2ConnectEntityData entity = new I2ConnectEntityData();
     entity.id = "PER" + person.id;
     entity.typeId = "Person";
-    entity.typeLocation = "CONNECTOR";
+    entity.typeLocation = SchemaTypeLocation.CONNECTOR;
     entity.version = 1L;
     entity.properties = properties;
     entity.sourceReference = generateSourceReference();
@@ -71,13 +73,13 @@ public class ItemFactory {
    * @param friend The friend record identified from the person record in the dataset.
    * @return The created link object.
    */
-  public LinkData createPersonLink(EntityData person, EntityData friend) {
-    final LinkData personLink = new LinkData();
+  public I2ConnectLinkData createPersonLink(I2ConnectEntityData person, I2ConnectEntityData friend) {
+    final I2ConnectLinkData personLink = new I2ConnectLinkData();
     personLink.id = "LINK-PER" + person.id + "-FRIEND" + friend.id;
     personLink.typeId = "FriendLink";
     personLink.fromEndId = person.id;
     personLink.toEndId = friend.id;
-    personLink.linkDirection = LinkData.Direction.BOTH;
+    personLink.linkDirection = LinkDirection.BOTH;
     personLink.sourceReference = generateSourceReference();
 
     return personLink;

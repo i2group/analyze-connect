@@ -28,7 +28,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 /**
  * A POJO (Plain Old Java Object) for response objects from Socrata. These represent the fields in
@@ -84,10 +83,10 @@ public class SocrataResponseData {
   public String occurrenceLocation;
 
   @JsonProperty("latitude")
-  public float latitude;
+  public double latitude;
 
   @JsonProperty("longitude")
-  public float longitude;
+  public double longitude;
 
   // Location
   @JsonProperty("addr_pct_cd")

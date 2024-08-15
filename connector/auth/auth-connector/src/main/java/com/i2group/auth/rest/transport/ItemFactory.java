@@ -24,6 +24,11 @@
 
 package com.i2group.auth.rest.transport;
 
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
+import com.i2group.connector.spi.rest.transport.LinkDirection;
+import com.i2group.connector.spi.rest.transport.SchemaTypeLocation;
+
 import java.util.HashMap;
 
 /**
@@ -40,7 +45,7 @@ public class ItemFactory {
    * @param person The single record from the dataset.
    * @return The created person object.
    */
-  public Entity createPerson(Person person) {
+  public I2ConnectEntityData createPerson(Person person) {
     final HashMap<String, Object> properties = new HashMap<>();
     properties.put("PER1", person.forename);
     properties.put("PER2", person.surname);
@@ -48,10 +53,10 @@ public class ItemFactory {
     properties.put("PER4", person.ssn);
     properties.put("PER5", person.issuedDateAndTime);
 
-    final Entity entity = new Entity();
+    final I2ConnectEntityData entity = new I2ConnectEntityData();
     entity.id = "PER" + person.id;
     entity.typeId = "Person";
-    entity.typeLocation = "CONNECTOR";
+    entity.typeLocation = SchemaTypeLocation.CONNECTOR;
     entity.properties = properties;
 
     return entity;
@@ -64,13 +69,13 @@ public class ItemFactory {
    * @param friend The friend record identified from the person record in the dataset.
    * @return The created link object.
    */
-  public Link createPersonLink(Entity person, Entity friend) {
-    final Link link = new Link();
+  public I2ConnectLinkData createPersonLink(I2ConnectEntityData person, I2ConnectEntityData friend) {
+    final I2ConnectLinkData link = new I2ConnectLinkData();
     link.id = "LINK-PER" + person.id + "-FRIEND" + friend.id;
     link.typeId = "FriendLink";
     link.fromEndId = person.id;
     link.toEndId = friend.id;
-    link.linkDirection = Link.Direction.BOTH;
+    link.linkDirection = LinkDirection.BOTH;
     return link;
   }
 }

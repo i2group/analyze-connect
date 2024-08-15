@@ -24,7 +24,7 @@ from flask import Blueprint, request, send_from_directory
 
 from helper.classes import type_ids
 from helper.service import (query_external_datasource, marshal, build_params,
-    impl_expand, impl_find_like_this_complaint, validate_request)
+                            impl_expand, impl_find_like_this_complaint, validate_request)
 
 controller = Blueprint('config', __name__)
 connector_major_version = '1'
@@ -32,7 +32,12 @@ connector_minor_version = '2'
 
 @controller.route('/config')
 def config():
-    gateway_supported_versions = request.headers['I2-Spi-Versions']
+    config = send_from_directory('static', 'config.json')
+    gateway_supported_versions = request.headers.get('I2-Spi-Versions')
+
+    if gateway_supported_versions is None:
+        return config
+
     print('Latest gateway supported versions: ' + gateway_supported_versions)
 
     for supported_version in gateway_supported_versions.split(','):
@@ -42,12 +47,12 @@ def config():
 
         connector_version = connector_major_version + '.' + connector_minor_version
 
-        if ((connector_major_version == supported_major_version) and (connector_minor_version <= supported_minor_version)):
+        if (connector_major_version == supported_major_version) and (connector_minor_version <= supported_minor_version):
             print('The gateway supports connector version ' + connector_version)
         else:
             print('The gateway does not support connector version ' + connector_version)
 
-    return send_from_directory('static', 'config.json')
+    return config
 
 @controller.route('/schema')
 def schema():

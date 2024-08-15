@@ -24,6 +24,7 @@
 
 package com.i2group.nypd.rest.externalsource;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -56,7 +57,7 @@ public class SocrataClient {
       throw new IllegalStateException("baseUrl must be specified");
     }
     if (apiToken == null || apiToken.isEmpty()) {
-      throw new IllegalStateException("apiToken must be specified");
+      LoggerFactory.getLogger(getClass()).warn("WARNING: apiToken is not specified, requests may be rejected!");
     }
 
     final List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();

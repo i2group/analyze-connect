@@ -29,11 +29,10 @@ import static org.springframework.util.MimeTypeUtils.APPLICATION_XML_VALUE;
 
 import javax.validation.Valid;
 
-import com.i2group.async.rest.transport.AsyncQueryResponse;
-import com.i2group.async.rest.transport.AsyncStatusResponse;
-import com.i2group.async.rest.transport.ConnectorResponse;
-import com.i2group.async.rest.transport.request.ConnectorRequest;
-
+import com.i2group.connector.spi.rest.transport.AsyncQueryResponse;
+import com.i2group.connector.spi.rest.transport.AsyncQueryStatus;
+import com.i2group.connector.spi.rest.transport.DaodRequest;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -102,7 +101,7 @@ public class ConnectorController {
    * @return The query response.
    */
   @RequestMapping(method = RequestMethod.POST, value = "/async", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-  public AsyncQueryResponse asyncAcquireService(@Valid @RequestBody ConnectorRequest request) {
+  public AsyncQueryResponse asyncAcquireService(@Valid @RequestBody DaodRequest request) {
     return connectorDataService.asyncAcquire(request.payload.conditions);
   }
 
@@ -112,7 +111,7 @@ public class ConnectorController {
    * @return The status response.
    */
   @RequestMapping(method = RequestMethod.GET, value = "/async/{queryId}", produces = APPLICATION_JSON_VALUE)
-  public AsyncStatusResponse asyncStatusService(@Valid @PathVariable("queryId") String queryId) {
+  public AsyncQueryStatus asyncStatusService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncStatus(queryId);
   }
 
@@ -122,7 +121,7 @@ public class ConnectorController {
    * @return The results of the query.
    */
   @RequestMapping(method = RequestMethod.GET, value = "/async/{queryId}/results", produces = APPLICATION_JSON_VALUE)
-  public ConnectorResponse asyncResultsService(@Valid @PathVariable("queryId") String queryId) {
+  public I2ConnectData asyncResultsService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncResults(queryId);
   }
 
@@ -132,7 +131,7 @@ public class ConnectorController {
    * @return The response with the removed query.
    */
   @RequestMapping(method = RequestMethod.DELETE, value = "/async/{queryId}", produces = APPLICATION_JSON_VALUE)
-  public @ResponseBody ConnectorResponse asyncDeleteService(@Valid @PathVariable("queryId") String queryId) {
+  public @ResponseBody I2ConnectData asyncDeleteService(@Valid @PathVariable("queryId") String queryId) {
     return connectorDataService.asyncDelete(queryId);
   }
 }

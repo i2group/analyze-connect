@@ -24,13 +24,13 @@
 
 package com.i2group.auth;
 
-import com.i2group.auth.rest.transport.ConnectorResponse;
-import com.i2group.auth.rest.transport.async.AsyncQueryResponse;
-import com.i2group.auth.rest.transport.async.AsyncStatusResponse;
 import com.i2group.auth.rest.transport.auth.AuthRequest;
-import com.i2group.auth.rest.transport.auth.AuthResponse;
-import com.i2group.auth.rest.transport.auth.ProblemDetails;
-import com.i2group.auth.rest.transport.request.ConnectorRequest;
+import com.i2group.connector.spi.rest.transport.AsyncQueryResponse;
+import com.i2group.connector.spi.rest.transport.AsyncQueryStatus;
+import com.i2group.connector.spi.rest.transport.AuthResponse;
+import com.i2group.connector.spi.rest.transport.DaodRequest;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.ProblemDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -138,7 +138,7 @@ public class ConnectorController {
   }
 
   /**
-   * Defines the acquire endpoint. {@link ConnectorResponse} with entities and links if
+   * Defines the acquire endpoint. {@link I2ConnectData} with entities and links if
    * authorization token is valid; {@link ProblemDetails} response if authorization token
    * is invalid.
    *
@@ -166,13 +166,13 @@ public class ConnectorController {
       consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<?> asyncAcquire(
       @RequestHeader(value = AUTHORIZATION, required = false)
-          String auth, @Valid @RequestBody ConnectorRequest request) {
+          String auth, @Valid @RequestBody DaodRequest request) {
     return connectorDataService.asyncAcquire(auth, request.payload.conditions);
   }
 
   /**
    * The endpoint called to retrieve the status of an running asynchronous query. Responds
-   * with the {@link AsyncStatusResponse} if authorization token is valid; {@link
+   * with the {@link AsyncQueryStatus} if authorization token is valid; {@link
    * ProblemDetails} query ID if authorization token is invalid.
    *
    * @return The status response.
@@ -190,7 +190,7 @@ public class ConnectorController {
 
   /**
    * The endpoint called to retrieve the results of an asynchronous query. Responds with
-   * {@link ConnectorResponse} containing the results of the query; {@link ProblemDetails}
+   * {@link I2ConnectData} containing the results of the query; {@link ProblemDetails}
    * if authorization token is invalid.
    *
    * @return The results of the query.

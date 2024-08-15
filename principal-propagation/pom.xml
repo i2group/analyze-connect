@@ -9,9 +9,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
-		<toolkitVersion>4.4.3.0</toolkitVersion>
-		<websphereSecurityArtifactVersion>1.1.81</websphereSecurityArtifactVersion>
-		<httpClientArtifactVersion>4.5.13</httpClientArtifactVersion>
+		<toolkitVersion>4.4.4.0</toolkitVersion>
+		<websphereSecurityArtifactVersion>1.1.90</websphereSecurityArtifactVersion>
+		<httpClientArtifactVersion>4.5.14</httpClientArtifactVersion>
 		<httpCoreArtifactVersion>4.4.16</httpCoreArtifactVersion>
 	</properties>
 	<dependencies>

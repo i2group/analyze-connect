@@ -177,7 +177,7 @@ If the entity type matches the valid seed type defined by the seeded service, th
       value = &quot;SEEDED SEARCH ACQUIRE URL GOES HERE&quot;,
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-public ConnectorResponse testSeededSearchService(@Valid @RequestBody ConnectorRequest request) {
+public I2ConnectData testSeededSearchService(@Valid @RequestBody DaodRequest request) {
   // TODO: Extract seed information and use it to search
   System.out.println(request.payload.seeds);
   return connectorDataService.retrieveTestDataFromExternalSource(/*seeds*/ );

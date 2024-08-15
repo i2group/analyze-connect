@@ -3,7 +3,7 @@
     "info": {
         "title": "i2 Connect Gateway REST SPI",
         "description": "This documentation describes the server programming interface that you must implement when you write a connector to an external data source. The use of ALL_CAPS in resource paths indicates template values that you must substitute with real ones.\n\nAs well as reading the content here, you can click **Download OpenAPI spec** to retrieve the SPI specification in JSON format.\n\n## Endpoint discovery\n\nClients discover the URLs of connector endpoints through a combination of the topology file for the deployment and your connector code. At startup, the i2 Connect gateway makes a POST request to the configuration endpoint, which it discovers from the topology file: The base comes from the **base-url** attribute of the **&lt;connector&gt;** element, while CONFIGURATION_URL itself defaults to **/config** unless you specify otherwise.\n\nFor example, if the **base-url** is http://localhost:3700, then the request comes to http://localhost:3700/config.\n\nYour response from the configuration endpoint can contain information about one or more services. Each service can provide a query for a synchronous or an asynchronous operation, as well as an optional validation method and optional authentication constraints.",
-        "version": "1.3"
+        "version": "1.4"
     },
     "servers": [
         {
@@ -49,6 +49,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
                     },
                     {
                         "$ref": "#/components/parameters/I2-Display-Name"
@@ -128,6 +134,12 @@
                         "$ref": "#/components/parameters/I2-Principal"
                     },
                     {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
+                    },
+                    {
                         "$ref": "#/components/parameters/I2-Display-Name"
                     },
                     {
@@ -195,6 +207,12 @@
                         "$ref": "#/components/parameters/I2-Principal"
                     },
                     {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
+                    },
+                    {
                         "$ref": "#/components/parameters/I2-Display-Name"
                     },
                     {
@@ -252,6 +270,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
                     },
                     {
                         "$ref": "#/components/parameters/I2-Display-Name"
@@ -312,6 +336,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
                     },
                     {
                         "$ref": "#/components/parameters/I2-Display-Name"
@@ -690,6 +720,12 @@
                         "$ref": "#/components/parameters/I2-Principal"
                     },
                     {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
+                    },
+                    {
                         "$ref": "#/components/parameters/I2-Display-Name"
                     },
                     {
@@ -761,6 +797,12 @@
                         "$ref": "#/components/parameters/I2-Principal"
                     },
                     {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
+                    },
+                    {
                         "$ref": "#/components/parameters/I2-Display-Name"
                     },
                     {
@@ -820,6 +862,12 @@
                     },
                     {
                         "$ref": "#/components/parameters/I2-Principal"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-User-Id"
+                    },
+                    {
+                        "$ref": "#/components/parameters/I2-Oidc-Access-Token"
                     },
                     {
                         "$ref": "#/components/parameters/I2-Display-Name"
@@ -2279,11 +2327,11 @@
                         "type": "string",
                         "description": "The units in which **size** is interpreted.",
                         "example": "utf16codeunits",
-                        "default": "utf16codeunits",
                         "enum": [
                             "utf16codeunits",
                             "utf8bytes"
-                        ]
+                        ],
+                        "default": "utf16codeunits"
                     }
                 },
                 "description": "The maximum length of a string in a condition, expressed as a raw size with its units.",
@@ -3366,6 +3414,23 @@
                     "type": "string"
                 }
             },
+            "I2-Oidc-Access-Token": {
+                "name": "I2-Oidc-Access-Token",
+                "in": "header",
+                "description": "A string that contains the current user's OIDC access token, if OIDC is used as the authentication mechanism for the i2 Connect gateway.",
+                "schema": {
+                    "type": "string"
+                },
+                "x-i2-api": {
+                    "since": "1.4"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.4"
+                    }
+                ]
+            },
             "I2-Principal": {
                 "name": "I2-Principal",
                 "in": "header",
@@ -3403,10 +3468,27 @@
                     "type": "string"
                 }
             },
+            "I2-User-Id": {
+                "name": "I2-User-Id",
+                "in": "header",
+                "description": "A string that contains the current user's identifier.",
+                "schema": {
+                    "type": "string"
+                },
+                "x-i2-api": {
+                    "since": "1.4"
+                },
+                "x-badges": [
+                    {
+                        "color": "primary-color",
+                        "label": "Since: 1.4"
+                    }
+                ]
+            },
             "QueryId": {
                 "name": "queryId",
                 "in": "path",
-                "description": "The identifier of a query.",
+                "description": "A string that contains the identifier of a query.",
                 "required": true,
                 "schema": {
                     "type": "string"

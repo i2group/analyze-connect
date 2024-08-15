@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="user-specific-configuration">User-specific configuration</h1>
 
-<p>Introduced at version 4.3.5 of i2 Analyze, user-specific configuration is an advanced feature of i2 Connect that enables a connector to provide different configurations that are customized to specific users or groups of users. With the exception of the schema and the charting scheme (which remain global for a connector), you can customize all elements of connector configuration dynamically.</p>
+<p>User-specific configuration is an advanced feature of i2 Connect that enables a connector to provide different configurations that are customized to specific users or groups of users. With the exception of the schema and the charting scheme (which remain global for a connector), you can customize all elements of connector configuration dynamically.</p>
 <p>A connector can provide user-specific configuration through a separate <code>/USER_CONFIGURATION_URL</code> endpoint, the URL of which you can provide in your response from the standard <code>/CONFIGURATION_URL</code> endpoint. When an endpoint (excluding the <code>/CONFIGURATION_URL</code> endpoint) is called on behalf of an authenticated user, the i2 Connect gateway provides headers that you can use to identify the user making the request:</p>
 <table>
 <thead>
@@ -91,6 +91,12 @@
 </tr>
 </thead>
 <tbody>
+<tr>
+<td><code>I2-User-Id</code></td>
+<td>The user&#39;s identifier</td>
+<td>String</td>
+<td><code>4a888bdd-0b09-4cf7-9ce8-b5ab99758338</code></td>
+</tr>
 <tr>
 <td><code>I2-Principal</code></td>
 <td>The user&#39;s principal name</td>
@@ -121,9 +127,15 @@
 <td>Base64-encoded JSON array</td>
 <td><code>[&quot;i2:Connectors&quot;,&quot;i2:Notes&quot;]</code></td>
 </tr>
+<tr>
+<td><code>I2-Oidc-Access-Token</code></td>
+<td>The user&#39;s OIDC access token, if OIDC is the authentication mechanism for the i2 Connect gateway</td>
+<td>Base64-encoded JSON</td>
+<td>A set of <a href="https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims">claims</a>, in an <a href="https://openid.net/specs/openid-connect-core-1_0.html#IDToken">OIDC JSON Web Token</a></td>
+</tr>
 </tbody>
 </table>
-<p><strong>Important:</strong> At version 4.3.5 of i2 Analyze, only the <code>/USER_CONFIGURATION_URL</code> endpoint received these headers. Since version 4.3.5.3, all endpoints except <code>/CONFIGURATION_URL</code> receive them.</p>
+<p><strong>Important:</strong> The <code>I2-User-Id</code> and <code>I2-Oidc-Access-Token</code> headers were introduced at version 4.4.4 of i2 Analyze. Older versions of the i2 Connect gateway do not provide these headers.</p>
 <h2 id="creating-user-specific-configurations">Creating user-specific configurations</h2>
 <p>To implement user-specific configurations for your connector, you must first enable and then provide them.</p>
 <h3 id="enable-user-specific-configurations">Enable user-specific configurations</h3>

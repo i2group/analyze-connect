@@ -2,289 +2,295 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/connector-async.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/connector-auth.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/connector-eri.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/connector-kcpd.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/connector-nypd.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/run-java.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/run-python.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/example-connectors/user-configuration.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/data-model.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/deploy-i2-analyze-is-daod.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/i2-connect-architecture.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/postman.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/principal-propagation.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/property-semantic-search.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/semantic-type-identifiers.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/source-identifiers.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/source-references.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/spi-examples.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/spi-version.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/miscellaneous/troubleshoot.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/schemas/connector-schema.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/schemas/gateway-schema.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/schemas/schema-fragments.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/schemas/schema-types.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/schemas/type-location.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/spi-versions/1.0/changes.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/spi-versions/1.1/changes.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/spi-versions/1.2/changes.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/spi-versions/1.3/changes.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://i2group.github.io/analyze-connect/content/spi-versions/1.4/changes.html</loc>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/1-schema-design-guide.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/2-deploy-i2-analyze.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/3-deploy-connector.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/4-add-service.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/5-connect-to-eds.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/6-parameterised-search.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/7-seeded-search.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/8-seeded-parameterised-search.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/walkthrough/9-validation.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/acquire.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/authentication.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/config.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/creating.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/parameters.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/query.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/seeds.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/testing.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/content/workflow/validation.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://i2group.github.io/analyze-connect/index.html</loc>
-    <lastmod>2023-12-12T12:43:39+00:00</lastmod>
+    <lastmod>2024-08-15T06:09:02+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>

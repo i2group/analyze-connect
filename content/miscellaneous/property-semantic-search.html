@@ -124,8 +124,7 @@ The service uses the <a href="https://i2group.github.io/analyze-connect/content/
 <p>In code, you can access the semantic properties of the seed record in the request through the <code>request.payload.seeds.semanticData</code> object. The service that you added to <code>config.json</code> specifies an endpoint named <code>/find-same-last-name</code> that you can implement like this, in <code>ConnectorController.java</code>:</p>
 <pre><code class="lang-java">@RequestMapping(method = RequestMethod.POST, value = &quot;/find-same-last-name&quot;,
     consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-public ResponseEntity&lt;?&gt; findSameLastName(
-    @Valid @RequestBody ConnectorRequest request) {
+public ResponseEntity&lt;?&gt; findSameLastName(@Valid @RequestBody DaodRequest request) {
   return connectorDataService.findSameName(request.payload.seeds);
 }
 </code></pre><p><strong>Note:</strong> This code does not compile because the <code>findSameName()</code> method is undefined.
@@ -196,7 +195,7 @@ You can ignore this for now, and we will cover the implementation of that method
 
   // Remove any people that do not match the name constraint values
   people.removeIf(p -&gt; !nameValues.contains(p.surname));
-  final ConnectorResponse acquireResponse = marshalItemsFromResponse(people);
+  final I2ConnectData acquireResponse = marshalItemsFromResponse(people);
   return ResponseEntity.status(200).body(acquireResponse);
 }
 </code></pre><p>Only one of the people in <code>people.json</code> has the <code>surname</code> &quot;Armstrong&quot; or &quot;Hendricks&quot;, and so for this example the response should just contain the following data:</p>

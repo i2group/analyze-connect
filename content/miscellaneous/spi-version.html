@@ -108,6 +108,9 @@ private static final int CONNECTOR_MINOR_VERSION = 2;
  */
 @RequestMapping(method = RequestMethod.GET, value = &quot;/config&quot;, produces = APPLICATION_JSON_VALUE)
 public Resource config(@RequestHeader(value = &quot;I2-Spi-Versions&quot;, required = false) List&lt;String&gt; gatewaySupportedVersions) {
+  if (gatewaySupportedVersions == null) {
+    return configResource;
+  }
   System.out.println(&quot;Latest gateway supported versions: &quot; + gatewaySupportedVersions);
 
   for (String supportedVersion: gatewaySupportedVersions) {
@@ -131,22 +134,27 @@ connector_minor_version = &#39;2&#39;
 
 @controller.route(&#39;/config&#39;)
 def config():
-  gateway_supported_versions = request.headers[&#39;I2-Spi-Versions&#39;]
-  print(&#39;Latest gateway supported versions: &#39; + gateway_supported_versions)
+    config = send_from_directory(&#39;static&#39;, &#39;config.json&#39;)
+    gateway_supported_versions = request.headers.get(&#39;I2-Spi-Versions&#39;)
 
-  for supported_version in gateway_supported_versions.split(&#39;,&#39;):
-    supported_version_parts = supported_version.split(&#39;.&#39;)
-    supported_major_version = supported_version_parts[0]
-    supported_minor_version = supported_version_parts[1]
+    if gateway_supported_versions is None:
+        return config
 
-    connector_version = connector_major_version + &#39;.&#39; + connector_minor_version
+    print(&#39;Latest gateway supported versions: &#39; + gateway_supported_versions)
 
-    if ((connector_major_version == supported_major_version) and (connector_minor_version &lt;= supported_minor_version)):
-      print(&#39;The gateway supports connector version &#39; + connector_version)
-    else:
-      print(&#39;The gateway does not support connector version &#39; + connector_version)
+    for supported_version in gateway_supported_versions.split(&#39;,&#39;):
+        supported_version_parts = supported_version.split(&#39;.&#39;)
+        supported_major_version = supported_version_parts[0]
+        supported_minor_version = supported_version_parts[1]
 
-  return send_from_directory(&#39;static&#39;, &#39;config.json&#39;)
+        connector_version = connector_major_version + &#39;.&#39; + connector_minor_version
+
+        if (connector_major_version == supported_major_version) and (connector_minor_version &lt;= supported_minor_version):
+            print(&#39;The gateway supports connector version &#39; + connector_version)
+        else:
+            print(&#39;The gateway does not support connector version &#39; + connector_version)
+
+    return config
 </code></pre></article>
           </div>
           

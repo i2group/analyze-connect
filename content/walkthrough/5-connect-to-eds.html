@@ -173,9 +173,9 @@ public ExternalConnectorDataService(
 <pre><code class="lang-java">import org.springframework.beans.factory.annotation.Value;
 </code></pre></li>
 <li><p>To construct the request to the external source, replace the <code>retrieveTestDataFromExternalSource()</code> method with the following:</p>
-<pre><code class="lang-java">public ConnectorResponse retrieveTestDataFromExternalSource() {
-   final List&lt;EntityData&gt; entities = new ArrayList&lt;&gt;();
-   final List&lt;LinkData&gt; links = new ArrayList&lt;&gt;();
+<pre><code class="lang-java">public I2ConnectData retrieveTestDataFromExternalSource() {
+   final List&lt;I2ConnectEntityData&gt; entities = new ArrayList&lt;&gt;();
+   final List&lt;I2ConnectLinkData&gt; links = new ArrayList&lt;&gt;();
 
    // TODO: Make request to external source and map data back to your own schema
 
@@ -192,14 +192,14 @@ public ExternalConnectorDataService(
 
    // Make the request, map the response to an object model and print each object
    final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
-   response.stream()
+   response
       .forEach(
          entry -&gt; {
             // TODO: Map response data to your own object model
             System.out.println(&quot;item: &quot; + entry);
          });
 
-   final ConnectorResponse connectorResponse = new ConnectorResponse();
+   final I2ConnectData connectorResponse = new I2ConnectData();
    connectorResponse.entities = entities;
    connectorResponse.links = links;
    return connectorResponse;
@@ -219,6 +219,8 @@ public ExternalConnectorDataService(
 <li><p>In <code>service.py</code>, add the following imports at the top of the file:</p>
 <pre><code class="lang-python">import yaml
 import requests
+import logging
+logger = logging.getLogger(__name__)
 </code></pre></li>
 <li><p>To construct the request to the external source, replace the <code>query_external_datasource()</code> function with the following:</p>
 <pre><code class="lang-python">def query_external_datasource():
@@ -240,6 +242,8 @@ import requests
 
    base_url = config[&#39;socrata&#39;][&#39;url&#39;]
    api_token = config[&#39;socrata&#39;][&#39;token&#39;]
+   if api_token is None:
+       logger.warn(&#39;WARNING: apiToken is not specified, requests may be rejected!&#39;)
 
    limit = 1 # Only returning 1 entity for the moment. increase when ready
    # Set some request parameters
@@ -254,10 +258,11 @@ import requests
       # You can remove the following print line as it&#39;s only for debugging
       print(entry)
 
-   response = {}
-   response[&#39;entities&#39;] = entities
-   response[&#39;links&#39;] = links
-   return response
+   response = I2ConnectData(
+      entities=entities,
+      links=links
+   )
+   return response.to_dict()
 </code></pre></li>
 </ol>
 <p>You need to implement the <code>query_external_datasource</code> function in <code>service.py</code> so that it retrieves data from the NYPD Complaint Dataset and uses it to create entities and links to be returned to i2 Analyze.</p>

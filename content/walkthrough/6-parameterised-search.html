@@ -181,7 +181,7 @@ If you added an example user, the username and the password will be <code>Jenny<
    value = &quot;/search&quot;,
    consumes = APPLICATION_JSON_VALUE,
    produces = APPLICATION_JSON_VALUE)
-public ConnectorResponse testSearchService(@Valid @RequestBody ConnectorRequest request) {
+public I2ConnectData testSearchService(@Valid @RequestBody DaodRequest request) {
 
    // TODO: Extract request conditions and use in request to Socrata.
    System.out.println(request);

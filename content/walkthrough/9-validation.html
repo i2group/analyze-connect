@@ -131,9 +131,9 @@
 <p>In the <code>ConnectorController.java</code> file, add the following method:</p>
 <pre><code class="lang-java">@RequestMapping(method = RequestMethod.POST, value = &quot;/search/validate&quot;,
     consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-public ValidationResponse searchValidate(@Valid @RequestBody ConnectorRequest request) {
-  final ValidationResponse validationResponse = new ValidationResponse();
-  final List&lt;RequestCondition&gt; conditions = request.payload.conditions;
+public PayloadValidationResponse searchValidate(@Valid @RequestBody DaodRequest request) {
+  final PayloadValidationResponse validationResponse = new PayloadValidationResponse();
+  final List&lt;DaodRequestCondition&gt; conditions = request.payload.conditions;
   final boolean conditionPresent = conditions.stream()
       .anyMatch(condition -&gt; condition.value != null);
 
@@ -143,21 +143,23 @@ public ValidationResponse searchValidate(@Valid @RequestBody ConnectorRequest re
   return validationResponse;
 }
 </code></pre><h4 id="python">Python</h4>
-<p>In the <code>controller.py</code> class, add the following function:</p>
-<pre><code class="lang-python">@controller.route(&#39;/search/validate&#39;, methods=[&#39;POST&#39;])
+<p>In the <code>controller.py</code> class, add the following function and import:</p>
+<pre><code class="lang-python">from spi.models.i2_connect_data import I2ConnectData
+
+@controller.route(&#39;/search/validate&#39;, methods=[&#39;POST&#39;])
 def search_validate():
-  conditions = request.json[&#39;payload&#39;][&#39;conditions&#39;]
-  response = { &#39;errorMessage&#39;: None }
-  conditionPresent = False
+    conditions = request.json[&#39;payload&#39;][&#39;conditions&#39;]
+    response = I2ConnectData()
+    condition_present = False
 
-  for condition in conditions:
-      if condition.get(&#39;value&#39;) is not None:
-          conditionPresent = True
+    for condition in conditions:
+        if condition.get(&#39;value&#39;) is not None:
+            condition_present = True
 
-  if not conditionPresent:
-      response[&#39;errorMessage&#39;] = &quot;At least one search field should have a specified value.&quot;
+    if not condition_present:
+        response.error_message = &quot;At least one search field should have a specified value.&quot;
 
-  return response
+    return response.to_dict()
 </code></pre><p>For more information, see the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="3-reload-the-i2-connect-gateway">3. Reload the i2 Connect gateway</h3>
 <p>Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>

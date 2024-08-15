@@ -131,26 +131,33 @@
 <p>In the <code>ItemFactory.java</code> file, define a method to build the source identifiers:</p>
 <pre><code class="lang-java">private Object generateSourceIdentifier(SocrataResponseData entry) {
   if (entry.offenceLevel != null &amp;&amp; entry.precinctCode != 0) {
-    final SourceId sourceId = new SourceId();
+    final SourceIdentifier sourceId = new SourceIdentifier();
     sourceId.type = &quot;NYPD&quot;;
     sourceId.key = Arrays.asList(entry.offenceLevel, String.valueOf(entry.precinctCode), entry.complaintNum);
 
-    return Collections.singletonMap(&quot;sourceId&quot;, sourceId);
+    return new EntityDataIdentifierSourceId(sourceId);
   } else {
     return &quot;COMP&quot; + entry.complaintNum;
   }
 }
+</code></pre><p>This code uses the <code>SourceIdentifier</code> and <code>EntityDataIdentifierSourceId</code> classes from the supplied Java implementation of the i2 Connect Gateway REST SPI.
+You&#39;ll need to import them at the top of the file:</p>
+<pre><code class="lang-java">import com.i2group.connector.spi.rest.transport.SourceIdentifier;
+import com.i2group.connector.spi.rest.transport.EntityDataIdentifierSourceId;
 </code></pre><p>Then, in the <code>createComplaint()</code> method, set the <code>complaint.id</code> value to call the new method:</p>
 <pre><code class="lang-java">complaint.id = generateSourceIdentifier(entry);
 </code></pre><h4 id="python-example">Python example</h4>
 <p>In the <code>classes.py</code> file, define a global function to build the source identifiers:</p>
 <pre><code class="lang-python">def generate_source_identifier(entry):
-    return {
-        &#39;sourceId&#39;: {
-            &#39;type&#39;: &#39;NYPD&#39;,
-            &#39;key&#39;: [entry.get(&#39;law_cat_cd&#39;), entry.get(&#39;addr_pct_cd&#39;, &#39;&#39;), entry.get(&#39;cmplnt_num&#39;)]
-        }
-    }
+    source_identifier = SourceIdentifier(
+        type=&quot;NYPD&quot;,
+        key=[entry.get(&#39;law_cat_cd&#39;), entry.get(&#39;addr_pct_cd&#39;, &#39;&#39;), entry.get(&#39;cmplnt_num&#39;)]
+    )
+    return EntityDataIdentifierSourceId(source_identifier)
+</code></pre><p>This code uses the <code>SourceIdentifier</code> and <code>EntityDataIdentifierSourceId</code> classes from the supplied Python implementation of the i2 Connect Gateway REST SPI.
+You&#39;ll need to import them at the top of the file:</p>
+<pre><code class="lang-python">from spi.models.source_identifier import SourceIdentifier
+from spi.models.entity_data_identifier_source_id import EntityDataIdentifierSourceId
 </code></pre><p>Then, on the <code>id</code> property in the <code>Complaint</code> class, replace the call to the method <code>get_id(base, entry)</code> with <code>generate_source_identifier(entry)</code>:</p>
 <pre><code class="lang-python">class Complaint(Entity):
     &quot;&quot;&quot;
@@ -166,19 +173,19 @@
 <p>In the following Java and Python examples, the source identifiers are filtered down to those whose <code>type</code> property contains the value <code>NYPD</code>. Their <code>key</code> values are then used to populate the request parameters. Instead of the existing parameters, which searched for matching records with the same level of offense, the request is updated to search for matching records with the same level of offense <em>within the same precinct</em>.</p>
 <h4 id="java-example-1">Java example</h4>
 <p>In the <code>ExternalConnectorDataService.java</code> file, replace the <code>findLikeThisComplaint()</code> method with the following:</p>
-<pre><code class="lang-java">public ConnectorResponse findLikeThisComplaint(DaodSeeds seeds) {
+<pre><code class="lang-java">public I2ConnectData findLikeThisComplaint(DaodSeeds seeds) {
   final DaodSeedEntityData seed = seeds.entities.get(0);
 
-  final List&lt;SourceId&gt; sourceIds = seed.sourceIds;
+  final List&lt;SeedSourceIdentifier&gt; sourceIds = seed.sourceIds;
 
   // filter out system generated source ids
-  final List&lt;SourceId&gt; nypdSourceIds = sourceIds
+  final List&lt;SeedSourceIdentifier&gt; nypdSourceIds = sourceIds
       .stream()
       .filter(sourceId -&gt; sourceId.type.equals(&quot;NYPD&quot;))
       .collect(Collectors.toList());
 
   if (nypdSourceIds.isEmpty()) {
-    return new ConnectorResponse();
+    return new I2ConnectData();
   }
 
   final Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
@@ -189,7 +196,7 @@
   final String url = LIMIT_PARAM + &quot;&amp;$where=law_cat_cd=&#39;{lawCategory}&#39;&amp;addr_pct_cd=&#39;{precinctCode}&#39;&quot;;
   final SocrataResponse response = socrataClient.get(url, SocrataResponse.class, params);
 
-  final ConnectorResponse connectorResponse = new ConnectorResponse();
+  final I2ConnectData connectorResponse = new I2ConnectData();
   connectorResponse.entities = response.stream().map(itemFactory::createComplaint).collect(Collectors.toList());
   connectorResponse.links = Collections.emptyList();
   return connectorResponse;
@@ -197,18 +204,18 @@
 </code></pre><h4 id="python-example-1">Python example</h4>
 <p>In the <code>service.py</code> file, update the <code>if seeds:</code> block of code in the <code>impl_find_like_this_complaint()</code> method with the following:</p>
 <pre><code class="lang-python">    if seeds:
-        sourceIds = seeds[&#39;entities&#39;][0][&#39;sourceIds&#39;]
-        nypdSourceIds = []
+        source_ids = seeds[&#39;entities&#39;][0][&#39;sourceIds&#39;]
+        nypd_source_ids = []
 
         # filter out system generated source ids
-        for sourceId in sourceIds:
+        for sourceId in source_ids:
             if sourceId[&#39;type&#39;] == &#39;NYPD&#39;:
-                nypdSourceIds.append(sourceId)
+                nypd_source_ids.append(sourceId)
 
-        if not nypdSourceIds:
+        if not nypd_source_ids:
             return response
 
-        params = f&quot;&amp;$where=law_cat_cd=&#39;{nypdSourceIds[0][&#39;key&#39;][0]}&#39;&amp;addr_pct_cd=&#39;{nypdSourceIds[0][&#39;key&#39;][1]}&#39;&quot;
+        params = f&quot;&amp;$where=law_cat_cd=&#39;{nypd_source_ids[0][&#39;key&#39;][0]}&#39;&amp;addr_pct_cd=&#39;{nypd_source_ids[0][&#39;key&#39;][1]}&#39;&quot;
 
         records = query_external_datasource(params)
         response = marshal(records, type_ids[&#39;complaint&#39;], False)

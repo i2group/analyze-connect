@@ -195,9 +195,9 @@ Now you need to add an endpoint for it in the connector and return some data.</p
 Create a new file named <code>ExternalConnectorDataService.java</code> at the same level as <code>ConnectorController.java</code>, and populate it with this code:</p>
 <pre><code class="lang-java">package com.i2group.demo;
 
-import com.i2group.demo.rest.transport.ConnectorResponse;
-import com.i2group.demo.rest.transport.EntityData;
-import com.i2group.demo.rest.transport.LinkData;
+import com.i2group.connector.spi.rest.transport.I2ConnectData;
+import com.i2group.connector.spi.rest.transport.I2ConnectEntityData;
+import com.i2group.connector.spi.rest.transport.I2ConnectLinkData;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -206,19 +206,20 @@ import java.util.List;
 @Service
 public class ExternalConnectorDataService {
 
-   public ConnectorResponse retrieveTestDataFromExternalSource() {
-      final List&lt;EntityData&gt; entities = new ArrayList&lt;&gt;();
-      final List&lt;LinkData&gt; links = new ArrayList&lt;&gt;();
+   public I2ConnectData retrieveTestDataFromExternalSource() {
+      final List&lt;I2ConnectEntityData&gt; entities = new ArrayList&lt;&gt;();
+      final List&lt;I2ConnectLinkData&gt; links = new ArrayList&lt;&gt;();
 
       // TODO: Populate entity and link lists with some dummy data and see that it is returned to ANBP
 
-      final ConnectorResponse connectorResponse = new ConnectorResponse();
+      final I2ConnectData connectorResponse = new I2ConnectData();
       connectorResponse.entities = entities;
       connectorResponse.links = links;
       return connectorResponse;
    }
 }
-</code></pre></li>
+</code></pre><p><strong>Note:</strong> This code uses the <code>I2ConnectData</code>, <code>I2ConnectEntityData</code>, and <code>I2ConnectLinkData</code> classes from the supplied Java implementation of the i2 Connect Gateway REST SPI.</p>
+</li>
 <li><p>In the <code>ConnectorController</code> class, create an instance of the <code>ExternalConnectorDataService</code> class by replacing the <code>ConnectorController</code> no-args constructor with the following:</p>
 <pre><code class="lang-java">private final ExternalConnectorDataService connectorDataService;
 
@@ -232,7 +233,7 @@ public ConnectorController(ExternalConnectorDataService connectorDataService) {
       value = &quot;/all&quot;,
       consumes = APPLICATION_JSON_VALUE,
       produces = APPLICATION_JSON_VALUE)
-public ConnectorResponse testService() {
+public I2ConnectData testService() {
    return connectorDataService.retrieveTestDataFromExternalSource();
 }
 </code></pre></li>
@@ -240,7 +241,9 @@ public ConnectorResponse testService() {
 <h4 id="python">Python</h4>
 <ol>
 <li><p>Before adding the endpoint, we will start by adding a class that demonstrates a connector response. Create a new file named <code>service.py</code> at the same level as <code>controller.py</code>, and populate it with this code:</p>
-<pre><code class="lang-python">def query_external_datasource():
+<pre><code class="lang-python">from spi.models.i2_connect_data import I2ConnectData
+
+def query_external_datasource():
    &quot;&quot;&quot;
    Used to populate entity lists and link lists to return to ANBP.
 
@@ -253,11 +256,13 @@ public ConnectorResponse testService() {
    # TODO: Populate entity and link lists with some dummy data and see that
    # it is returned to ANBP
 
-   response = {}
-   response[&#39;entities&#39;] = entities
-   response[&#39;links&#39;] = links
-   return response
-</code></pre></li>
+   response = I2ConnectData(
+      entities=entities,
+      links=links
+   )
+   return response.to_dict()
+</code></pre><p><strong>Note:</strong> This code uses the <code>I2ConnectData</code> class from the supplied Python implementation of the i2 Connect Gateway REST SPI.</p>
+</li>
 <li><p>To add the endpoint, update <code>controller.py</code> to include this import and method:</p>
 <pre><code class="lang-python">from helper.service import query_external_datasource
 

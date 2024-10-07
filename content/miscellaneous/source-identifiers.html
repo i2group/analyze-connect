@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="source-identifiers">Source identifiers</h1>
 
-<p>In all versions of i2 Analyze, the ETL pipeline requires you to provide origin identifiers for incoming records through the ingestion mappings that you write. Starting from i2 Analyze 4.3.5, developers of connectors for i2 Connect and plug-ins for i2 Analyst&#39;s Notebook Premium can explicitly provide source identifiers for the records that they create.</p>
+<p>In all versions of i2 Analyze, the ETL pipeline requires you to provide origin identifiers for incoming records through the ingestion mappings that you write. Starting from i2 Analyze 4.3.5, developers of connectors for i2 Connect and plug-ins for i2 Analyst&#39;s Notebook can explicitly provide source identifiers for the records that they create.</p>
 <p><strong>Note:</strong> For high-level descriptions of source identifiers and origin identifiers (and the differences between them), see <a href="https://docs.i2group.com/analyze/data_model_identifiers_is.html">Identifiers in i2 Analyze records</a>.</p>
 <p>When you attach recognizable identifiers to the records that you create in connector code, you enable services to perform operations based on those identifiers. You also enable i2 Analyze clients and servers to perform matching on records that have a shared source.</p>
 <p>The rules that govern the structure and contents of source identifiers are similar to - but not the same as - the rules for origin identifiers. Similar to their definitions, the rules for source identifiers are sometimes less restrictive than those for origin identifiers.</p>
@@ -111,13 +111,13 @@
 </ul>
 <h2 id="using-source-identifiers">Using source identifiers</h2>
 <p>When a service receives a seed record, it can inspect the source identifiers to find out whether a known type is present. If it is, then the key can be used to retrieve or match information from the source system.</p>
-<p>When records are returned from external sources, the client can match them against other records by using the source identifiers (if source identifier matching is enabled in the match rules with <code>enableSourceIdentifierMatching=&quot;true&quot;</code>). Also, if source identifier matching is configured in the system match rules, then source identifiers provided through i2 Connect or Analyst&#39;s Notebook Premium can be matched against the origin identifiers of records in the Information Store.</p>
+<p>When records are returned from external sources, the client can match them against other records by using the source identifiers (if source identifier matching is enabled in the match rules with <code>enableSourceIdentifierMatching=&quot;true&quot;</code>). Also, if source identifier matching is configured in the system match rules, then source identifiers provided through i2 Connect or Analyst&#39;s Notebook can be matched against the origin identifiers of records in the Information Store.</p>
 <p>In both cases, source identifier matches occur when record item types match <em>and</em> the type and keys of the identifiers are an exact (case-sensitive) match.</p>
 <p><strong>Note:</strong> After upgrading to i2 Analyze 4.3.5 from a previous release, if you want to match against the origin identifiers of already ingested records, you must build a new match index.</p>
 <h2 id="limitations">Limitations</h2>
 <p>There is a limit on the number of unique source identifiers that you can add to a record in the Information Store. The default limit is 50, but you can modify it by adding <code>MaxSourceIdentifiersPerRecord=N</code> (where <code>N</code> is a positive integer) to the <code>DiscoServerSettingsCommon.properties</code> file.</p>
-<p>Origin identifiers are not stored in chart records. As a result, they are not present as source identifiers on seeds that are sent to connectors or Analyst&#39;s Notebook Premium plug-ins. Only those source identifiers that have been added to records through the same mechanisms are present.</p>
-<p>Connectors that specify source identifiers are API-compatible with older versions of the i2 Connect gateway and Analyst&#39;s Notebook Premium, but those products will not recognize new source identifiers as such. Rather, they will be treated as ordinary identifiers or ignored. To use source identifiers to their full potential, upgrade all products to the latest release at your earliest opportunity.</p>
+<p>Origin identifiers are not stored in chart records. As a result, they are not present as source identifiers on seeds that are sent to connectors or Analyst&#39;s Notebook plug-ins. Only those source identifiers that have been added to records through the same mechanisms are present.</p>
+<p>Connectors that specify source identifiers are API-compatible with older versions of the i2 Connect gateway and Analyst&#39;s Notebook, but those products will not recognize new source identifiers as such. Rather, they will be treated as ordinary identifiers or ignored. To use source identifiers to their full potential, upgrade all products to the latest release at your earliest opportunity.</p>
 <h2 id="example">Example</h2>
 <p>This example is based on the NYPD connector sample solution. When the external data source is queried, source identifiers are built and attached as the identifier of the data for the record, rather than using the unique identifier from the dataset. This arrangement allows the <code>find-like-this-complaint</code> service to extract the relevant information and use it in the query parameters.</p>
 <h3 id="build-a-source-identifier">Build a source identifier</h3>

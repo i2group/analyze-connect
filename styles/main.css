@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300..600;1,300..600&display=block');
+
 html, body, blockquote {
-  font-family: 'IBM Plex Sans', Tahoma, Helvetica, sans-serif;
+  font-family: Inter, Tahoma, Helvetica, sans-serif;
   font-size: 15px;
   font-weight: 400;
   height: 100%;
@@ -12,7 +14,7 @@ blockquote {
 }
 code, kbd, pre, samp {
   color: inherit;
-  font-family: 'IBM Plex Mono', Monaco, Consolas, 'Courier New', monospace;
+  font-family: Monaco, Consolas, 'Courier New', monospace;
   font-size: 14px;
   font-weight: 400;
   word-break: normal;
@@ -184,7 +186,7 @@ button:hover, button:focus, a:hover, a:focus, a code:hover, a code:focus {
 
 /* Fix the styling of the product name */
 .navbar-brand {
-  padding-top: 15px;
+  padding-top: 16px;
   font-size: 17px;
   color: white !important;
 }

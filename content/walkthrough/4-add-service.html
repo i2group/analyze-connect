@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -136,7 +136,7 @@ Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json
 <p><strong>Note:</strong> If you want the data fetched asynchronously, you must use the <code>async</code> field instead.
 For more information about the <code>async</code> option, see <a href="../example-connectors/connector-async.html">Async Connector</a>.</p>
 <p>It is also common and recommended to add a <code>description</code> field.
-This appears to users in Analyst&#39;s Notebook Premium, where it provides more information about what the service does.
+This appears to users in Analyst&#39;s Notebook, where it provides more information about what the service does.
 You should have something like the following.</p>
 <pre><code class="lang-json">{
    &quot;defaultValues&quot;: {
@@ -171,10 +171,10 @@ If you added an example user, the username and the password will be <code>Jenny<
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
 </ol>
-<h3 id="view-the-service-in-analysts-notebook-premium">View the service in Analyst&#39;s Notebook Premium</h3>
+<h3 id="view-the-service-in-analysts-notebook">View the service in Analyst&#39;s Notebook</h3>
 <p>Now that you have defined a service, you can try to use it.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook Premium and log in to the i2 Analyze server.
+<li>Open Analyst&#39;s Notebook and log in to the i2 Analyze server.
 If you were already logged in, log out and then back in again.</li>
 <li>Open External Searches. The service you have defined should appear.</li>
 <li>Try to run it. Although the service is defined, since it has not yet been implemented, you should see a red banner appear with the message &quot;The application failed to perform the search operation.&quot;</li>
@@ -271,11 +271,11 @@ def all():
    return query_external_datasource()
 </code></pre></li>
 </ol>
-<h3 id="test-the-service-in-analysts-notebook-premium">Test the service in Analyst&#39;s Notebook Premium</h3>
+<h3 id="test-the-service-in-analysts-notebook">Test the service in Analyst&#39;s Notebook</h3>
 <ol>
 <li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
 </li>
-<li><p>Re-run the service in Analyst&#39;s Notebook Premium via the External Searches window.</p>
+<li><p>Re-run the service in Analyst&#39;s Notebook via the External Searches window.</p>
 </li>
 <li><p>You should no longer get a 404 error, but the search will return nothing.</p>
 </li>

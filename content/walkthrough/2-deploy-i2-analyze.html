@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -123,7 +123,7 @@
 <li><p>In the same directory, open the <code>ApolloServerSettingsMandatory.properties</code> file. By default, the gateway schema and charting scheme properties look like the following:</p>
 <pre><code class="lang-properties">Gateway.External.SchemaResource=
 Gateway.External.ChartingSchemesResource=
-</code></pre><blockquote><p><strong>Note:</strong> The default schema short name is <code>External</code>. For this example, we will change that short name to <code>NYPD-Complaints</code>. You may choose to use a different short name as you wish. The schema short name will appear in the labels of items on a chart in Analyst&#39;s Notebook Premium.</p>
+</code></pre><blockquote><p><strong>Note:</strong> The default schema short name is <code>External</code>. For this example, we will change that short name to <code>NYPD-Complaints</code>. You may choose to use a different short name as you wish. The schema short name will appear in the labels of items on a chart in Analyst&#39;s Notebook.</p>
 </blockquote>
 <p>Update the schema and charting scheme properties to point to your schema files as follows:</p>
 <pre><code class="lang-properties">Gateway.NYPD-Complaints.SchemaResource=schema-filename.xml
@@ -159,9 +159,9 @@ Gateway.NYPD-Complaints.ChartingSchemesResource=charting-schemes-filename.xml
 <pre><code class="lang-shell">setup -t startLiberty
 </code></pre></li>
 </ol>
-<p>You can now connect Analyst&#39;s Notebook Premium to i2 Analyze. The output of the start command includes the URL to use for the i2 Analyze server.</p>
+<p>You can now connect Analyst&#39;s Notebook to i2 Analyze. The output of the start command includes the URL to use for the i2 Analyze server.</p>
 <p>This is the best time to test the schema you created in the previous step (or the existing schema, if you&#39;re using the example one).
-In Analyst&#39;s Notebook Premium, create items on the chart to visualize the i2 Analyze schema by using the <strong>Gateway</strong> palette.
+In Analyst&#39;s Notebook, create items on the chart to visualize the i2 Analyze schema by using the <strong>Gateway</strong> palette.
 You should also test the different charting schemes and see what labels appear and how they are formatted.</p>
 <p>If you want to make changes to the schema and its associated charting schemes, you can run through the <a href="1-schema-design-guide.html">schema design guide</a> again.</p>
 <p>To deploy the updated schema and charting scheme, you will need to update the i2 Analyze connectors configuration and reload the i2 Connect gateway.</p>

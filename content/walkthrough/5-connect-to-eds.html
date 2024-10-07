@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="connect-to-an-external-data-source">Connect to an external data source</h1>
 
-<p>Here, you will connect to the NYPD Complaint Dataset as your external data source and marshal the data into entities, links, and properties so that you can return results which can be displayed in Analyst&#39;s Notebook Premium.</p>
+<p>Here, you will connect to the NYPD Complaint Dataset as your external data source and marshal the data into entities, links, and properties so that you can return results which can be displayed in Analyst&#39;s Notebook.</p>
 <p>Again, use the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if you need to.</p>
 <h2 id="create-a-socrata-app-token">Create a Socrata app token</h2>
 <p>You need an app token that will allow you to make unlimited requests to Socrata&#39;s API (within reason). If you don&#39;t use an app token, the APIs will throttle by IP address.</p>
@@ -281,8 +281,8 @@ logger = logging.getLogger(__name__)
 <p>Create a response object with a list of entities and links to be returned. You need to take care not to duplicate entities in the list. Also take care again to assign property values in the correct format. Refer to the <a href="../miscellaneous/data-model.html">data model examples</a> again if you need.</p>
 <h4 id="optional-validate-your-return-response">(Optional) Validate your return response</h4>
 <p>Verify that the response returned from your function is valid and is as expected.</p>
-<h2 id="view-results-in-analysts-notebook-premium">View results in Analyst&#39;s Notebook Premium</h2>
-<p>You should now be able to log into Analyst&#39;s Notebook Premium and run your query. If there are any errors, you may want to check that your schema is in the right shape, that your data is clean and that there are no missing values.</p>
+<h2 id="view-results-in-analysts-notebook">View results in Analyst&#39;s Notebook</h2>
+<p>You should now be able to log into Analyst&#39;s Notebook and run your query. If there are any errors, you may want to check that your schema is in the right shape, that your data is clean and that there are no missing values.</p>
 <h2 id="next-steps">Next steps</h2>
 <p>Next, you can <a href="6-parameterised-search.html">configure your own parameterized search</a>.</p>
 </article>

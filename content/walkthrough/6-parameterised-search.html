@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -115,7 +115,7 @@ For example:</p>
    ]
 }
 </code></pre></li>
-<li><p>Set the <code>type</code> value in the client configuration entry to be <code>FORM</code> so that you can specify your conditions through fields in a form that will be shown in Analyst&#39;s Notebook Premium.</p>
+<li><p>Set the <code>type</code> value in the client configuration entry to be <code>FORM</code> so that you can specify your conditions through fields in a form that will be shown in Analyst&#39;s Notebook.</p>
 </li>
 <li><p>To define the search fields for the form, add a form config object as below:</p>
 <pre><code class="lang-json">{
@@ -148,7 +148,7 @@ For example:</p>
 </ol>
 <p>For more information about client configuration, refer to the <a href="../workflow/config.html">development workflow documentation</a>.</p>
 <h3 id="test-search-fields">Test search fields</h3>
-<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook Premium.</p>
+<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
@@ -159,7 +159,7 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
-<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.</p>
+<li><p>Log out and log back in to Analyst&#39;s Notebook to see the configuration changes and your newly defined service.</p>
 </li>
 <li><p>Try running the query. You should receive an error because your condition fields have been defined but not yet implemented.</p>
 </li>
@@ -213,7 +213,7 @@ The list of conditions can be accessed via <code>request.payload.conditions</cod
 <h3 id="filter-data-by-conditions">Filter data by conditions</h3>
 <p>When you have a list of conditions, you can use their <code>id</code> and <code>value</code> fields to determine which of the entities retrieved from the data source match the parameters given by the user in the form.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook Premium.</p>
+<p>Reload the connector and check that your fields work in Analyst&#39;s Notebook.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
@@ -224,7 +224,7 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
-<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.</p>
+<li><p>Log out and log back in to Analyst&#39;s Notebook to see the configuration changes and your newly defined service.</p>
 </li>
 <li><p>Select your parameterized search service.</p>
 </li>

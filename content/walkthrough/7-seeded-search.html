@@ -35,7 +35,7 @@
               </button>
               
               <a class="navbar-brand" href="../../index.html">
-                <strong>i2 Connect gateway</strong>
+                i2 <strong>Connect gateway</strong>
               </a>
             </div>
             <div class="collapse navbar-collapse" id="navbar">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="seeded-search">Seeded search</h1>
 
-<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst&#39;s Notebook Premium and open &quot;External Search&quot;.</p>
+<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst&#39;s Notebook and open &quot;External Search&quot;.</p>
 <p>Again, if you face any issues during this task, remember to consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <p>For more information on seeded queries, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="configuration">Configuration</h2>
@@ -134,8 +134,8 @@ The services should also define the <code>seedConstraints</code> object that con
 }
 </code></pre><p>We will cover these two types of seeded queries later in this topic.
 For now, update the <code>id</code>s of the <code>itemTypes</code> to values that exist in your schema.</p>
-<h3 id="check-service-in-analysts-notebook-premium">Check service in Analyst&#39;s Notebook Premium</h3>
-<p>Reload the connector and check that your services are in the list of defined services in Analyst&#39;s Notebook Premium.</p>
+<h3 id="check-service-in-analysts-notebook">Check service in Analyst&#39;s Notebook</h3>
+<p>Reload the connector and check that your services are in the list of defined services in Analyst&#39;s Notebook.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
@@ -146,7 +146,7 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
-<li><p>Log out and log back in to Analyst&#39;s Notebook Premium to see the configuration changes and your newly defined service.  </p>
+<li><p>Log out and log back in to Analyst&#39;s Notebook to see the configuration changes and your newly defined service.  </p>
 </li>
 <li><p>You may notice that you are not able to run any of the new services.
 Since they are seeded services, you must first select a valid seed.
@@ -217,11 +217,11 @@ def seeded_search():
 </ul>
 <p>For more information about these and other uses for seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Run the seeded search service in Analyst&#39;s Notebook Premium.</p>
+<p>Run the seeded search service in Analyst&#39;s Notebook.</p>
 <ol>
 <li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
 </li>
-<li><p>Open Analyst&#39;s Notebook Premium.</p>
+<li><p>Open Analyst&#39;s Notebook.</p>
 </li>
 <li><p>Select an entity on the chart.</p>
 </li>

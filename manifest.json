@@ -3,7 +3,7 @@
     "baseUrl": "https://i2group.github.io/analyze-connect/"
   },
   "homepages": [],
-  "source_base_path": "D:/GitProjects/Connect-Examples/docs",
+  "source_base_path": "C:/DevX/analyze-connect-internal/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -57,7 +57,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-kcpd.html",
-          "hash": "z0Eo2wuO8tv5VAIBFqx0VA=="
+          "hash": "PhcpmImCNRiFIbc6JBXycA=="
         }
       },
       "is_incremental": false,
@@ -69,7 +69,7 @@
       "output": {
         ".html": {
           "relative_path": "content/example-connectors/connector-nypd.html",
-          "hash": "zzXZw3f/qrJxAp4OWbtbaQ=="
+          "hash": "Vpx9U+FV0ouwrK4JI5RRJg=="
         }
       },
       "is_incremental": false,
@@ -326,11 +326,11 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "content/miscellaneous/principal-propagation.md",
+      "source_relative_path": "content/miscellaneous/property-semantic-search.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/principal-propagation.html",
-          "hash": "b0hXNuKnA/zMWbYgOBFHtg=="
+          "relative_path": "content/miscellaneous/property-semantic-search.html",
+          "hash": "CF8D/HC3JANY+/GTiDsFeA=="
         }
       },
       "is_incremental": false,
@@ -338,11 +338,11 @@
     },
     {
       "type": "Conceptual",
-      "source_relative_path": "content/miscellaneous/property-semantic-search.md",
+      "source_relative_path": "content/miscellaneous/request-modifier.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/property-semantic-search.html",
-          "hash": "CF8D/HC3JANY+/GTiDsFeA=="
+          "relative_path": "content/miscellaneous/request-modifier.html",
+          "hash": "SFFv34vTYl8reLJBfFO7tg=="
         }
       },
       "is_incremental": false,
@@ -378,7 +378,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/source-references.html",
-          "hash": "H8i/77Zp3L0bVnyfX4tJpA=="
+          "hash": "BJNe0vD4xsW+dXrzt24Q2w=="
         }
       },
       "is_incremental": false,
@@ -402,7 +402,7 @@
       "output": {
         ".html": {
           "relative_path": "content/miscellaneous/spi-version.html",
-          "hash": "S3dIUBXvT/h08fjastLLvA=="
+          "hash": "mDUzXyHIGwJ2M9P9zToueg=="
         }
       },
       "is_incremental": false,
@@ -612,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/1-schema-design-guide.html",
-          "hash": "atXOxxa0H7VHvLHbGscFUg=="
+          "hash": "a7PTDsRwLrz26dYpMmCKvg=="
         }
       },
       "is_incremental": false,
@@ -660,7 +660,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "Or4f9QDeR7b+feJPGC76BQ=="
+          "hash": "pspP0QitkAlFf7dsgtzEQg=="
         }
       },
       "is_incremental": false,
@@ -971,7 +971,7 @@
       "output": {
         ".html": {
           "relative_path": "guidetoc/toc.html",
-          "hash": "CVB0FHV8KL8zBLGu5RQfYA=="
+          "hash": "gCne2qmRqVGmBkZmGbPlAA=="
         }
       },
       "is_incremental": false,
@@ -994,7 +994,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "Bu8KRd8EP6dCZgAbudY81w=="
+          "hash": "CVY0VGZeOymF6OFSUhIwqA=="
         }
       },
       "is_incremental": false,
@@ -1016,17 +1016,19 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": true,
+        "can_incremental": false,
+        "details": "Cannot build incrementally because last build info is missing.",
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0
+        "skipped_file_count": 0,
+        "full_build_reason_code": "NoAvailableBuildCache"
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": true,
+          "can_incremental": false,
           "incrementalPhase": "build",
           "total_file_count": 49,
-          "skipped_file_count": 31
+          "skipped_file_count": 0
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

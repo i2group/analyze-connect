@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="kansas-city-police-department-kcpd-connector">Kansas City Police Department (KCPD) Connector</h1>
 
-<p>The KCPD connector connects to the <a href="https://data.kcmo.org/Crime/KCPD-Crime-Data-2020/vsgj-uufz/">KCPD Crime 2020 Dataset</a> as the external data source and marshals the data into entities, links and properties. This dataset contains reports on the criminal incidents which the Kansas City Police Department of Missouri have recorded.</p>
+<p>The KCPD connector connects to the <a href="https://data.kcmo.org/Crime/KCPD-Crime-Data-2024/isbe-v4d8/">KCPD Crime 2024 Dataset</a> as the external data source and marshals the data into entities, links and properties. This dataset contains reports on the criminal incidents which the Kansas City Police Department of Missouri have recorded.</p>
 <p>There are a number of fields in the dataset:</p>
 <table>
 <thead>
@@ -385,7 +385,7 @@
 <p>In order to query the external data source, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
 <p>In the KCPD connector&#39;s <code>application.properties</code> file at <code>connector\kcpd\kcpd-connector\src\main\resources</code>, add your token.</p>
 <pre><code class="lang-properties">server.port=9083
-socrata.url=https://data.kcmo.org/resource/vsgj-uufz.json
+socrata.url=https://data.kcmo.org/resource/isbe-v4d8.json
 
 # API Token. Create a Socrata account and create an API Token. Paste it here
 socrata.api.token=

@@ -106,7 +106,7 @@
 <h4 id="java">Java</h4>
 <ol>
 <li><p>To apply the app token to the connector application, we can specify it in the <code>application.properties</code> file. Update the <code>application.properties</code> file to include the following properties:</p>
-<pre><code class="lang-properties"># Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+<pre><code class="lang-properties"># Resource URL, for example https://data.cityofnewyork.us/resource/5uac-w243.json
 socrata.url=
 
 # API Token. Create a Socrata account and create an API Token. Paste it here
@@ -212,7 +212,7 @@ public ExternalConnectorDataService(
 <ol>
 <li><p>To apply the app token to the connector application, create a file named <code>application.yml</code> under the <code>static</code> directory and add the following contents to the file:</p>
 <pre><code class="lang-yml">socrata:
-   url: # Resource URL, for example https://data.cityofnewyork.us/resource/7x9x-zpz6.json
+   url: # Resource URL, for example https://data.cityofnewyork.us/resource/5uac-w243.json
    token: # Replace with Socrata API token
 </code></pre><p>Here you should specify the NYPD Complaint Dataset API resource for the <code>socrata.url</code> key as the URL in the comment and your Socrata API Token for the <code>socrata.api.token</code> key.</p>
 </li>

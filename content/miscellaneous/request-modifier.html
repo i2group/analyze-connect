@@ -79,11 +79,13 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="custom-http-headers">Custom HTTP headers</h1>
 
-<p>Starting at version 4.3.3, i2 Analyze contains an extension point that enables you to return additional headers to any connectors from the i2 Connect gateway. The extension point requires you to write an implementation of <code>IConnectorRequestModifier.java</code>. The implementation must be packaged into a JAR file and deployed to i2 Analyze. The following example demonstrates how to use Maven to do this and how to configure i2 Analyze to use your implementation.</p>
+<p>Starting at version 4.3.3, i2 Analyze contains an extension point that enables you to send additional headers to connectors when requests are made through the i2 Connect gateway. You can use this feature to implement solutions that include providing API keys from a secrets manager, or supplying other centralized configuration parameters.</p>
+<p>The extension point requires you to write an implementation of the <a href="https://i2group.github.io/analyze/docs/com/i2group/disco/daod/spi/IConnectorRequestModifier.html"><code>IConnectorRequestModifier</code></a> interface. The implementation must be packaged into a JAR file and deployed to i2 Analyze. The following example demonstrates how to use Maven to do this and how to configure i2 Analyze to use your implementation.</p>
+<p><strong>Note:</strong> The connector request modifier is invoked only for requests made to endpoints by individual users. It is <em>not</em> invoked for requests made to the connector config, schema, or charting scheme endpoints.</p>
 <h2 id="overview">Overview</h2>
 <p>For i2 Analyze to use your implementation, complete the following tasks:</p>
 <ol>
-<li>Create and package your implementation of <code>IConnectorRequestModifier.java</code></li>
+<li>Create and package your implementation of <code>IConnectorRequestModifier</code></li>
 <li>Configure i2 Analyze to use your packaged implementation</li>
 <li>Redeploy and restart Liberty to update your deployment</li>
 </ol>
@@ -91,38 +93,46 @@
 <ul>
 <li>Java installed</li>
 </ul>
-<h2 id="the-principal-propagation-project">The principal propagation project</h2>
-<p>Update the value of the <code>&lt;toolkitLocation&gt;</code> element in the <code>principal-propagation/pom.xml</code> file to reference the installation location of i2 Analyze. For example:</p>
+<h2 id="the-request-modifier-project">The request modifier project</h2>
+<p>Update the value of the <code>&lt;toolkitLocation&gt;</code> element in the <code>request-modifier/pom.xml</code> file to reference the installation location of i2 Analyze. For example:</p>
 <pre><code class="lang-xml">&lt;toolkitLocation&gt;C:\i2\i2analyze&lt;/toolkitLocation&gt;
 </code></pre><p>This location is used by Maven to locate the JAR files to pull into the local Maven repository and where to place the packaged JAR file that contains your implementation.</p>
-<p>To set up the Maven environment, open a terminal in the <code>principal-propagation</code> directory.</p>
-<h3 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies:</h3>
+<p>To set up the Maven environment, open a terminal in the <code>request-modifier</code> directory.</p>
+<h3 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies</h3>
 <pre><code class="lang-shell">mvnw initialize
 </code></pre><p>This pulls in JAR files from the i2 Analyze deployment toolkit into your local Maven repository.</p>
-<h3 id="2-compile-and-install-the-project">2. Compile and install the project:</h3>
+<h3 id="2-compile-and-install-the-project">2. Compile and install the project</h3>
 <pre><code class="lang-shell">mvnw clean install
-</code></pre><p>At this point, you could start editing the implementation in <code>principal-propagation/src/main/java/com/i2group/example/PrincipalPropagation.java</code>. For the example implementation, do not make any changes.</p>
-<h2 id="deploy-the-principal-propagation-implementation">Deploy the principal propagation implementation</h2>
+</code></pre><p>At this point, you could start editing the implementation in <code>request-modifier/src/main/java/com/i2group/example/ExampleRequestModifier.java</code>. For the example implementation, do not make any changes.</p>
+<h2 id="deploy-the-request-modifier-implementation">Deploy the request modifier implementation</h2>
 <p>When the implementation is complete, package the class into a JAR file.</p>
-<p>Open a terminal in the <code>principal-propagation</code> directory and run the following command:</p>
+<p>Open a terminal in the <code>request-modifier</code> directory and run the following command:</p>
 <pre><code class="lang-shell">mvnw package
-</code></pre><p>The Maven <code>package</code> command creates a JAR file from the <code>PrincipalPropagation.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
-<h2 id="configuring-i2-analyze">Configuring i2 Analyze</h2>
-<p>For i2 Analyze to use the <code>PrincipalPropagation.jar</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
+</code></pre><p>The Maven <code>package</code> command creates a JAR file from the <code>ExampleRequestModifier.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
+<h2 id="configure-i2-analyze">Configure i2 Analyze</h2>
+<p>For i2 Analyze to use the <code>ExampleRequestModifier</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
 <p>Add the following line to the end of the <code>toolkit/configuration/fragments/opal-services/WEB-INF/classes/DiscoServerSettingsCommon.properties</code> file:</p>
-<pre><code class="lang-properties">ConnectorRequestModifier=com.i2group.example.PrincipalPropagation
+<pre><code class="lang-properties">ConnectorRequestModifier=com.i2group.example.ExampleRequestModifier
 </code></pre><h2 id="redeploy-and-restart-liberty">Redeploy and restart Liberty</h2>
 <pre><code class="lang-shell">setup -t stopLiberty
 setup -t deployLiberty
 setup -t startLiberty
-</code></pre><p>Any connectors receive an extra header named <code>i2ExtensionHeader</code> in responses from the i2 Connect gateway.</p>
+</code></pre><h2 id="testing">Testing</h2>
+<p>To test the implementation, execute a query through the External Searches UI in either Analyst&#39;s Notebook or the web client. When you do so:</p>
+<ul>
+<li><p>All connectors receive an extra header named <code>Example-Value-Header</code> in requests made through the i2 Connect gateway. The value you see depends on the identifier of the connector, as defined in the i2 Connect Gateway.</p>
+</li>
+<li><p>Asynchronous query requests contain an additional header named <code>Example-Async-State-Header</code>. The value of the header is unchanged for the duration of each asynchronous query, but is unique to each query.</p>
+</li>
+</ul>
 <p>For example:</p>
 <pre><code class="lang-http">Host: localhost:9084,
 Connection: keep-alive,
 Content-Length: 92,
-User-Agent: Apache-HttpClient/4.5.6 (Java/1.8.0_232)
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.11)
 Content-Type: application/json
-i2ExtensionHeader: Jenny
+Example-Async-State-Header: dc05164d-0e1c-4c88-be7c-7ebbcd079ff8
+Example-Value-Header: exampleConValue
 Accept-Encoding: gzip,deflate
 Accept-Language: en-gb
 </code></pre></article>

@@ -2,15 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.i2group</groupId>
-	<artifactId>PrincipalPropagation</artifactId>
+	<artifactId>RequestModifier</artifactId>
 	<version>1</version>
-	<name>Principal Propagation</name>
-	<description>A demonstration project for principal propagation.</description>
+	<name>Request Modifier</name>
+	<description>A demonstration project for modifying requests to connectors.</description>
 	<properties>
 		<java.version>17</java.version>
 		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
-		<toolkitVersion>4.4.4.0</toolkitVersion>
-		<websphereSecurityArtifactVersion>1.1.90</websphereSecurityArtifactVersion>
+		<toolkitVersion>4.4.6.0</toolkitVersion>
 		<httpClientArtifactVersion>4.5.14</httpClientArtifactVersion>
 		<httpCoreArtifactVersion>4.4.16</httpCoreArtifactVersion>
 	</properties>
@@ -19,11 +18,6 @@
 			<groupId>com.i2group</groupId>
 			<artifactId>Daod</artifactId>
 			<version>${toolkitVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.ibm.websphere</groupId>
-			<artifactId>security</artifactId>
-			<version>${websphereSecurityArtifactVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.i2group</groupId>
@@ -55,20 +49,6 @@
 							<artifactId>Daod</artifactId>
 							<packaging>jar</packaging>
 							<version>${toolkitVersion}</version>
-						</configuration>
-					</execution>
-					<execution>
-						<id>websphere_dependency</id>
-						<phase>initialize</phase>
-						<goals>
-							<goal>install-file</goal>
-						</goals>
-						<configuration>
-							<file>${toolkitLocation}\deploy\wlp\lib\com.ibm.websphere.security_${websphereSecurityArtifactVersion}.jar</file>
-							<groupId>com.ibm.websphere</groupId>
-							<artifactId>security</artifactId>
-							<version>${websphereSecurityArtifactVersion}</version>
-							<packaging>jar</packaging>
 						</configuration>
 					</execution>
 					<execution>
@@ -106,8 +86,8 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<finalName>PrincipalPropagation</finalName>
-					<outputDirectory>${toolkitLocation}/toolkit/configuration/fragments/opal-services/WEB-INF/lib/</outputDirectory>                   
+					<finalName>RequestModifier</finalName>
+					<outputDirectory>${toolkitLocation}/toolkit/configuration/fragments/opal-services/WEB-INF/lib/</outputDirectory>
 				</configuration>
 			</plugin>
 			<plugin>

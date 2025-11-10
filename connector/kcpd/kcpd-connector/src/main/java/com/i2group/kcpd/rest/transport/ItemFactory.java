@@ -109,8 +109,8 @@ public class ItemFactory {
    */
   public static I2ConnectEntityData createPerson(SocrataResponseData entry) {
     HashMap<String, Object> properties = new HashMap<>();
-    properties.put("PT13", entry.race);
-    properties.put("PT14", entry.sex);
+    properties.put("PT13", getValueOrNull(entry.race));
+    properties.put("PT14", getValueOrNull(entry.sex));
     properties.put("PT15", String.valueOf(entry.age));
 
     I2ConnectEntityData person = new I2ConnectEntityData();
@@ -121,6 +121,10 @@ public class ItemFactory {
     person.sourceReference = generateSourceReference(entry.reportNumber);
 
     return person;
+  }
+
+  private static String getValueOrNull(String value) {
+    return value == null ? "null" : value;
   }
 
   /**

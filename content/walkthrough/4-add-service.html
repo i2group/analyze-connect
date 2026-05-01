@@ -92,7 +92,7 @@
 By default, the gateway assumes that your connector will use version 1.0 of the SPI.
 However, relying on the default setting causes the warning message that was highlighted in the previous topic.</p>
 <p>To tell i2 Analyze which SPI version the connector wants to use, you must define it in the connector configuration returned by the config endpoint.
-This means editing the <code>config.json</code> file in the <code>resources</code> directory.</p>
+This means editing the <code>config.json</code> file in the <code>nypd-connector/src/main/resources</code> directory.</p>
 <p>To specify the SPI version, add the <code>version</code> field to the top level of the configuration.
 Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json</code> will look like this:</p>
 <pre><code class="lang-json">{

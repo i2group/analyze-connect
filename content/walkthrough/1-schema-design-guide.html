@@ -81,10 +81,11 @@
 
 <p>i2 Analyze schemas are at the core of any i2 Analyze deployment. They define the types of entities, links, and properties that users can view and analyze in Analyst&#39;s Notebook. This section guides you through the process of developing a schema that aligns with the data the connector will retrieve.</p>
 <p>The process of developing a schema is iterative. Schema design requires fine tuning, especially if you are unfamiliar with the data set that you are creating the schema for. After you deploy i2 Analyze, you will be able to experiment with and test the schema you create. You can refer back to this document to repeat the process until you have a schema that you believe represents the NYPD Complaint Dataset.</p>
-<p>If you already understand the schema development process, you can use the
+<p>If you already understand the schema development process, you can use the NYPD Complaint
 example schema from this repository.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>Before you start, ensure that you have installed Analyst&#39;s Notebook with the i2 Analyze Schema Designer.</p>
+<p>Before you start, ensure that you have installed Analyst&#39;s Notebook with the i2 Analyze Schema Designer.
+Otherwise, see <a href="https://docs.i2group.com/anb/installing_anb.html">Installing i2 Analyst&#39;s Notebook</a>.</p>
 <h2 id="the-i2-analyze-schema">The i2 Analyze schema</h2>
 <p>There are three integral components of an i2 Analyze schema:</p>
 <ul>
@@ -224,6 +225,13 @@ charting scheme editor.</p>
 </tbody>
 </table>
 <p>The example schema uses link multiplicity (Multiple) to show all the data flowing to and from entities. If you want to change this setting, this is the time to do so! You are likely to use other settings in your own connectors.</p>
+<p>To change the link summarization for a link type:</p>
+<ol>
+<li>From the <strong>File</strong> menu, click <strong>Edit Charting Schemes</strong>.</li>
+<li>Expand the first charting scheme in the left panel to reveal <strong>Link Types</strong>.</li>
+<li>Expand <strong>Link Types</strong> to reveal the link types that you created earlier.</li>
+<li>Select the link type to which you want to change the link summarization and change between the provided options.</li>
+</ol>
 <h3 id="live-formatting-in-analysts-notebook">Live Formatting in Analyst&#39;s Notebook</h3>
 <p>Live formatting in Analyst&#39;s Notebook is a type of Conditional Formatting that changes the appearance of chart items, by applying conditional formatting specifications in real time. This allows analysts to format their charts to their own specifications.</p>
 <p>The default appearance of chart items is defined by your schema, but Live Formatting extends this to provide for filtering and quick, real time insight. An example of this functionality in action with the example schema is with the Sex property of the Person entity. Live Formatting allows for quick, visual confirmation of whether a Person is a Male or a Female (pink for Male, blue for Female). This example can be seen as follows.</p>

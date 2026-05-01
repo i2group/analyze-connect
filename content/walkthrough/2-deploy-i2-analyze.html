@@ -106,6 +106,7 @@
 <li>Enter the password to encrypt LTPA tokens in the <code>ltpakeys.password</code> property.</li>
 <li>Save and close the file.</li>
 </ol>
+<p>See the <a href="https://docs.i2group.com/analyze/t_specifying_credentials.html">i2 product documentation</a> for information about these credentials.</p>
 <h3 id="command-access-control">Command access control</h3>
 <p>To gain access to certain features, including the ability to use Postman to reload the connector when making schema changes, you need to copy and modify some files in the i2 Analyze deployment:</p>
 <ol>
@@ -159,10 +160,12 @@ Gateway.NYPD-Complaints.ChartingSchemesResource=charting-schemes-filename.xml
 <pre><code class="lang-shell">setup -t startLiberty
 </code></pre></li>
 </ol>
-<p>You can now connect Analyst&#39;s Notebook to i2 Analyze. The output of the start command includes the URL to use for the i2 Analyze server.</p>
+<p>You now have a running i2 Analyze deployment, and you can connect Analyst&#39;s Notebook to i2 Analyze. The output of the start command includes the URL to use for the i2 Analyze server.</p>
 <p>This is the best time to test the schema you created in the previous step (or the existing schema, if you&#39;re using the example one).
 In Analyst&#39;s Notebook, create items on the chart to visualize the i2 Analyze schema by using the <strong>Gateway</strong> palette.
 You should also test the different charting schemes and see what labels appear and how they are formatted.</p>
+<p>If you are happy with your schema, you can now <a href="3-deploy-connector.html">deploy a connector</a>.</p>
+<p>Alternatively, to use the schema with the Information Store in an i2 Analyze deployment that includes both the Information Store and the i2 Connect gateway, you can continue with <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">this guide</a>.</p>
 <p>If you want to make changes to the schema and its associated charting schemes, you can run through the <a href="1-schema-design-guide.html">schema design guide</a> again.</p>
 <p>To deploy the updated schema and charting scheme, you will need to update the i2 Analyze connectors configuration and reload the i2 Connect gateway.</p>
 <ol>
@@ -181,9 +184,6 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 </ol>
 <p><strong>Note:</strong> You must perform these steps for every iteration of your schema and charting scheme design, or the changes will not take effect.</p>
-<p><strong>Note:</strong> You will need to perform these steps for every iteration of your schema and charting scheme design, otherwise the changes will not take effect</p>
-<p>You now have a running i2 Analyze deployment. If you are happy with your schema, you can now <a href="3-deploy-connector.html">deploy a connector</a>.</p>
-<p>Alternatively, to use the schema with the Information Store in an i2 Analyze deployment that includes both the Information Store and the i2 Connect gateway, you can continue with <a href="../miscellaneous/deploy-i2-analyze-is-daod.html">this guide</a>.</p>
 </article>
           </div>
           

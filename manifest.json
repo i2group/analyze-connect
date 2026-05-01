@@ -612,7 +612,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/1-schema-design-guide.html",
-          "hash": "a7PTDsRwLrz26dYpMmCKvg=="
+          "hash": "k4eu0PPn4KPsMvHBRWQAbQ=="
         }
       },
       "is_incremental": false,
@@ -624,7 +624,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/2-deploy-i2-analyze.html",
-          "hash": "8sOj0UuYYQgQx/GgEYGfig=="
+          "hash": "tyVgnkP0BgeZs16Sct89aw=="
         }
       },
       "is_incremental": false,
@@ -636,7 +636,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/3-deploy-connector.html",
-          "hash": "I7v01MCw/zYQqMU8y/RKoA=="
+          "hash": "SUkKKgtxKuDkZLBnGKAAeQ=="
         }
       },
       "is_incremental": false,
@@ -648,7 +648,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/4-add-service.html",
-          "hash": "fzzNt97Wrszww4kUGh8FFg=="
+          "hash": "kljrYFXK4aw17CrTWpD3yQ=="
         }
       },
       "is_incremental": false,
@@ -660,7 +660,7 @@
       "output": {
         ".html": {
           "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "pspP0QitkAlFf7dsgtzEQg=="
+          "hash": "UQUUCWGJGBfVWvIxDZUyIw=="
         }
       },
       "is_incremental": false,
@@ -994,7 +994,7 @@
       "output": {
         ".html": {
           "relative_path": "index.html",
-          "hash": "CVY0VGZeOymF6OFSUhIwqA=="
+          "hash": "eArFag886vOz/MUmrF/+Iw=="
         }
       },
       "is_incremental": false,
@@ -1016,19 +1016,17 @@
   "incremental_info": [
     {
       "status": {
-        "can_incremental": false,
-        "details": "Cannot build incrementally because last build info is missing.",
+        "can_incremental": true,
         "incrementalPhase": "build",
         "total_file_count": 0,
-        "skipped_file_count": 0,
-        "full_build_reason_code": "NoAvailableBuildCache"
+        "skipped_file_count": 0
       },
       "processors": {
         "ConceptualDocumentProcessor": {
-          "can_incremental": false,
+          "can_incremental": true,
           "incrementalPhase": "build",
           "total_file_count": 49,
-          "skipped_file_count": 0
+          "skipped_file_count": 43
         },
         "ResourceDocumentProcessor": {
           "can_incremental": false,

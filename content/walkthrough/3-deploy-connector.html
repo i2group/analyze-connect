@@ -112,7 +112,14 @@ For example:</p>
     &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p><strong>Note:</strong> If the schema is configured as a gateway schema, also add a <code>gateway-schema</code> attribute and set it to the schema short name.</p>
+</code></pre><p><strong>Note:</strong> If you have configured the schema as a gateway schema in the <a href="2-deploy-i2-analyze.html#configure-the-schema">previous step of the walkthrough</a>, you must add a <code>gateway-schema</code> attribute and set it to the schema short name.</p>
+<pre><code class="lang-xml">&lt;ns1:topology ...&gt;
+...
+&lt;connectors&gt;
+&lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
+&lt;/connectors&gt;
+&lt;/ns1:topology&gt;
+</code></pre><p> For more information on gateway schemas, see the documentation <a href="../schemas/gateway-schema.html">here</a>.</p>
 </li>
 </ol>
 <h3 id="reload-the-i2-analyze-configuration">Reload the i2 Analyze configuration</h3>

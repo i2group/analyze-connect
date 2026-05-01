@@ -9,7 +9,7 @@
 	<properties>
 		<java.version>17</java.version>
 		<toolkitLocation>C:\i2\i2analyze</toolkitLocation>
-		<toolkitVersion>4.4.6.0</toolkitVersion>
+		<toolkitVersion>4.4.7.0</toolkitVersion>
 		<httpClientArtifactVersion>4.5.14</httpClientArtifactVersion>
 		<httpCoreArtifactVersion>4.4.16</httpCoreArtifactVersion>
 	</properties>

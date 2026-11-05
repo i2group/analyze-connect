@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Adding a service </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Adding a service ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Adding a service </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Adding a service ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -102,7 +102,8 @@ Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json
    },
    &quot;version&quot;: &quot;1.2&quot;
 }
-</code></pre><p><strong>Note:</strong> For more information about the SPI version, see <a href="../miscellaneous/spi-version.html">SPI version negotiation</a>.</p>
+</code></pre>
+<p><strong>Note:</strong> For more information about the SPI version, see <a href="../miscellaneous/spi-version.html">SPI version negotiation</a>.</p>
 <h2 id="define-the-service">Define the service</h2>
 <p>Now we can start to define the service.</p>
 <h3 id="add-a-services-array">Add a services array</h3>
@@ -112,7 +113,8 @@ Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json
    &quot;version&quot;: &quot;1.2&quot;,
    &quot;services&quot;: []
 }
-</code></pre><h3 id="add-a-service">Add a service</h3>
+</code></pre>
+<h3 id="add-a-service">Add a service</h3>
 <p>In the services array, define a service object. The mandatory fields to provide are the following.</p>
 <table>
 <thead>
@@ -136,7 +138,7 @@ Since the walkthrough is based on version 1.2 of the SPI, your <code>config.json
 <p><strong>Note:</strong> If you want the data fetched asynchronously, you must use the <code>async</code> field instead.
 For more information about the <code>async</code> option, see <a href="../example-connectors/connector-async.html">Async Connector</a>.</p>
 <p>It is also common and recommended to add a <code>description</code> field.
-This appears to users in Analyst&#39;s Notebook, where it provides more information about what the service does.
+This appears to users in Analyst's Notebook, where it provides more information about what the service does.
 You should have something like the following.</p>
 <pre><code class="lang-json">{
    &quot;defaultValues&quot;: {
@@ -153,7 +155,8 @@ You should have something like the following.</p>
       }
    ]
 }
-</code></pre><p>After defining the service, you must restart your connector. Refer to the following language guides for the steps to take:</p>
+</code></pre>
+<p>After defining the service, you must restart your connector. Refer to the following language guides for the steps to take:</p>
 <ul>
 <li><a href="../example-connectors/run-java.html">Java</a></li>
 <li><a href="../example-connectors/run-python.html">Python</a></li>
@@ -171,10 +174,10 @@ If you added an example user, the username and the password will be <code>Jenny<
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
 </ol>
-<h3 id="view-the-service-in-analysts-notebook">View the service in Analyst&#39;s Notebook</h3>
+<h3 id="view-the-service-in-analysts-notebook">View the service in Analyst's Notebook</h3>
 <p>Now that you have defined a service, you can try to use it.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook and log in to the i2 Analyze server.
+<li>Open Analyst's Notebook and log in to the i2 Analyze server.
 If you were already logged in, log out and then back in again.</li>
 <li>Open External Searches. The service you have defined should appear.</li>
 <li>Try to run it. Although the service is defined, since it has not yet been implemented, you should see a red banner appear with the message &quot;The application failed to perform the search operation.&quot;</li>
@@ -218,7 +221,8 @@ public class ExternalConnectorDataService {
       return connectorResponse;
    }
 }
-</code></pre><p><strong>Note:</strong> This code uses the <code>I2ConnectData</code>, <code>I2ConnectEntityData</code>, and <code>I2ConnectLinkData</code> classes from the supplied Java implementation of the i2 Connect Gateway REST SPI.</p>
+</code></pre>
+<p><strong>Note:</strong> This code uses the <code>I2ConnectData</code>, <code>I2ConnectEntityData</code>, and <code>I2ConnectLinkData</code> classes from the supplied Java implementation of the i2 Connect Gateway REST SPI.</p>
 </li>
 <li><p>In the <code>ConnectorController</code> class, create an instance of the <code>ExternalConnectorDataService</code> class by replacing the <code>ConnectorController</code> no-args constructor with the following:</p>
 <pre><code class="lang-java">private final ExternalConnectorDataService connectorDataService;
@@ -226,7 +230,8 @@ public class ExternalConnectorDataService {
 public ConnectorController(ExternalConnectorDataService connectorDataService) {
    this.connectorDataService = connectorDataService;
 }
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>To add the endpoint, update the <code>ConnectorController</code> to include this method:</p>
 <pre><code class="lang-java">@RequestMapping(
       method = RequestMethod.POST,
@@ -236,7 +241,8 @@ public ConnectorController(ExternalConnectorDataService connectorDataService) {
 public I2ConnectData testService() {
    return connectorDataService.retrieveTestDataFromExternalSource();
 }
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
 <h4 id="python">Python</h4>
 <ol>
@@ -261,21 +267,23 @@ def query_external_datasource():
       links=links
    )
    return response.to_dict()
-</code></pre><p><strong>Note:</strong> This code uses the <code>I2ConnectData</code> class from the supplied Python implementation of the i2 Connect Gateway REST SPI.</p>
+</code></pre>
+<p><strong>Note:</strong> This code uses the <code>I2ConnectData</code> class from the supplied Python implementation of the i2 Connect Gateway REST SPI.</p>
 </li>
 <li><p>To add the endpoint, update <code>controller.py</code> to include this import and method:</p>
 <pre><code class="lang-python">from helper.service import query_external_datasource
 
-@controller.route(&#39;/all&#39;, methods=[&#39;POST&#39;])
+@controller.route('/all', methods=['POST'])
 def all():
    return query_external_datasource()
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
-<h3 id="test-the-service-in-analysts-notebook">Test the service in Analyst&#39;s Notebook</h3>
+<h3 id="test-the-service-in-analysts-notebook">Test the service in Analyst's Notebook</h3>
 <ol>
 <li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
 </li>
-<li><p>Re-run the service in Analyst&#39;s Notebook via the External Searches window.</p>
+<li><p>Re-run the service in Analyst's Notebook via the External Searches window.</p>
 </li>
 <li><p>You should no longer get a 404 error, but the search will return nothing.</p>
 </li>
@@ -286,9 +294,9 @@ def all():
 <li><p>In <code>ExternalConnectorDataService</code>, address the <code>TODO</code> by adding some dummy data.
 Make sure to return entities and links.</p>
 </li>
-<li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
+<li><p>Test your changes in Analyst's Notebook in the same way.</p>
 </li>
-<li><p>If you don&#39;t see what you expect to, or you come across an error,
+<li><p>If you don't see what you expect to, or you come across an error,
 investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
 </li>
 </ol>
@@ -298,9 +306,9 @@ investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\
 Make sure to return entities and links.
 Ensure you are importing the classes into <code>service.py</code>.</p>
 </li>
-<li><p>Test your changes in Analyst&#39;s Notebook in the same way.</p>
+<li><p>Test your changes in Analyst's Notebook in the same way.</p>
 </li>
-<li><p>If you don&#39;t see what you expect to, or you come across an error,
+<li><p>If you don't see what you expect to, or you come across an error,
 investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\servers\opal-server\logs\opal-services</code> directory.</p>
 </li>
 </ol>
@@ -308,19 +316,21 @@ investigate <code>i2_Analysis_Repository.log</code> in the <code>deploy\wlp\usr\
 See the <a href="../miscellaneous/data-model.html">data model examples</a> for examples of each supported logical type.</p>
 <h2 id="querying-data-from-an-external-source">Querying data from an external source</h2>
 <p>Now that you have a basic connector with a working simple service, you can make it more useful by <a href="5-connect-to-eds.html">returning real data</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -328,14 +338,14 @@ See the <a href="../miscellaneous/data-model.html">data model examples</a> for e
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

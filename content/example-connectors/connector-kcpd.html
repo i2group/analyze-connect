@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Kansas City Police Department (KCPD) Connector </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Kansas City Police Department (KCPD) Connector ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Kansas City Police Department (KCPD) Connector </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Kansas City Police Department (KCPD) Connector ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -186,7 +186,7 @@
 <h2 id="data-model">Data model</h2>
 <p>The KCPD schema models the KCPD Crime 2020 Dataset using its relevant fields. Each row of data can be represented by three entities (Report, Person and Location) and a number of appropriate links between them alongside properties extracted from each field.</p>
 <p>The schema (and charting schemes) for the KCPD connector can be found in the <code>schema</code> directory of this repository.</p>
-<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
+<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property's data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
 <h3 id="entity-report">Entity: Report</h3>
 <p>Represents a report about a crime.</p>
 <table>
@@ -307,7 +307,7 @@
 </tbody>
 </table>
 <h3 id="links">Links</h3>
-<p>Establishes some connection between a Report, a Location and a Person. The KCPD Dataset&#39;s <em>Involvement</em> field is used to determine how a Person is linked to a Report.</p>
+<p>Establishes some connection between a Report, a Location and a Person. The KCPD Dataset's <em>Involvement</em> field is used to determine how a Person is linked to a Report.</p>
 <table>
 <thead>
 <tr>
@@ -356,21 +356,23 @@
     ...
   &lt;/war&gt;
 &lt;/wars&gt;
-</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
+</code></pre>
+<p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
   &lt;connectors&gt;
     &lt;connector base-url=&quot;http://localhost:9083&quot; name=&quot;KCPD Connector&quot; id=&quot;kcpd-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you are using the same port specified in the <code>kcpd\kcpd-connector\src\main\resources\application.properties</code> file in this repository (<code>9083</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre>
+<p>Ensure that you are using the same port specified in the <code>kcpd\kcpd-connector\src\main\resources\application.properties</code> file in this repository (<code>9083</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the KCPD schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
-<p>By default, your connector has the KCPD schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the KCPD connector&#39;s <code>config.json</code> file, in <code>kcpd\kcpd-connector\src\main\resources</code>.</p>
+<p>By default, your connector has the KCPD schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the KCPD connector's <code>config.json</code> file, in <code>kcpd\kcpd-connector\src\main\resources</code>.</p>
 <p>Additionally, ensure the following:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>
+<li>The connector's <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property;</li>
 <li>The KCPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
 </ul>
 <p>See for more information on <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
@@ -378,38 +380,43 @@
 <p>If you want to set up the KCPD schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the KCPD schema and charting scheme found in the <code>schema</code> directory of this repository.</p>
 <p>Additionally, ensure the following:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> in <code>kcpd\kcpd-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
+<li>The connector's <code>config.json</code> in <code>kcpd\kcpd-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default; if they are present, remove them.</li>
 <li>The KCPD <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
 <h3 id="3-acquire-socrata-token">3. Acquire Socrata token</h3>
 <p>In order to query the external data source, a Socrata app token is required. If you do not already have a Socrata app token, you will need to generate one. Instructions on how to generate this token can be found <a href="../walkthrough/5-connect-to-eds.html#create-a-socrata-app-token">here</a>.</p>
-<p>In the KCPD connector&#39;s <code>application.properties</code> file at <code>connector\kcpd\kcpd-connector\src\main\resources</code>, add your token.</p>
+<p>In the KCPD connector's <code>application.properties</code> file at <code>connector\kcpd\kcpd-connector\src\main\resources</code>, add your token.</p>
 <pre><code class="lang-properties">server.port=9083
 socrata.url=https://data.kcmo.org/resource/isbe-v4d8.json
 
 # API Token. Create a Socrata account and create an API Token. Paste it here
 socrata.api.token=
-</code></pre><h3 id="3-run-the-kcpd-connector">3. Run the KCPD connector</h3>
+</code></pre>
+<h3 id="3-run-the-kcpd-connector">3. Run the KCPD connector</h3>
 <p>To run the connector, navigate to <code>connector\kcpd\kcpd-connector</code> in your terminal and run the application using the following command:</p>
 <pre><code class="lang-sh">mvnw spring-boot:run
-</code></pre><p>For more information on running this repository&#39;s Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
+</code></pre>
+<p>For more information on running this repository's Java connectors, see <a href="run-java.html">running example connectors in Java</a>.</p>
 <h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
 <pre><code class="lang-sh">setup -t deployLiberty
 setup -t startLiberty
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -417,14 +424,14 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

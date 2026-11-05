@@ -1,9 +1,9 @@
 {
+  "docfx_version": "2.81.0+ba844df625370a6bd7c1ecab0d0ec4d1d9128ac4",
   "sitemap": {
     "baseUrl": "https://i2group.github.io/analyze-connect/"
   },
-  "homepages": [],
-  "source_base_path": "C:/DevX/analyze-connect-internal/docs",
+  "source_base_path": "/home/circleci/project/docs",
   "xrefmap": "xrefmap.yml",
   "files": [
     {
@@ -12,19 +12,16 @@
         "resource": {
           "relative_path": "index.json"
         }
-      },
-      "is_incremental": false
+      }
     },
     {
       "type": "Conceptual",
       "source_relative_path": "content/example-connectors/connector-async.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/connector-async.html",
-          "hash": "20HFb1bMt7peFom9QQu93g=="
+          "relative_path": "content/example-connectors/connector-async.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -32,11 +29,9 @@
       "source_relative_path": "content/example-connectors/connector-auth.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/connector-auth.html",
-          "hash": "i4zUrZvO8qtLka8lsZl8Aw=="
+          "relative_path": "content/example-connectors/connector-auth.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -44,11 +39,9 @@
       "source_relative_path": "content/example-connectors/connector-eri.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/connector-eri.html",
-          "hash": "BYiG8EbxuJvKYIgjJ9OU5Q=="
+          "relative_path": "content/example-connectors/connector-eri.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -56,11 +49,9 @@
       "source_relative_path": "content/example-connectors/connector-kcpd.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/connector-kcpd.html",
-          "hash": "PhcpmImCNRiFIbc6JBXycA=="
+          "relative_path": "content/example-connectors/connector-kcpd.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -68,11 +59,9 @@
       "source_relative_path": "content/example-connectors/connector-nypd.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/connector-nypd.html",
-          "hash": "Vpx9U+FV0ouwrK4JI5RRJg=="
+          "relative_path": "content/example-connectors/connector-nypd.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -83,7 +72,6 @@
           "relative_path": "content/example-connectors/images/vscode.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -91,11 +79,9 @@
       "source_relative_path": "content/example-connectors/run-java.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/run-java.html",
-          "hash": "gUmmb9qPFbqDCTV9DYEkSg=="
+          "relative_path": "content/example-connectors/run-java.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -103,11 +89,9 @@
       "source_relative_path": "content/example-connectors/run-python.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/run-python.html",
-          "hash": "gV6a3rtPiPYd4gWFJu5pHA=="
+          "relative_path": "content/example-connectors/run-python.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -115,11 +99,9 @@
       "source_relative_path": "content/example-connectors/user-configuration.md",
       "output": {
         ".html": {
-          "relative_path": "content/example-connectors/user-configuration.html",
-          "hash": "B/Yj2GbVVupPOtRy3myx7g=="
+          "relative_path": "content/example-connectors/user-configuration.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -127,11 +109,9 @@
       "source_relative_path": "content/miscellaneous/data-model.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/data-model.html",
-          "hash": "bEtvNKYRLciWwMUHRJFb2Q=="
+          "relative_path": "content/miscellaneous/data-model.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -139,11 +119,9 @@
       "source_relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.html",
-          "hash": "jRmOYI0WE6UCUrI4Ichk+g=="
+          "relative_path": "content/miscellaneous/deploy-i2-analyze-is-daod.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -151,11 +129,9 @@
       "source_relative_path": "content/miscellaneous/i2-connect-architecture.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/i2-connect-architecture.html",
-          "hash": "arueGoHfwPw4CNr97l0UgQ=="
+          "relative_path": "content/miscellaneous/i2-connect-architecture.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -166,7 +142,6 @@
           "relative_path": "content/miscellaneous/images/example-data.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -177,7 +152,6 @@
           "relative_path": "content/miscellaneous/images/failed-to-open-query.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -188,7 +162,6 @@
           "relative_path": "content/miscellaneous/images/i2connect_arch.jpg"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -199,7 +172,6 @@
           "relative_path": "content/miscellaneous/images/i2connect_arch.svg"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -210,7 +182,6 @@
           "relative_path": "content/miscellaneous/images/parameterised-search.jpg"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -221,7 +192,6 @@
           "relative_path": "content/miscellaneous/images/person-last-name.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -232,7 +202,6 @@
           "relative_path": "content/miscellaneous/images/postman-async-acquire.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -243,7 +212,6 @@
           "relative_path": "content/miscellaneous/images/postman-async-status.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -254,7 +222,6 @@
           "relative_path": "content/miscellaneous/images/postman-search.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -265,7 +232,6 @@
           "relative_path": "content/miscellaneous/images/postman.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -276,7 +242,6 @@
           "relative_path": "content/miscellaneous/images/queries-not-configured-correctly.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -287,7 +252,6 @@
           "relative_path": "content/miscellaneous/images/seed-example.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -298,7 +262,6 @@
           "relative_path": "content/miscellaneous/images/semantic-property-types.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -309,7 +272,6 @@
           "relative_path": "content/miscellaneous/images/visio/i2connect_arch.vsd"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -317,11 +279,9 @@
       "source_relative_path": "content/miscellaneous/postman.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/postman.html",
-          "hash": "f6Qk7qL/AcPl/y6JUe1eZw=="
+          "relative_path": "content/miscellaneous/postman.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -329,11 +289,9 @@
       "source_relative_path": "content/miscellaneous/property-semantic-search.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/property-semantic-search.html",
-          "hash": "CF8D/HC3JANY+/GTiDsFeA=="
+          "relative_path": "content/miscellaneous/property-semantic-search.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -341,11 +299,9 @@
       "source_relative_path": "content/miscellaneous/request-modifier.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/request-modifier.html",
-          "hash": "SFFv34vTYl8reLJBfFO7tg=="
+          "relative_path": "content/miscellaneous/request-modifier.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -353,11 +309,9 @@
       "source_relative_path": "content/miscellaneous/semantic-type-identifiers.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/semantic-type-identifiers.html",
-          "hash": "7tWMNjLbsDluY/1YS0av/A=="
+          "relative_path": "content/miscellaneous/semantic-type-identifiers.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -365,11 +319,9 @@
       "source_relative_path": "content/miscellaneous/source-identifiers.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/source-identifiers.html",
-          "hash": "Vz6P7mHCw+3s3JTIxHvnBA=="
+          "relative_path": "content/miscellaneous/source-identifiers.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -377,11 +329,9 @@
       "source_relative_path": "content/miscellaneous/source-references.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/source-references.html",
-          "hash": "BJNe0vD4xsW+dXrzt24Q2w=="
+          "relative_path": "content/miscellaneous/source-references.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -389,11 +339,9 @@
       "source_relative_path": "content/miscellaneous/spi-examples.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/spi-examples.html",
-          "hash": "5I/9IWFytIxXa83yobVfLQ=="
+          "relative_path": "content/miscellaneous/spi-examples.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -401,11 +349,9 @@
       "source_relative_path": "content/miscellaneous/spi-version.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/spi-version.html",
-          "hash": "mDUzXyHIGwJ2M9P9zToueg=="
+          "relative_path": "content/miscellaneous/spi-version.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -413,11 +359,9 @@
       "source_relative_path": "content/miscellaneous/troubleshoot.md",
       "output": {
         ".html": {
-          "relative_path": "content/miscellaneous/troubleshoot.html",
-          "hash": "Ay9nuO0k17HiTe4z7z/a3Q=="
+          "relative_path": "content/miscellaneous/troubleshoot.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -428,7 +372,6 @@
           "relative_path": "content/rest/i2-connect-spi.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -439,7 +382,6 @@
           "relative_path": "content/rest/openapi.json"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -450,7 +392,6 @@
           "relative_path": "content/rest/rapidoc-min.js"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -458,11 +399,9 @@
       "source_relative_path": "content/schemas/connector-schema.md",
       "output": {
         ".html": {
-          "relative_path": "content/schemas/connector-schema.html",
-          "hash": "TmGV42DBGv4ZxSvklM+ZPw=="
+          "relative_path": "content/schemas/connector-schema.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -470,11 +409,9 @@
       "source_relative_path": "content/schemas/gateway-schema.md",
       "output": {
         ".html": {
-          "relative_path": "content/schemas/gateway-schema.html",
-          "hash": "RNr83Ys94D1swWzN9YtJIg=="
+          "relative_path": "content/schemas/gateway-schema.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -485,7 +422,6 @@
           "relative_path": "content/schemas/images/choose-reverse-value-options.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -496,7 +432,6 @@
           "relative_path": "content/schemas/images/eri-location-to-infostore-location-mapping.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -507,7 +442,6 @@
           "relative_path": "content/schemas/images/nypd-dataset-webpage.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -515,11 +449,9 @@
       "source_relative_path": "content/schemas/schema-fragments.md",
       "output": {
         ".html": {
-          "relative_path": "content/schemas/schema-fragments.html",
-          "hash": "yPfB7JRTAS2+1mWlNHlCFA=="
+          "relative_path": "content/schemas/schema-fragments.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -527,11 +459,9 @@
       "source_relative_path": "content/schemas/schema-types.md",
       "output": {
         ".html": {
-          "relative_path": "content/schemas/schema-types.html",
-          "hash": "5BZIAXMmxPQueMA27MoxfQ=="
+          "relative_path": "content/schemas/schema-types.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -539,11 +469,9 @@
       "source_relative_path": "content/schemas/type-location.md",
       "output": {
         ".html": {
-          "relative_path": "content/schemas/type-location.html",
-          "hash": "Ow4w2vBOceL/OBK/6f7KZA=="
+          "relative_path": "content/schemas/type-location.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -551,11 +479,9 @@
       "source_relative_path": "content/spi-versions/1.0/changes.md",
       "output": {
         ".html": {
-          "relative_path": "content/spi-versions/1.0/changes.html",
-          "hash": "iXDd5i7kn1EJKMmuzPikaw=="
+          "relative_path": "content/spi-versions/1.0/changes.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -563,11 +489,9 @@
       "source_relative_path": "content/spi-versions/1.1/changes.md",
       "output": {
         ".html": {
-          "relative_path": "content/spi-versions/1.1/changes.html",
-          "hash": "WTGsOOdyOOKAgcR85EFnFA=="
+          "relative_path": "content/spi-versions/1.1/changes.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -575,11 +499,9 @@
       "source_relative_path": "content/spi-versions/1.2/changes.md",
       "output": {
         ".html": {
-          "relative_path": "content/spi-versions/1.2/changes.html",
-          "hash": "ICSCKRgnGg6qbe13Tw/3hQ=="
+          "relative_path": "content/spi-versions/1.2/changes.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -587,11 +509,9 @@
       "source_relative_path": "content/spi-versions/1.3/changes.md",
       "output": {
         ".html": {
-          "relative_path": "content/spi-versions/1.3/changes.html",
-          "hash": "YzWcgX1AXGR3OhuH/0ZJ2Q=="
+          "relative_path": "content/spi-versions/1.3/changes.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -599,11 +519,19 @@
       "source_relative_path": "content/spi-versions/1.4/changes.md",
       "output": {
         ".html": {
-          "relative_path": "content/spi-versions/1.4/changes.html",
-          "hash": "LZzxou1tv4lUe618CJ2mUg=="
+          "relative_path": "content/spi-versions/1.4/changes.html"
         }
       },
-      "is_incremental": false,
+      "version": ""
+    },
+    {
+      "type": "Conceptual",
+      "source_relative_path": "content/spi-versions/1.5/changes.md",
+      "output": {
+        ".html": {
+          "relative_path": "content/spi-versions/1.5/changes.html"
+        }
+      },
       "version": ""
     },
     {
@@ -611,11 +539,9 @@
       "source_relative_path": "content/walkthrough/1-schema-design-guide.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/1-schema-design-guide.html",
-          "hash": "k4eu0PPn4KPsMvHBRWQAbQ=="
+          "relative_path": "content/walkthrough/1-schema-design-guide.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -623,11 +549,9 @@
       "source_relative_path": "content/walkthrough/2-deploy-i2-analyze.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/2-deploy-i2-analyze.html",
-          "hash": "tyVgnkP0BgeZs16Sct89aw=="
+          "relative_path": "content/walkthrough/2-deploy-i2-analyze.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -635,11 +559,9 @@
       "source_relative_path": "content/walkthrough/3-deploy-connector.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/3-deploy-connector.html",
-          "hash": "SUkKKgtxKuDkZLBnGKAAeQ=="
+          "relative_path": "content/walkthrough/3-deploy-connector.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -647,11 +569,9 @@
       "source_relative_path": "content/walkthrough/4-add-service.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/4-add-service.html",
-          "hash": "kljrYFXK4aw17CrTWpD3yQ=="
+          "relative_path": "content/walkthrough/4-add-service.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -659,11 +579,9 @@
       "source_relative_path": "content/walkthrough/5-connect-to-eds.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/5-connect-to-eds.html",
-          "hash": "UQUUCWGJGBfVWvIxDZUyIw=="
+          "relative_path": "content/walkthrough/5-connect-to-eds.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -671,11 +589,9 @@
       "source_relative_path": "content/walkthrough/6-parameterised-search.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/6-parameterised-search.html",
-          "hash": "e5gNTg1jlyB+HSb0UCruvA=="
+          "relative_path": "content/walkthrough/6-parameterised-search.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -683,11 +599,9 @@
       "source_relative_path": "content/walkthrough/7-seeded-search.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/7-seeded-search.html",
-          "hash": "GhhedW8YjM1A7krPUDrfSQ=="
+          "relative_path": "content/walkthrough/7-seeded-search.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -695,11 +609,9 @@
       "source_relative_path": "content/walkthrough/8-seeded-parameterised-search.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/8-seeded-parameterised-search.html",
-          "hash": "YQsS4L2whlBnO1PsdCPYhA=="
+          "relative_path": "content/walkthrough/8-seeded-parameterised-search.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -707,11 +619,9 @@
       "source_relative_path": "content/walkthrough/9-validation.md",
       "output": {
         ".html": {
-          "relative_path": "content/walkthrough/9-validation.html",
-          "hash": "JWLTzvI6EXXcO3l57zS5bA=="
+          "relative_path": "content/walkthrough/9-validation.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -722,7 +632,6 @@
           "relative_path": "content/walkthrough/images/admin-ui-config-error.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -733,7 +642,6 @@
           "relative_path": "content/walkthrough/images/admin-ui-service-error.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -744,7 +652,6 @@
           "relative_path": "content/walkthrough/images/charting-scheme-labelled.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -755,7 +662,6 @@
           "relative_path": "content/walkthrough/images/charting-scheme-unlabelled.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -766,7 +672,6 @@
           "relative_path": "content/walkthrough/images/charting-schemes-label-example.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -777,7 +682,6 @@
           "relative_path": "content/walkthrough/images/complaint-entity-anbp.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -788,7 +692,6 @@
           "relative_path": "content/walkthrough/images/i2-connect-architecture.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -799,7 +702,6 @@
           "relative_path": "content/walkthrough/images/live-formatting.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -810,7 +712,6 @@
           "relative_path": "content/walkthrough/images/person-entity-anbp.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -818,11 +719,9 @@
       "source_relative_path": "content/workflow/acquire.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/acquire.html",
-          "hash": "a/kySps12kQiR4Bu+Ray0A=="
+          "relative_path": "content/workflow/acquire.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -830,11 +729,9 @@
       "source_relative_path": "content/workflow/authentication.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/authentication.html",
-          "hash": "zFaTGfQh2BsSWR04wBKTiQ=="
+          "relative_path": "content/workflow/authentication.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -842,11 +739,9 @@
       "source_relative_path": "content/workflow/config.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/config.html",
-          "hash": "/90YKLLAD0SkuWvf+CZufQ=="
+          "relative_path": "content/workflow/config.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -854,11 +749,9 @@
       "source_relative_path": "content/workflow/creating.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/creating.html",
-          "hash": "UyoKpQGfJO6n/1NpoWnCIw=="
+          "relative_path": "content/workflow/creating.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -869,7 +762,6 @@
           "relative_path": "content/workflow/images/i2connect_auth.jpg"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -880,7 +772,6 @@
           "relative_path": "content/workflow/images/i2connect_auth.svg"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -891,7 +782,6 @@
           "relative_path": "content/workflow/images/visio/i2connect_auth.vsd"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -899,11 +789,9 @@
       "source_relative_path": "content/workflow/parameters.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/parameters.html",
-          "hash": "+VN3ECcKwy2rfAgYpuLnOw=="
+          "relative_path": "content/workflow/parameters.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -911,11 +799,9 @@
       "source_relative_path": "content/workflow/query.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/query.html",
-          "hash": "VERV6qIMyco1gk6F9WFY3w=="
+          "relative_path": "content/workflow/query.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -923,11 +809,9 @@
       "source_relative_path": "content/workflow/seeds.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/seeds.html",
-          "hash": "rdBGNomMYcU2dNNZg1yVUw=="
+          "relative_path": "content/workflow/seeds.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -935,11 +819,9 @@
       "source_relative_path": "content/workflow/testing.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/testing.html",
-          "hash": "qklOArdziA7CyulymJDenA=="
+          "relative_path": "content/workflow/testing.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -947,11 +829,9 @@
       "source_relative_path": "content/workflow/validation.md",
       "output": {
         ".html": {
-          "relative_path": "content/workflow/validation.html",
-          "hash": "+1vV2jHwBeZZxjo6NsI0gg=="
+          "relative_path": "content/workflow/validation.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -962,7 +842,6 @@
           "relative_path": "google10fad47ac722edf2.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -970,11 +849,12 @@
       "source_relative_path": "guidetoc/toc.yml",
       "output": {
         ".html": {
-          "relative_path": "guidetoc/toc.html",
-          "hash": "gCne2qmRqVGmBkZmGbPlAA=="
+          "relative_path": "guidetoc/toc.html"
+        },
+        ".json": {
+          "relative_path": "guidetoc/toc.json"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -985,7 +865,6 @@
           "relative_path": "images/favicon.png"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -993,11 +872,9 @@
       "source_relative_path": "index.md",
       "output": {
         ".html": {
-          "relative_path": "index.html",
-          "hash": "eArFag886vOz/MUmrF/+Iw=="
+          "relative_path": "index.html"
         }
       },
-      "is_incremental": false,
       "version": ""
     },
     {
@@ -1005,57 +882,15 @@
       "source_relative_path": "toc.yml",
       "output": {
         ".html": {
-          "relative_path": "toc.html",
-          "hash": "wDEYe3RJOD+1iP8EfCIIlw=="
+          "relative_path": "toc.html"
+        },
+        ".json": {
+          "relative_path": "toc.json"
         }
       },
-      "is_incremental": false,
       "version": ""
     }
   ],
-  "incremental_info": [
-    {
-      "status": {
-        "can_incremental": true,
-        "incrementalPhase": "build",
-        "total_file_count": 0,
-        "skipped_file_count": 0
-      },
-      "processors": {
-        "ConceptualDocumentProcessor": {
-          "can_incremental": true,
-          "incrementalPhase": "build",
-          "total_file_count": 49,
-          "skipped_file_count": 43
-        },
-        "ResourceDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor ResourceDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        },
-        "TocDocumentProcessor": {
-          "can_incremental": false,
-          "details": "Processor TocDocumentProcessor cannot support incremental build because the processor doesn't implement ISupportIncrementalDocumentProcessor interface.",
-          "incrementalPhase": "build",
-          "total_file_count": 0,
-          "skipped_file_count": 0
-        }
-      }
-    },
-    {
-      "status": {
-        "can_incremental": false,
-        "details": "Cannot support incremental post processing, the reason is: should not trace intermediate info.",
-        "incrementalPhase": "postProcessing",
-        "total_file_count": 0,
-        "skipped_file_count": 0
-      },
-      "processors": {}
-    }
-  ],
-  "version_info": {},
   "groups": [
     {
       "xrefmap": "xrefmap.yml"

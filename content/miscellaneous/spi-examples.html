@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>i2 Connect SPI examples </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="i2 Connect SPI examples ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>i2 Connect SPI examples </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="i2 Connect SPI examples ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -95,15 +95,15 @@ property types used in the example schema:</p>
 </thead>
 <tbody>
 <tr>
-<td> Complaint</td>
+<td>Complaint</td>
 <td>ET1</td>
 </tr>
 <tr>
-<td> Location</td>
+<td>Location</td>
 <td>ET2</td>
 </tr>
 <tr>
-<td> Person</td>
+<td>Person</td>
 <td>ET3</td>
 </tr>
 </tbody>
@@ -117,15 +117,15 @@ property types used in the example schema:</p>
 </thead>
 <tbody>
 <tr>
-<td> Located At</td>
+<td>Located At</td>
 <td>LT1</td>
 </tr>
 <tr>
-<td> Suspect Of</td>
+<td>Suspect Of</td>
 <td>LT2</td>
 </tr>
 <tr>
-<td> Victim Of</td>
+<td>Victim Of</td>
 <td>LT3</td>
 </tr>
 </tbody>
@@ -140,27 +140,27 @@ property types used in the example schema:</p>
 </thead>
 <tbody>
 <tr>
-<td> Complaint Number</td>
+<td>Complaint Number</td>
 <td>Complaint</td>
 <td>PT1</td>
 </tr>
 <tr>
-<td> Borough Name</td>
+<td>Borough Name</td>
 <td>Location</td>
 <td>PT16</td>
 </tr>
 <tr>
-<td> Age Group</td>
+<td>Age Group</td>
 <td>Person</td>
 <td>PT26</td>
 </tr>
 <tr>
-<td> Race</td>
+<td>Race</td>
 <td>Person</td>
 <td>PT27</td>
 </tr>
 <tr>
-<td> Gender</td>
+<td>Gender</td>
 <td>Person</td>
 <td>PT28</td>
 </tr>
@@ -345,7 +345,8 @@ property types used in the example schema:</p>
     }
   ]
 }
-</code></pre><h2 id="parameterized-search">Parameterized search</h2>
+</code></pre>
+<h2 id="parameterized-search">Parameterized search</h2>
 <p>To implement a service to search for people by age group, you can define a
 <code>clientConfig</code> in <code>config.json</code> like the following:</p>
 <pre><code class="lang-json">{
@@ -366,7 +367,8 @@ property types used in the example schema:</p>
     ]
   }
 }
-</code></pre><p>The <code>id</code> should be a unique identifier for this <code>clientConfig</code>. Then the services you define can use this form by supplying this <code>id</code> in the service&#39;s <code>clientConfigId</code> field.</p>
+</code></pre>
+<p>The <code>id</code> should be a unique identifier for this <code>clientConfig</code>. Then the services you define can use this form by supplying this <code>id</code> in the service's <code>clientConfigId</code> field.</p>
 <p>The <code>config</code> contains <code>sections</code> and each section contains a JSON object defining a condition field depicted below:</p>
 <p><img src="images/parameterised-search.jpg" alt="Example Data"></p>
 <ul>
@@ -389,7 +391,8 @@ like this:</p>
     &quot;seeds&quot;: {}
   }
 }
-</code></pre><p>The request searches for Person entities where the Age Group property is equal to &quot;18-24&quot;.
+</code></pre>
+<p>The request searches for Person entities where the Age Group property is equal to &quot;18-24&quot;.
 In the implementation of the parameterized search service, you would filter through the data and find entities which satisfy the request
 requirements, i.e. have <code>typeId</code> equal to <code>&quot;ET3&quot;</code> and have the Age Group property <code>PT26</code> equal to <code>&quot;18-24&quot;</code>.
 The response, from the example request above, would look like this:</p>
@@ -418,7 +421,8 @@ The response, from the example request above, would look like this:</p>
   ],
   &quot;links&quot;: []
 }
-</code></pre><h2 id="seeded-search">Seeded search</h2>
+</code></pre>
+<h2 id="seeded-search">Seeded search</h2>
 <p>Seeded searches take as input a set of entities and links that a user already has on their chart and use this information when finding results.
 The types of seeded search operations that the following examples cover are:</p>
 <ul>
@@ -460,7 +464,8 @@ For an example of a request that does contain such data, see <a href="property-s
     }
   }
 }
-</code></pre><p>You can deduce which of the entities the <code>DaodSeedEntity</code> in this request corresponds to by looking at the key in the <code>sourceIds</code> field.
+</code></pre>
+<p>You can deduce which of the entities the <code>DaodSeedEntity</code> in this request corresponds to by looking at the key in the <code>sourceIds</code> field.
 The third element of this list gives us the ID we have assigned the entity in our connector, <code>&quot;person-D&quot;</code>.
 You also have its type ID <code>&quot;ET3&quot;</code>, so it is a Person entity.
 Have a look at the data above and find this entity.</p>
@@ -487,7 +492,8 @@ We can filter through our list of entities for those which have <code>typeId</co
   ],
   &quot;links&quot;: []
 }
-</code></pre><h3 id="expand">Expand</h3>
+</code></pre>
+<h3 id="expand">Expand</h3>
 <p>A <code>DaodRequest</code> received by the connector for an &quot;expand&quot; search might look like this:</p>
 <pre><code class="lang-json">{
   &quot;payload&quot;: {
@@ -516,7 +522,8 @@ We can filter through our list of entities for those which have <code>typeId</co
     }
   }
 }
-</code></pre><p>Again, you can deduce which of our entities the <code>DaodSeedEntity</code> corresponds to by looking at the <code>sourceIds</code>.
+</code></pre>
+<p>Again, you can deduce which of our entities the <code>DaodSeedEntity</code> corresponds to by looking at the <code>sourceIds</code>.
 The <code>id</code> of the entity in question is <code>&quot;complaint-1&quot;</code> and it has <code>typeID</code> equal to <code>&quot;ET1&quot;</code>, so it is a complaint.
 Look at the example data above and find which entity you are expanding.
 What would you expect an Expand operation to return?</p>
@@ -596,7 +603,8 @@ This can be done by using the <code>fromEndId</code>s and <code>toEndId</code>s 
     }
   ]
 }
-</code></pre><p>When copying these results to a chart, the seed entity would be duplicated
+</code></pre>
+<p>When copying these results to a chart, the seed entity would be duplicated
 along with all its links and connected entities that may already be on the
 chart which would all be connected to the duplicate.</p>
 <p>Depending on how you want the service to function, you might prefer to have the returned items connected to the entity that you selected on the chart rather than to a duplicate.
@@ -660,19 +668,22 @@ In this case, you need to change all <code>id</code>, <code>fromEndId</code> and
     }
   ]
 }
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -680,14 +691,14 @@ In this case, you need to change all <code>id</code>, <code>fromEndId</code> and
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

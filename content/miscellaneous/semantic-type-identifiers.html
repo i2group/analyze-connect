@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Semantic type identifiers </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Semantic type identifiers ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Semantic type identifiers </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Semantic type identifiers ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -86,17 +86,17 @@
 <ol>
 <li><p>Open i2 Analyze Schema Designer without loading a schema file. The application creates an empty schema.</p>
 </li>
-<li><p>Click <strong>New Entity Type</strong>. You don&#39;t actually need to create an entity type, but this step provides access to the semantic type library.</p>
+<li><p>Click <strong>New Entity Type</strong>. You don't actually need to create an entity type, but this step provides access to the semantic type library.</p>
 </li>
 <li><p>On the new Entity Type tab, find the <strong>Semantic Type</strong> field, and click <strong>Select</strong> to display the Select Semantic Type dialog.</p>
 </li>
 <li><p>Open the <strong>Property</strong> tab to view the list of semantic property types in the library.</p>
 <p><img src="images/semantic-property-types.png" alt="Semantic Property Types"></p>
 </li>
-<li><p>Find the most generic type that&#39;s meaningful for the searches that you want to enable.</p>
-<p>For example, if you&#39;re writing a service that works with phone numbers, it&#39;s likely that you&#39;d use the parent Phone Number semantic property type rather than one of its child types (Cell Phone Number, Home Phone Number, and so on).</p>
+<li><p>Find the most generic type that's meaningful for the searches that you want to enable.</p>
+<p>For example, if you're writing a service that works with phone numbers, it's likely that you'd use the parent Phone Number semantic property type rather than one of its child types (Cell Phone Number, Home Phone Number, and so on).</p>
 </li>
-<li><p>Make a note of the name of the type, which you&#39;ll need for the next step.</p>
+<li><p>Make a note of the name of the type, which you'll need for the next step.</p>
 </li>
 </ol>
 <p>The Select Semantic Type dialog does not display the GUIDs of the semantic types. To find those identifiers, you can look in the XML file that contains the library.</p>
@@ -114,28 +114,31 @@
   &lt;Documentation&gt;
     &lt;lcx:Synonym&gt;Family Name&lt;/lcx:Synonym&gt;
     &lt;lcx:Synonym&gt;Surname&lt;/lcx:Synonym&gt;
-    &lt;Description&gt;A person&#39;s family name.&lt;/Description&gt;
+    &lt;Description&gt;A person's family name.&lt;/Description&gt;
   &lt;/Documentation&gt;
 &lt;/lcx:Property&gt;
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>Copy the GUID that appears as the value of <code>pGUID</code> attribute of the <code>&lt;lcx:Property&gt;</code> element, which is <code>guid62B01C18-2E64-46D5-B2FF-3C69B4F76FEB</code> in the example above.</p>
 </li>
 </ol>
 </li>
 </ol>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -143,14 +146,14 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

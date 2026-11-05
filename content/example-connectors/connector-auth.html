@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Authentication </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Authentication ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Authentication </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Authentication ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -79,15 +79,16 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="authentication">Authentication</h1>
 
-<p>The Auth connector demonstrates the ability to configure authentication for individual services on a connector. Since i2 Analyze version 4.3.4, you can configure a connector service to require a user&#39;s credentials before initiating a query, be it synchronous or asynchronous. This mechanism enables connectors to authenticate users with third-party services.</p>
+<p>The Auth connector demonstrates the ability to configure authentication for individual services on a connector. Since i2 Analyze version 4.3.4, you can configure a connector service to require a user's credentials before initiating a query, be it synchronous or asynchronous. This mechanism enables connectors to authenticate users with third-party services.</p>
 <p>Similar to client configurations, you can define reusable authentication configurations that can be shared across services in the connector configuration. These are groups of form fields that the user fills in with their credentials in order to authenticate.</p>
 <p>After a user authenticates with a service using a specific authentication configuration, the user is able to query all services that use the same authentication configuration.</p>
-<blockquote><p><strong>Note</strong>: Connector service authentication is completely separate from Liberty&#39;s user authentication. Connector service authentication is managed on the connector domain and controls access to connector services. Liberty&#39;s user authentication is managed by the i2 Analyze server, controlling access to the i2 Connect gateway.</p>
+<blockquote>
+<p><strong>Note</strong>: Connector service authentication is completely separate from Liberty's user authentication. Connector service authentication is managed on the connector domain and controls access to connector services. Liberty's user authentication is managed by the i2 Analyze server, controlling access to the i2 Connect gateway.</p>
 </blockquote>
 <h2 id="configuring-authentication-for-a-synchronous-service">Configuring authentication for a synchronous service</h2>
 <p>The following are the steps required to successfully set up authentication for a synchronous service.</p>
 <h3 id="1-defining-an-authentication-configuration">1. Defining an authentication configuration</h3>
-<p>Authentication configurations are defined in the <code>authConfigs</code> array of a connector&#39;s configuration. For example, the Auth connector defines two authentication configurations in its <code>config.json</code> file:</p>
+<p>Authentication configurations are defined in the <code>authConfigs</code> array of a connector's configuration. For example, the Auth connector defines two authentication configurations in its <code>config.json</code> file:</p>
 <pre><code class="lang-json">{
   &quot;defaultValues&quot;: { ... },
   &quot;services&quot;: [ ... ],
@@ -127,13 +128,16 @@
     }
   ]
 }
-</code></pre><p>In the above, two <code>authConfigs</code> are defined. Each configuration has:</p>
+</code></pre>
+<p>In the above, two <code>authConfigs</code> are defined. Each configuration has:</p>
 <ul>
 <li>An <code>id</code> which needs to be unique among the <code>authConfigs</code>.</li>
-<li>A <code>loginUrl</code> which is relative to the connector&#39;s base URL. This is used to determine where authentication requests should be made.</li>
-<li>A <code>form</code> object which includes the following:<ul>
+<li>A <code>loginUrl</code> which is relative to the connector's base URL. This is used to determine where authentication requests should be made.</li>
+<li>A <code>form</code> object which includes the following:
+<ul>
 <li>A <code>description</code> briefly describing the form.</li>
-<li>A <code>fields</code> property which is an array of form fields. Each form field is an object containing:<ul>
+<li>A <code>fields</code> property which is an array of form fields. Each form field is an object containing:
+<ul>
 <li>An <code>id</code> unique among the form fields.</li>
 <li>A <code>label</code> shown on the user interface alongside the form field.</li>
 <li>A <code>type</code> indicating the type of user input. Accepted values are <code>text</code> and <code>password</code>.</li>
@@ -158,30 +162,37 @@
   ],
   &quot;authConfigs&quot;: [ ... ]
 }
-</code></pre><p>You cannot assign multiple authentication configurations to a single service. But you can assign the same authentication configuration to multiple services.</p>
+</code></pre>
+<p>You cannot assign multiple authentication configurations to a single service. But you can assign the same authentication configuration to multiple services.</p>
 <h3 id="3-implementing-the-login-endpoint">3. Implementing the login endpoint</h3>
 <p>The login endpoint is called when the user submits their credentials for a service using an authentication configuration.</p>
 <p>Here, the submitted credentials should be checked to ensure they are valid. If they are, the login endpoint should generate an authorization token string and include that in the response body like so:</p>
 <pre><code class="lang-json">{
   token: &quot;authorization-token-string&quot;
 }
-</code></pre><p>The Auth connector example generates signed JSON Web Tokens (JWTs) which the endpoint responds with as an example. You are free to use your own token generation and verification mechanisms.</p>
+</code></pre>
+<p>The Auth connector example generates signed JSON Web Tokens (JWTs) which the endpoint responds with as an example. You are free to use your own token generation and verification mechanisms.</p>
 <p>This generated token is cached by the gateway and used in subsequent connector requests to services using the same authentication configuration.</p>
 <p>If the credentials are invalid, the endpoint should respond with a <code>401</code> status code alongside an <a href="https://tools.ietf.org/html/rfc7807">RFC7807</a> (<code>ProblemDetails</code>) response body. This <code>ProblemDetails</code> object contains the following fields:</p>
 <ul>
-<li>The <code>title</code>; a brief summary of the problem.</li>
-<li>The <code>detail</code>; An explanation specific to the occurrence of the problem.</li>
+<li><p>The <code>title</code>; a brief summary of the problem.</p>
+</li>
+<li><p>The <code>detail</code>; An explanation specific to the occurrence of the problem.</p>
+</li>
 <li><p>The <code>type</code>; a URI reference that identifies the problem type. To indicate the problem is caused by a connector authentication error, this value must be set to:</p>
 <pre><code class="lang-text">urn:uuid:264caa46-75cb-4ac5-891a-11adeb48b6fb
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>The <code>status</code>; the HTTP response code (usually a <code>401</code>).</p>
 </li>
-<li>The <code>instance</code>; an optional URI reference which identifies the specific occurrence of the problem, relative to the connector&#39;s base URL. Absolute URLs are also accepted.</li>
+<li><p>The <code>instance</code>; an optional URI reference which identifies the specific occurrence of the problem, relative to the connector's base URL. Absolute URLs are also accepted.</p>
+</li>
 </ul>
 <h3 id="4-implementing-authentication-verification-on-endpoints">4. Implementing authentication verification on endpoints</h3>
 <p>The gateway uses <a href="https://swagger.io/docs/specification/authentication/bearer-authentication/">bearer authentication</a> to authorize requests made to protected resources. In this authentication scheme, security tokens are sent in the <code>Authorization</code> header of the request, looking like the following:</p>
 <pre><code class="lang-http">Authorization: Bearer &lt;token&gt;
-</code></pre><p>To implement verification of authentication for the service, the token submitted in the <code>Authorization</code> header of the request needs to be validated.</p>
+</code></pre>
+<p>To implement verification of authentication for the service, the token submitted in the <code>Authorization</code> header of the request needs to be validated.</p>
 <p>If you are not outsourcing the verification of authentication tokens to a third-party service, your connector implementation will need to ensure the following:</p>
 <ul>
 <li>The <code>Authorization</code> header exists on the request</li>
@@ -215,21 +226,23 @@
     ...
   &lt;/war&gt;
 &lt;/wars&gt;
-</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
+</code></pre>
+<p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
   &lt;connectors&gt;
     &lt;connector base-url=&quot;http://localhost:9086&quot; name=&quot;Auth Connector&quot; id=&quot;auth-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you are using the same port specified in the <code>auth\auth-connector\src\main\resources\application.properties</code> file in this repository (<code>9086</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre>
+<p>Ensure that you are using the same port specified in the <code>auth\auth-connector\src\main\resources\application.properties</code> file in this repository (<code>9086</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the Auth schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
-<p>By default, your connector has the Auth schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the Auth connector&#39;s <code>config.json</code> file, in <code>auth\auth-connector\src\main\resources</code>.</p>
+<p>By default, your connector has the Auth schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the Auth connector's <code>config.json</code> file, in <code>auth\auth-connector\src\main\resources</code>.</p>
 <p>Additionally, ensure the following is true:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property.</li>
+<li>The connector's <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property.</li>
 <li>The Auth <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
 </ul>
 <p>For more information, see <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
@@ -237,29 +250,33 @@
 <p>If you want to set up the Auth schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the Auth schema and charting scheme in the <code>schema</code> directory of this repository.</p>
 <p>Additionally, ensure the following is true:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> in <code>auth\auth-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default. If they are present, remove them.</li>
+<li>The connector's <code>config.json</code> in <code>auth\auth-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default. If they are present, remove them.</li>
 <li>The Auth <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
 <h3 id="3-run-the-auth-connector">3. Run the Auth connector</h3>
 <p>To run the connector, navigate to <code>connector\auth\auth-connector</code> in your terminal and run the application using the following command:</p>
 <pre><code class="lang-shell">mvnw spring-boot:run
-</code></pre><h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
+</code></pre>
+<h3 id="4-deploy-and-start-i2-analyze">4. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
 <pre><code class="lang-shell">setup -t deployLiberty
 setup -t startLiberty
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -267,14 +284,14 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

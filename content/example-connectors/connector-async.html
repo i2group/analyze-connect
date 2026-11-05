@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Asynchronous services </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Asynchronous services ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Asynchronous services </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Asynchronous services ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -128,7 +128,7 @@
 <p>The schema (and charting schemes) for the Async connector are in the <code>schema</code> directory of this repository.</p>
 <h3 id="entity-person">Entity: Person</h3>
 <p>Represents a person in the <code>people</code> object.</p>
-<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property&#39;s data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
+<p>Where <strong>Property Type</strong> is the name of the schema property, <strong>Logical Type</strong> is the property's data type, and <strong>Derived From</strong> is the field of the external dataset where the property is derived from.</p>
 <table>
 <thead>
 <tr>
@@ -237,25 +237,26 @@
     }
   ]
 }
-</code></pre><h3 id="2-implementing-the-acquire-endpoint">2. Implementing the acquire endpoint</h3>
+</code></pre>
+<h3 id="2-implementing-the-acquire-endpoint">2. Implementing the acquire endpoint</h3>
 <p><strong>This endpoint starts an asynchronous query to fetch data from the service in the specified query resource.</strong></p>
 <p>If the service in question also specifies the <strong>validateUrl</strong> property, then the gateway uses the <strong>validateUrl</strong> endpoint before it uses the <strong>queriesResource</strong> endpoint.</p>
 <p>This service calls the POST method on the <code>/ASYNC_SERVICE_URL</code> endpoint and takes in a request parameter. It is a payload that the service can interpret to modify its behavior. The service can have one of three types of client configuration:</p>
 <ul>
-<li>&#39;NONE&#39; - the payload never contains conditions.</li>
-<li>&#39;FORM&#39; - it contains conditions that have a fixed structure.</li>
-<li>&#39;CUSTOM&#39; - the contents of the <strong>conditions</strong> object are free-form.</li>
+<li>'NONE' - the payload never contains conditions.</li>
+<li>'FORM' - it contains conditions that have a fixed structure.</li>
+<li>'CUSTOM' - the contents of the <strong>conditions</strong> object are free-form.</li>
 </ul>
 <p>The response must contain a query ID that the client can use in subsequent requests to retrieve further information.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncAcquireService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncAcquire()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h3 id="3-implementing-the-status-endpoint">3. Implementing the status endpoint</h3>
 <p><strong>This endpoint fetches the status of the specified asynchronous query from the specified queries resource.</strong></p>
 <p>After a client starts an asynchronous query, it uses polling to determine its progress. The client polls the i2 Connect gateway, and the gateway calls through to the connector to retrieve its status.</p>
-<p>This service calls the GET method on the <code>/ASYNC_SERVICE_URL/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to identify the current state of the query. The response must contain one of three <strong>state</strong> values that indicate the status of the query: &#39;STARTED&#39;, &#39;SUCCEEDED&#39;, or &#39;FAILED&#39;. The response can also contain a series of <strong>substatuses</strong> that report progress from the underlying data source. The four valid types of substatus are &#39;INFORMATION&#39;, &#39;WARNING&#39;, &#39;ERROR&#39;, and &#39;SUCCESS&#39;.</p>
+<p>This service calls the GET method on the <code>/ASYNC_SERVICE_URL/{queryId}</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to identify the current state of the query. The response must contain one of three <strong>state</strong> values that indicate the status of the query: 'STARTED', 'SUCCEEDED', or 'FAILED'. The response can also contain a series of <strong>substatuses</strong> that report progress from the underlying data source. The four valid types of substatus are 'INFORMATION', 'WARNING', 'ERROR', and 'SUCCESS'.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncStatusService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncStatus()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h3 id="4-implementing-a-results-endpoint">4. Implementing a results endpoint</h3>
 <p><strong>This endpoint fetches the results of the specified asynchronous query from the specified queries resource.</strong></p>
-<p>Clients can attempt to retrieve results only from an asynchronous query whose state is &#39;SUCCEEDED&#39;. An attempt to fetch results from a query in any other state must fail.</p>
+<p>Clients can attempt to retrieve results only from an asynchronous query whose state is 'SUCCEEDED'. An attempt to fetch results from a query in any other state must fail.</p>
 <p>This service calls the GET method on the <code>/ASYNC_SERVICE_URL/{queryId}/results</code> endpoint. It queries that endpoint using the provided <code>queryId</code> to fetch the results of the successful query. The structure of the response is identical to the response from a synchronous query.</p>
 <p>A sample solution has been written in <strong>Java</strong> and can be found in the <code>asyncResultsService()</code> method in <code>ConnectorController</code> with it being implemented in <code>asyncResults()</code> in <code>ExternalConnectorDataService</code>.</p>
 <h3 id="5-implementing-a-delete-endpoint">5. Implementing a delete endpoint</h3>
@@ -277,21 +278,23 @@
     ...
   &lt;/war&gt;
 &lt;/wars&gt;
-</code></pre><p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
+</code></pre>
+<p>Additionally, add a new <code>&lt;connector&gt;</code> element to the topology:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
   &lt;connectors&gt;
     &lt;connector base-url=&quot;http://localhost:9085&quot; name=&quot;Async Connector&quot; id=&quot;async-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p>Ensure that you are using the same port specified in the <code>async\async-connector\src\main\resources\application.properties</code> file in this repository (<code>9085</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
+</code></pre>
+<p>Ensure that you are using the same port specified in the <code>async\async-connector\src\main\resources\application.properties</code> file in this repository (<code>9085</code> by default), and that the value of the <code>id</code> attribute is the same as the <code>value</code> attribute of its corresponding <code>&lt;connector-id&gt;</code>.</p>
 <h3 id="2-configure-the-schema">2. Configure the schema</h3>
 <p>Choose whether you want to configure the Async schema as a connector schema or a gateway schema.</p>
 <h4 id="connector-schema">Connector schema</h4>
-<p>By default, your connector has the Async schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the Async connector&#39;s <code>config.json</code> file, in <code>async\async-connector\src\main\resources</code>.</p>
+<p>By default, your connector has the Async schema configured as a connector schema. <code>schemaUrl</code>, <code>chartingSchemesUrl</code>, and <code>schemaShortName</code> are defined in the Async connector's <code>config.json</code> file, in <code>async\async-connector\src\main\resources</code>.</p>
 <p>Additionally, ensure the following is true:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property.</li>
+<li>The connector's <code>config.json</code> <strong>does not</strong> contain a <code>gatewaySchema</code> property.</li>
 <li>The Async <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>gateway-schema</code> attribute.</li>
 </ul>
 <p>For more information, see <a href="../schemas/connector-schema.html">configuring a connector schema</a>.</p>
@@ -299,33 +302,38 @@
 <p>If you want to set up the Async schema as a gateway schema, follow the guidelines for <a href="../schemas/gateway-schema.html">configuring a gateway schema</a> using the Async schema and charting scheme in the <code>schema</code> directory of this repository.</p>
 <p>Additionally, ensure the following is true:</p>
 <ul>
-<li>The connector&#39;s <code>config.json</code> in <code>async\async-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default. If they are present, remove them.</li>
+<li>The connector's <code>config.json</code> in <code>async\async-connector\src\main\resources</code> <strong>does not</strong> contain the <code>schemaUrl</code>, <code>chartingSchemesUrl</code> and <code>schemaShortName</code> properties. These properties exist on the configuration by default. If they are present, remove them.</li>
 <li>The Async <code>&lt;connector&gt;</code> element in your i2 Analyze topology <strong>does not</strong> contain a <code>schema-short-name</code> attribute.</li>
 </ul>
 <h3 id="3-optional-configure-the-query-timeout">3. (Optional) Configure the query timeout</h3>
-<p>By default, i2 Analyze expects asynchronous queries to complete within 10 minutes of being started. If that doesn&#39;t happen, the gateway stops asking the connector for its status. Next time the client polls for information, the server informs it of the failure.</p>
+<p>By default, i2 Analyze expects asynchronous queries to complete within 10 minutes of being started. If that doesn't happen, the gateway stops asking the connector for its status. Next time the client polls for information, the server informs it of the failure.</p>
 <p>To change the default timeout period and support longer-running queries, you can add a setting named <code>AsyncQueryTimeoutSeconds</code> to the <code>DiscoServerSettingsCommon.properties</code> file. For example, to set the timeout to an hour:</p>
 <pre><code class="lang-shell">AsyncQueryTimeoutSeconds=3600
-</code></pre><h3 id="4-run-the-async-connector">4. Run the Async connector</h3>
+</code></pre>
+<h3 id="4-run-the-async-connector">4. Run the Async connector</h3>
 <p>To run the connector, navigate to <code>connector\async\async-connector</code> in your terminal and run the application using the following command:</p>
 <pre><code class="lang-shell">mvnw spring-boot:run
-</code></pre><h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
+</code></pre>
+<h3 id="5-deploy-and-start-i2-analyze">5. Deploy and start i2 Analyze</h3>
 <p>Deploy and start the Liberty server.</p>
 <pre><code class="lang-shell">setup -t deployLiberty
 setup -t startLiberty
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -333,14 +341,14 @@ setup -t startLiberty
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

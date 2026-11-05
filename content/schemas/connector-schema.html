@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Connector schemas </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Connector schemas ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Connector schemas </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Connector schemas ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -85,14 +85,14 @@
 <p>A connector schema is provided by the connector itself. To supply a schema, a connector must provide:</p>
 <ul>
 <li>An endpoint that returns the schema in its XML form from a GET request.</li>
-<li>The URL for the endpoint. The URL is provided in the <code>schemaUrl</code> field of its configuration, and it must be relative to the connector&#39;s base URL.</li>
+<li>The URL for the endpoint. The URL is provided in the <code>schemaUrl</code> field of its configuration, and it must be relative to the connector's base URL.</li>
 </ul>
 <p>A connector schema can be supplemented with a charting scheme. To supply a charting scheme, a connector must provide:</p>
 <ul>
 <li>An endpoint that returns the charting scheme in its XML form from a GET request.</li>
-<li>The URL for the endpoint. The URL is provided in the <code>chartingSchemesUrl</code> field of its configuration, and it must be relative to the connector&#39;s base URL.</li>
+<li>The URL for the endpoint. The URL is provided in the <code>chartingSchemesUrl</code> field of its configuration, and it must be relative to the connector's base URL.</li>
 </ul>
-<p>For example, if a connector&#39;s base URL is <code>http://exampleconnector.com:3700</code>, the schema and charting schemes endpoints might be available at the following URLs:</p>
+<p>For example, if a connector's base URL is <code>http://exampleconnector.com:3700</code>, the schema and charting schemes endpoints might be available at the following URLs:</p>
 <ul>
 <li><code>http://exampleconnector.com:3700/schema</code></li>
 <li><code>http://exampleconnector.com:3700/charting-schemes</code></li>
@@ -111,8 +111,9 @@
     ...
   ]
 }
-</code></pre><h2 id="connector-schema-short-names">Connector schema short names</h2>
-<p>All connector schemas have a short name that is displayed to analysts in i2 Analyst&#39;s Notebook when they interact with entity and link types from that schema. The short name of a connector schema <em>must</em> be unique within the i2 Analyze deployment. It can be configured in two ways:</p>
+</code></pre>
+<h2 id="connector-schema-short-names">Connector schema short names</h2>
+<p>All connector schemas have a short name that is displayed to analysts in i2 Analyst's Notebook when they interact with entity and link types from that schema. The short name of a connector schema <em>must</em> be unique within the i2 Analyze deployment. It can be configured in two ways:</p>
 <ul>
 <li>The connector can specify the short name of the configuration that is returned from its configuration endpoint.</li>
 <li>You can specify the short name of the schema when defining the connector in the i2 Analyze topology (<code>topology.xml</code>).</li>
@@ -134,7 +135,8 @@
     ...
   ]
 }
-</code></pre><p>For more information about the <code>ConnectorConfig</code> object, see the
+</code></pre>
+<p>For more information about the <code>ConnectorConfig</code> object, see the
 <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="i2-analyze-topology">i2 Analyze topology</h3>
 <p>To specify the short name in the i2 Analyze topology, use the <code>schema-short-name</code> attribute of the <code>&lt;connector&gt;</code> element. For example:</p>
@@ -142,19 +144,22 @@
            name=&quot;Example Connector&quot;
            base-url=&quot;http://localhost:3700/&quot;
            schema-short-name=&quot;Social Media&quot;/&gt;
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -162,14 +167,14 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

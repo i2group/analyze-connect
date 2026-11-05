@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Validation </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Validation ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Validation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Validation ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -83,7 +83,7 @@
 <p>For some more general information about when to validate requests, see <a href="../workflow/validation.html">Supporting validation</a>. You can also consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a> if needed during this task.</p>
 <h2 id="client-side-validation">Client-side validation</h2>
 <p>Validation can be performed on the client for simple input checks before sending a request to the gateway, such as ensuring the presence of values for mandatory fields, or verifying that input values are in the correct format.</p>
-<p>Client-side validation is configured via the connector&#39;s configuration in the same way as parameterized searches. Below is an example configuration for validating that input values for the &#39;Offence&#39; field start with two letters and two numbers:</p>
+<p>Client-side validation is configured via the connector's configuration in the same way as parameterized searches. Below is an example configuration for validating that input values for the 'Offence' field start with two letters and two numbers:</p>
 <pre><code class="lang-json">{
   &quot;conditions&quot;: [
     {
@@ -98,7 +98,8 @@
     }
   ]
 }
-</code></pre><p>The <code>mandatory</code> property in the <code>config.json</code> file specifies whether a field is required or not.</p>
+</code></pre>
+<p>The <code>mandatory</code> property in the <code>config.json</code> file specifies whether a field is required or not.</p>
 <p>The <code>extraStringValidation</code> property property allows regex validation be performed with custom error messages to be sent back to the client when a value does not comply with the rule.</p>
 <p>You can find out more on accepted condition properties by looking at the <code>/CONFIGURATION_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h2 id="server-side-validation">Server-side validation</h2>
@@ -115,17 +116,20 @@
   &quot;acquireUrl&quot;: &quot;/search&quot;,
   &quot;validateUrl&quot;: &quot;/search/validate&quot;
 }
-</code></pre><h3 id="2-implement-the-validation-endpoint">2. Implement the validation endpoint</h3>
+</code></pre>
+<h3 id="2-implement-the-validation-endpoint">2. Implement the validation endpoint</h3>
 <p>In your code, implement the server-side logic for the validate endpoint using the conditions in the request. The payload that the endpoint receives in the request contains all the same condition and seed information that the acquire endpoint receives.</p>
 <p>If validation succeeds according to your logic, return a 200 response code. The body of the response must either be an empty object or an object containing an <code>errorMessage</code> with a <code>null</code> value. For example:</p>
 <pre><code class="lang-json">{
   &quot;errorMessage&quot;: null
 }
-</code></pre><p>If it fails, return an object containing an <code>errorMessage</code> with your error message:</p>
+</code></pre>
+<p>If it fails, return an object containing an <code>errorMessage</code> with your error message:</p>
 <pre><code class="lang-json">{
   &quot;errorMessage&quot;: &quot;This is the error message displayed.&quot;
 }
-</code></pre><p>When the i2 Connect gateway receives a non-null <code>errorMessage</code>, it does not subsequently send a request to the acquire endpoint.</p>
+</code></pre>
+<p>When the i2 Connect gateway receives a non-null <code>errorMessage</code>, it does not subsequently send a request to the acquire endpoint.</p>
 <p>The following example code provides sample implementations of a validation endpoint in Java and Python.</p>
 <h4 id="java">Java</h4>
 <p>In the <code>ConnectorController.java</code> file, add the following method:</p>
@@ -142,40 +146,44 @@ public PayloadValidationResponse searchValidate(@Valid @RequestBody DaodRequest 
   }
   return validationResponse;
 }
-</code></pre><h4 id="python">Python</h4>
+</code></pre>
+<h4 id="python">Python</h4>
 <p>In the <code>controller.py</code> class, add the following function and import:</p>
 <pre><code class="lang-python">from spi.models.i2_connect_data import I2ConnectData
 
-@controller.route(&#39;/search/validate&#39;, methods=[&#39;POST&#39;])
+@controller.route('/search/validate', methods=['POST'])
 def search_validate():
-    conditions = request.json[&#39;payload&#39;][&#39;conditions&#39;]
+    conditions = request.json['payload']['conditions']
     response = I2ConnectData()
     condition_present = False
 
     for condition in conditions:
-        if condition.get(&#39;value&#39;) is not None:
+        if condition.get('value') is not None:
             condition_present = True
 
     if not condition_present:
         response.error_message = &quot;At least one search field should have a specified value.&quot;
 
     return response.to_dict()
-</code></pre><p>For more information, see the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
+</code></pre>
+<p>For more information, see the <code>/VALIDATE_URL</code> endpoint definition in the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">i2 Connect gateway REST SPI</a>.</p>
 <h3 id="3-reload-the-i2-connect-gateway">3. Reload the i2 Connect gateway</h3>
 <p>Instruct the i2 Connect gateway to reload the configuration. Test that your new validation has the correct behavior.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -183,14 +191,14 @@ def search_validate():
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

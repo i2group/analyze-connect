@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Implementing config </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Implementing config ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Implementing config </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Implementing config ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -82,7 +82,7 @@
 <p>The configuration endpoint of a connector must respond to requests from the i2 Connect gateway with information about the schemas that the connector uses and the services that it provides. In some more complex connectors, the configuration endpoint can indicate in its response that more information is available from other endpoints.</p>
 <p><strong>Note:</strong> Starting with version 4.4.0 of i2 Analyze, a connector can tell the gateway what version of the SPI it needs to use. If the response from your configuration endpoint does not indicate the version, the gateway assumes that the connector uses version 1.0 of the SPI. For more details, see <a href="../miscellaneous/spi-version.html">SPI version negotiation</a>.</p>
 <p>When the i2 Analyze server starts, the i2 Connect gateway sends a request to the configuration endpoint. The response that your connector sends back provides information to the gateway that includes a list of what services are available. i2 Analyze caches this information and provides it to clients when they connect.</p>
-<p><strong>Note:</strong> Some connectors support <a href="../example-connectors/user-configuration.html">user-specific configuration</a>, where different users see different views of the services that the connector exposes. In those circumstances, a static list of services is not appropriate. Instead, the configuration endpoint provides the location of the <em>user configuration endpoint</em>, which provides per-user information about the connector&#39;s services.</p>
+<p><strong>Note:</strong> Some connectors support <a href="../example-connectors/user-configuration.html">user-specific configuration</a>, where different users see different views of the services that the connector exposes. In those circumstances, a static list of services is not appropriate. Instead, the configuration endpoint provides the location of the <em>user configuration endpoint</em>, which provides per-user information about the connector's services.</p>
 <p>The simplest possible service does not behave differently for different users, does not support seeds, and does not require users to provide parameters. As a result, it does not require the client to display user input controls. In that case, the structure that you return from the configuration endpoint must contain only two objects:</p>
 <ul>
 <li><p>The <code>defaultValues</code> object.</p>
@@ -118,7 +118,8 @@
     ...
   ]
 }
-</code></pre><p><strong>Note:</strong> You can also retrieve a list of supported time zones from the GET method on the i2 Analyze server&#39;s <code>/api/v1/core/temporal/timezones</code> REST endpoint.</p>
+</code></pre>
+<p><strong>Note:</strong> You can also retrieve a list of supported time zones from the GET method on the i2 Analyze server's <code>/api/v1/core/temporal/timezones</code> REST endpoint.</p>
 </li>
 <li><p>If the source contains only a few types, and if you intend the connector eventually to have many services that run different queries, then consider adding an <code>entityTypeId</code> and a <code>linkTypeId</code> to the <code>defaultValues</code> object.</p>
 <p>It is more common to specify what types of record a query might retrieve on a per-service than on a connector-wide basis. However, if you do not supply default types here, then every service must supply types individually.</p>
@@ -156,7 +157,8 @@
     }
   ]
 }
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>If you are using SPI version 1.0 or 1.1, then you must set the <code>clientConfigType</code> to <code>NONE</code>.
 The <code>clientConfigType</code> field is not required or supported when using SPI 1.2 or later.</p>
 <pre><code class="lang-json">{
@@ -177,7 +179,8 @@ The <code>clientConfigType</code> field is not required or supported when using 
     }
   ]
 }
-</code></pre><p>If you later add parameters to the query, you can allow users to specify them by changing the value to <code>FORM</code> and providing the identifier of a client configuration in <code>clientConfigId</code>.</p>
+</code></pre>
+<p>If you later add parameters to the query, you can allow users to specify them by changing the value to <code>FORM</code> and providing the identifier of a client configuration in <code>clientConfigId</code>.</p>
 <p>If you later add support for seeds, you must add a <code>seedConstraints</code> object to the service.</p>
 </li>
 <li><p>Finally, for a synchronous service, set the <code>acquireUrl</code> of the service to the URL where you intend to host the acquire endpoint.</p>
@@ -199,22 +202,25 @@ The <code>clientConfigType</code> field is not required or supported when using 
     }
   ]
 }
-</code></pre></li>
+</code></pre>
+</li>
 </ol>
 <p>This JSON structure represents (almost) the simplest response that you can send from the configuration endpoint of a connector. It contains the definition of one simple service. In order for the i2 Connect gateway to retrieve that definition, you must add details of the connector to the i2 Analyze deployment topology.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -222,14 +228,14 @@ The <code>clientConfigType</code> field is not required or supported when using 
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

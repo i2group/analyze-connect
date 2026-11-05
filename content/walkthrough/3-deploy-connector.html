@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Deploying a connector </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Deploying a connector ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Deploying a connector </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Deploying a connector ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -86,13 +86,14 @@
 <ul>
 <li>deployed i2 Analyze with the i2 Connect gateway, and</li>
 <li>defined a schema to model the data, and</li>
-<li>installed Analyst&#39;s Notebook and connected it to your i2 Analyze deployment</li>
+<li>installed Analyst's Notebook and connected it to your i2 Analyze deployment</li>
 </ul>
 <h2 id="adding-the-connector-to-the-i2-analyze-topology">Adding the connector to the i2 Analyze topology</h2>
 <p>This is how to configure the i2 Analyze server so that it knows about your connector.</p>
 <h3 id="add-the-connector-to-the-topologyxml">Add the connector to the topology.xml</h3>
 <ol>
-<li>In the <code>i2analyze</code> directory, navigate to the <code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code> file in a text editor.</li>
+<li><p>In the <code>i2analyze</code> directory, navigate to the <code>toolkit\configuration\environment</code> directory and open the <code>topology.xml</code> file in a text editor.</p>
+</li>
 <li><p>In the <code>opal-services-daod</code> <code>&lt;war&gt;</code> element, if it is not already there, add a <code>&lt;connector-ids&gt;</code> element. Inside that, add a <code>&lt;connector-id&gt;</code> element with a <code>value</code> attribute that matches the unique identifier of your connector.
 For example:</p>
 <pre><code class="lang-xml">&lt;wars&gt;
@@ -104,7 +105,8 @@ For example:</p>
     ...
   &lt;/war&gt;
 &lt;/wars&gt;
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>Inside the <code>&lt;topology&gt;</code> element, add a <code>&lt;connectors&gt;</code> element. In here, add a <code>&lt;connector&gt;</code> element with <code>id</code>, <code>name</code>, and <code>base-url</code> attributes. Choose whatever <code>id</code> and <code>name</code> you like, but set the <code>base-url</code> to <code>http://localhost:9081/</code>. For example:</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
   ...
@@ -112,14 +114,16 @@ For example:</p>
     &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot;/&gt;
   &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p><strong>Note:</strong> If you have configured the schema as a gateway schema in the <a href="2-deploy-i2-analyze.html#configure-the-schema">previous step of the walkthrough</a>, you must add a <code>gateway-schema</code> attribute and set it to the schema short name.</p>
+</code></pre>
+<p><strong>Note:</strong> If you have configured the schema as a gateway schema in the <a href="2-deploy-i2-analyze.html#configure-the-schema">previous step of the walkthrough</a>, you must add a <code>gateway-schema</code> attribute and set it to the schema short name.</p>
 <pre><code class="lang-xml">&lt;ns1:topology ...&gt;
 ...
 &lt;connectors&gt;
 &lt;connector base-url=&quot;http://localhost:9081/&quot; name=&quot;NYPD Connector&quot; id=&quot;nypd-connector&quot; gateway-schema=&quot;NYPD-Complaints&quot;/&gt;
 &lt;/connectors&gt;
 &lt;/ns1:topology&gt;
-</code></pre><p> For more information on gateway schemas, see the documentation <a href="../schemas/gateway-schema.html">here</a>.</p>
+</code></pre>
+<p>For more information on gateway schemas, see the documentation <a href="../schemas/gateway-schema.html">here</a>.</p>
 </li>
 </ol>
 <h3 id="reload-the-i2-analyze-configuration">Reload the i2 Analyze configuration</h3>
@@ -127,7 +131,8 @@ For example:</p>
 <ol>
 <li><p>Navigate to <code>i2analyze\toolkit\scripts</code> in your console and run:</p>
 <pre><code class="lang-shell">setup -t updateConnectorsConfiguration
-</code></pre></li>
+</code></pre>
+</li>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
 <p><strong>Note:</strong> For more information about the Admin Console, refer to <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
@@ -140,14 +145,14 @@ If you added an example user, the username and the password will be <code>Jenny<
 </ol>
 <h3 id="verify-the-connector-configuration">Verify the connector configuration</h3>
 <p>To confirm that you successfully added a connector to the topology, you can view the status of your connectors using the Admin Console.
-Although you don&#39;t yet have a running connector, you can test that you have configured i2 Analyze so that it can find the one you will soon create.</p>
+Although you don't yet have a running connector, you can test that you have configured i2 Analyze so that it can find the one you will soon create.</p>
 <p>In the <strong>Connectors</strong> section, you can see a list of connectors that you deployed to your i2 Analyze server, and their respective statuses.
 For the <code>nypd-connector</code>, there is an error with a message saying that i2 Analyze failed to retrieve configuration information for your connector, as shown below.
-This is because the connector doesn&#39;t exist yet!</p>
+This is because the connector doesn't exist yet!</p>
 <p><img src="images/admin-ui-config-error.png" alt="Admin user interface"></p>
 <h3 id="unsecured-protocol-warning-message">Unsecured protocol warning message</h3>
 <p>You might also see the following warning message in the Admin Console:</p>
-<p><em>&quot;Configuration error for the connector with identifier &#39;&lt;CONNECTOR-ID>&#39;: The application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
+<p><em>&quot;Configuration error for the connector with identifier '&lt;CONNECTOR-ID&gt;': The application is communicating with the connector through a protocol that is not secure.&quot;</em></p>
 <p>In a development environment, you can ignore this warning.
 It appears because i2 Analyze and your connector are communicating via HTTP rather than HTTPS.</p>
 <p><strong>In a production environment, you should secure this connection using HTTPS.</strong> For information about configuring the connection to use HTTPS, see <a href="https://docs.i2group.com/analyze/t_connect_security.html">Client authenticated Secure Sockets Layer with the i2 Connect gateway</a>.</p>
@@ -166,7 +171,7 @@ Copy the <code>nypd-connector</code> directory to wherever you would like to wor
 <li>Resources: <code>config.json</code> and <code>application.properties</code></li>
 <li>Code: a simple Spring Boot application</li>
 </ul>
-<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available and how to execute them.
+<p>The <code>config.json</code> file tells Analyst's Notebook what services are available and how to execute them.
 For more information on providing this configuration, see <a href="../workflow/config.html">Implementing config</a>.</p>
 <p>The <code>application.properties</code> file defines the server port.
 In later walkthroughs, it also defines the resource URL and the API token required to connect to the resource.</p>
@@ -184,7 +189,7 @@ Copy the <code>nypd-connector</code> directory to wherever you would like to wor
 <li>Resources: <code>config.json</code></li>
 <li>Code: a simple Flask application.</li>
 </ul>
-<p>The <code>config.json</code> file tells Analyst&#39;s Notebook what services are available and how to execute them.
+<p>The <code>config.json</code> file tells Analyst's Notebook what services are available and how to execute them.
 For more information on providing this configuration, see <a href="../workflow/config.html">Implementing config</a>.</p>
 </li>
 <li><p>Start the connector through the <a href="../example-connectors/run-python.html">command line</a>.</p>
@@ -204,13 +209,13 @@ Verify that it matches the contents of the <code>config.json</code> file that yo
 <p><img src="images/admin-ui-service-error.png" alt="Admin user interface"></p>
 <h3 id="spi-version-warning-message">SPI version warning message</h3>
 <p>You might also see the following warning message in the Admin Console:</p>
-<p><em>&quot;The connector with identifier &#39;&lt;CONNECTOR-ID>&#39; did not specify an SPI version. Defaulting to version 1.0&quot;</em></p>
+<p><em>&quot;The connector with identifier '&lt;CONNECTOR-ID&gt;' did not specify an SPI version. Defaulting to version 1.0&quot;</em></p>
 <p>To resolve this warning, the <code>config.json</code> file must specify the SPI version that the connector wants to use.
 We will cover this setting in the next topic.</p>
-<h3 id="investigate-in-analysts-notebook">Investigate in Analyst&#39;s Notebook</h3>
-<p>Before you fix this issue, take a look at what happens when you try to use your connector from Analyst&#39;s Notebook.</p>
+<h3 id="investigate-in-analysts-notebook">Investigate in Analyst's Notebook</h3>
+<p>Before you fix this issue, take a look at what happens when you try to use your connector from Analyst's Notebook.</p>
 <ol>
-<li>Open Analyst&#39;s Notebook and log in to the i2 Analyze server.</li>
+<li>Open Analyst's Notebook and log in to the i2 Analyze server.</li>
 <li>In the top ribbon, click the <strong>External Searches</strong> button.</li>
 <li>Notice the banner at the top of the resulting window that says &quot;Some queries are not configured correctly&quot;.
 This is because there are errors in your configuration, as shown in the Admin Console.</li>
@@ -219,19 +224,21 @@ This is because there are errors in your configuration, as shown in the Admin Co
 <p>To enable the use of the connector, you must resolve all the errors displayed in the connector messages.
 The error in this instance is caused by the connector not having any services.
 The next step is therefore to <a href="4-add-service.html">define and implement a service</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -239,14 +246,14 @@ The next step is therefore to <a href="4-add-service.html">define and implement 
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

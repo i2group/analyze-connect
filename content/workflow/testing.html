@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Modifying and testing </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Modifying and testing ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Modifying and testing </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Modifying and testing ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -85,11 +85,11 @@
 <ul>
 <li><p>If you add or edit a <code>&lt;connector&gt;</code> element in the topology file, then you must redeploy and restart the i2 Analyze server.</p>
 </li>
-<li><p>If you modify a connector so that the response from its configuration endpoint changes - when you add a validate endpoint, for example - you do not need to redeploy the server. Instead, you can either run the <code>restartLiberty</code> task from the deployment toolkit, or use the i2 Connect gateway&#39;s reload endpoint.</p>
-<p> <strong>Note:</strong> For a connector that supports user-specific configuration, the i2 Connect gateway maintains per-user caches of configuration information. Using the reload endpoint clears the caches for all users. The per-user caches are not re-created until a user makes a new request to the connector.</p>
+<li><p>If you modify a connector so that the response from its configuration endpoint changes - when you add a validate endpoint, for example - you do not need to redeploy the server. Instead, you can either run the <code>restartLiberty</code> task from the deployment toolkit, or use the i2 Connect gateway's reload endpoint.</p>
+<p><strong>Note:</strong> For a connector that supports user-specific configuration, the i2 Connect gateway maintains per-user caches of configuration information. Using the reload endpoint clears the caches for all users. The per-user caches are not re-created until a user makes a new request to the connector.</p>
 </li>
 </ul>
-<p>Regardless of how you update the gateway&#39;s cache of connector configuration information, the effect for clients and their users is the same. When a client next asks for a list of the services that it can use, any changes that you made are reflected in the list.</p>
+<p>Regardless of how you update the gateway's cache of connector configuration information, the effect for clients and their users is the same. When a client next asks for a list of the services that it can use, any changes that you made are reflected in the list.</p>
 <p>To run <code>restartLiberty</code>, you can use the same technique as for any other deployment toolkit task. This section describes how to use the reload endpoint, and then explains some ways to diagnose problems with a new or updated connector.</p>
 <p>The reload endpoint supports the POST method, which you can call through a command-line tool such as <code>postman</code> or <code>curl</code>, or through the <a href="https://docs.i2group.com/analyze/admin-cac.html">i2 Analyze Server Admin Console</a>.</p>
 <ol>
@@ -106,12 +106,14 @@ The following steps describe how to use curl to reload the connectors:</p>
      -d j_username=user_name
      -d j_password=password
      http://host_name:host_port/context_root/j_security_check
-</code></pre><p>This command connects to the specified i2 Analyze server as the specified user, retrieves the authentication cookie, and saves it to a local file named <code>cookie.txt</code>.</p>
+</code></pre>
+<p>This command connects to the specified i2 Analyze server as the specified user, retrieves the authentication cookie, and saves it to a local file named <code>cookie.txt</code>.</p>
 </li>
 <li><p>Use <code>curl</code> a second time to call the POST method on the reload endpoint:</p>
 <pre><code class="lang-shell">curl -i --cookie cookie.txt
      -X POST http://host_name:host_port/context_root/api/v1/connectors/reload
-</code></pre><p>This command causes the i2 Connect gateway to reload configuration information from all the connectors that the topology included when it was last deployed. Clients receive updated information about the connectors when they next connect to i2 Analyze.</p>
+</code></pre>
+<p>This command causes the i2 Connect gateway to reload configuration information from all the connectors that the topology included when it was last deployed. Clients receive updated information about the connectors when they next connect to i2 Analyze.</p>
 </li>
 </ol>
 </li>
@@ -150,19 +152,21 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 </ol>
 <p>After you test that your connector meets your requirements, you might choose to secure the connector in your deployment. You can control user access to the connector, and secure the connection between the connector and gateway.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -170,14 +174,14 @@ If you added an example user, the username and the password will be <code>Jenny<
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

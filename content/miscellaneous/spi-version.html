@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>SPI version negotiation </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="SPI version negotiation ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>SPI version negotiation </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="SPI version negotiation ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -80,7 +80,7 @@
 <h1 id="spi-version-negotiation">SPI version negotiation</h1>
 
 <p>Starting with version 4.4.0 of i2 Analyze, your connectors can negotiate with the gateway to establish a common understanding of which version of the i2 Connect SPI to use.</p>
-<p>By default, the gateway assumes that your connector will use version 1.0 of the SPI. When 1.0 is the correct version for your connector, you don&#39;t need to do anything. If you rely on a later version of the SPI, you can both determine what versions the server supports, and respond with the version that you want to use.</p>
+<p>By default, the gateway assumes that your connector will use version 1.0 of the SPI. When 1.0 is the correct version for your connector, you don't need to do anything. If you rely on a later version of the SPI, you can both determine what versions the server supports, and respond with the version that you want to use.</p>
 <p>For more information on the differences between SPI versions, refer to the <a href="../../index.html#spi-changelog">SPI changelog</a>.</p>
 <h2 id="server-supported-spi-versions">Server-supported SPI versions</h2>
 <p>All HTTP requests to your connector from i2 Analyze version 4.4.0 and above contain a header named <code>I2-Spi-Versions</code>. The value of the header is a comma-separated list of the SPI versions that the server supports.</p>
@@ -96,7 +96,8 @@
     ...
   ]
 }
-</code></pre><h2 id="java-example">Java example</h2>
+</code></pre>
+<h2 id="java-example">Java example</h2>
 <p>The following code is taken from <code>ConnectorController.java</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
 <pre><code class="lang-java">private static final int CONNECTOR_MAJOR_VERSION = 1;
 private static final int CONNECTOR_MINOR_VERSION = 2;
@@ -127,47 +128,51 @@ public Resource config(@RequestHeader(value = &quot;I2-Spi-Versions&quot;, requi
   }
   return configResource;
 }
-</code></pre><h2 id="python-example">Python example</h2>
+</code></pre>
+<h2 id="python-example">Python example</h2>
 <p>The following code is taken from <code>controller.py</code> in the sample solution code for the NYPD connector. In implementing the configuration endpoint, it extracts the supported SPI versions from the HTTP headers, and outputs some diagnostic information:</p>
-<pre><code class="lang-python">connector_major_version = &#39;1&#39;
-connector_minor_version = &#39;2&#39;
+<pre><code class="lang-python">connector_major_version = '1'
+connector_minor_version = '2'
 
-@controller.route(&#39;/config&#39;)
+@controller.route('/config')
 def config():
-    config = send_from_directory(&#39;static&#39;, &#39;config.json&#39;)
-    gateway_supported_versions = request.headers.get(&#39;I2-Spi-Versions&#39;)
+    config = send_from_directory('static', 'config.json')
+    gateway_supported_versions = request.headers.get('I2-Spi-Versions')
 
     if gateway_supported_versions is None:
         return config
 
-    print(&#39;Latest gateway supported versions: &#39; + gateway_supported_versions)
+    print('Latest gateway supported versions: ' + gateway_supported_versions)
 
-    for supported_version in gateway_supported_versions.split(&#39;,&#39;):
-        supported_version_parts = supported_version.split(&#39;.&#39;)
+    for supported_version in gateway_supported_versions.split(','):
+        supported_version_parts = supported_version.split('.')
         supported_major_version = supported_version_parts[0]
         supported_minor_version = supported_version_parts[1]
 
-        connector_version = connector_major_version + &#39;.&#39; + connector_minor_version
+        connector_version = connector_major_version + '.' + connector_minor_version
 
         if (connector_major_version == supported_major_version) and (connector_minor_version &lt;= supported_minor_version):
-            print(&#39;The gateway supports connector version &#39; + connector_version)
+            print('The gateway supports connector version ' + connector_version)
         else:
-            print(&#39;The gateway does not support connector version &#39; + connector_version)
+            print('The gateway does not support connector version ' + connector_version)
 
     return config
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -175,14 +180,14 @@ def config():
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

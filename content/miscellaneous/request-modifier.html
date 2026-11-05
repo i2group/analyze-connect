@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Custom HTTP headers </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Custom HTTP headers ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Custom HTTP headers </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Custom HTTP headers ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -96,29 +96,35 @@
 <h2 id="the-request-modifier-project">The request modifier project</h2>
 <p>Update the value of the <code>&lt;toolkitLocation&gt;</code> element in the <code>request-modifier/pom.xml</code> file to reference the installation location of i2 Analyze. For example:</p>
 <pre><code class="lang-xml">&lt;toolkitLocation&gt;C:\i2\i2analyze&lt;/toolkitLocation&gt;
-</code></pre><p>This location is used by Maven to locate the JAR files to pull into the local Maven repository and where to place the packaged JAR file that contains your implementation.</p>
+</code></pre>
+<p>This location is used by Maven to locate the JAR files to pull into the local Maven repository and where to place the packaged JAR file that contains your implementation.</p>
 <p>To set up the Maven environment, open a terminal in the <code>request-modifier</code> directory.</p>
 <h3 id="1-initialize-the-maven-dependencies">1. Initialize the Maven dependencies</h3>
 <pre><code class="lang-shell">mvnw initialize
-</code></pre><p>This pulls in JAR files from the i2 Analyze deployment toolkit into your local Maven repository.</p>
+</code></pre>
+<p>This pulls in JAR files from the i2 Analyze deployment toolkit into your local Maven repository.</p>
 <h3 id="2-compile-and-install-the-project">2. Compile and install the project</h3>
 <pre><code class="lang-shell">mvnw clean install
-</code></pre><p>At this point, you could start editing the implementation in <code>request-modifier/src/main/java/com/i2group/example/ExampleRequestModifier.java</code>. For the example implementation, do not make any changes.</p>
+</code></pre>
+<p>At this point, you could start editing the implementation in <code>request-modifier/src/main/java/com/i2group/example/ExampleRequestModifier.java</code>. For the example implementation, do not make any changes.</p>
 <h2 id="deploy-the-request-modifier-implementation">Deploy the request modifier implementation</h2>
 <p>When the implementation is complete, package the class into a JAR file.</p>
 <p>Open a terminal in the <code>request-modifier</code> directory and run the following command:</p>
 <pre><code class="lang-shell">mvnw package
-</code></pre><p>The Maven <code>package</code> command creates a JAR file from the <code>ExampleRequestModifier.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
+</code></pre>
+<p>The Maven <code>package</code> command creates a JAR file from the <code>ExampleRequestModifier.java</code> class and puts it in the <code>toolkit/configuration/fragments/opal-services/WEB-INF/lib/</code> directory of the i2 Analyze toolkit specified in the <code>&lt;toolkitLocation&gt;</code> element.</p>
 <h2 id="configure-i2-analyze">Configure i2 Analyze</h2>
 <p>For i2 Analyze to use the <code>ExampleRequestModifier</code>, it must be specified in the <code>DiscoServerSettingsCommon.properties</code> file.</p>
 <p>Add the following line to the end of the <code>toolkit/configuration/fragments/opal-services/WEB-INF/classes/DiscoServerSettingsCommon.properties</code> file:</p>
 <pre><code class="lang-properties">ConnectorRequestModifier=com.i2group.example.ExampleRequestModifier
-</code></pre><h2 id="redeploy-and-restart-liberty">Redeploy and restart Liberty</h2>
+</code></pre>
+<h2 id="redeploy-and-restart-liberty">Redeploy and restart Liberty</h2>
 <pre><code class="lang-shell">setup -t stopLiberty
 setup -t deployLiberty
 setup -t startLiberty
-</code></pre><h2 id="testing">Testing</h2>
-<p>To test the implementation, execute a query through the External Searches UI in either Analyst&#39;s Notebook or the web client. When you do so:</p>
+</code></pre>
+<h2 id="testing">Testing</h2>
+<p>To test the implementation, execute a query through the External Searches UI in either Analyst's Notebook or the web client. When you do so:</p>
 <ul>
 <li><p>All connectors receive an extra header named <code>Example-Value-Header</code> in requests made through the i2 Connect gateway. The value you see depends on the identifier of the connector, as defined in the i2 Connect Gateway.</p>
 </li>
@@ -135,19 +141,22 @@ Example-Async-State-Header: dc05164d-0e1c-4c88-be7c-7ebbcd079ff8
 Example-Value-Header: exampleConValue
 Accept-Encoding: gzip,deflate
 Accept-Language: en-gb
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -155,14 +164,14 @@ Accept-Language: en-gb
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Postman </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Postman ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Postman </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Postman ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -98,7 +98,8 @@
 <p>To make sure that i2 Analyze is configured correctly, authenticate a user and test the API.</p>
 <h3 id="authentication">Authentication</h3>
 <ol>
-<li>Click on the environment dropdown menu at the top-right bar:<ul>
+<li>Click on the environment dropdown menu at the top-right bar:
+<ul>
 <li>If you have <a href="../walkthrough/2-deploy-i2-analyze.html">deployed i2 Analyze with the i2 Connect gateway</a>, select the <code>i2 Analyze with i2 Connect Gateway</code> environment.</li>
 <li>If you have <a href="deploy-i2-analyze-is-daod.html">deployed i2 Analyze with the Information Store and the i2 Connect gateway</a>, select the <code>i2 Analyze with InfoStore and Gateway</code> environment.</li>
 </ul>
@@ -143,7 +144,7 @@
 <li>In the <code>Connector Services</code> collection, open the <code>Config</code> folder.</li>
 <li>Run the <code>Config</code> request.</li>
 </ol>
-<p>The response provided should be the full contents of the connector&#39;s <code>config.json</code>.</p>
+<p>The response provided should be the full contents of the connector's <code>config.json</code>.</p>
 <p>The <code>Schema</code> and <code>Charting Schemes</code> requests should echo the contents of your connector schema and charting schemes XML files respectively.</p>
 <h3 id="acquire-requests">Acquire requests</h3>
 <p>The <code>Acquire</code> folder contains requests that respond with entities and links according to how their respective endpoints were implemented.</p>
@@ -181,19 +182,21 @@
 <p>The post-request logic stores the <code>authToken</code> which the connector responds with on a successful log-in. This <code>authToken</code> is used for subsequent requests.</p>
 <h4 id="acquire--acquire-async">Acquire &amp; Acquire Async</h4>
 <p>These requests are just like the <a href="#acquire-requests">synchronous acquire</a> and <a href="#acquire">asynchronous acquire</a> requests except that they include the generated <code>authToken</code> from the <a href="#login">login</a> requests in the <code>Authorization</code> header of their requests.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -201,14 +204,14 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

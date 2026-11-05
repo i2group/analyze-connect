@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Semantic seeds </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Semantic seeds ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Semantic seeds </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Semantic seeds ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -88,7 +88,7 @@
 <p>This topic describes how to specify semantic constraints. For more information about the uses to which you can put seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="setting-up-an-example-connector">Setting up an example connector</h2>
 <p>This example is based on the <a href="../example-connectors/connector-auth.html#setup"><code>auth-connector</code></a>.
-We&#39;ll extend that example to add a service that uses a semantic seed constraint.
+We'll extend that example to add a service that uses a semantic seed constraint.
 The service uses the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a> to examine the seed that it receives in the request, and returns a response containing entities and links whose property values match the values in that seed.</p>
 <p>Ensure that you have a working deployment of the <code>auth-connector</code> before you continue. You can find instructions for deploying it <a href="../example-connectors/connector-auth.html#setup">here</a>.</p>
 <h3 id="add-a-new-service">Add a new service</h3>
@@ -118,7 +118,8 @@ The service uses the <a href="https://i2group.github.io/analyze-connect/content/
     }
   ]
 }
-</code></pre><p><strong>Note:</strong> When you write your own services with semantic type constraints, you&#39;ll need to find the GUIDs of the semantic property types that you want to use. See <a href="semantic-type-identifiers.html">Semantic type identifiers</a> for more information.</p>
+</code></pre>
+<p><strong>Note:</strong> When you write your own services with semantic type constraints, you'll need to find the GUIDs of the semantic property types that you want to use. See <a href="semantic-type-identifiers.html">Semantic type identifiers</a> for more information.</p>
 <h3 id="implement-the-service-endpoint">Implement the service endpoint</h3>
 <p>The service will work by examining the property values of a selected record according to the defined constraints, and searching for data in the external source that has matching values in its properties.</p>
 <p>In code, you can access the semantic properties of the seed record in the request through the <code>request.payload.seeds.semanticData</code> object. The service that you added to <code>config.json</code> specifies an endpoint named <code>/find-same-last-name</code> that you can implement like this, in <code>ConnectorController.java</code>:</p>
@@ -127,7 +128,8 @@ The service uses the <a href="https://i2group.github.io/analyze-connect/content/
 public ResponseEntity&lt;?&gt; findSameLastName(@Valid @RequestBody DaodRequest request) {
   return connectorDataService.findSameName(request.payload.seeds);
 }
-</code></pre><p><strong>Note:</strong> This code does not compile because the <code>findSameName()</code> method is undefined.
+</code></pre>
+<p><strong>Note:</strong> This code does not compile because the <code>findSameName()</code> method is undefined.
 You can ignore this for now, and we will cover the implementation of that method later in this guide.</p>
 <h4 id="access-the-seeds">Access the seeds</h4>
 <p>The <code>findSameName()</code> method needs to examine the seeds passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response that contains entity and link records.</p>
@@ -175,7 +177,8 @@ You can ignore this for now, and we will cover the implementation of that method
     }
   }
 }
-</code></pre><p>In this example, a single seed with the identifier <code>123</code> was selected on the chart. That seed had values for the <code>Last Name</code> property (PER2) and the <code>Maiden Name</code> property (PER6).</p>
+</code></pre>
+<p>In this example, a single seed with the identifier <code>123</code> was selected on the chart. That seed had values for the <code>Last Name</code> property (PER2) and the <code>Maiden Name</code> property (PER6).</p>
 <p>In the semantic data, the entry with the value <code>Hendricks</code> has a <code>sourceSemanticTypeId</code> value, which means that the containing property does not have the &quot;Person Last Name&quot; semantic type, but rather a descendant of that type - in this case, &quot;Maiden Name&quot;.</p>
 <h4 id="find-data-based-on-the-seed">Find data based on the seed</h4>
 <p>As with any service, how you use the seed data depends on what you want to achieve.</p>
@@ -198,7 +201,8 @@ You can ignore this for now, and we will cover the implementation of that method
   final I2ConnectData acquireResponse = marshalItemsFromResponse(people);
   return ResponseEntity.status(200).body(acquireResponse);
 }
-</code></pre><p>Only one of the people in <code>people.json</code> has the <code>surname</code> &quot;Armstrong&quot; or &quot;Hendricks&quot;, and so for this example the response should just contain the following data:</p>
+</code></pre>
+<p>Only one of the people in <code>people.json</code> has the <code>surname</code> &quot;Armstrong&quot; or &quot;Hendricks&quot;, and so for this example the response should just contain the following data:</p>
 <pre><code class="lang-json">{
   &quot;entities&quot;: [
     {
@@ -216,7 +220,8 @@ You can ignore this for now, and we will cover the implementation of that method
   ],
   &quot;links&quot;: []
 }
-</code></pre><h2 id="update-the-i2-connect-gateway">Update the i2 Connect gateway</h2>
+</code></pre>
+<h2 id="update-the-i2-connect-gateway">Update the i2 Connect gateway</h2>
 <p>In order for i2 Analyze to recognize these changes, you must reload the i2 Connect gateway.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
@@ -232,25 +237,27 @@ If you added an example user, the username and the password will be <code>Jenny<
 <h2 id="run-the-query">Run the query</h2>
 <p>Now, you can use the new query:</p>
 <ol>
-<li>Open the Analyst&#39;s Notebook desktop client.</li>
+<li>Open the Analyst's Notebook desktop client.</li>
 <li>Select a record on the chart that has a value for the &quot;Family Name&quot; or &quot;Maiden Name&quot; property (or for both).</li>
 <li>Click &quot;External Search&quot;.</li>
 <li>Select the new &quot;Find Same Last Name&quot; query, and run it.</li>
 </ol>
 <p>The list of records that you see in the results should include all the &quot;people&quot; from the <code>people.json</code> file whose surname matches either the family name or the maiden name of the record that you originally selected.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -258,14 +265,14 @@ If you added an example user, the username and the password will be <code>Jenny<
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

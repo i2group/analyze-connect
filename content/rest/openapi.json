@@ -3,7 +3,7 @@
     "info": {
         "title": "i2 Connect Gateway REST SPI",
         "description": "This documentation describes the server programming interface that you must implement when you write a connector to an external data source. The use of ALL_CAPS in resource paths indicates template values that you must substitute with real ones.\n\nAs well as reading the content here, you can click **Download OpenAPI spec** to retrieve the SPI specification in JSON format.\n\n## Endpoint discovery\n\nClients discover the URLs of connector endpoints through a combination of the topology file for the deployment and your connector code. At startup, the i2 Connect gateway makes a POST request to the configuration endpoint, which it discovers from the topology file: The base comes from the **base-url** attribute of the **&lt;connector&gt;** element, while CONFIGURATION_URL itself defaults to **/config** unless you specify otherwise.\n\nFor example, if the **base-url** is http://localhost:3700, then the request comes to http://localhost:3700/config.\n\nYour response from the configuration endpoint can contain information about one or more services. Each service can provide a query for a synchronous or an asynchronous operation, as well as an optional validation method and optional authentication constraints.",
-        "version": "1.4"
+        "version": "1.5"
     },
     "servers": [
         {
@@ -929,7 +929,7 @@
                 "type": "object",
                 "properties": {
                     "pollingIntervalInSeconds": {
-                        "minimum": 1,
+                        "minimum": 1.0,
                         "type": "integer",
                         "description": "The preferred period with which the i2 Connect gateway should poll endpoints for changes.",
                         "format": "int32",
@@ -1196,6 +1196,20 @@
             "ConnectorConfigBase": {
                 "type": "object",
                 "properties": {
+                    "defaultProviderIconUrl": {
+                        "type": "string",
+                        "description": "The URL of a provider icon for the services on the connector that do not specify their own **providerIconUrl**, with the same rules. This field is not valid when **userConfigUrl** is present and populated.",
+                        "example": "https://example.com/icons/provider.svg",
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
                     "defaultValues": {
                         "description": "Default values to apply to data retrieved by the services on the connector. This field is not valid when **userConfigUrl** is present and populated.",
                         "$ref": "#/components/schemas/ConnectorDefaultValues"
@@ -1537,6 +1551,36 @@
                             "type": "object"
                         },
                         "description": "Free-form, custom information for the record identified by **seedId**."
+                    },
+                    "displayTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the display type of the record identified by **seedId**. The display type extends the Core Type of the record's own item type, and determines how the record is presented. A value that the deployment's schema does not define for that type is removed before the seed is sent; the check is made against the record's own type, before any schema mapping is applied. Where a mapping does apply, the value is passed through unchanged, so it may not correspond to the **typeId** you receive in this seed.",
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
+                    "ownedBy": {
+                        "description": "The user who owns the record identified by **seedId**, resolved by the server. Populated by i2 Analyze; a value supplied by the client is replaced.",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/UserInfo"
+                            }
+                        ],
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
                     }
                 },
                 "description": "Data from a record to be used as a seed in a search operation."
@@ -1565,6 +1609,19 @@
                             "linkDirection": {
                                 "description": "The direction of the link record identified by **seedId**, which overrides any default setting.",
                                 "$ref": "#/components/schemas/LinkDirection"
+                            },
+                            "strengthId": {
+                                "type": "string",
+                                "description": "The identifier of the link strength for the record identified by **seedId**. A null or absent value means that default strength behavior is applied. A value the deployment's schema does not define is removed before the seed is sent.",
+                                "x-i2-api": {
+                                    "since": "1.5"
+                                },
+                                "x-badges": [
+                                    {
+                                        "color": "primary-color",
+                                        "label": "Since: 1.5"
+                                    }
+                                ]
                             },
                             "toEndId": {
                                 "type": "object",
@@ -2183,8 +2240,38 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "displayTypeId": {
+                        "type": "string",
+                        "description": "The identifier of the display type of a record. The display type extends the Core Type named by **typeId** and determines how the record is presented. Applies to every record whatever schema typed it; a value the deployment's schema does not define, or that does not extend **typeId**, is ignored, and the record is returned without it.",
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
                     "id": {
                         "$ref": "#/components/schemas/EntityDataIdentifier"
+                    },
+                    "ownedBy": {
+                        "description": "The user who owns a record, or absent if no owner is assigned. Applies to both entity and link records.",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/UserInfo"
+                            }
+                        ],
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
                     },
                     "properties": {
                         "type": "object",
@@ -2229,6 +2316,19 @@
                             "linkDirection": {
                                 "description": "The direction for the link record, which overrides any default setting.",
                                 "$ref": "#/components/schemas/LinkDirection"
+                            },
+                            "strengthId": {
+                                "type": "string",
+                                "description": "The identifier of the link strength for a link record. A null or absent value means that default strength behavior is applied. Link strength is a schema-wide vocabulary, so this applies to every link record whatever schema typed it; a value the schema does not define is ignored and the record is returned without it.",
+                                "x-i2-api": {
+                                    "since": "1.5"
+                                },
+                                "x-badges": [
+                                    {
+                                        "color": "primary-color",
+                                        "label": "Since: 1.5"
+                                    }
+                                ]
                             }
                         }
                     },
@@ -2327,11 +2427,11 @@
                         "type": "string",
                         "description": "The units in which **size** is interpreted.",
                         "example": "utf16codeunits",
+                        "default": "utf16codeunits",
                         "enum": [
                             "utf16codeunits",
                             "utf8bytes"
-                        ],
-                        "default": "utf16codeunits"
+                        ]
                     }
                 },
                 "description": "The maximum length of a string in a condition, expressed as a raw size with its units.",
@@ -2607,6 +2707,20 @@
                             "NONE"
                         ]
                     },
+                    "providerIconUrl": {
+                        "type": "string",
+                        "description": "The URL of an icon that represents the data provider behind the service, for clients to display. The URL must be absolute, with the scheme `http`, `https` or `data`, a `data` URL must contain an image, and the URL must be no longer than 32768 characters. When clients are served over `https`, use an `https` or `data` URL: browsers upgrade or block an `http` image on a secure page. Clients retrieve the image from the URL directly; the i2 Connect gateway does not retrieve, store or proxy it. If no value is specified, the service uses the connector's **defaultProviderIconUrl**. The gateway ignores a value that is not a valid URL, and reports a warning.",
+                        "example": "https://example.com/icons/provider.svg",
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
                     "resultIdsPersistent": {
                         "type": "boolean",
                         "description": "**true** if identifiers for the same data retrieved from the service are persistent from one set of results to the next; **false** otherwise.",
@@ -2675,6 +2789,23 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "dateTime": {
+                        "description": "The user-specified intelligence event date for the source, which is when the event occurred rather than when the source reference was created. Optional.",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/DateAndTime"
+                            }
+                        ],
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
                     "description": {
                         "type": "string",
                         "description": "The description of a source."
@@ -2691,12 +2822,43 @@
                         "type": "string",
                         "description": "The name of a source."
                     },
+                    "systemMetadata": {
+                        "description": "Machine-readable metadata for this source reference. Optional; present on well-formed references that originate from a system source.",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SystemMetadata"
+                            }
+                        ],
+                        "x-i2-api": {
+                            "since": "1.5"
+                        },
+                        "x-badges": [
+                            {
+                                "color": "primary-color",
+                                "label": "Since: 1.5"
+                            }
+                        ]
+                    },
                     "type": {
                         "type": "string",
                         "description": "The type of a source."
                     }
                 },
                 "description": "The information that the source reference contains."
+            },
+            "SystemMetadata": {
+                "type": "object",
+                "properties": {
+                    "subType": {
+                        "type": "string",
+                        "description": "A stable, non-localized token that identifies the source-reference sub-type (for example RESOURCE_LINK, RECORD_REF, DOCUMENT, PICTURE). The set is open, and new values might be added without a breaking change."
+                    },
+                    "sourcePropertyId": {
+                        "type": "string",
+                        "description": "The schema property type identifier of the originating source field, which the Information Store uses on the writeback path to iBase."
+                    }
+                },
+                "description": "Machine-readable metadata for a source reference."
             },
             "TypeLocation": {
                 "type": "string",
@@ -2715,6 +2877,27 @@
                         "$ref": "#/components/schemas/ConnectorConfigBase"
                     }
                 ]
+            },
+            "UserInfo": {
+                "required": [
+                    "principalName"
+                ],
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string",
+                        "description": "The display name of the user."
+                    },
+                    "principalName": {
+                        "type": "string",
+                        "description": "The principal name of the user."
+                    },
+                    "id": {
+                        "type": "string",
+                        "description": "The unique identifier of the user."
+                    }
+                },
+                "description": "Information about an i2 Analyze user."
             },
             "VisualQueryBooleanCondition": {
                 "description": "A Boolean condition on a query item in a Visual Query structure.",
@@ -2889,26 +3072,26 @@
                         "default": true
                     },
                     "maximumCountConditions": {
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "type": "integer",
                         "description": "The maximum number of query items that can have count conditions.",
                         "example": 1,
                         "default": 1
                     },
                     "maximumQueryLinkCount": {
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "type": "integer",
                         "description": "The maximum number of query links in a single Visual Query.",
                         "example": 1
                     },
                     "maximumAnyEntityTypeSupported": {
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "type": "integer",
                         "description": "The maximum number of query entities that can have the 'Any' type.",
                         "example": 1
                     },
                     "maximumAnyLinkTypeSupported": {
-                        "minimum": 0,
+                        "minimum": 0.0,
                         "type": "integer",
                         "description": "The maximum number of query links that can have the 'Any' type.",
                         "example": 1

@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Seeded search </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Seeded search ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Seeded search </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Seeded search ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -79,7 +79,7 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="seeded-search">Seeded search</h1>
 
-<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst&#39;s Notebook and open &quot;External Search&quot;.</p>
+<p>A seeded search passes information from an entity on the chart to the connector so that you can use that information to drive your searches. In order to pass an entity as a seed, users can select an entity in Analyst's Notebook and open &quot;External Search&quot;.</p>
 <p>Again, if you face any issues during this task, remember to consult the <a href="../miscellaneous/troubleshoot.html">troubleshooting guide</a>.</p>
 <p>For more information on seeded queries, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="configuration">Configuration</h2>
@@ -132,10 +132,11 @@ The services should also define the <code>seedConstraints</code> object that con
     }
   ]
 }
-</code></pre><p>We will cover these two types of seeded queries later in this topic.
+</code></pre>
+<p>We will cover these two types of seeded queries later in this topic.
 For now, update the <code>id</code>s of the <code>itemTypes</code> to values that exist in your schema.</p>
-<h3 id="check-service-in-analysts-notebook">Check service in Analyst&#39;s Notebook</h3>
-<p>Reload the connector and check that your services are in the list of defined services in Analyst&#39;s Notebook.</p>
+<h3 id="check-service-in-analysts-notebook">Check service in Analyst's Notebook</h3>
+<p>Reload the connector and check that your services are in the list of defined services in Analyst's Notebook.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
@@ -146,7 +147,7 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
-<li><p>Log out and log back in to Analyst&#39;s Notebook to see the configuration changes and your newly defined service.  </p>
+<li><p>Log out and log back in to Analyst's Notebook to see the configuration changes and your newly defined service.</p>
 </li>
 <li><p>You may notice that you are not able to run any of the new services.
 Since they are seeded services, you must first select a valid seed.
@@ -160,7 +161,7 @@ If the entity type matches the valid seed type defined by the seeded service, th
 </ol>
 <p>You should receive an error as your seeded search has been defined but not yet implemented.</p>
 <h2 id="implementation">Implementation</h2>
-<p>It&#39;s time to implement the service.</p>
+<p>It's time to implement the service.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
 <h4 id="java">Java</h4>
 <p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
@@ -182,22 +183,24 @@ public I2ConnectData testSeededSearchService(@Valid @RequestBody DaodRequest req
   System.out.println(request.payload.seeds);
   return connectorDataService.retrieveTestDataFromExternalSource(/*seeds*/ );
 }
-</code></pre><p>You must update the <code>value</code> field in the <code>@RequestMapping</code> object with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
+</code></pre>
+<p>You must update the <code>value</code> field in the <code>@RequestMapping</code> object with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
 <h4 id="python">Python</h4>
 <p>i2 Analyze knows the acquire URL for this service. Now you need to add the corresponding endpoint in the connector.</p>
 <p>Define the seeded search endpoint in the <code>controller.py</code> class, as below:</p>
-<pre><code class="lang-python">@controller.route(&#39;SEEDED SEARCH ACQUIRE URL GOES HERE&#39;, methods=[&#39;POST&#39;])
+<pre><code class="lang-python">@controller.route('SEEDED SEARCH ACQUIRE URL GOES HERE', methods=['POST'])
 def seeded_search():
     &quot;&quot;&quot;
     Defines the seeded search endpoint which acquires the
     seeded search data (entities and links based on conditions)
     &quot;&quot;&quot;
-    print(request.json[&#39;payload&#39;][&#39;seeds&#39;])
+    print(request.json['payload']['seeds'])
 
     # TODO: Extract seeded information and use it to search
 
     return query_external_datasource()
-</code></pre><p>You must update the <code>@controller.route</code> value with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
+</code></pre>
+<p>You must update the <code>@controller.route</code> value with the <code>acquireUrl</code> defined by your seeded service in <code>config.json</code>.</p>
 <h3 id="access-seeds">Access seeds</h3>
 <p>You will need to manipulate a seed passed into the request according to the <a href="https://i2group.github.io/analyze-connect/content/rest/i2-connect-spi.html">SPI</a>, and return a response containing entities and links.</p>
 <h3 id="filter-data-based-on-seed">Filter data based on seed</h3>
@@ -217,11 +220,11 @@ def seeded_search():
 </ul>
 <p>For more information about these and other uses for seeded searches, see <a href="../workflow/seeds.html">Supporting seeds</a>.</p>
 <h2 id="run-your-query">Run your query</h2>
-<p>Run the seeded search service in Analyst&#39;s Notebook.</p>
+<p>Run the seeded search service in Analyst's Notebook.</p>
 <ol>
 <li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
 </li>
-<li><p>Open Analyst&#39;s Notebook.</p>
+<li><p>Open Analyst's Notebook.</p>
 </li>
 <li><p>Select an entity on the chart.</p>
 </li>
@@ -232,20 +235,22 @@ def seeded_search():
 </ol>
 <p>You should now see a list of result entities that are connected to the entity you initially selected.</p>
 <h2 id="next-steps">Next steps</h2>
-<p>Next, you can combine what you&#39;ve learned from these past two sections to implement <a href="8-seeded-parameterised-search.html">seeded parameterized searches</a>.</p>
+<p>Next, you can combine what you've learned from these past two sections to implement <a href="8-seeded-parameterised-search.html">seeded parameterized searches</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -253,14 +258,14 @@ def seeded_search():
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

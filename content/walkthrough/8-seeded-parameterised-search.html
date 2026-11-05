@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Seeded parameterized search </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Seeded parameterized search ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Seeded parameterized search </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Seeded parameterized search ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -114,9 +114,10 @@ For example:</p>
     }
   ]
 }
-</code></pre><p>Optionally, you can also define the type location for the item type with the field <code>typeLocation</code>.
+</code></pre>
+<p>Optionally, you can also define the type location for the item type with the field <code>typeLocation</code>.
 This can be used to determine in which schema the item type resides.
-Possible value are &#39;CONNECTOR&#39;, &#39;GATEWAY&#39; and &#39;INFOSTORE&#39;.
+Possible value are 'CONNECTOR', 'GATEWAY' and 'INFOSTORE'.
 The <code>itemTypes</code> object will look like this:</p>
 <pre><code class="lang-json">{
   &quot;seedTypes&quot;: {
@@ -129,7 +130,8 @@ The <code>itemTypes</code> object will look like this:</p>
     ]
   }
 }
-</code></pre><p>You will also need to provide a <code>clientConfig</code> with the <code>id</code> set to the same value as in the service configuration, and the <code>type</code> defined as <code>FORM</code>.
+</code></pre>
+<p>You will also need to provide a <code>clientConfig</code> with the <code>id</code> set to the same value as in the service configuration, and the <code>type</code> defined as <code>FORM</code>.
 It should look something like this:</p>
 <pre><code class="lang-json">{
   ...
@@ -153,9 +155,10 @@ It should look something like this:</p>
     }
   ]
 }
-</code></pre><p>You can change these <code>conditions</code> to relate to your own schema and what you want to search for.</p>
-<h3 id="check-the-service-in-analysts-notebook">Check the service in Analyst&#39;s Notebook</h3>
-<p>Let&#39;s check that your service now appears in the list of defined services in Analyst&#39;s Notebook.</p>
+</code></pre>
+<p>You can change these <code>conditions</code> to relate to your own schema and what you want to search for.</p>
+<h3 id="check-the-service-in-analysts-notebook">Check the service in Analyst's Notebook</h3>
+<p>Let's check that your service now appears in the list of defined services in Analyst's Notebook.</p>
 <ol>
 <li><p>Open a web browser and navigate to <code>&lt;i2-Analyze-URL&gt;/admin#/connectors</code>, where <code>&lt;i2-Analyze-URL&gt;</code> is the URL used to access your i2 Analyze deployment.
 For example, <code>http://localhost:9082/opaldaod/admin#/connectors</code>.</p>
@@ -166,14 +169,14 @@ If you added an example user, the username and the password will be <code>Jenny<
 </li>
 <li><p>Click <strong>Reload gateway</strong> to enact your changes.</p>
 </li>
-<li><p>Log out and log back in to Analyst&#39;s Notebook to see the configuration changes and your newly defined service.  </p>
+<li><p>Log out and log back in to Analyst's Notebook to see the configuration changes and your newly defined service.</p>
 </li>
 <li><p>Try running it.
 You should receive an error as your seeded, parameterized search has been defined but not yet implemented.</p>
 </li>
 </ol>
 <h2 id="implementation">Implementation</h2>
-<p>It&#39;s time to implement the seeded, parameterized search.</p>
+<p>It's time to implement the seeded, parameterized search.</p>
 <h3 id="add-an-acquire-endpoint-for-your-service">Add an acquire endpoint for your service</h3>
 <p>In the same fashion as the other services you have defined, add an acquire endpoint for this service in your controller file.</p>
 <h3 id="access-conditions-and-seeds">Access conditions and seeds</h3>
@@ -189,7 +192,7 @@ To do that, you will need to change <code>toEndId</code> or <code>fromEndId</cod
 <ol>
 <li><p>Redeploy the connector. Depending on how you are running the connector, this may be done automatically for you when changes are made.</p>
 </li>
-<li><p>Open Analyst&#39;s Notebook.</p>
+<li><p>Open Analyst's Notebook.</p>
 </li>
 <li><p>Select an entity on the chart.</p>
 </li>
@@ -202,20 +205,22 @@ To do that, you will need to change <code>toEndId</code> or <code>fromEndId</cod
 </ol>
 <p>You should now see a list of result entities that are connected to the entity you initially selected and also satisfy the conditions you defined.</p>
 <h2 id="next-steps">Next steps</h2>
-<p>Now that you&#39;ve completed this, you can look into <a href="9-validation.html">validating your requests</a>.</p>
+<p>Now that you've completed this, you can look into <a href="9-validation.html">validating your requests</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -223,14 +228,14 @@ To do that, you will need to change <code>toEndId</code> or <code>fromEndId</cod
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

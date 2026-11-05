@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Designing an i2 Analyze schema </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Designing an i2 Analyze schema ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Designing an i2 Analyze schema </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Designing an i2 Analyze schema ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -79,19 +79,19 @@
             <article class="content wrap" id="_content" data-uid="">
 <h1 id="designing-an-i2-analyze-schema">Designing an i2 Analyze schema</h1>
 
-<p>i2 Analyze schemas are at the core of any i2 Analyze deployment. They define the types of entities, links, and properties that users can view and analyze in Analyst&#39;s Notebook. This section guides you through the process of developing a schema that aligns with the data the connector will retrieve.</p>
+<p>i2 Analyze schemas are at the core of any i2 Analyze deployment. They define the types of entities, links, and properties that users can view and analyze in Analyst's Notebook. This section guides you through the process of developing a schema that aligns with the data the connector will retrieve.</p>
 <p>The process of developing a schema is iterative. Schema design requires fine tuning, especially if you are unfamiliar with the data set that you are creating the schema for. After you deploy i2 Analyze, you will be able to experiment with and test the schema you create. You can refer back to this document to repeat the process until you have a schema that you believe represents the NYPD Complaint Dataset.</p>
 <p>If you already understand the schema development process, you can use the NYPD Complaint
 example schema from this repository.</p>
 <h2 id="prerequisites">Prerequisites</h2>
-<p>Before you start, ensure that you have installed Analyst&#39;s Notebook with the i2 Analyze Schema Designer.
-Otherwise, see <a href="https://docs.i2group.com/anb/installing_anb.html">Installing i2 Analyst&#39;s Notebook</a>.</p>
+<p>Before you start, ensure that you have installed Analyst's Notebook with the i2 Analyze Schema Designer.
+Otherwise, see <a href="https://docs.i2group.com/anb/installing_anb.html">Installing i2 Analyst's Notebook</a>.</p>
 <h2 id="the-i2-analyze-schema">The i2 Analyze schema</h2>
 <p>There are three integral components of an i2 Analyze schema:</p>
 <ul>
 <li><p><strong>Entity types</strong>. These represent real-world concepts such as person, location, bank account, or event (&quot;meeting&quot;, for example).</p>
 </li>
-<li><p><strong>Link types</strong>. A link type describes a relationship between two entity types, such as a person&#39;s ownership of a vehicle or a transaction between two bank accounts. Link types can specify exactly which entity types can appear at their ends, or they can represent a general association between entities of any types. A link between entities on a chart is represented by a line between them, which will be an arrow if the link is directed.</p>
+<li><p><strong>Link types</strong>. A link type describes a relationship between two entity types, such as a person's ownership of a vehicle or a transaction between two bank accounts. Link types can specify exactly which entity types can appear at their ends, or they can represent a general association between entities of any types. A link between entities on a chart is represented by a line between them, which will be an arrow if the link is directed.</p>
 </li>
 <li><p><strong>Property types</strong>. Entities and links have properties, which store information about the object, event, or relationship. For example, a person might have a name, date of birth, and eye color; while a meeting might have a date, a time, and a duration. The property types of an entity or link type define exactly what properties the records of that type can have.</p>
 </li>
@@ -107,7 +107,7 @@ These types will relate to the supplied NYPD Complaint Dataset, and you can deci
 <ol>
 <li>From the <strong>Insert</strong> menu, click <strong>New Entity Type</strong>.</li>
 <li>Enter a name and a description for the entity type. (For example, <strong>Name:</strong> Complaint, <strong>Description:</strong> &quot;A complaint regarding an incident that occurred between some individuals&quot;.)</li>
-<li>Select an icon to represent entities of this type in Analyst&#39;s Notebook. (For example, a notepad.)</li>
+<li>Select an icon to represent entities of this type in Analyst's Notebook. (For example, a notepad.)</li>
 </ol>
 <p>You can create any entity types you like, provided that they align with the data. For example, you could have entity types to represent people and locations. Look at the example schema for inspiration if you need to.</p>
 <h4 id="adding-property-types-to-entity-types">Adding property types to entity types</h4>
@@ -119,7 +119,7 @@ These types will relate to the supplied NYPD Complaint Dataset, and you can deci
 <li>Level of Offense</li>
 <li>Offense Description</li>
 </ul>
-<p>These property types are valuable because they allow for additional analysis to occur in Analyst&#39;s Notebook. They provide the opportunity to conduct live formatting on the data, as well as to create different charting schemes for when data needs to be displayed in a different fashion. This is explained in more detail in <em>Creating a charting scheme</em>, below.</p>
+<p>These property types are valuable because they allow for additional analysis to occur in Analyst's Notebook. They provide the opportunity to conduct live formatting on the data, as well as to create different charting schemes for when data needs to be displayed in a different fashion. This is explained in more detail in <em>Creating a charting scheme</em>, below.</p>
 <p>To add a property type to an entity type:</p>
 <ol>
 <li>Select the entity type in the navigation tree.</li>
@@ -157,25 +157,29 @@ These types will relate to the supplied NYPD Complaint Dataset, and you can deci
 </li>
 <li><p>Use the tabs in the dialog to browse the library and understand the relationships between the semantic types that it contains.</p>
 </li>
-<li><p>When you&#39;ve found a semantic type that fits your entity, link, or property type, click <strong>Assign</strong> to add it to the schema.</p>
+<li><p>When you've found a semantic type that fits your entity, link, or property type, click <strong>Assign</strong> to add it to the schema.</p>
 </li>
 </ol>
 <p>For more information about semantic types and the i2 Semantic Type Library, see the section on <a href="https://docs.i2group.com/analyze/semantic_types.html">Assigning semantic types</a> in the Schema Designer documentation.</p>
 <h3 id="creating-a-charting-scheme">Creating a charting scheme</h3>
-<p>When you have defined all the entity, link, and property types you want to model, you must create a charting scheme to determine how items that contain your entity and link records appear in Analyst&#39;s Notebook. For example, the charting scheme determines how labels on the chart are generated from properties of entities and links.</p>
+<p>When you have defined all the entity, link, and property types you want to model, you must create a charting scheme to determine how items that contain your entity and link records appear in Analyst's Notebook. For example, the charting scheme determines how labels on the chart are generated from properties of entities and links.</p>
 <p>To create a charting scheme:</p>
 <ol>
-<li>From the <strong>File</strong> menu, click <strong>Edit Charting Schemes</strong>.</li>
-<li>Expand the first charting scheme in the left panel to reveal <strong>Entity Types</strong> and <strong>Link Types</strong>.</li>
-<li>Expand <strong>Entity Types</strong> and <strong>Link Types</strong> to reveal the entity and link types that you created earlier.</li>
-<li>Right-click <strong>Properties</strong> and select <strong>Insert Chart Item Property Type&quot;</strong>. From the dropdown, select <strong>Label</strong>.</li>
-<li><p>In the <strong>Label</strong> tab, set the text to be displayed with entities of this type in Analyst&#39;s Notebook to distinguish them on the chart.</p>
+<li><p>From the <strong>File</strong> menu, click <strong>Edit Charting Schemes</strong>.</p>
+</li>
+<li><p>Expand the first charting scheme in the left panel to reveal <strong>Entity Types</strong> and <strong>Link Types</strong>.</p>
+</li>
+<li><p>Expand <strong>Entity Types</strong> and <strong>Link Types</strong> to reveal the entity and link types that you created earlier.</p>
+</li>
+<li><p>Right-click <strong>Properties</strong> and select <strong>Insert Chart Item Property Type&quot;</strong>. From the dropdown, select <strong>Label</strong>.</p>
+</li>
+<li><p>In the <strong>Label</strong> tab, set the text to be displayed with entities of this type in Analyst's Notebook to distinguish them on the chart.</p>
 <ul>
 <li><p>You can use the values of properties assigned to a record to construct your label. To use a property value, click the downward arrow on the <strong>Insert</strong> button and select the property type of your choice. In the example charting scheme, the Complaint Number is used in the label of Complaint entities.</p>
 </li>
 <li><p>You can prefix the value of a property with a space, a newline, or some custom text. The prefix can clarify what data is represented in the label. For example, a Complaint Number might be prefixed with the text &quot;Complaint &quot;. This is displayed in Schema Designer as follows:</p>
 <p><img src="images/charting-schemes-label-example.png" alt="Charting Schemes Label Example"></p>
-<p>A Complaint with the Complaint Number 667574574 will then be displayed in Analyst&#39;s Notebook like this:</p>
+<p>A Complaint with the Complaint Number 667574574 will then be displayed in Analyst's Notebook like this:</p>
 <p><img src="images/complaint-entity-anbp.png" alt="Complaint Entity Data Example"></p>
 <p>You can also add a suffix in the same way, which can be useful if you use multiple property values in the label. For example, you might display values on separate lines, or with spaces between them. For example, Person entities in the example are shown as follows:</p>
 <p><img src="images/person-entity-anbp.png" alt="Person Entity Data Example"></p>
@@ -197,7 +201,7 @@ charting scheme editor.</p>
 </ol>
 <p>See the <a href="https://docs.i2group.com/analyze/creating_a_charting_scheme.html">i2 product documentation</a> for information about adding property types that are not used in the example schema.</p>
 <h4 id="link-summarizations">Link summarizations</h4>
-<p>Sometimes, multiple links exist between the same two entities on a chart in Analyst&#39;s Notebook. You can use the charting scheme to choose how to represent these links. The different link summarizations that you can use are:</p>
+<p>Sometimes, multiple links exist between the same two entities on a chart in Analyst's Notebook. You can use the charting scheme to choose how to represent these links. The different link summarizations that you can use are:</p>
 <table>
 <thead>
 <tr>
@@ -232,8 +236,8 @@ charting scheme editor.</p>
 <li>Expand <strong>Link Types</strong> to reveal the link types that you created earlier.</li>
 <li>Select the link type to which you want to change the link summarization and change between the provided options.</li>
 </ol>
-<h3 id="live-formatting-in-analysts-notebook">Live Formatting in Analyst&#39;s Notebook</h3>
-<p>Live formatting in Analyst&#39;s Notebook is a type of Conditional Formatting that changes the appearance of chart items, by applying conditional formatting specifications in real time. This allows analysts to format their charts to their own specifications.</p>
+<h3 id="live-formatting-in-analysts-notebook">Live Formatting in Analyst's Notebook</h3>
+<p>Live formatting in Analyst's Notebook is a type of Conditional Formatting that changes the appearance of chart items, by applying conditional formatting specifications in real time. This allows analysts to format their charts to their own specifications.</p>
 <p>The default appearance of chart items is defined by your schema, but Live Formatting extends this to provide for filtering and quick, real time insight. An example of this functionality in action with the example schema is with the Sex property of the Person entity. Live Formatting allows for quick, visual confirmation of whether a Person is a Male or a Female (pink for Male, blue for Female). This example can be seen as follows.</p>
 <p><img src="images/live-formatting.png" alt="Live Formatting Example"></p>
 <p>If you wish to know more about Live Formatting, including information regarding its setup, how to define a specification, and formatting system messages, you can visit the <a href="https://docs.i2group.com/anb/about_live_format.html">i2 product documentation</a>.</p>
@@ -244,19 +248,21 @@ charting scheme editor.</p>
 </ol>
 <p>The schema and charting schemes will both be saved in your chose location as XML files.</p>
 <p>Now that you have defined your schema, you need to <a href="2-deploy-i2-analyze.html">deploy i2 Analyze</a>.</p>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -264,14 +270,14 @@ charting scheme editor.</p>
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

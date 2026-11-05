@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Type location </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Type location ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>Type location </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="Type location ">
     
-    <link rel="shortcut icon" href="../../images/favicon.png">
-    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
-    <link rel="stylesheet" href="../../styles/docfx.css">
-    <link rel="stylesheet" href="../../styles/main.css">
-    <meta property="docfx:navrel" content="../../toc.html">
-    <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="../../images/favicon.png">
+      <link rel="stylesheet" href="../../styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="../../styles/docfx.css">
+      <link rel="stylesheet" href="../../styles/main.css">
+      <meta property="docfx:navrel" content="../../toc.html">
+      <meta property="docfx:tocrel" content="../../guidetoc/toc.html">
     
     <meta property="docfx:rel" content="../../">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="../../index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -82,7 +82,7 @@
 <p>The type location of an item type used by a connector indicates where - between the Information Store schema, the gateway schema used by the connector, or its own connector schema - the item type is defined.</p>
 <p>With the introduction of <a href="gateway-schema.html">gateway schemas</a> and <a href="connector-schema.html">connector schemas</a>, it has become important for i2 Analyze to determine the origin of item types. It is possible for two schemas to have item types with the same identifier, in which case the gateway will infer the type location by looking in the following order:</p>
 <ol>
-<li>The connector&#39;s own schema</li>
+<li>The connector's own schema</li>
 <li>The gateway schema used by the connector</li>
 <li>The Information Store schema</li>
 </ol>
@@ -98,18 +98,20 @@
     /* ... */
   }
 }
-</code></pre><p>Legal values for <code>&lt;LOCATION&gt;</code> are as follows:</p>
+</code></pre>
+<p>Legal values for <code>&lt;LOCATION&gt;</code> are as follows:</p>
 <ul>
 <li><code>INFOSTORE</code> - The Information Store schema.</li>
 <li><code>GATEWAY</code> - The gateway schema used by the connector.</li>
-<li><code>CONNECTOR</code> - The connector&#39;s own schema.</li>
+<li><code>CONNECTOR</code> - The connector's own schema.</li>
 </ul>
 <h2 id="type-locations-for-results">Type locations for results</h2>
-<p>A service&#39;s <code>resultItemTypeIds</code> property specifies the item types expected to be returned from the service. It also provides type location overrides for specific item types using the following structure:</p>
+<p>A service's <code>resultItemTypeIds</code> property specifies the item types expected to be returned from the service. It also provides type location overrides for specific item types using the following structure:</p>
 <pre><code class="lang-json">{
   &quot;&lt;LOCATION&gt;&quot;: [&quot;TYPEID1&quot;, &quot;TYPEID2&quot;, /* ... */ ]
 }
-</code></pre><p>Again, <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code>, or <code>CONNECTOR</code>.</p>
+</code></pre>
+<p>Again, <code>&lt;LOCATION&gt;</code> can be <code>INFOSTORE</code>, <code>GATEWAY</code>, or <code>CONNECTOR</code>.</p>
 <p>Since a service can use item types from all three type locations, all three type locations can be specified. For example, a service that returns records with entity type <code>ET1</code> from the Information Store schema, <code>ET2</code> from the gateway schema, and <code>ET3</code> from a connector schema, will look like the following:</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
@@ -123,9 +125,10 @@
     }
   ]
 }
-</code></pre><p>Specifying type locations in this way overrides the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
+</code></pre>
+<p>Specifying type locations in this way overrides the <code>defaultValues</code> set for <code>entityTypeLocation</code> and <code>linkTypeLocation</code>.</p>
 <h2 id="type-locations-for-seed-constraints">Type locations for seed constraints</h2>
-<p>It is also possible to specify the type locations of seed records by including <code>typeLocation</code> attributes for each allowed item type of a service&#39;s seed constraint definition. This is shown as follows:</p>
+<p>It is also possible to specify the type locations of seed records by including <code>typeLocation</code> attributes for each allowed item type of a service's seed constraint definition. This is shown as follows:</p>
 <pre><code class="lang-json">{
   &quot;services&quot;: [
     {
@@ -159,19 +162,22 @@
     }
   ]
 }
-</code></pre></article>
+</code></pre>
+
+</article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -179,14 +185,14 @@
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="../../styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="../../styles/docfx.js"></script>
     <script type="text/javascript" src="../../styles/main.js"></script>
   </body>

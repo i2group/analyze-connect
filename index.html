@@ -1,21 +1,21 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if IE]><![endif]-->
 <html>
-  
+
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>i2 Connect example connectors </title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="i2 Connect example connectors ">
-    <meta name="generator" content="docfx 2.56.2.0">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+      <title>i2 Connect example connectors </title>
+      <meta name="viewport" content="width=device-width">
+      <meta name="title" content="i2 Connect example connectors ">
     
-    <link rel="shortcut icon" href="images/favicon.png">
-    <link rel="stylesheet" href="styles/docfx.vendor.css">
-    <link rel="stylesheet" href="styles/docfx.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <meta property="docfx:navrel" content="toc.html">
-    <meta property="docfx:tocrel" content="guidetoc/toc.html">
+    
+      <link rel="shortcut icon" href="images/favicon.png">
+      <link rel="stylesheet" href="styles/docfx.vendor.min.css">
+      <link rel="stylesheet" href="styles/docfx.css">
+      <link rel="stylesheet" href="styles/main.css">
+      <meta property="docfx:navrel" content="toc.html">
+      <meta property="docfx:tocrel" content="guidetoc/toc.html">
     
     <meta property="docfx:rel" content="">
     
@@ -23,7 +23,7 @@
   <body data-spy="scroll" data-target="#affix" data-offset="120">
     <div id="wrapper">
       <header>
-        
+
         <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
           <div class="container">
             <div class="navbar-header">
@@ -33,7 +33,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              
+
               <a class="navbar-brand" href="index.html">
                 i2 <strong>Connect gateway</strong>
               </a>
@@ -49,17 +49,17 @@
         </nav>
       </header>
       <div class="container body-content">
-        
+
         <div id="search-results">
-          <div class="search-list"></div>
+          <div class="search-list">Search Results for <span></span></div>
           <div class="sr-items">
             <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
           </div>
-          <ul id="pagination"></ul>
+          <ul id="pagination" data-first=First data-prev=Previous data-next=Next data-last=Last></ul>
         </div>
       </div>
       <div role="main" class="container body-content hide-when-search">
-        
+
         <div class="sidenav hide-when-search">
           <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
           <div class="sidetoggle collapse" id="sidetoggle">
@@ -68,7 +68,7 @@
         </div>
         <div class="article row grid-right">
           <div class="col-md-10">
-          
+
           <div class="subnav navbar navbar-default">
             <div class="container hide-when-search" id="breadcrumb">
               <ul class="breadcrumb">
@@ -105,9 +105,9 @@ On that foundation, you can build the functionality that takes requests from the
 <h3 id="environment-setup">Environment setup</h3>
 <p>The workshop requires the following tools and technologies:</p>
 <ul>
-<li><p><strong>i2 Analyze 4.4.7</strong>: The server that hosts the i2 Connect gateway and provides the web client for interacting with your connector.</p>
+<li><p><strong>i2 Analyze 4.4.8</strong>: The server that hosts the i2 Connect gateway and provides the web client for interacting with your connector.</p>
 </li>
-<li><p>(Optionally) <strong>i2 Analyst&#39;s Notebook 10</strong>: The desktop client that provides a user interface for interacting with your connector.</p>
+<li><p>(Optionally) <strong>i2 Analyst's Notebook 10</strong>: The desktop client that provides a user interface for interacting with your connector.</p>
 <p>Both clients can display the resulting entity and link records with their properties.</p>
 </li>
 <li><p><strong>i2 Analyze Schema Designer</strong>: The tool that enables you to design and create your i2 Analyze schema.</p>
@@ -138,7 +138,8 @@ No manual installation other than the specified setup instructions is required a
 <li><a href="content/miscellaneous/data-model.html">i2 Analyze data model examples</a></li>
 <li><a href="content/miscellaneous/spi-examples.html">Example requests and responses</a></li>
 <li><a href="content/miscellaneous/postman.html">Using Postman</a></li>
-<li>Running the example connectors:<ul>
+<li>Running the example connectors:
+<ul>
 <li><a href="content/example-connectors/run-java.html">Java</a></li>
 <li><a href="content/example-connectors/run-python.html">Python</a></li>
 </ul>
@@ -169,94 +170,114 @@ Documentation for the latest version of the SPI is available through the <strong
 <table>
 <thead>
 <tr>
-<th style="text-align:center">SPI version 🡆 <br> i2 Analyze version 🡇</th>
-<th style="text-align:center">1.0</th>
-<th style="text-align:center">1.1</th>
-<th style="text-align:center">1.2</th>
-<th style="text-align:center">1.3</th>
-<th style="text-align:center">1.4</th>
+<th style="text-align: center;">SPI version 🡆 <br> i2 Analyze version 🡇</th>
+<th style="text-align: center;">1.0</th>
+<th style="text-align: center;">1.1</th>
+<th style="text-align: center;">1.2</th>
+<th style="text-align: center;">1.3</th>
+<th style="text-align: center;">1.4</th>
+<th style="text-align: center;">1.5</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">4.4.7</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
+<td style="text-align: center;">4.4.8</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.6</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
+<td style="text-align: center;">4.4.7</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.5</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
+<td style="text-align: center;">4.4.6</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.4</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
+<td style="text-align: center;">4.4.5</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.3</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">❌</td>
+<td style="text-align: center;">4.4.4</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.2</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">❌</td>
-<td style="text-align:center">❌</td>
+<td style="text-align: center;">4.4.3</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
 </tr>
 <tr>
-<td style="text-align:center">4.4.1</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">✔️</td>
-<td style="text-align:center">❌</td>
-<td style="text-align:center">❌</td>
-<td style="text-align:center">❌</td>
+<td style="text-align: center;">4.4.2</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+</tr>
+<tr>
+<td style="text-align: center;">4.4.1</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">✔️</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
+<td style="text-align: center;">❌</td>
 </tr>
 </tbody>
 </table>
 <h3 id="spi-changelog">SPI changelog</h3>
 <ul>
+<li><a href="content/spi-versions/1.5/changes.html">1.5 changes</a></li>
 <li><a href="content/spi-versions/1.4/changes.html">1.4 changes</a></li>
 <li><a href="content/spi-versions/1.3/changes.html">1.3 changes</a></li>
 <li><a href="content/spi-versions/1.2/changes.html">1.2 changes</a></li>
 <li><a href="content/spi-versions/1.1/changes.html">1.1 changes</a></li>
 <li><a href="content/spi-versions/1.0/changes.html">1.0 changes</a></li>
 </ul>
+
 </article>
           </div>
-          
+
           <div class="hidden-sm col-md-2" role="complementary">
             <div class="sideaffix">
               <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
-              <!-- <p><a class="back-to-top" href="#top">Back to top</a><p> -->
+                <h5>In this article</h5>
+                <div></div>
               </nav>
             </div>
           </div>
         </div>
       </div>
-      
+
       <footer>
         <div class="grad-bottom"></div>
         <div class="footer">
@@ -264,14 +285,14 @@ Documentation for the latest version of the SPI is available through the <strong
             <span class="pull-right">
               <a href="#top">Back to top</a>
             </span>
-            &copy; N. Harris Computer Corporation.
-            
+      &copy; N. Harris Computer Corporation.
+      
           </div>
         </div>
       </footer>
     </div>
-    
-    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+
+    <script type="text/javascript" src="styles/docfx.vendor.min.js"></script>
     <script type="text/javascript" src="styles/docfx.js"></script>
     <script type="text/javascript" src="styles/main.js"></script>
   </body>
